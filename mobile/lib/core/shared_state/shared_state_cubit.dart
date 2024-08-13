@@ -73,6 +73,12 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
     );
   }
 
+  void addResidencies(List<CountryResidenceModel> countryResidences) {
+    for (final countryResidence in countryResidences) {
+      addResidency(countryResidence);
+    }
+  }
+
   Future<void> refreshState() async {
     final position = await GeolocationService.instance.positionStream?.first;
     if (position == null) {
@@ -94,7 +100,7 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
 
     return CountryResidenceModel.initial(
       country.isoCountryCode ?? 'Unknown',
-      country.name ?? 'Unknown',
+      country.country ?? 'Unknown',
     );
   }
 

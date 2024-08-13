@@ -9,7 +9,7 @@ class CountryResidenceModel with _$CountryResidenceModel {
     required String isoCountryCode,
     required String countryName,
     required int daysSpent,
-    required DateTime startDate,
+    DateTime? startDate,
     DateTime? endDate,
     required bool isResident,
   }) = _CountryResidenceModel;

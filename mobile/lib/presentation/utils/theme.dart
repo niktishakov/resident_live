@@ -92,6 +92,12 @@ ThemeData lightTheme = ThemeData(
     titleLarge: GoogleFonts.poppins().copyWith(color: Colors.black),
     titleMedium: GoogleFonts.poppins().copyWith(color: Colors.black),
     titleSmall: GoogleFonts.poppins().copyWith(color: Colors.black),
+    labelLarge: GoogleFonts.poppins()
+        .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+    labelMedium: GoogleFonts.poppins()
+        .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+    labelSmall: GoogleFonts.poppins()
+        .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
   ),
   iconTheme: IconThemeData(color: Colors.black),
   buttonTheme: ButtonThemeData(

@@ -24,7 +24,7 @@ mixin _$CountryResidenceModel {
   String get isoCountryCode => throw _privateConstructorUsedError;
   String get countryName => throw _privateConstructorUsedError;
   int get daysSpent => throw _privateConstructorUsedError;
-  DateTime get startDate => throw _privateConstructorUsedError;
+  DateTime? get startDate => throw _privateConstructorUsedError;
   DateTime? get endDate => throw _privateConstructorUsedError;
   bool get isResident => throw _privateConstructorUsedError;
 
@@ -44,7 +44,7 @@ abstract class $CountryResidenceModelCopyWith<$Res> {
       {String isoCountryCode,
       String countryName,
       int daysSpent,
-      DateTime startDate,
+      DateTime? startDate,
       DateTime? endDate,
       bool isResident});
 }
@@ -66,7 +66,7 @@ class _$CountryResidenceModelCopyWithImpl<$Res,
     Object? isoCountryCode = null,
     Object? countryName = null,
     Object? daysSpent = null,
-    Object? startDate = null,
+    Object? startDate = freezed,
     Object? endDate = freezed,
     Object? isResident = null,
   }) {
@@ -83,10 +83,10 @@ class _$CountryResidenceModelCopyWithImpl<$Res,
           ? _value.daysSpent
           : daysSpent // ignore: cast_nullable_to_non_nullable
               as int,
-      startDate: null == startDate
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
@@ -112,7 +112,7 @@ abstract class _$$CountryResidenceModelImplCopyWith<$Res>
       {String isoCountryCode,
       String countryName,
       int daysSpent,
-      DateTime startDate,
+      DateTime? startDate,
       DateTime? endDate,
       bool isResident});
 }
@@ -132,7 +132,7 @@ class __$$CountryResidenceModelImplCopyWithImpl<$Res>
     Object? isoCountryCode = null,
     Object? countryName = null,
     Object? daysSpent = null,
-    Object? startDate = null,
+    Object? startDate = freezed,
     Object? endDate = freezed,
     Object? isResident = null,
   }) {
@@ -149,10 +149,10 @@ class __$$CountryResidenceModelImplCopyWithImpl<$Res>
           ? _value.daysSpent
           : daysSpent // ignore: cast_nullable_to_non_nullable
               as int,
-      startDate: null == startDate
+      startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
@@ -172,7 +172,7 @@ class _$CountryResidenceModelImpl implements _CountryResidenceModel {
       {required this.isoCountryCode,
       required this.countryName,
       required this.daysSpent,
-      required this.startDate,
+      this.startDate,
       this.endDate,
       required this.isResident});
 
@@ -186,7 +186,7 @@ class _$CountryResidenceModelImpl implements _CountryResidenceModel {
   @override
   final int daysSpent;
   @override
-  final DateTime startDate;
+  final DateTime? startDate;
   @override
   final DateTime? endDate;
   @override
@@ -240,7 +240,7 @@ abstract class _CountryResidenceModel implements CountryResidenceModel {
       {required final String isoCountryCode,
       required final String countryName,
       required final int daysSpent,
-      required final DateTime startDate,
+      final DateTime? startDate,
       final DateTime? endDate,
       required final bool isResident}) = _$CountryResidenceModelImpl;
 
@@ -254,7 +254,7 @@ abstract class _CountryResidenceModel implements CountryResidenceModel {
   @override
   int get daysSpent;
   @override
-  DateTime get startDate;
+  DateTime? get startDate;
   @override
   DateTime? get endDate;
   @override

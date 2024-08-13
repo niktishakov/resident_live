@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:resident_live/presentation/screens/add_residency/add_residency.dart';
+import 'package:resident_live/presentation/screens/add_residency/add_residency_screen.dart';
 import 'package:resident_live/presentation/screens/home_dashboard/home_dashboard_screen.dart';
 import 'package:resident_live/presentation/screens/onboarding/allow_location_screen.dart';
 import 'package:resident_live/presentation/utils/core_route_observer.dart';

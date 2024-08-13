@@ -3,6 +3,8 @@ import 'package:country_list_pick/support/code_countries_en.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:resident_live/core/extensions/context.extension.dart';
+import 'package:resident_live/presentation/screens/onboarding/pages/enter_stay_duration.page.dart';
 
 import '../../../core/shared_state/shared_state_cubit.dart';
 import '../../../data/country_residence.model.dart';
@@ -27,36 +29,10 @@ class _AddCountryResidencyScreenState extends State<AddCountryResidencyScreen> {
         middle: Text("Add Country Residency"),
       ),
       child: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.all(16),
-          children: [
-            // Country Selection
-            CupertinoButton(
-              child: Text(selectedCountry ?? "Select a country"),
-              onPressed: () => _showCountryPicker(context),
-            ),
-            SizedBox(height: 20),
-
-            // Activity Input
-            Text("Enter your activities for the last 12 months:",
-                style: TextStyle(fontSize: 18)),
-            SizedBox(height: 10),
-            ...activities.map((activity) => Text(
-                "${activity.start.toIso8601String()} - ${activity.end.toIso8601String()}")),
-            CupertinoButton(
-              child: Text("Add Activity"),
-              onPressed: () => _addActivity(context),
-            ),
-            SizedBox(height: 20),
-
-            // Submit Button
-            CupertinoButton.filled(
-              child: Text("Submit"),
-              onPressed: selectedCountry != null && activities.isNotEmpty
-                  ? _submitResidency
-                  : null,
-            ),
-          ],
+        child: Material(
+          child: EnterStayDurationPage(
+            onNextPage: () {},
+          ),
         ),
       ),
     );

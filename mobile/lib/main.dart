@@ -5,6 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:resident_live/core/shared_state/shared_state_cubit.dart';
 import 'package:resident_live/presentation/navigation/router.dart';
+import 'package:resident_live/presentation/screens/onboarding/cubit/onboarding_cubit.dart';
 import 'package:resident_live/presentation/utils/theme.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +24,7 @@ void main() async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
-  // HydratedBloc.storage.clear();
+  HydratedBloc.storage.clear();
 
   runApp(const MyApp());
 
@@ -59,8 +60,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => OnboardingCubit()),
         BlocProvider(
-          create: (context) => SharedStateCubit(GeolocationService.instance),
+          create: (_) => SharedStateCubit(GeolocationService.instance),
         ),
       ],
       child: MaterialApp.router(

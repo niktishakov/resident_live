@@ -13,8 +13,9 @@ class HomeDashboard extends StatelessWidget {
     return BlocBuilder<SharedStateCubit, SharedStateState>(
       builder: (context, state) {
         final currentResidence =
-            state.user.countryResidences[state.currentPosition!.isoCountryCode];
+            state.user.countryResidences[state.currentPosition?.isoCountryCode];
 
+        print(currentResidence?.countryName);
         final otherResidences = state.user.countryResidences.values
             .where((e) => e.isoCountryCode != currentResidence?.isoCountryCode)
             .toList();
@@ -28,6 +29,7 @@ class HomeDashboard extends StatelessWidget {
                   child: CurrentResidenceView(
                     residence: currentResidence,
                     daysToResidence: 183 - currentResidence.daysSpent,
+                    daysSpentInCountry: currentResidence.daysSpent,
                   ),
                 ),
               if (otherResidences.isNotEmpty)

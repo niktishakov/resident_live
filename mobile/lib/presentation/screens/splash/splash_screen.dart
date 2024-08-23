@@ -6,7 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:resident_live/core/assets/asset_image.dart';
 import 'package:resident_live/core/assets/assets.dart';
 import 'package:resident_live/core/constants.dart';
+import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/presentation/navigation/screen_names.dart';
+import 'package:resident_live/presentation/screens/splash/record.animation.dart';
 
 import '../../../core/shared_state/shared_state_cubit.dart';
 
@@ -35,35 +37,24 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: Colors.white,
+      color: context.theme.scaffoldBackgroundColor,
       child: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.width * 0.5,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.red,
-              ),
-            ).animate().scale(
-                  duration: 1.seconds,
-                  curve: Curves.decelerate,
-                  delay: 500.ms,
-                ),
-            Center(child: CoreAssetImage(CoreAssets.person, width: 50))
+            RecordingAnimation(),
+            Center(child: CoreAssetImage(CoreAssets.person, width: 45))
                 .animate()
                 .fade(
                   duration: 500.ms,
-                  delay: 2.seconds,
+                  delay: 3.seconds,
                 ),
             Positioned(
                 bottom: MediaQuery.of(context).size.width * 0.5,
                 child: Text("Resident Live",
                         style: Theme.of(context).textTheme.headlineLarge)
                     .animate()
-                    .fade(delay: 500.ms, duration: 1.seconds)),
+                    .fade(delay: 1.seconds, duration: 800.ms)),
           ],
         ),
       ),

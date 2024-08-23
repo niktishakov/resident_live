@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData darkTheme = ThemeData(
+  primaryColor: Colors.blueAccent,
+  disabledColor: Colors.grey[300],
   colorScheme: ColorScheme.dark(
-    primary: Colors.blue,
-    secondary: Colors.blueAccent,
-    background: Colors.black,
-    surface: Color(0xFF121212),
-    onBackground: Colors.white,
-    onSurface: Colors.white,
+    primary: Colors.blueAccent,
+    secondary: Colors.white,
+    tertiary: Colors.grey[300],
+    onTertiary: Colors.black,
+    surface: Colors.black,
+    onSurface: Colors.black,
   ),
   scaffoldBackgroundColor: Colors.black,
   appBarTheme: AppBarTheme(
@@ -17,8 +20,16 @@ ThemeData darkTheme = ThemeData(
     foregroundColor: Colors.white,
     elevation: 0,
   ),
-  cupertinoOverrideTheme: MaterialBasedCupertinoThemeData(
-    materialTheme: ThemeData.dark(),
+  cupertinoOverrideTheme: CupertinoThemeData(
+    scaffoldBackgroundColor: Colors.black,
+    barBackgroundColor: Colors.white,
+    textTheme: CupertinoTextThemeData(
+      primaryColor: Colors.white,
+      navLargeTitleTextStyle: TextStyle(
+          color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
+      navTitleTextStyle: TextStyle(color: Colors.black),
+      navActionTextStyle: TextStyle(color: Colors.black),
+    ),
   ),
   navigationBarTheme: NavigationBarThemeData(
     labelTextStyle: MaterialStatePropertyAll(TextStyle(color: Colors.white)),
@@ -32,6 +43,12 @@ ThemeData darkTheme = ThemeData(
     titleLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
     titleMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
     titleSmall: GoogleFonts.poppins().copyWith(color: Colors.white),
+    labelLarge: GoogleFonts.poppins()
+        .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+    labelMedium: GoogleFonts.poppins()
+        .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+    labelSmall: GoogleFonts.poppins()
+        .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
   ),
   iconTheme: IconThemeData(color: Colors.white),
   buttonTheme: ButtonThemeData(
@@ -40,28 +57,29 @@ ThemeData darkTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      foregroundColor: Colors.white,
+      foregroundColor: Colors.black,
       backgroundColor: Colors.blue,
     ),
   ),
   cardTheme: CardTheme(
-    color: Color(0xFF1E1E1E),
+    color: Colors.grey[850],
   ),
   dialogTheme: DialogTheme(
-    backgroundColor: Color(0xFF1E1E1E),
+    backgroundColor: Colors.grey[850],
   ),
-  dividerColor: Colors.white24,
+  dividerColor: Colors.grey[900],
   useMaterial3: true,
 );
 
 ThemeData lightTheme = ThemeData(
+  disabledColor: Colors.grey[200]!,
   colorScheme: ColorScheme.light(
-    primary: Colors.white,
-    secondary: Colors.grey,
-    background: Colors.white,
+    primary: Colors.blueAccent,
+    secondary: Colors.black,
     surface: Colors.white,
-    onBackground: Colors.black,
-    onSurface: Colors.black,
+    onSurface: Colors.grey,
+    tertiary: Colors.grey[200],
+    onTertiary: Colors.black,
   ),
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: AppBarTheme(
@@ -73,7 +91,7 @@ ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     barBackgroundColor: Colors.black,
     textTheme: CupertinoTextThemeData(
-      primaryColor: Colors.white,
+      primaryColor: Colors.black,
       navLargeTitleTextStyle: TextStyle(
           color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
       navTitleTextStyle: TextStyle(color: Colors.white),
@@ -83,6 +101,13 @@ ThemeData lightTheme = ThemeData(
   navigationBarTheme: NavigationBarThemeData(
     labelTextStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black)),
   ),
+  listTileTheme: ListTileThemeData(
+    iconColor: Colors.black,
+    textColor: Colors.black,
+    selectedColor: Colors.blue,
+    tileColor: Colors.white,
+  ),
+  dialogBackgroundColor: Colors.white,
   textTheme: TextTheme(
     headlineLarge: GoogleFonts.poppins().copyWith(color: Colors.black),
     headlineMedium: GoogleFonts.poppins().copyWith(color: Colors.black),
@@ -98,6 +123,19 @@ ThemeData lightTheme = ThemeData(
         .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
     labelSmall: GoogleFonts.poppins()
         .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+  ),
+  datePickerTheme: DatePickerThemeData(
+    backgroundColor: Colors.white,
+    rangePickerBackgroundColor: Colors.white,
+    rangeSelectionBackgroundColor: Colors.blueAccent,
+    headerHeadlineStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
+    headerHelpStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
+    dayStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
+    weekdayStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
+    yearStyle: TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+    ),
   ),
   iconTheme: IconThemeData(color: Colors.black),
   buttonTheme: ButtonThemeData(
@@ -115,7 +153,32 @@ ThemeData lightTheme = ThemeData(
   ),
   dialogTheme: DialogTheme(
     backgroundColor: Color(0xFFE5E5E5),
+    elevation: 0,
   ),
-  dividerColor: Colors.black12,
+  dividerColor: Colors.grey[200],
   useMaterial3: true,
 );
+
+void setBrightOverlayStyle() {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Color(0x00000000),
+    systemNavigationBarColor: Colors.transparent,
+    statusBarBrightness: Brightness.light,
+    statusBarIconBrightness: Brightness.dark,
+    systemNavigationBarIconBrightness: Brightness.light,
+    systemStatusBarContrastEnforced: false,
+    systemNavigationBarContrastEnforced: true,
+  ));
+}
+
+void setDarkOverlayStyle() {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.white,
+    systemNavigationBarColor: Colors.transparent,
+    statusBarBrightness: Brightness.dark,
+    statusBarIconBrightness: Brightness.light,
+    systemNavigationBarIconBrightness: Brightness.light,
+    systemStatusBarContrastEnforced: false,
+    systemNavigationBarContrastEnforced: true,
+  ));
+}

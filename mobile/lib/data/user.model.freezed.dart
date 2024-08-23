@@ -24,7 +24,7 @@ mixin _$UserModel {
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
-  Map<String, CountryResidenceModel> get countryResidences =>
+  Map<String, ResidenceModel> get countryResidences =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $UserModelCopyWith<$Res> {
       String name,
       String email,
       DateTime createdAt,
-      Map<String, CountryResidenceModel> countryResidences});
+      Map<String, ResidenceModel> countryResidences});
 }
 
 /// @nodoc
@@ -85,7 +85,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       countryResidences: null == countryResidences
           ? _value.countryResidences
           : countryResidences // ignore: cast_nullable_to_non_nullable
-              as Map<String, CountryResidenceModel>,
+              as Map<String, ResidenceModel>,
     ) as $Val);
   }
 }
@@ -103,7 +103,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String name,
       String email,
       DateTime createdAt,
-      Map<String, CountryResidenceModel> countryResidences});
+      Map<String, ResidenceModel> countryResidences});
 }
 
 /// @nodoc
@@ -143,7 +143,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
       countryResidences: null == countryResidences
           ? _value._countryResidences
           : countryResidences // ignore: cast_nullable_to_non_nullable
-              as Map<String, CountryResidenceModel>,
+              as Map<String, ResidenceModel>,
     ));
   }
 }
@@ -156,7 +156,7 @@ class _$UserModelImpl implements _UserModel {
       required this.name,
       required this.email,
       required this.createdAt,
-      required final Map<String, CountryResidenceModel> countryResidences})
+      required final Map<String, ResidenceModel> countryResidences})
       : _countryResidences = countryResidences;
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -170,9 +170,9 @@ class _$UserModelImpl implements _UserModel {
   final String email;
   @override
   final DateTime createdAt;
-  final Map<String, CountryResidenceModel> _countryResidences;
+  final Map<String, ResidenceModel> _countryResidences;
   @override
-  Map<String, CountryResidenceModel> get countryResidences {
+  Map<String, ResidenceModel> get countryResidences {
     if (_countryResidences is EqualUnmodifiableMapView)
       return _countryResidences;
     // ignore: implicit_dynamic_type
@@ -219,12 +219,12 @@ class _$UserModelImpl implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-      {required final String id,
-      required final String name,
-      required final String email,
-      required final DateTime createdAt,
-      required final Map<String, CountryResidenceModel>
-          countryResidences}) = _$UserModelImpl;
+          {required final String id,
+          required final String name,
+          required final String email,
+          required final DateTime createdAt,
+          required final Map<String, ResidenceModel> countryResidences}) =
+      _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -238,7 +238,7 @@ abstract class _UserModel implements UserModel {
   @override
   DateTime get createdAt;
   @override
-  Map<String, CountryResidenceModel> get countryResidences;
+  Map<String, ResidenceModel> get countryResidences;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

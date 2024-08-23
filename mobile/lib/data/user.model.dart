@@ -1,4 +1,4 @@
-import 'package:resident_live/data/country_residence.model.dart';
+import 'package:resident_live/data/residence.model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user.model.g.dart';
@@ -11,7 +11,7 @@ class UserModel with _$UserModel {
     required String name,
     required String email,
     required DateTime createdAt,
-    required Map<String, CountryResidenceModel> countryResidences,
+    required Map<String, ResidenceModel> countryResidences,
   }) = _UserModel;
 
   factory UserModel.mock() => UserModel(

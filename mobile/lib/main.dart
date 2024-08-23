@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -7,9 +9,11 @@ import 'package:resident_live/core/shared_state/shared_state_cubit.dart';
 import 'package:resident_live/presentation/navigation/router.dart';
 import 'package:resident_live/presentation/screens/onboarding/cubit/onboarding_cubit.dart';
 import 'package:resident_live/presentation/utils/theme.dart';
+import 'package:resident_live/services/vibration_service.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/ai.logger.dart';
 import 'services/geolocator.service.dart';
 
 final screenNavigatorKey = GlobalKey<NavigatorState>();
@@ -20,14 +24,18 @@ const String uniqueTaskName = "geofencingTask";
 void main() async {
   RouterService.init(screenNavigatorKey, shellKey);
   GeolocationService.instance.initialize();
+  VibrationService.init();
+  AiLogger.initialize(isReleaseMode: kReleaseMode, env: null);
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
-  HydratedBloc.storage.clear();
+  setDarkOverlayStyle();
+  // HydratedBloc.storage.clear();
 
   runApp(const MyApp());
 
+  // TODO: Add background task
   // Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
   // Workmanager().registerPeriodicTask("1", uniqueTaskName,
   //     frequency: Duration(minutes: 1)); // Adjust frequency as n
@@ -53,11 +61,40 @@ Future<void> updateCurrentAddress() async {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _setSystemOverlayStyle();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    super.didChangePlatformBrightness();
+    _setSystemOverlayStyle();
+  }
+
+  void _setSystemOverlayStyle() {
+    final brightness = PlatformDispatcher.instance.platformBrightness;
+    if (brightness == Brightness.dark) {
+      setDarkOverlayStyle();
+    } else {
+      setBrightOverlayStyle();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    FToast().init(context);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => OnboardingCubit()),
@@ -70,6 +107,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         darkTheme: darkTheme,
+        builder: FToastBuilder(),
       ),
     );
   }

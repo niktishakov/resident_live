@@ -4,7 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:resident_live/core/ai.logger.dart';
-import 'package:resident_live/data/country_residence.model.dart';
+import 'package:resident_live/data/residence.model.dart';
 
 import '../../data/user.model.dart';
 import '../../services/geolocator.service.dart';
@@ -60,7 +60,7 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
     }
   }
 
-  void addResidency(CountryResidenceModel countryResidence) {
+  void addResidency(ResidenceModel countryResidence) {
     emit(
       state.copyWith(
         user: state.user.copyWith(
@@ -73,7 +73,7 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
     );
   }
 
-  void addResidencies(List<CountryResidenceModel> countryResidences) {
+  void addResidencies(List<ResidenceModel> countryResidences) {
     for (final countryResidence in countryResidences) {
       addResidency(countryResidence);
     }
@@ -88,7 +88,7 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
     await _getAddressFromLatLng(position);
   }
 
-  CountryResidenceModel getCountryResidence(
+  ResidenceModel getCountryResidence(
     SharedStateState currentState,
     Placemark country,
   ) {
@@ -98,7 +98,7 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
       return countryResidence;
     }
 
-    return CountryResidenceModel.initial(
+    return ResidenceModel.initial(
       country.isoCountryCode ?? 'Unknown',
       country.country ?? 'Unknown',
     );

@@ -14,8 +14,8 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       createdAt: DateTime.parse(json['createdAt'] as String),
       countryResidences:
           (json['countryResidences'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(
-            k, CountryResidenceModel.fromJson(e as Map<String, dynamic>)),
+        (k, e) =>
+            MapEntry(k, ResidenceModel.fromJson(e as Map<String, dynamic>)),
       ),
     );
 

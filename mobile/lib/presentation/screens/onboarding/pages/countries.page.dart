@@ -1,13 +1,12 @@
 import 'package:country_list_pick/support/code_countries_en.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
-import 'package:resident_live/presentation/widgets/bouncing_button.dart';
 import 'package:resident_live/presentation/widgets/fade_border.dart';
+import 'package:resident_live/presentation/widgets/primary_button.dart';
 
 import '../../../../core/constants.dart';
 import '../cubit/onboarding_cubit.dart';
@@ -74,7 +73,7 @@ class _EnterCountriesPageState extends State<EnterCountriesPage> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: CupertinoSearchTextField(
                 style: context.theme.textTheme.bodyLarge,
-                itemColor: Colors.black87,
+                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
                 placeholder: "Search countries",
                 onChanged: (value) {
                   setState(() {
@@ -85,51 +84,64 @@ class _EnterCountriesPageState extends State<EnterCountriesPage> {
                     delay: 1300.ms,
                   ),
             ),
-            Expanded(
-              child: FadeBorder(
-                gradient: const LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [Colors.transparent, Colors.white],
-                  stops: [0.0, 0.1],
-                ),
-                child: ListView.builder(
-                  itemCount: filteredCountries.length,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  itemBuilder: (context, index) {
-                    String country = filteredCountries[index]['name']!;
-                    return SizedBox(
-                      height: 44,
-                      child: CupertinoButton(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              child: Text(country,
-                                  style: context.theme.textTheme.bodyLarge),
-                            ),
-                          ],
-                        ),
-                        onPressed: () {
-                          context.read<OnboardingCubit>().addCountry(country);
+            if (filteredCountries.isEmpty)
+              Expanded(
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Text("No results found",
+                        style: context.theme.textTheme.bodyLarge)
+                    // .animate()
+                    // .fade(
+                    //   duration: 500.seconds,
+                    // ),
+                    ),
+              )
+            else
+              Expanded(
+                child: FadeBorder(
+                  gradient: const LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.transparent, Colors.white],
+                    stops: [0.0, 0.1],
+                  ),
+                  child: ListView.builder(
+                    itemCount: filteredCountries.length,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    itemBuilder: (context, index) {
+                      String country = filteredCountries[index]['name']!;
+                      return SizedBox(
+                        height: 44,
+                        child: CupertinoButton(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: Text(country,
+                                    style: context.theme.textTheme.bodyLarge),
+                              ),
+                            ],
+                          ),
+                          onPressed: () {
+                            context.read<OnboardingCubit>().addCountry(country);
 
-                          controller.animateTo(
-                            controller.position.maxScrollExtent,
-                            duration: kDefaultDuration,
-                            curve: Curves.easeInCubic,
-                          );
-                        },
-                      ),
-                    );
-                  },
+                            controller.animateTo(
+                              controller.position.maxScrollExtent,
+                              duration: kDefaultDuration,
+                              curve: Curves.easeInCubic,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ).animate().fade(
-                  duration: 1.seconds,
-                  delay: 1400.ms,
-                ),
+              ).animate().fade(
+                    duration: 300.ms,
+                    delay: 1400.ms,
+                  ),
             Container(
-              height: 50,
+              height: selectedCountries.isNotEmpty ? 50 : 0,
               child: Center(
                 child: ListView(
                   padding: EdgeInsets.symmetric(horizontal: 16),
@@ -154,7 +166,7 @@ class _EnterCountriesPageState extends State<EnterCountriesPage> {
                               margin: EdgeInsets.only(right: 8),
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: Colors.black12,
+                                color: context.theme.colorScheme.tertiary,
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                               child: Row(
@@ -162,10 +174,18 @@ class _EnterCountriesPageState extends State<EnterCountriesPage> {
                                 children: [
                                   Text(
                                     country,
-                                    style: TextStyle(color: Colors.black),
+                                    style: context.theme.textTheme.bodyMedium!
+                                        .copyWith(
+                                      color:
+                                          context.theme.colorScheme.onTertiary,
+                                    ),
                                   ),
                                   Gap(4),
-                                  Icon(Icons.close, size: 18),
+                                  Icon(
+                                    Icons.close,
+                                    size: 18,
+                                    color: context.theme.colorScheme.onTertiary,
+                                  ),
                                 ],
                               ),
                             )
@@ -186,25 +206,15 @@ class _EnterCountriesPageState extends State<EnterCountriesPage> {
             if (selectedCountries.isNotEmpty) ...[
               Gap(8),
               Center(
-                child: BouncingButton(
-                  borderRadius: kBorderRadius,
+                child: PrimaryButton(
                   onPressed: selectedCountries.isNotEmpty
-                      ? (_) => widget.onNextPage()
+                      ? () {
+                          FocusScope.of(context).unfocus();
+                          widget.onNextPage();
+                        }
                       : null,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: kBorderRadius,
-                      color: Colors.blueAccent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 64.0, vertical: 8),
-                      child: Text("Continue",
-                          style: context.theme.textTheme.labelLarge
-                              ?.copyWith(fontSize: 20, color: Colors.white)),
-                    ),
-                  ).animate().fade(delay: 500.ms),
-                ),
+                  label: "Continue",
+                ).animate().fade(delay: 300.ms).shimmer(delay: 5.seconds),
               ),
             ],
           ],

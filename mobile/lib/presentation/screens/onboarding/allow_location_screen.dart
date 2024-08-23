@@ -6,17 +6,13 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/core/shared_state/shared_state_cubit.dart';
+import 'package:resident_live/presentation/widgets/primary_button.dart';
 
 import '../../navigation/screen_names.dart';
 
-class AllowLocationScreen extends StatefulWidget {
+class AllowLocationScreen extends StatelessWidget {
   const AllowLocationScreen({super.key});
 
-  @override
-  State<AllowLocationScreen> createState() => _AllowLocationScreenState();
-}
-
-class _AllowLocationScreenState extends State<AllowLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +26,37 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "Allow Location to effectivelly use this app",
-                textAlign: TextAlign.center,
-              ).animate().fade(
-                    duration: 1.seconds,
-                  ),
-              Gap(40),
-              CupertinoButton.filled(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: Text(
+                  "Allow location access to accurately track your tax residency status",
+                  textAlign: TextAlign.center,
+                ).animate().fade(
+                      duration: 1.seconds,
+                    ),
+              ),
+              Gap(8),
+              Icon(
+                CupertinoIcons.location_solid,
+                size: 40,
+                color: context.theme.primaryColor,
+              ),
+              Gap(32),
+              PrimaryButton(
                 onPressed: () =>
                     context.read<SharedStateCubit>().initializeLocation(),
-                child: Text("Allow Track Location",
-                    style: context.theme.textTheme.labelLarge),
+                label: "Allow Track Location",
+              )
+                  .animate()
+                  .fade(delay: 1.seconds, duration: 500.ms)
+                  .animate(onPlay: (controller) => controller.repeat())
+                  .shimmer(duration: 1.seconds, delay: 1.seconds),
+              Gap(8),
+              PrimaryButton(
+                backgroundColor: context.theme.colorScheme.tertiary,
+                onPressed: () => context.goNamed(ScreenNames.home),
+                label: "Ignore",
+                textColor: context.theme.colorScheme.onTertiary,
               ).animate().fade(delay: 1.seconds, duration: 500.ms),
             ],
           ),

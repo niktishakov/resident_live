@@ -3,11 +3,16 @@ import 'package:country_list_pick/support/code_countries_en.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
-import 'package:resident_live/presentation/screens/onboarding/pages/enter_stay_duration.page.dart';
+import 'package:resident_live/presentation/screens/home/widgets/rl.navigation_bar.dart';
+import 'package:resident_live/presentation/screens/onboarding/pages/countries.page.dart';
+import 'package:resident_live/presentation/screens/onboarding/pages/stay_period.page.dart';
 
+import '../../../core/constants.dart';
 import '../../../core/shared_state/shared_state_cubit.dart';
-import '../../../data/country_residence.model.dart';
+import '../../../data/residence.model.dart';
+import '../../navigation/screen_names.dart';
 
 class AddCountryResidencyScreen extends StatefulWidget {
   @override
@@ -18,20 +23,54 @@ class AddCountryResidencyScreen extends StatefulWidget {
 class _AddCountryResidencyScreenState extends State<AddCountryResidencyScreen> {
   String? selectedCountry;
   List<DateTimeRange> activities = [];
+  late PageController controller;
+
+  @override
+  void initState() {
+    controller = PageController();
+    super.initState();
+  }
 
   final List<String> countries =
       countriesEnglish.map((e) => e['name'] as String).toList();
 
+  void onNextPage() => controller.nextPage(
+        duration: kDefaultDuration,
+        curve: Curves.easeIn,
+      );
+
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text("Add Country Residency"),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56),
+        child: RlCupertinoNavBar(
+          title: "Add Residency",
+        ),
       ),
-      child: SafeArea(
+      body: SafeArea(
         child: Material(
-          child: EnterStayDurationPage(
-            onNextPage: () {},
+          child: PageView.builder(
+            controller: controller,
+            physics: const NeverScrollableScrollPhysics(),
+            onPageChanged: (value) {
+              if (value == 2) {
+                // context.goNamed(ScreenNames.allowLocation);
+              }
+            },
+            itemCount: 3,
+            itemBuilder: (c, i) {
+              switch (i) {
+                case 0:
+                  return EnterCountriesPage(onNextPage);
+                case 1:
+                  return EnterStayDurationPage(onNextPage: () {
+                    context.goNamed(ScreenNames.home);
+                  });
+                default:
+                  return EnterCountriesPage(onNextPage);
+              }
+            },
           ),
         ),
       ),
@@ -78,11 +117,9 @@ class _AddCountryResidencyScreenState extends State<AddCountryResidencyScreen> {
     int totalDays =
         activities.fold(0, (sum, activity) => sum + activity.duration.inDays);
 
-    CountryResidenceModel newResidence = CountryResidenceModel(
+    final newResidence = ResidenceModel(
       countryName: selectedCountry!,
       daysSpent: totalDays,
-      isResident:
-          totalDays > 183, // Simple logic for residency, adjust as needed
       startDate: activities
           .map((a) => a.start)
           .reduce((a, b) => a.isBefore(b) ? a : b),

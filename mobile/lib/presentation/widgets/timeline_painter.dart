@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../data/data.dart';
 import 'activity_timeline.dart';
 
 class TimelinePainter extends CustomPainter {

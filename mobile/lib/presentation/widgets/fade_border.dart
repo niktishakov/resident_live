@@ -6,12 +6,14 @@ class FadeBorder extends StatelessWidget {
     this.gradient,
     this.blendMode = BlendMode.dstIn,
     this.disabled = false,
+    this.bidirectional = false,
     required this.child,
   });
 
   final Gradient? gradient;
   final BlendMode blendMode;
   final bool disabled;
+  final bool bidirectional;
   final Widget child;
 
   @override
@@ -22,11 +24,22 @@ class FadeBorder extends StatelessWidget {
             shaderCallback: (rect) {
               return gradient != null
                   ? gradient!.createShader(rect)
-                  : const LinearGradient(
+                  : LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.transparent, Colors.white],
-                      stops: [0.0, 0.09],
+                      colors: bidirectional
+                          ? [
+                              Colors.transparent,
+                              Colors.white,
+                              Colors.white,
+                              Colors.transparent,
+                            ]
+                          : [
+                              Colors.transparent,
+                              Colors.white,
+                            ],
+                      stops:
+                          bidirectional ? [0.0, 0.09, 0.91, 1.0] : [0.0, 0.09],
                     ).createShader(rect);
             },
             blendMode: blendMode,

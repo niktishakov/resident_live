@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'country_residence.model.dart';
+part of 'residence.model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,46 +14,42 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-CountryResidenceModel _$CountryResidenceModelFromJson(
-    Map<String, dynamic> json) {
-  return _CountryResidenceModel.fromJson(json);
+ResidenceModel _$ResidenceModelFromJson(Map<String, dynamic> json) {
+  return _ResidenceModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CountryResidenceModel {
+mixin _$ResidenceModel {
   String get isoCountryCode => throw _privateConstructorUsedError;
   String get countryName => throw _privateConstructorUsedError;
   int get daysSpent => throw _privateConstructorUsedError;
   DateTime? get startDate => throw _privateConstructorUsedError;
   DateTime? get endDate => throw _privateConstructorUsedError;
-  bool get isResident => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CountryResidenceModelCopyWith<CountryResidenceModel> get copyWith =>
+  $ResidenceModelCopyWith<ResidenceModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CountryResidenceModelCopyWith<$Res> {
-  factory $CountryResidenceModelCopyWith(CountryResidenceModel value,
-          $Res Function(CountryResidenceModel) then) =
-      _$CountryResidenceModelCopyWithImpl<$Res, CountryResidenceModel>;
+abstract class $ResidenceModelCopyWith<$Res> {
+  factory $ResidenceModelCopyWith(
+          ResidenceModel value, $Res Function(ResidenceModel) then) =
+      _$ResidenceModelCopyWithImpl<$Res, ResidenceModel>;
   @useResult
   $Res call(
       {String isoCountryCode,
       String countryName,
       int daysSpent,
       DateTime? startDate,
-      DateTime? endDate,
-      bool isResident});
+      DateTime? endDate});
 }
 
 /// @nodoc
-class _$CountryResidenceModelCopyWithImpl<$Res,
-        $Val extends CountryResidenceModel>
-    implements $CountryResidenceModelCopyWith<$Res> {
-  _$CountryResidenceModelCopyWithImpl(this._value, this._then);
+class _$ResidenceModelCopyWithImpl<$Res, $Val extends ResidenceModel>
+    implements $ResidenceModelCopyWith<$Res> {
+  _$ResidenceModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -68,7 +64,6 @@ class _$CountryResidenceModelCopyWithImpl<$Res,
     Object? daysSpent = null,
     Object? startDate = freezed,
     Object? endDate = freezed,
-    Object? isResident = null,
   }) {
     return _then(_value.copyWith(
       isoCountryCode: null == isoCountryCode
@@ -91,21 +86,16 @@ class _$CountryResidenceModelCopyWithImpl<$Res,
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      isResident: null == isResident
-          ? _value.isResident
-          : isResident // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$CountryResidenceModelImplCopyWith<$Res>
-    implements $CountryResidenceModelCopyWith<$Res> {
-  factory _$$CountryResidenceModelImplCopyWith(
-          _$CountryResidenceModelImpl value,
-          $Res Function(_$CountryResidenceModelImpl) then) =
-      __$$CountryResidenceModelImplCopyWithImpl<$Res>;
+abstract class _$$ResidenceModelImplCopyWith<$Res>
+    implements $ResidenceModelCopyWith<$Res> {
+  factory _$$ResidenceModelImplCopyWith(_$ResidenceModelImpl value,
+          $Res Function(_$ResidenceModelImpl) then) =
+      __$$ResidenceModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -113,17 +103,15 @@ abstract class _$$CountryResidenceModelImplCopyWith<$Res>
       String countryName,
       int daysSpent,
       DateTime? startDate,
-      DateTime? endDate,
-      bool isResident});
+      DateTime? endDate});
 }
 
 /// @nodoc
-class __$$CountryResidenceModelImplCopyWithImpl<$Res>
-    extends _$CountryResidenceModelCopyWithImpl<$Res,
-        _$CountryResidenceModelImpl>
-    implements _$$CountryResidenceModelImplCopyWith<$Res> {
-  __$$CountryResidenceModelImplCopyWithImpl(_$CountryResidenceModelImpl _value,
-      $Res Function(_$CountryResidenceModelImpl) _then)
+class __$$ResidenceModelImplCopyWithImpl<$Res>
+    extends _$ResidenceModelCopyWithImpl<$Res, _$ResidenceModelImpl>
+    implements _$$ResidenceModelImplCopyWith<$Res> {
+  __$$ResidenceModelImplCopyWithImpl(
+      _$ResidenceModelImpl _value, $Res Function(_$ResidenceModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -134,9 +122,8 @@ class __$$CountryResidenceModelImplCopyWithImpl<$Res>
     Object? daysSpent = null,
     Object? startDate = freezed,
     Object? endDate = freezed,
-    Object? isResident = null,
   }) {
-    return _then(_$CountryResidenceModelImpl(
+    return _then(_$ResidenceModelImpl(
       isoCountryCode: null == isoCountryCode
           ? _value.isoCountryCode
           : isoCountryCode // ignore: cast_nullable_to_non_nullable
@@ -157,27 +144,23 @@ class __$$CountryResidenceModelImplCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      isResident: null == isResident
-          ? _value.isResident
-          : isResident // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$CountryResidenceModelImpl implements _CountryResidenceModel {
-  const _$CountryResidenceModelImpl(
+class _$ResidenceModelImpl extends _ResidenceModel {
+  const _$ResidenceModelImpl(
       {required this.isoCountryCode,
       required this.countryName,
       required this.daysSpent,
       this.startDate,
-      this.endDate,
-      required this.isResident});
+      this.endDate})
+      : super._();
 
-  factory _$CountryResidenceModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CountryResidenceModelImplFromJson(json);
+  factory _$ResidenceModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResidenceModelImplFromJson(json);
 
   @override
   final String isoCountryCode;
@@ -189,19 +172,17 @@ class _$CountryResidenceModelImpl implements _CountryResidenceModel {
   final DateTime? startDate;
   @override
   final DateTime? endDate;
-  @override
-  final bool isResident;
 
   @override
   String toString() {
-    return 'CountryResidenceModel(isoCountryCode: $isoCountryCode, countryName: $countryName, daysSpent: $daysSpent, startDate: $startDate, endDate: $endDate, isResident: $isResident)';
+    return 'ResidenceModel(isoCountryCode: $isoCountryCode, countryName: $countryName, daysSpent: $daysSpent, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CountryResidenceModelImpl &&
+            other is _$ResidenceModelImpl &&
             (identical(other.isoCountryCode, isoCountryCode) ||
                 other.isoCountryCode == isoCountryCode) &&
             (identical(other.countryName, countryName) ||
@@ -210,42 +191,40 @@ class _$CountryResidenceModelImpl implements _CountryResidenceModel {
                 other.daysSpent == daysSpent) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate) &&
-            (identical(other.isResident, isResident) ||
-                other.isResident == isResident));
+            (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, isoCountryCode, countryName,
-      daysSpent, startDate, endDate, isResident);
+  int get hashCode => Object.hash(
+      runtimeType, isoCountryCode, countryName, daysSpent, startDate, endDate);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CountryResidenceModelImplCopyWith<_$CountryResidenceModelImpl>
-      get copyWith => __$$CountryResidenceModelImplCopyWithImpl<
-          _$CountryResidenceModelImpl>(this, _$identity);
+  _$$ResidenceModelImplCopyWith<_$ResidenceModelImpl> get copyWith =>
+      __$$ResidenceModelImplCopyWithImpl<_$ResidenceModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CountryResidenceModelImplToJson(
+    return _$$ResidenceModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _CountryResidenceModel implements CountryResidenceModel {
-  const factory _CountryResidenceModel(
+abstract class _ResidenceModel extends ResidenceModel {
+  const factory _ResidenceModel(
       {required final String isoCountryCode,
       required final String countryName,
       required final int daysSpent,
       final DateTime? startDate,
-      final DateTime? endDate,
-      required final bool isResident}) = _$CountryResidenceModelImpl;
+      final DateTime? endDate}) = _$ResidenceModelImpl;
+  const _ResidenceModel._() : super._();
 
-  factory _CountryResidenceModel.fromJson(Map<String, dynamic> json) =
-      _$CountryResidenceModelImpl.fromJson;
+  factory _ResidenceModel.fromJson(Map<String, dynamic> json) =
+      _$ResidenceModelImpl.fromJson;
 
   @override
   String get isoCountryCode;
@@ -258,9 +237,7 @@ abstract class _CountryResidenceModel implements CountryResidenceModel {
   @override
   DateTime? get endDate;
   @override
-  bool get isResident;
-  @override
   @JsonKey(ignore: true)
-  _$$CountryResidenceModelImplCopyWith<_$CountryResidenceModelImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$ResidenceModelImplCopyWith<_$ResidenceModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

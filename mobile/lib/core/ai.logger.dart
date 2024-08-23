@@ -27,6 +27,7 @@ class AiLogger {
 
   static void initialize({
     required bool isReleaseMode,
+    required env,
   }) {
     String stringifyMessage(dynamic message) {
       return message is Map || message is Iterable

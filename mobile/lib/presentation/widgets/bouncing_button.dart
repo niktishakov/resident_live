@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:synchronized/synchronized.dart';
 
+import '../../services/vibration_service.dart';
+
 class BouncingButton extends StatefulWidget {
   final Widget child;
   final BorderRadius? borderRadius;
@@ -96,7 +98,7 @@ class _BouncingState extends State<BouncingButton>
           return; // prevent multiple taps
         }
 
-        // if (widget.vibrate) VibrationService.instance.tap();
+        if (widget.vibrate) VibrationService.instance.tap();
         if (mounted) {
           _controller.forward();
           _timer?.cancel();
@@ -136,7 +138,7 @@ class _BouncingState extends State<BouncingButton>
 
             _callPressCallback(event);
             if (mounted) unawaited(_controller.reverse());
-            // if (widget.vibrate) VibrationService.instance.light();
+            if (widget.vibrate) VibrationService.instance.light();
           }
 
           _timer?.cancel();

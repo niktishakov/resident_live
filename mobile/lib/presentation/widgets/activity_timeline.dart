@@ -11,7 +11,7 @@ import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/core/extensions/datetime_extension.dart';
 import 'package:resident_live/presentation/screens/onboarding/pages/countries.page.dart';
 import 'package:resident_live/presentation/widgets/progress_bar.dart';
-import 'package:resident_live/presentation/widgets/add_periods/add_periods_view.dart';
+import 'package:resident_live/presentation/screens/onboarding/pages/add_periods.page.dart';
 
 import '../../data/data.dart';
 import 'bouncing_button.dart';
@@ -147,7 +147,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
   Future<void> _onAddRange() async {
     final result = await Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (_) => AddPeriodsView(
+        builder: (_) => AddPeriodsPage(
           countries: widget.countries,
           segments: segments,
         ),

@@ -45,6 +45,7 @@ class AllowLocationScreen extends StatelessWidget {
               PrimaryButton(
                 onPressed: () =>
                     context.read<SharedStateCubit>().initializeLocation(),
+                textColor: Colors.white,
                 label: "Allow Track Location",
               )
                   .animate()
@@ -53,7 +54,8 @@ class AllowLocationScreen extends StatelessWidget {
                   .shimmer(duration: 1.seconds, delay: 1.seconds),
               Gap(8),
               PrimaryButton(
-                backgroundColor: context.theme.colorScheme.tertiary,
+                backgroundColor:
+                    context.theme.colorScheme.tertiary.withOpacity(0.5),
                 onPressed: () => context.goNamed(ScreenNames.home),
                 label: "Ignore",
                 textColor: context.theme.colorScheme.onTertiary,

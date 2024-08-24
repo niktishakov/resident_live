@@ -73,10 +73,14 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
     );
   }
 
-  void addResidencies(List<ResidenceModel> countryResidences) {
-    for (final countryResidence in countryResidences) {
-      addResidency(countryResidence);
-    }
+  void updateResidencies(Map<String, ResidenceModel> countryResidences) {
+    emit(
+      state.copyWith(
+        user: state.user.copyWith(
+          countryResidences: countryResidences,
+        ),
+      ),
+    );
   }
 
   Future<void> refreshState() async {

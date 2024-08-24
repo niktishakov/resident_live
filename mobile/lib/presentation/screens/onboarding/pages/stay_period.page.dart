@@ -81,18 +81,19 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
   }
 
   void _onContinue() {
-    _totalDaysByCountry.forEach((key, value) {
+    final residences = _totalDaysByCountry.map((key, value) {
       final countryDetails =
           countriesEnglish.firstWhere((e) => e['name'] as String == key);
 
-      context.read<SharedStateCubit>().addResidency(
-            ResidenceModel(
-              countryName: key,
-              daysSpent: value,
-              isoCountryCode: countryDetails['code'] as String,
-            ),
-          );
+      return MapEntry(
+          countryDetails['code'] as String,
+          ResidenceModel(
+            countryName: key,
+            daysSpent: value,
+            isoCountryCode: countryDetails['code'] as String,
+          ));
     });
+    context.read<SharedStateCubit>().updateResidencies(residences);
     widget.onNextPage();
   }
 

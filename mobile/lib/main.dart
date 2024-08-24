@@ -14,6 +14,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/ai.logger.dart';
+import 'presentation/screens/splash/presplash_screen.dart';
 import 'services/geolocator.service.dart';
 
 final screenNavigatorKey = GlobalKey<NavigatorState>();
@@ -22,6 +23,8 @@ final shellKey = GlobalKey<NavigatorState>();
 const String uniqueTaskName = "geofencingTask";
 
 void main() async {
+  runApp(MaterialApp(home: PresplashScreen()));
+
   RouterService.init(screenNavigatorKey, shellKey);
   GeolocationService.instance.initialize();
   VibrationService.init();

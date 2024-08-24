@@ -9,6 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:resident_live/core/constants.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/presentation/screens/home/widgets/rl.navigation_bar.dart';
+import 'package:resident_live/presentation/widgets/bouncing_button.dart';
+import 'package:resident_live/presentation/widgets/primary_button.dart';
 import '../../../core/shared_state/shared_state_cubit.dart';
 import '../../navigation/screen_names.dart';
 import 'widgets/current_residence.dart';
@@ -34,12 +36,13 @@ class HomeScreen extends StatelessWidget {
             bottom: false,
             child: CustomScrollView(
               slivers: [
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: CustomSliverHeaderDelegate(
-                    expandedHeight: 100.0,
-                  ),
-                ),
+                // RlNavBar(),
+                // SliverPersistentHeader(
+                //   pinned: true,
+                //   delegate: CustomSliverHeaderDelegate(
+                //     expandedHeight: 100.0,
+                //   ),
+                // ),
                 if (currentResidence != null) ...[
                   SliverToBoxAdapter(
                     child: CurrentResidenceView(
@@ -58,6 +61,66 @@ class HomeScreen extends StatelessWidget {
                     residences: otherResidences,
                   ),
                 ],
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8),
+                    child: BouncingButton(
+                      onPressed: (_) =>
+                          context.pushNamed(ScreenNames.addResidency),
+                      child: Expanded(
+                        child: Container(
+                          padding: EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            gradient: RadialGradient(
+                              radius: 2.0,
+                              focalRadius: 1.0,
+                              colors: [
+                                context.theme.primaryColor,
+                                context.theme.primaryColor.withOpacity(0.9),
+                                context.theme.primaryColor.withOpacity(0.8),
+                                context.theme.primaryColor.withOpacity(0.7),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(16.0),
+                            border: Border.all(
+                                width: 2, color: context.theme.primaryColor),
+                          ),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  CupertinoIcons.add_circled_solid,
+                                  color: Colors.white,
+                                ),
+                                Gap(4),
+                                Text("Add",
+                                    style: context.theme.textTheme.labelLarge
+                                        ?.copyWith(
+                                      color: Colors.white,
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // child: Text("Add new country",
+                        //     style: context.theme.textTheme.labelLarge))),
+                        // child: PrimaryButton(
+                        //   label: "Add Residency",
+                        //   leading: Icon(
+                        //     CupertinoIcons.plus_rectangle_fill_on_rectangle_fill,
+                        //     color: context.theme.colorScheme.surface,
+                        //     size: 28,
+                        //   ),
+                        //   onPressed: () {
+                        //     context.pushNamed(ScreenNames.addResidency);
+                        //   },
+                        // ),
+                      ),
+                    ),
+                  ),
+                ),
                 SliverToBoxAdapter(
                     child: Gap(context.mediaQuery.padding.bottom)),
               ],
@@ -114,20 +177,6 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
                 fontWeight: FontWeight.bold,
                 color: context.theme.colorScheme.secondary,
               ),
-            ),
-          ),
-          Positioned(
-            bottom: 10.0,
-            right: 16,
-            child: GestureDetector(
-              child: Icon(
-                CupertinoIcons.plus_rectangle_fill_on_rectangle_fill,
-                color: context.theme.colorScheme.primary,
-                size: 28,
-              ),
-              onTap: () {
-                context.pushNamed(ScreenNames.addResidency);
-              },
             ),
           ),
           Positioned(

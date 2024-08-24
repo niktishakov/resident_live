@@ -9,16 +9,15 @@ import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/presentation/screens/home/widgets/rl.navigation_bar.dart';
 import 'package:resident_live/presentation/utils/colors_utils.dart';
 import 'package:resident_live/presentation/widgets/primary_button.dart';
-import 'package:resident_live/services/vibration_service.dart';
 
-import '../../../data/data.dart';
-import '../fade_border.dart';
-import 'widgets/country_selector.dart';
-import 'widgets/timeline_slider.dart';
-import 'widgets/show_toast.dart';
+import '../../../../data/data.dart';
+import '../../../widgets/fade_border.dart';
+import '../../../widgets/add_periods/widgets/country_selector.dart';
+import '../../../widgets/add_periods/widgets/timeline_slider.dart';
+import '../../../widgets/add_periods/widgets/show_toast.dart';
 
-class AddPeriodsView extends StatefulWidget {
-  AddPeriodsView({
+class AddPeriodsPage extends StatefulWidget {
+  AddPeriodsPage({
     required this.countries,
     required this.segments,
   });
@@ -27,10 +26,10 @@ class AddPeriodsView extends StatefulWidget {
   final List<ActivitySegment> segments;
 
   @override
-  _AddPeriodsViewState createState() => _AddPeriodsViewState();
+  _AddPeriodsPageState createState() => _AddPeriodsPageState();
 }
 
-class _AddPeriodsViewState extends State<AddPeriodsView> {
+class _AddPeriodsPageState extends State<AddPeriodsPage> {
   List<ActivitySegment> segments = [];
   String? focusedCountry;
   late DateTime startDate;
@@ -121,13 +120,39 @@ class _AddPeriodsViewState extends State<AddPeriodsView> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
-        child: RlCupertinoNavBar(title: "Add Your Stay Period"),
+        child: RlCupertinoNavBar(title: "Add Stay Periods"),
       ),
       body: SafeArea(
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           children: [
-            Gap(44),
+            Gap(9),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text.rich(
+                  textAlign: TextAlign.left,
+                  TextSpan(
+                    style: context.theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w400,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "Add your travel timeline: ",
+                      ),
+                      TextSpan(
+                        text: "Country > Dates > Add",
+                        style: context.theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ).animate().fade(delay: 200.ms),
+              ),
+            ),
+            Gap(16),
             CountrySelector(
               countries: widget.countries,
               focusedCountry: focusedCountry,

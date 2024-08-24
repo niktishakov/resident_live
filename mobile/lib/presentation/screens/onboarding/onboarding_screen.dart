@@ -32,11 +32,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: PageView.builder(
           controller: controller,
           physics: const NeverScrollableScrollPhysics(),
-          onPageChanged: (value) {
-            if (value == 2) {
-              // context.goNamed(ScreenNames.allowLocation);
-            }
-          },
           itemCount: 3,
           itemBuilder: (c, i) {
             switch (i) {

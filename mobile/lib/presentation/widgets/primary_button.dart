@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:gap/gap.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 
 import '../../core/constants.dart';
@@ -16,7 +17,10 @@ class PrimaryButton extends StatelessWidget {
     this.backgroundColor,
     this.onPressed,
     this.enabled = true,
+    this.leading,
   });
+
+  final Widget? leading;
   final String label;
   final bool vibrate;
   final Color? textColor;
@@ -41,11 +45,18 @@ class PrimaryButton extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
-          child: Text(label,
-              style: context.theme.textTheme.labelLarge?.copyWith(
-                fontSize: fontSize,
-                color: textColor ?? context.theme.scaffoldBackgroundColor,
-              )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (leading != null) ...[leading!, Gap(8)],
+              Text(label,
+                  style: context.theme.textTheme.labelLarge?.copyWith(
+                    fontSize: fontSize,
+                    color: textColor ?? context.theme.scaffoldBackgroundColor,
+                  )),
+            ],
+          ),
         ),
       ),
     );

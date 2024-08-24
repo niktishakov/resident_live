@@ -107,7 +107,7 @@ class CurrentResidenceView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Days to become a resident",
+          "To become a resident",
           style: TextStyle(fontSize: 18),
         ),
         Text(
@@ -122,6 +122,13 @@ class CurrentResidenceView extends StatelessWidget {
   }
 
   Widget _buildProgressIndicator(BuildContext context) {
+    final backgroundColor = residence.isResident
+        ? context.theme.primaryColor
+        : context.theme.colorScheme.tertiary;
+    const color = Colors.green;
+    final value =
+        residence.isResident ? residence.daysSpent - 183 : residence.daysSpent;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -130,13 +137,19 @@ class CurrentResidenceView extends StatelessWidget {
           style: TextStyle(fontSize: 18),
         ),
         SizedBox(height: 8),
-        LinearProgressIndicator(
-          value: residence.daysSpent / 183,
-          backgroundColor: Colors.grey[300],
-          minHeight: 20,
-          borderRadius: BorderRadius.circular(10),
-          color:
-              residence.isResident ? Colors.green : context.theme.primaryColor,
+        TweenAnimationBuilder(
+          tween: Tween<double>(begin: 0.0, end: value / 183),
+          duration: 2.seconds,
+          curve: Curves.fastEaseInToSlowEaseOut,
+          builder: (context, v, child) {
+            return LinearProgressIndicator(
+              value: v,
+              backgroundColor: backgroundColor,
+              minHeight: 20,
+              borderRadius: BorderRadius.circular(10),
+              color: color,
+            ).animate().shimmer(duration: 1.seconds, delay: 2.seconds);
+          },
         ),
         SizedBox(height: 8),
         Text(

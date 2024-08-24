@@ -9,6 +9,7 @@ import 'package:resident_live/presentation/widgets/fade_border.dart';
 import 'package:resident_live/presentation/widgets/primary_button.dart';
 
 import '../../../../core/constants.dart';
+import '../../../../core/shared_state/shared_state_cubit.dart';
 import '../cubit/onboarding_cubit.dart';
 
 class EnterCountriesPage extends StatefulWidget {
@@ -22,6 +23,15 @@ class EnterCountriesPage extends StatefulWidget {
 class _EnterCountriesPageState extends State<EnterCountriesPage> {
   String searchQuery = "";
   ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    final sharedState = context.read<SharedStateCubit>();
+    sharedState.state.user.countryResidences.forEach((key, value) {
+      context.read<OnboardingCubit>().addCountry(value.countryName);
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -216,6 +226,7 @@ class _EnterCountriesPageState extends State<EnterCountriesPage> {
                   label: "Continue",
                 ).animate().fade(delay: 300.ms).shimmer(delay: 5.seconds),
               ),
+              Gap(8)
             ],
           ],
         ),

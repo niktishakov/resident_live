@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:resident_live/presentation/screens/add_residency/add_residency_screen.dart';
 import 'package:resident_live/presentation/screens/home/home_screen.dart';
 import 'package:resident_live/presentation/screens/onboarding/allow_location_screen.dart';
+import 'package:resident_live/presentation/screens/residence_details/residence_details_screen.dart';
 import 'package:resident_live/presentation/utils/core_route_observer.dart';
 
 import '../screens/bottom_bar/bottom_bar_scaffold.dart';
@@ -108,6 +109,19 @@ class RouterService {
             );
           },
         ),
+
+        // GoRoute(
+        //   path: ScreenNames.residenceDetails,
+        //   name: ScreenNames.residenceDetails,
+        //   pageBuilder: (ctx, state) {
+        //     final extra = state.extra as String;
+
+        //     return _rootCupertinoPage(
+        //       ResidenceDetailsScreen(countryName: extra),
+        //       ScreenNames.residenceDetails,
+        //     );
+        //   },
+        // ),
       ],
     );
   }

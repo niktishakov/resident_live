@@ -9,6 +9,7 @@ import 'package:resident_live/core/shared_state/shared_state_cubit.dart';
 import 'package:resident_live/presentation/navigation/router.dart';
 import 'package:resident_live/presentation/screens/onboarding/cubit/onboarding_cubit.dart';
 import 'package:resident_live/presentation/utils/theme.dart';
+import 'package:resident_live/services/share.service.dart';
 import 'package:resident_live/services/vibration_service.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,15 +26,15 @@ const String uniqueTaskName = "geofencingTask";
 void main() async {
   runApp(MaterialApp(home: PresplashScreen()));
 
-  RouterService.init(screenNavigatorKey, shellKey);
+  await RouterService.init(screenNavigatorKey, shellKey);
+  await VibrationService.init();
+  await ShareService.init();
   GeolocationService.instance.initialize();
-  VibrationService.init();
   AiLogger.initialize(isReleaseMode: kReleaseMode, env: null);
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
-  setDarkOverlayStyle();
   // HydratedBloc.storage.clear();
 
   runApp(const MyApp());
@@ -76,16 +77,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _setSystemOverlayStyle();
   }
 
-  @override
-  void didChangePlatformBrightness() {
-    super.didChangePlatformBrightness();
-    _setSystemOverlayStyle();
-  }
-
-  void _setSystemOverlayStyle() {
+  void setSystemOverlayStyle() {
     final brightness = PlatformDispatcher.instance.platformBrightness;
     if (brightness == Brightness.dark) {
       setDarkOverlayStyle();
@@ -106,12 +100,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ),
       ],
       child: MaterialApp.router(
-        routerConfig: RouterService.instance.config,
-        debugShowCheckedModeBanner: false,
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        builder: FToastBuilder(),
-      ),
+          routerConfig: RouterService.instance.config,
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          builder: (context, child) {
+            setSystemOverlayStyle();
+            FToastBuilder();
+            return child!;
+          }),
     );
   }
 }

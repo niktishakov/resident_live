@@ -4,17 +4,27 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData darkTheme = ThemeData(
-  primaryColor: Colors.blueAccent,
+  primaryColor: Color(0xff50B5FF),
   disabledColor: Colors.grey[300],
-  colorScheme: ColorScheme.dark(
-    primary: Colors.blueAccent,
-    secondary: Colors.white,
-    tertiary: Colors.grey[300],
-    onTertiary: Colors.black,
-    surface: Colors.black,
-    onSurface: Colors.black,
+  switchTheme: SwitchThemeData(
+    trackColor: WidgetStatePropertyAll(Color(0xff50B5FF)),
+    thumbColor: WidgetStatePropertyAll(Colors.white.withOpacity(0.87)),
   ),
-  scaffoldBackgroundColor: Colors.black,
+  colorScheme: ColorScheme.dark(
+    primary: Color(0xff50B5FF),
+    secondary: Colors.white.withOpacity(0.87),
+    tertiary: Colors.grey[300],
+    onTertiary: Color(0xff121212),
+    surface: Color(0xff121212),
+    onSurface: Colors.white.withOpacity(0.87),
+  ),
+  cardColor: Color(0xff2b2b2b),
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+      circularTrackColor: Color(0xffD9D9D9),
+      color: Color(
+        0xff8E8E8E,
+      )),
+  scaffoldBackgroundColor: Color(0xff121212),
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.black,
     foregroundColor: Colors.white,
@@ -40,6 +50,7 @@ ThemeData darkTheme = ThemeData(
     headlineSmall: GoogleFonts.poppins().copyWith(color: Colors.white),
     bodyLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
     bodyMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
+    bodySmall: GoogleFonts.poppins().copyWith(color: Colors.white),
     titleLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
     titleMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
     titleSmall: GoogleFonts.poppins().copyWith(color: Colors.white),
@@ -67,21 +78,27 @@ ThemeData darkTheme = ThemeData(
   dialogTheme: DialogTheme(
     backgroundColor: Colors.grey[850],
   ),
-  dividerColor: Colors.grey[900],
+  dividerColor: Color(0xff343434),
   useMaterial3: true,
 );
 
 ThemeData lightTheme = ThemeData(
   disabledColor: Colors.grey[200]!,
   colorScheme: ColorScheme.light(
-    primary: Colors.blueAccent,
-    secondary: Colors.black,
+    primary: Color(0xff50B5FF),
+    secondary: Colors.black.withOpacity(0.87),
     surface: Colors.white,
     onSurface: Colors.grey,
     tertiary: Colors.grey[200],
     onTertiary: Colors.black,
   ),
   scaffoldBackgroundColor: Colors.white,
+  cardColor: Colors.grey[100],
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+      circularTrackColor: Color(0xffD9D9D9),
+      color: Color(
+        0xff8E8E8E,
+      )),
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
@@ -114,6 +131,7 @@ ThemeData lightTheme = ThemeData(
     headlineSmall: GoogleFonts.poppins().copyWith(color: Colors.black),
     bodyLarge: GoogleFonts.poppins().copyWith(color: Colors.black),
     bodyMedium: GoogleFonts.poppins().copyWith(color: Colors.black),
+    bodySmall: GoogleFonts.poppins().copyWith(color: Colors.white),
     titleLarge: GoogleFonts.poppins().copyWith(color: Colors.black),
     titleMedium: GoogleFonts.poppins().copyWith(color: Colors.black),
     titleSmall: GoogleFonts.poppins().copyWith(color: Colors.black),
@@ -127,7 +145,7 @@ ThemeData lightTheme = ThemeData(
   datePickerTheme: DatePickerThemeData(
     backgroundColor: Colors.white,
     rangePickerBackgroundColor: Colors.white,
-    rangeSelectionBackgroundColor: Colors.blueAccent,
+    rangeSelectionBackgroundColor: Color(0xff50B5FF),
     headerHeadlineStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
     headerHelpStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
     dayStyle: GoogleFonts.poppins().copyWith(color: Colors.black),

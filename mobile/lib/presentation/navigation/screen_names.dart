@@ -5,4 +5,5 @@ class ScreenNames {
   static String bottomBarShell = '/bottom-bar';
   static String allowLocation = '/allow-location-screen';
   static String addResidency = '/add-residency-screen';
+  static String residenceDetails = '/residence-details-screen';
 }

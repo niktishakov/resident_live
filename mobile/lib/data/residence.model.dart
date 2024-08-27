@@ -27,4 +27,8 @@ class ResidenceModel with _$ResidenceModel {
       _$ResidenceModelFromJson(json);
 
   bool get isResident => daysSpent >= 183;
+  int get statusToggleIn => (183 - daysSpent).abs();
+  DateTime get statusToggleAt =>
+      DateTime.now().add(Duration(days: statusToggleIn));
+  int get extraDays => isResident ? statusToggleIn : 0;
 }

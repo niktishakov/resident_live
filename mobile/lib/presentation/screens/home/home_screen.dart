@@ -8,9 +8,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:resident_live/core/constants.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
+import 'package:resident_live/core/extensions/datetime_extension.dart';
 import 'package:resident_live/presentation/screens/home/widgets/rl.navigation_bar.dart';
 import 'package:resident_live/presentation/widgets/bouncing_button.dart';
 import 'package:resident_live/presentation/widgets/primary_button.dart';
+import 'package:resident_live/presentation/widgets/rl.card.dart';
+import 'package:resident_live/presentation/widgets/today_button.dart';
 import '../../../core/shared_state/shared_state_cubit.dart';
 import '../../navigation/screen_names.dart';
 import 'widgets/current_residence.dart';
@@ -26,105 +29,77 @@ class HomeScreen extends StatelessWidget {
         final currentResidence =
             state.user.countryResidences[state.currentPosition?.isoCountryCode];
 
-        print(currentResidence?.countryName);
         final otherResidences = state.user.countryResidences.values
             .where((e) => e.isoCountryCode != currentResidence?.isoCountryCode)
             .toList();
 
         return Scaffold(
-          body: SafeArea(
-            bottom: false,
-            child: CustomScrollView(
-              slivers: [
-                // RlNavBar(),
-                // SliverPersistentHeader(
-                //   pinned: true,
-                //   delegate: CustomSliverHeaderDelegate(
-                //     expandedHeight: 100.0,
-                //   ),
-                // ),
-                if (currentResidence != null) ...[
-                  SliverToBoxAdapter(
-                    child: CurrentResidenceView(
-                      residence: currentResidence,
-                    ),
-                  ),
-                ],
-                if (otherResidences.isNotEmpty) ...[
-                  SliverToBoxAdapter(
-                      child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text("Tracking Residences",
-                        style: context.theme.textTheme.titleLarge),
-                  )),
-                  OtherResidencesView(
-                    residences: otherResidences,
-                  ),
-                ],
+          body: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: CustomSliverHeaderDelegate(
+                  expandedHeight: 80.0 + context.mediaQuery.padding.top,
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 24.0, bottom: 16),
+                  child: TodayButton(),
+                ),
+              ),
+              if (currentResidence != null) ...[
                 SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8),
-                    child: BouncingButton(
-                      onPressed: (_) =>
-                          context.pushNamed(ScreenNames.addResidency),
-                      child: Expanded(
-                        child: Container(
-                          padding: EdgeInsets.all(16.0),
-                          decoration: BoxDecoration(
-                            gradient: RadialGradient(
-                              radius: 2.0,
-                              focalRadius: 1.0,
-                              colors: [
-                                context.theme.primaryColor,
-                                context.theme.primaryColor.withOpacity(0.9),
-                                context.theme.primaryColor.withOpacity(0.8),
-                                context.theme.primaryColor.withOpacity(0.7),
-                              ],
+                  child: CurrentResidenceView(
+                    residence: currentResidence,
+                  ),
+                ),
+              ],
+              if (otherResidences.isNotEmpty) ...[
+                SliverToBoxAdapter(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 16),
+                  child: Text("Tracking Residences",
+                      style: context.theme.textTheme.titleLarge),
+                )),
+                OtherResidencesView(
+                  residences: otherResidences,
+                ),
+              ],
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
+                  child: BouncingButton(
+                    onPressed: (_) =>
+                        context.pushNamed(ScreenNames.addResidency),
+                    child: RlCard(
+                      color: context.theme.primaryColor,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              CupertinoIcons.add_circled_solid,
+                              color: Colors.white,
                             ),
-                            borderRadius: BorderRadius.circular(16.0),
-                            border: Border.all(
-                                width: 2, color: context.theme.primaryColor),
-                          ),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  CupertinoIcons.add_circled_solid,
+                            Gap(4),
+                            Text("Add",
+                                style: context.theme.textTheme.labelLarge
+                                    ?.copyWith(
                                   color: Colors.white,
-                                ),
-                                Gap(4),
-                                Text("Add",
-                                    style: context.theme.textTheme.labelLarge
-                                        ?.copyWith(
-                                      color: Colors.white,
-                                    )),
-                              ],
-                            ),
-                          ),
+                                )),
+                          ],
                         ),
-                        // child: Text("Add new country",
-                        //     style: context.theme.textTheme.labelLarge))),
-                        // child: PrimaryButton(
-                        //   label: "Add Residency",
-                        //   leading: Icon(
-                        //     CupertinoIcons.plus_rectangle_fill_on_rectangle_fill,
-                        //     color: context.theme.colorScheme.surface,
-                        //     size: 28,
-                        //   ),
-                        //   onPressed: () {
-                        //     context.pushNamed(ScreenNames.addResidency);
-                        //   },
-                        // ),
                       ),
                     ),
                   ),
                 ),
-                SliverToBoxAdapter(
-                    child: Gap(context.mediaQuery.padding.bottom)),
-              ],
-            ),
+              ),
+              SliverToBoxAdapter(
+                  child: Gap(context.mediaQuery.padding.bottom + 64)),
+            ],
           ),
         );
       },
@@ -138,7 +113,7 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   CustomSliverHeaderDelegate({required this.expandedHeight});
 
   @override
-  double get minExtent => kToolbarHeight;
+  double get minExtent => kToolbarHeight + 44;
 
   @override
   double get maxExtent => expandedHeight;
@@ -164,32 +139,52 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
       decoration: BoxDecoration(
         color: context.theme.scaffoldBackgroundColor,
       ),
-      child: Stack(
-        children: [
-          Positioned(
-            bottom: 8.0,
-            left: 16,
-            right: 0,
-            child: Text(
-              "Resident Live",
-              style: TextStyle(
-                fontSize: titleSize,
-                fontWeight: FontWeight.bold,
-                color: context.theme.colorScheme.secondary,
+      child: ColoredBox(
+        color: Color(0xff191919).withOpacity(dividerOpacity.clamp(0.0, 1.0)),
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: 10.0,
+              left: 24,
+              right: 0,
+              child: Text(
+                "Resident Live",
+                style: TextStyle(
+                  fontSize: titleSize,
+                  fontWeight: FontWeight.bold,
+                  color: context.theme.colorScheme.secondary
+                      .withOpacity((1 - dividerOpacity).clamp(0.5, 0.87)),
+                  letterSpacing: 0.5,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: context.theme.dividerColor.withOpacity(dividerOpacity),
-              height: 1.0,
-              width: double.infinity,
+            Positioned(
+              bottom: 12.0,
+              right: 24,
+              child: Opacity(
+                opacity: dividerOpacity > 0.4
+                    ? (3.5 * dividerOpacity - 1.0).clamp(0.0, 1.0)
+                    : 0.0,
+                child: TodayButton(
+                    style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: context.theme.colorScheme.secondary,
+                )),
+              ),
             ),
-          )
-        ],
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: context.theme.dividerColor.withOpacity(dividerOpacity),
+                height: 2.0,
+                width: double.infinity,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -12,27 +12,11 @@ class RlNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoSliverNavigationBar(
-      // border: Border.all(color: Colors.transparent),
-      // backgroundColor: Colors.blueAccent,
       border: null,
       backgroundColor: context.theme.scaffoldBackgroundColor,
       padding: const EdgeInsetsDirectional.only(start: 4, end: 8),
       automaticallyImplyLeading: false,
       stretch: true,
-      trailing: CupertinoButton(
-        onPressed: () {
-          context.pushNamed(ScreenNames.addResidency);
-        },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(CupertinoIcons.refresh,
-                color: context.theme.colorScheme.primary),
-          ],
-        ),
-      ),
-      // middle: Text("Dashboard", style: TextStyle(color: Colors.white)),
-      // automaticallyImplyTitle: true,
       largeTitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

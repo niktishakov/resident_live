@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:resident_live/core/ai.logger.dart';
 import 'package:resident_live/data/residence.model.dart';
+import 'package:collection/collection.dart';
 
 import '../../data/user.model.dart';
 import '../../services/geolocator.service.dart';
@@ -92,6 +93,17 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
     await _getAddressFromLatLng(position);
   }
 
+  ResidenceModel getResidencyByName(String countryName) {
+    final countryResidence = state.user.countryResidences.values
+        .firstWhereOrNull((e) => e.countryName == countryName);
+
+    if (countryResidence != null) {
+      return countryResidence;
+    }
+
+    return ResidenceModel.initial(countryName, 'Unknown');
+  }
+
   ResidenceModel getCountryResidence(
     SharedStateState currentState,
     Placemark country,
@@ -106,6 +118,10 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
       country.isoCountryCode ?? 'Unknown',
       country.country ?? 'Unknown',
     );
+  }
+
+  bool isCurrentResidence(String isoCountryCode) {
+    return state.currentPosition?.isoCountryCode == isoCountryCode;
   }
 
   @override

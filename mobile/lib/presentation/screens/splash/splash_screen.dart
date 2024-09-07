@@ -25,6 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 4), () {
       final sharedState = context.read<SharedStateCubit>();
       if (sharedState.state.currentPosition != null) {
+        context.read<SharedStateCubit>().refreshState();
         context.goNamed(ScreenNames.home);
         return;
       }

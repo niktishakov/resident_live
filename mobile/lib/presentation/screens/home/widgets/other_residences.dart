@@ -17,29 +17,53 @@ import '../../../../core/shared_state/shared_state_cubit.dart';
 import '../../../../data/residence.model.dart';
 import '../../residence_details/residence_details_screen.dart';
 
-class OtherResidencesView extends StatelessWidget {
+class OtherResidencesView extends StatefulWidget {
+  const OtherResidencesView({Key? key, required this.residences})
+      : super(key: key);
+
   final List<ResidenceModel> residences;
 
-  const OtherResidencesView({
-    Key? key,
-    required this.residences,
-  }) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => _OtherResidencesViewState();
+}
+
+class _OtherResidencesViewState extends State<OtherResidencesView> {
+  GlobalKey<SliverAnimatedListState> _listKey =
+      GlobalKey<SliverAnimatedListState>();
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final residences = widget.residences;
     return SliverAnimatedList(
+      key: _listKey,
       initialItemCount: residences.length,
       findChildIndexCallback: (key) => key.hashCode,
-      itemBuilder: (context, index, animation) {
-        final residence = residences[index];
-        final backgroundColor = residence.isResident
-            ? context.theme.primaryColor
-            : context.theme.colorScheme.tertiary;
-        final value = residence.isResident
-            ? residence.daysSpent - 183
-            : 183 - residence.daysSpent;
+      itemBuilder: (context, index, animation) =>
+          _buildItem(context, residences[index], animation),
+    );
+  }
 
-        return CupertinoContextMenu(
+  Widget _buildItem(
+    BuildContext context,
+    ResidenceModel residence,
+    Animation<double> animation,
+  ) {
+    final backgroundColor = residence.isResident
+        ? context.theme.primaryColor
+        : context.theme.colorScheme.tertiary;
+    final value = residence.isResident
+        ? residence.daysSpent - 183
+        : 183 - residence.daysSpent;
+
+    return SizeTransition(
+      sizeFactor: animation,
+      child: GestureDetector(
+        child: CupertinoContextMenu(
           actions: [
             CupertinoContextMenuAction(
                 child: Text("Share"),
@@ -53,9 +77,19 @@ class OtherResidencesView extends StatelessWidget {
                 isDestructiveAction: true,
                 trailingIcon: CupertinoIcons.delete,
                 onPressed: () {
-                  context.read<SharedStateCubit>().removeResidence(
-                        residence.isoCountryCode,
-                      );
+                  final index = widget.residences.indexWhere(
+                      (r) => r.isoCountryCode == residence.isoCountryCode);
+                  if (index != -1) {
+                    _listKey.currentState?.removeItem(
+                      index,
+                      (context, animation) =>
+                          _buildItem(context, residence, animation),
+                      duration: 300.ms,
+                    );
+                    context.read<SharedStateCubit>().removeResidence(
+                          residence.isoCountryCode,
+                        );
+                  }
                   context.pop();
                 }),
           ],
@@ -96,8 +130,9 @@ class OtherResidencesView extends StatelessWidget {
                                     style: context.theme.textTheme.bodySmall
                                         ?.copyWith(
                                             color: context
-                                                .theme.colorScheme.secondary),
-                                    "${value} days left until ${residence.isResident ? "lossing" : "reaching"} status"),
+                                                .theme.colorScheme.tertiary
+                                                .withOpacity(0.5)),
+                                    "${residence.daysSpent} days of 183"),
                               ],
                             )
                           ],
@@ -133,8 +168,8 @@ class OtherResidencesView extends StatelessWidget {
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

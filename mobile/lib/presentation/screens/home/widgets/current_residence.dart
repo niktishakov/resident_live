@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/core/constants.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/core/extensions/datetime_extension.dart';
@@ -66,7 +67,10 @@ class CurrentResidenceView extends StatelessWidget {
                           children: [
                             Text(
                               residence.countryName,
-                              style: context.theme.textTheme.titleLarge,
+                              style: GoogleFonts.poppins(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                             Spacer(),
                             Here(),
@@ -96,11 +100,18 @@ class CurrentResidenceView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "${residence.daysSpent - 183} days available",
+          "You're available to travel",
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Text(
+          "${residence.daysSpent - 183} days for free",
           style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
-              color: Colors.green.shade400),
+              color: Color(0xff63FF3C)),
         ),
       ],
     );
@@ -139,9 +150,20 @@ class CurrentResidenceView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title,
-            style: context.theme.textTheme.titleMedium
-                ?.copyWith(fontWeight: FontWeight.w600)),
+        Row(
+          children: [
+            Text(title,
+                style: context.theme.textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.w600)),
+            Spacer(),
+            Text(
+              "${value} days of 183",
+              style: TextStyle(
+                  fontSize: 14,
+                  color: context.theme.colorScheme.tertiary.withOpacity(0.5)),
+            )
+          ],
+        ),
         SizedBox(height: 8),
         TweenAnimationBuilder(
           tween: Tween<double>(begin: 0.0, end: value / 183),
@@ -151,18 +173,16 @@ class CurrentResidenceView extends StatelessWidget {
             return LinearProgressIndicator(
               value: v,
               backgroundColor: backgroundColor,
+              valueColor: AlwaysStoppedAnimation(
+                residence.isResident
+                    ? Color(0xff63FF3C)
+                    : context.theme.primaryColor,
+              ),
               minHeight: 20,
               borderRadius: kBorderRadius,
               color: color,
             ).animate().shimmer(duration: 1.seconds, delay: 2.seconds);
           },
-        ),
-        SizedBox(height: 8),
-        Text(
-          "${value} of 183 days",
-          style: TextStyle(
-              fontSize: 16,
-              color: context.theme.colorScheme.tertiary.withOpacity(0.5)),
         ),
       ],
     );

@@ -13,11 +13,14 @@ import '../../services/geolocator.service.dart';
 class SharedStateCubit extends HydratedCubit<SharedStateState> {
   SharedStateCubit(
     this._locationService,
-  ) : super(SharedStateState(user: UserModel.mock()));
+  ) : super(SharedStateState(user: UserModel.mock())) {
+    _initCompleter = Completer();
+  }
 
   final GeolocationService _locationService;
 
   static final AiLogger _logger = AiLogger('SharedStateCubit');
+  late Completer<void> _initCompleter;
 
   Future<void> initializeLocation() async {
     try {
@@ -25,16 +28,66 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
       await _locationService.requestPermissions();
 
       // Initialize position stream
-      _locationService.initialize();
+      final result = _locationService.initialize();
+      if (result == null) {
+        _initCompleter.complete();
+      } else {
+        _initCompleter.completeError(result);
+      }
 
       // Listen for position updates
-      _locationService.positionStream?.listen(_getAddressFromLatLng);
+      _locationService.positionStream?.listen(_updateByGeotracking);
     } catch (e) {
       _logger.error(e);
+      _initCompleter.completeError(e);
     }
   }
 
-  Future<void> _getAddressFromLatLng(Position position) async {
+  Future<void> updateOnAppLaunch() async {
+    try {
+      await _initCompleter.future;
+      await updateStatusWithGeolocation();
+    } catch (e) {
+      _logger.error(e);
+      await updateStatusManually();
+    }
+  }
+
+  Future<void> updateStatusWithGeolocation() async {
+    try {
+      final position = _locationService.currentPosition;
+      if (position != null) {
+        await _updateByGeotracking(position);
+      } else {
+        _logger.error("Failed to update residency - current position is null");
+        await updateStatusManually();
+      }
+    } catch (e) {
+      _logger.error("Error updating residency with geolocation: $e");
+      await updateStatusManually();
+    }
+  }
+
+  Future<void> updateStatusManually() async {
+    // TODO: Implement UI to ask user for current country
+    // For now, we'll use a placeholder
+    const String isoCountryCode = 'US';
+    const String countryName = 'United States';
+
+    final countryResidence = getResidencyByName(countryName);
+    final updatedResidence = _updateResidenceDays(countryResidence);
+
+    emit(state.copyWith(
+      user: state.user.copyWith(
+        countryResidences: {
+          ...state.user.countryResidences,
+          isoCountryCode: updatedResidence,
+        },
+      ),
+    ));
+  }
+
+  Future<void> _updateByGeotracking(Position position) async {
     try {
       // Use a geocoding package to get the address (optional step)
       // For example, using geocoding package
@@ -61,6 +114,28 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
     }
   }
 
+  ResidenceModel _updateResidenceDays(ResidenceModel residence) {
+    final now = DateTime.now();
+    final lastUpdate = residence.endDate ?? residence.startDate ?? now;
+    final daysSinceLastUpdate = now.difference(lastUpdate).inDays;
+
+    return residence.copyWith(
+      daysSpent: residence.daysSpent + daysSinceLastUpdate,
+      endDate: now,
+    );
+  }
+
+  ResidenceModel getResidencyByName(String countryName) {
+    final countryResidence = state.user.countryResidences.values
+        .firstWhereOrNull((e) => e.countryName == countryName);
+
+    if (countryResidence != null) {
+      return countryResidence;
+    }
+
+    return ResidenceModel.initial(countryName, 'Unknown');
+  }
+
   void addResidency(ResidenceModel countryResidence) {
     emit(
       state.copyWith(
@@ -85,23 +160,17 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
   }
 
   Future<void> refreshState() async {
-    final position = await GeolocationService.instance.positionStream?.first;
-    if (position == null) {
-      return;
+    try {
+      final position = _locationService.currentPosition;
+      if (position == null) {
+        _logger.error("Failed to refresh state - current position is null");
+        return;
+      }
+
+      await _updateByGeotracking(position);
+    } catch (e) {
+      _logger.error(e);
     }
-
-    await _getAddressFromLatLng(position);
-  }
-
-  ResidenceModel getResidencyByName(String countryName) {
-    final countryResidence = state.user.countryResidences.values
-        .firstWhereOrNull((e) => e.countryName == countryName);
-
-    if (countryResidence != null) {
-      return countryResidence;
-    }
-
-    return ResidenceModel.initial(countryName, 'Unknown');
   }
 
   ResidenceModel getCountryResidence(

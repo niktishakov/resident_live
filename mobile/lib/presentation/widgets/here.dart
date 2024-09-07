@@ -5,15 +5,17 @@ import 'package:gap/gap.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 
 class Here extends StatelessWidget {
-  const Here({super.key});
+  const Here({super.key, this.shorter = false});
+  final bool shorter;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text("Here",
-            style: context.theme.textTheme.labelMedium
-                ?.copyWith(color: context.theme.colorScheme.secondary)),
+        if (!shorter)
+          Text("Here",
+              style: context.theme.textTheme.labelMedium
+                  ?.copyWith(color: context.theme.colorScheme.secondary)),
         Gap(2),
         Icon(
           CupertinoIcons.circle_filled,

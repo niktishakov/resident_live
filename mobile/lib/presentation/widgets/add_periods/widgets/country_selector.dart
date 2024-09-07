@@ -18,14 +18,33 @@ class CountrySelector extends StatefulWidget {
   _CountrySelectorState createState() => _CountrySelectorState();
 }
 
-class _CountrySelectorState extends State<CountrySelector> {
+class _CountrySelectorState extends State<CountrySelector>
+    with WidgetsBindingObserver {
   late Map<String, Color> countryColors;
 
   @override
   void initState() {
     super.initState();
     // Assign a unique color to each country
+    WidgetsBinding.instance.addObserver(this);
+    _updateCountryColors();
+  }
+
+  void _updateCountryColors() {
     countryColors = getCountryColors(widget.countries);
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    setState(_updateCountryColors);
+    widget.onCountrySelected(
+        widget.focusedCountry!, countryColors[widget.focusedCountry]!);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override

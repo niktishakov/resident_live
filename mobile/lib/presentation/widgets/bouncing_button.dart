@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:synchronized/synchronized.dart';
 
+import '../../core/constants.dart';
 import '../../services/vibration_service.dart';
 
 class BouncingButton extends StatefulWidget {
@@ -17,7 +18,7 @@ class BouncingButton extends StatefulWidget {
   BouncingButton({
     Key? key,
     required this.child,
-    this.borderRadius = const BorderRadius.all(Radius.circular(12)),
+    this.borderRadius,
     this.onPressed,
     this.vibrate = true,
     this.debounce = false,
@@ -90,6 +91,7 @@ class _BouncingState extends State<BouncingButton>
     _scale = 1 - _controller.value;
     _opacity = _controller.value;
     final behaviour = widget.behaviour ?? HitTestBehavior.deferToChild;
+    final borderRadius = widget.borderRadius ?? kBorderRadius;
 
     return Listener(
       behavior: behaviour,
@@ -160,7 +162,7 @@ class _BouncingState extends State<BouncingButton>
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: widget.borderRadius,
+                    borderRadius: borderRadius,
                   ),
                 ),
               ),

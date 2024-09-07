@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
+import 'package:resident_live/presentation/screens/residence_details/widgets/animated_text_transition.dart';
 import 'package:resident_live/services/vibration_service.dart';
+
+enum ProgressDirection { up, down }
 
 class ProgressBar extends StatelessWidget {
   final double completionPercentage;
@@ -10,13 +12,27 @@ class ProgressBar extends StatelessWidget {
     required this.completionPercentage,
     this.radius = 100.0,
     this.strokeWidth = 5.0,
+    this.label = 'Progress',
+    this.doneLabel = 'Progress',
+    this.direction = ProgressDirection.up,
+    this.duration = const Duration(milliseconds: 1600),
   });
 
+  final String label;
+  final String doneLabel;
   final double radius;
   final double strokeWidth;
+  final ProgressDirection direction;
+  final Duration duration;
 
   @override
   Widget build(BuildContext context) {
+    final beginValue =
+        direction == ProgressDirection.up ? 0.0 : completionPercentage + 0.1;
+    final valueColor = direction == ProgressDirection.up
+        ? Colors.greenAccent
+        : Colors.redAccent;
+
     return Column(
       children: [
         Stack(
@@ -28,31 +44,32 @@ class ProgressBar extends StatelessWidget {
               child: TweenAnimationBuilder<double>(
                 curve: Curves.fastOutSlowIn,
                 onEnd: () {
-                  VibrationService.instance.success();
+                  if (completionPercentage == 1.0) {
+                    VibrationService.instance.success(strong: true);
+                  }
                 },
-                tween: Tween<double>(begin: 0, end: completionPercentage),
-                duration: Duration(
-                    milliseconds: 1600), // Adjust the duration as needed
+                tween:
+                    Tween<double>(begin: beginValue, end: completionPercentage),
+                duration: duration, // Adjust the duration as needed
                 builder: (context, value, child) {
                   return CircularProgressIndicator(
                     value: value,
                     strokeWidth: strokeWidth,
                     strokeCap: StrokeCap.round,
                     backgroundColor: context.theme.primaryColor,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(Colors.greenAccent),
+                    valueColor: AlwaysStoppedAnimation<Color>(valueColor),
                   );
                 },
               ),
             ),
             TweenAnimationBuilder<double>(
-              curve: Curves.fastOutSlowIn,
-              tween: Tween<double>(begin: 0, end: completionPercentage),
-              duration:
-                  Duration(milliseconds: 1600), // Adjust the duration as needed
+              curve: Curves.fastEaseInToSlowEaseOut,
+              tween:
+                  Tween<double>(begin: beginValue, end: completionPercentage),
+              duration: duration, // Adjust the duration as needed
               builder: (context, value, child) {
                 return Text(
-                  "${(completionPercentage * 100).toStringAsFixed(1)}%",
+                  "${(value * 100).toStringAsFixed(1)}%",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 );
               },
@@ -60,9 +77,23 @@ class ProgressBar extends StatelessWidget {
           ],
         ),
         SizedBox(height: strokeWidth),
-        Text("Progress", style: context.theme.textTheme.labelMedium)
-            .animate()
-            .fade(duration: 1.seconds),
+        TweenAnimationBuilder<double>(
+          curve: Curves.fastOutSlowIn,
+          tween: Tween<double>(begin: beginValue, end: completionPercentage),
+          duration: duration, // Adjust the duration as needed
+          builder: (context, value, child) {
+            return AnimatedTextTransition(
+              texts: [
+                Text(label,
+                    style: TextStyle(
+                        color: context.theme.colorScheme.secondary
+                            .withOpacity(0.6))),
+                Text(doneLabel, style: TextStyle(fontWeight: FontWeight.w600))
+              ],
+              index: value == 1.0 ? 1 : 0,
+            );
+          },
+        )
       ],
     );
   }

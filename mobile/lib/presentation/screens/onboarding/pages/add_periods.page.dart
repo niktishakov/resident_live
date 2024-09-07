@@ -29,7 +29,8 @@ class AddPeriodsPage extends StatefulWidget {
   _AddPeriodsPageState createState() => _AddPeriodsPageState();
 }
 
-class _AddPeriodsPageState extends State<AddPeriodsPage> {
+class _AddPeriodsPageState extends State<AddPeriodsPage>
+    with WidgetsBindingObserver {
   List<ActivitySegment> segments = [];
   String? focusedCountry;
   late DateTime startDate;
@@ -50,6 +51,15 @@ class _AddPeriodsPageState extends State<AddPeriodsPage> {
     _controller = ScrollController();
 
     super.initState();
+  }
+
+  void _updateColor() {
+    sliderColor = getCountryColors(widget.countries).entries.first.value;
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    setState(_updateColor);
   }
 
   String _formatDate(DateTime date) {

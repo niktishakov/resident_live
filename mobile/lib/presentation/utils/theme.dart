@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 ThemeData darkTheme = ThemeData(
   primaryColor: Color(0xff50B5FF),
-  disabledColor: Colors.grey[300],
+  disabledColor: Colors.white.withOpacity(0.38),
   switchTheme: SwitchThemeData(
     trackColor: WidgetStatePropertyAll(Color(0xff50B5FF)),
     thumbColor: WidgetStatePropertyAll(Colors.white.withOpacity(0.87)),
@@ -25,6 +25,7 @@ ThemeData darkTheme = ThemeData(
         0xff8E8E8E,
       )),
   scaffoldBackgroundColor: Color(0xff121212),
+  dialogBackgroundColor: Color(0xff191919),
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.black,
     foregroundColor: Colors.white,
@@ -124,7 +125,7 @@ ThemeData lightTheme = ThemeData(
     selectedColor: Colors.blue,
     tileColor: Colors.white,
   ),
-  dialogBackgroundColor: Colors.white,
+  dialogBackgroundColor: Color(0xfff5f5f5),
   textTheme: TextTheme(
     headlineLarge: GoogleFonts.poppins().copyWith(color: Colors.black),
     headlineMedium: GoogleFonts.poppins().copyWith(color: Colors.black),

@@ -23,32 +23,44 @@ class RlCard extends StatelessWidget {
     final border = brightness == Brightness.dark
         ? null
         : Border.all(
-            width: 0.5,
+            width: 0,
             color: context.theme.colorScheme.secondary.withOpacity(0.1));
-    final boxShadow = brightness == Brightness.dark
-        ? null
-        : [
-            BoxShadow(
-              offset: Offset(5, 5),
-              color: context.theme.colorScheme.secondary.withOpacity(0.1),
-              blurRadius: 5,
-              spreadRadius: 0,
-            ),
-          ];
+
+    final _borderRadius = borderRadius ?? kBorderRadius;
 
     return Material(
-      elevation: brightness == Brightness.dark ? 0 : 5,
-      borderRadius: borderRadius ?? kBorderRadius,
-      child: Container(
-        padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          borderRadius: borderRadius ?? kBorderRadius,
-          color: color ?? context.theme.cardColor,
-          gradient: gradient,
-          border: border,
-          boxShadow: boxShadow,
-        ),
-        child: child,
+      borderRadius: _borderRadius,
+      child: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: _borderRadius,
+              color: color ?? context.theme.cardColor,
+              gradient: LinearGradient(
+                colors: [
+                  context.theme.colorScheme.secondary.withOpacity(0.2),
+                  Colors.transparent
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(0.5),
+            padding: EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: _borderRadius.copyWith(
+                topLeft: Radius.circular(_borderRadius.topLeft.y - 0.5),
+                topRight: Radius.circular(_borderRadius.topRight.y - 0.5),
+              ),
+              color: color ?? context.theme.cardColor,
+              gradient: gradient,
+            ),
+            child: child,
+          ),
+        ],
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/core/constants.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/core/extensions/datetime_extension.dart';
@@ -135,55 +138,56 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     // Divider opacity - 0.0 when fully expanded, 1.0 when fully collapsed
     final double dividerOpacity = 1 - proportion;
 
-    return Container(
-      decoration: BoxDecoration(
+    return ClipRect(
+      child: Container(
         color: context.theme.scaffoldBackgroundColor,
-      ),
-      child: ColoredBox(
-        color: Color(0xff191919).withOpacity(dividerOpacity.clamp(0.0, 1.0)),
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 10.0,
-              left: 24,
-              right: 0,
-              child: Text(
-                "Resident Live",
-                style: TextStyle(
-                  fontSize: titleSize,
-                  fontWeight: FontWeight.bold,
-                  color: context.theme.colorScheme.secondary
-                      .withOpacity((1 - dividerOpacity).clamp(0.5, 0.87)),
-                  letterSpacing: 0.5,
+        child: ColoredBox(
+          color: context.theme.dialogBackgroundColor
+              .withOpacity(dividerOpacity.clamp(0.0, 1.0)),
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 10.0,
+                left: 24,
+                right: 0,
+                child: Text(
+                  "Resident Live",
+                  style: GoogleFonts.besley(
+                    fontSize: titleSize,
+                    fontWeight: FontWeight.bold,
+                    color: context.theme.colorScheme.secondary,
+                    letterSpacing: -0.5,
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 12.0,
-              right: 24,
-              child: Opacity(
-                opacity: dividerOpacity > 0.4
-                    ? (3.5 * dividerOpacity - 1.0).clamp(0.0, 1.0)
-                    : 0.0,
-                child: TodayButton(
-                    style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: context.theme.colorScheme.secondary,
-                )),
+              Positioned(
+                bottom: 12.0,
+                right: 24,
+                child: Opacity(
+                  opacity: dividerOpacity > 0.4
+                      ? (3.5 * dividerOpacity - 1.0).clamp(0.0, 1.0)
+                      : 0.0,
+                  child: TodayButton(
+                      iconSize: 20,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: context.theme.colorScheme.secondary,
+                      )),
+                ),
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: context.theme.dividerColor.withOpacity(dividerOpacity),
-                height: 2.0,
-                width: double.infinity,
-              ),
-            )
-          ],
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: context.theme.dividerColor.withOpacity(dividerOpacity),
+                  height: 2.0,
+                  width: double.infinity,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

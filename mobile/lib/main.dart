@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:resident_live/core/shared_state/location_cubit.dart';
+import 'package:resident_live/core/shared_state/residency_tracking/residency_tracking_cubit.dart';
 import 'package:resident_live/core/shared_state/shared_state_cubit.dart';
 import 'package:resident_live/presentation/navigation/router.dart';
 import 'package:resident_live/presentation/screens/onboarding/cubit/onboarding_cubit.dart';
@@ -15,6 +17,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/ai.logger.dart';
+import 'core/shared_state/user/user_cubit.dart';
 import 'presentation/screens/splash/presplash_screen.dart';
 import 'services/geolocator.service.dart';
 
@@ -98,6 +101,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         BlocProvider(
           create: (_) => SharedStateCubit(GeolocationService.instance),
         ),
+        BlocProvider(create: (_) => LocationCubit(GeolocationService.instance)),
+        BlocProvider(create: (_) => ResidencyTrackingCubit()),
+        BlocProvider(create: (_) => UserCubit()),
       ],
       child: MaterialApp.router(
           routerConfig: RouterService.instance.config,

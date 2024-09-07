@@ -18,13 +18,23 @@ class GeolocationService {
   Stream<Position>? _positionStream;
 
   // Method to initialize the position stream
-  void initialize() {
-    _positionStream = Geolocator.getPositionStream(
-      locationSettings: LocationSettings(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: 10,
-      ),
-    ).asBroadcastStream();
+  String? initialize() {
+    try {
+      _positionStream = Geolocator.getPositionStream(
+        locationSettings: LocationSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 10,
+        ),
+      ).asBroadcastStream();
+
+      if (_positionStream == null) {
+        return "Failed to initialize geolocator stream";
+      }
+
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   // Method to request location permissions and get current position

@@ -11,8 +11,10 @@ import 'package:resident_live/data/residence.model.dart';
 import 'package:resident_live/presentation/utils/hero_utils.dart';
 import 'package:resident_live/presentation/utils/route_utils.dart';
 import 'package:resident_live/presentation/widgets/bouncing_button.dart';
+import 'package:resident_live/presentation/widgets/primary_button.dart';
 import 'package:resident_live/presentation/widgets/progress_bar.dart';
 import 'package:resident_live/presentation/widgets/rl.card.dart';
+import 'package:resident_live/services/share.service.dart';
 import 'package:resident_live/services/vibration_service.dart';
 
 import '../../../core/shared_state/shared_state_cubit.dart';
@@ -34,6 +36,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
   late Animation<double> _opacityAnimation;
   double _initialDragY = 0.0;
   final double _dragThreshold = 200.0;
+  final progressKey = GlobalKey();
 
   @override
   void initState() {
@@ -77,7 +80,6 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    print("DETAILS");
     final isCurrentResidence = context
         .watch<SharedStateCubit>()
         .isCurrentResidence(residence.isoCountryCode);
@@ -90,6 +92,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
     final suggestionText = residence.isResident
         ? "Your resident status will be saved until "
         : "You’ll reach a residency status at ";
+
+    print("DETAILS >>> ");
 
     return Scaffold(
       body: GestureDetector(
@@ -128,9 +132,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                     children: [
                       Row(
                         children: [
-                          Column(
+                          Row(
                             mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
                                 widget.countryName,
@@ -138,10 +142,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                               ),
                               if (isCurrentResidence) ...[
                                 Gap(4),
-                                SizedBox(
-                                  width: 50,
-                                  child: Here(),
-                                ),
+                                Here(shorter: true),
                               ],
                             ],
                           ),
@@ -165,18 +166,27 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                         style: context.theme.textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: context.theme.colorScheme.secondary),
-                      ).animate(delay: 300.ms).fade(),
+                      ),
                       Gap(48),
                       Center(
                         child: Material(
                           color: Colors.transparent,
-                          child: ProgressBar(
-                            completionPercentage: progress,
-                            radius: 200,
-                            strokeWidth: 20,
+                          child: RepaintBoundary(
+                            key: progressKey,
+                            child: ProgressBar(
+                              completionPercentage: progress,
+                              direction: isCurrentResidence
+                                  ? ProgressDirection.up
+                                  : ProgressDirection.down,
+                              radius: 200,
+                              strokeWidth: 20,
+                              duration: 900.ms,
+                              doneLabel: "You are a resident!",
+                              label: "Residency Progress",
+                            ),
                           ),
                         ),
-                      ).animate(delay: 320.ms).fade(),
+                      ),
                       Gap(32),
                       Text.rich(TextSpan(children: [
                         TextSpan(
@@ -187,7 +197,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                             text: "${residence.statusToggleAt.toMMMDDYYYY()}",
                             style: context.theme.textTheme.bodyLarge
                                 ?.copyWith(fontWeight: FontWeight.w600)),
-                      ])).animate(delay: 340.ms).fade(),
+                      ]))
+                          .animate(delay: isCurrentResidence ? 1000.ms : 300.ms)
+                          .fade(),
                       Row(
                         children: [
                           Expanded(child: Text("Notify me for status updates")),
@@ -198,7 +210,23 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                             },
                           ),
                         ],
-                      ).animate(delay: 360.ms).fade()
+                      )
+                          .animate(delay: isCurrentResidence ? 1100.ms : 300.ms)
+                          .fade(),
+                      Gap(24),
+                      Center(
+                        child: PrimaryButton(
+                          onPressed: () async {
+                            await ShareService.instance
+                                .shareResidence(residence);
+                          },
+                          label: "Share",
+                          leading: Icon(CupertinoIcons.share,
+                              color: context.theme.colorScheme.onPrimary),
+                        ),
+                      )
+                          .animate(delay: isCurrentResidence ? 1200.ms : 400.ms)
+                          .fade(),
                     ],
                   ),
                 ),

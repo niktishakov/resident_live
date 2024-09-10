@@ -9,6 +9,7 @@ import 'package:gap/gap.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/core/constants.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/core/extensions/datetime_extension.dart';
@@ -19,6 +20,8 @@ import 'package:resident_live/presentation/widgets/rl.card.dart';
 import 'package:resident_live/presentation/widgets/today_button.dart';
 import '../../../core/shared_state/shared_state_cubit.dart';
 import '../../navigation/screen_names.dart';
+import '../../utils/theme.dart';
+import '../../widgets/week_view.dart';
 import 'widgets/current_residence.dart';
 import 'widgets/other_residences.dart';
 
@@ -36,73 +39,77 @@ class HomeScreen extends StatelessWidget {
             .where((e) => e.isoCountryCode != currentResidence?.isoCountryCode)
             .toList();
 
-        return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: CustomSliverHeaderDelegate(
-                  expandedHeight: 80.0 + context.mediaQuery.padding.top,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 24.0, bottom: 16),
-                  child: TodayButton(),
-                ),
-              ),
-              if (currentResidence != null) ...[
-                SliverToBoxAdapter(
-                  child: CurrentResidenceView(
-                    residence: currentResidence,
+        return CupertinoScaffold(
+          overlayStyle: getSystemOverlayStyle,
+          body: Material(
+            child: CustomScrollView(
+              physics: NeverScrollableScrollPhysics(),
+              slivers: [
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CustomSliverHeaderDelegate(
+                    expandedHeight: 90.0 + context.mediaQuery.padding.top,
                   ),
                 ),
-              ],
-              if (otherResidences.isNotEmpty) ...[
                 SliverToBoxAdapter(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 16),
-                  child: Text("Tracking Residences",
-                      style: context.theme.textTheme.titleLarge),
-                )),
-                OtherResidencesView(
-                  residences: otherResidences,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: WeekView(),
+                  ),
                 ),
-              ],
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
-                  child: BouncingButton(
-                    onPressed: (_) =>
-                        context.pushNamed(ScreenNames.addResidency),
-                    child: RlCard(
-                      color: context.theme.primaryColor,
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              CupertinoIcons.add_circled_solid,
-                              color: Colors.white,
-                            ),
-                            Gap(4),
-                            Text("Add",
-                                style: context.theme.textTheme.labelLarge
-                                    ?.copyWith(
-                                  color: Colors.white,
-                                )),
-                          ],
+                if (currentResidence != null) ...[
+                  SliverToBoxAdapter(
+                    child: CurrentResidenceView(
+                      residence: currentResidence,
+                    ),
+                  ),
+                ],
+                if (otherResidences.isNotEmpty) ...[
+                  SliverToBoxAdapter(
+                      child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 16),
+                    child: Text("Tracking Residences",
+                        style: context.theme.textTheme.titleLarge),
+                  )),
+                  OtherResidencesView(
+                    residences: otherResidences,
+                  ),
+                ],
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 8),
+                    child: BouncingButton(
+                      onPressed: (_) =>
+                          context.pushNamed(ScreenNames.addResidency),
+                      child: RlCard(
+                        color: context.theme.primaryColor,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                CupertinoIcons.add_circled_solid,
+                                color: Colors.white,
+                              ),
+                              Gap(4),
+                              Text("Add",
+                                  style: context.theme.textTheme.labelLarge
+                                      ?.copyWith(
+                                    color: Colors.white,
+                                  )),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                  child: Gap(context.mediaQuery.padding.bottom + 64)),
-            ],
+                SliverToBoxAdapter(
+                    child: Gap(context.mediaQuery.padding.bottom + 64)),
+              ],
+            ),
           ),
         );
       },
@@ -147,19 +154,36 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
           child: Stack(
             children: [
               Positioned(
-                bottom: 10.0,
-                left: 24,
-                right: 0,
-                child: Text(
-                  "Resident Live",
-                  style: GoogleFonts.besley(
-                    fontSize: titleSize,
-                    fontWeight: FontWeight.bold,
-                    color: context.theme.colorScheme.secondary,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-              ),
+                  left: 24,
+                  bottom: 12.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text.rich(
+                        style: GoogleFonts.poppins(
+                          height: 30 / 24,
+                          fontSize: 24,
+                        ),
+                        TextSpan(children: [
+                          TextSpan(
+                            text: "Good\n",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                              color: context.theme.colorScheme.secondary,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "Afternoon",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                              color: context.theme.colorScheme.secondary
+                                  .withOpacity(0.5),
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ],
+                  )),
               Positioned(
                 bottom: 12.0,
                 right: 24,

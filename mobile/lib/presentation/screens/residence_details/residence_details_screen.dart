@@ -4,6 +4,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:resident_live/core/assets/asset.dart';
+import 'package:resident_live/core/assets/asset_image.dart';
+import 'package:resident_live/core/assets/assets.dart';
 import 'package:resident_live/core/constants.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/core/extensions/datetime_extension.dart';
@@ -34,6 +37,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
+  late Animation<BorderRadius> _borderAnimation;
+
   double _initialDragY = 0.0;
   final double _dragThreshold = 200.0;
   final progressKey = GlobalKey();
@@ -48,6 +53,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
         Tween<double>(begin: 1.0, end: 0.75).animate(_animationController);
     _opacityAnimation =
         Tween<double>(begin: 1.0, end: 0.5).animate(_animationController);
+    _borderAnimation =
+        Tween<BorderRadius>(begin: kLargeBorderRadius, end: kBorderRadius)
+            .animate(_animationController);
 
     super.initState();
   }
@@ -63,8 +71,12 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    double currentDrag = details.globalPosition.dy;
-    double dragDelta = currentDrag - _initialDragY;
+    if (_animationController.value > 0.5) {
+      _animationController.forward().then((_) => {if (mounted) context.pop()});
+    }
+
+    final currentDrag = details.globalPosition.dy;
+    final dragDelta = currentDrag - _initialDragY;
 
     _animationController.value = (dragDelta / _dragThreshold).clamp(0.0, 1.0);
   }
@@ -93,8 +105,6 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
         ? "Your resident status will be saved until "
         : "You’ll reach a residency status at ";
 
-    print("DETAILS >>> ");
-
     return Scaffold(
       body: GestureDetector(
         onVerticalDragStart: _handleDragStart,
@@ -103,134 +113,131 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
         child: AnimatedBuilder(
           animation: _animationController,
           builder: (context, child) => Opacity(
-            opacity: _opacityAnimation.value,
-            child: Transform.scale(
-              scale: _scaleAnimation.value,
-              child: child,
-            ),
-          ),
-          child: Hero(
-            tag: 'residence_${residence.countryName}',
-            flightShuttleBuilder: endFlightShuttleBuilder,
-            child: Material(
-              color: Colors.transparent,
-              child: RlCard(
-                // color: context.theme.cardColor,
-                borderRadius: kLargeBorderRadius,
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    context.theme.cardColor,
-                    context.theme.scaffoldBackgroundColor,
+              opacity: _opacityAnimation.value,
+              child: Transform.scale(
+                  scale: _scaleAnimation.value,
+                  child: Hero(
+                    tag: 'residence_${residence.countryName}',
+                    flightShuttleBuilder: endFlightShuttleBuilder,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: RlCard(
+                        // color: context.theme.cardColor,
+                        borderRadius: _borderAnimation.value,
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            context.theme.cardColor,
+                            context.theme.scaffoldBackgroundColor,
+                          ],
+                        ),
+                        child: child,
+                      ),
+                    ),
+                  ))),
+          child: SafeArea(
+            child: ListView(
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              children: [
+                Row(
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.countryName,
+                          style: context.theme.textTheme.titleLarge,
+                        ),
+                        if (isCurrentResidence) ...[
+                          Gap(4),
+                          Here(shorter: true),
+                        ],
+                      ],
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        VibrationService.instance.tap();
+                        ShareService.instance.shareResidence(residence);
+                      },
+                      child: CoreAssetImage(
+                        CoreAssets.squareAndArrowUpCircle,
+                        width: 32,
+                        color: Colors.grey[300],
+                      ),
+                    )
+                        .animate()
+                        .scale(curve: Curves.elasticInOut, duration: 1.seconds),
+                    Gap(10),
+                    GestureDetector(
+                      onTap: () {
+                        VibrationService.instance.tap();
+                        context.pop();
+                      },
+                      child: Icon(
+                        CupertinoIcons.clear_circled_solid,
+                        size: 34,
+                        color: Colors.grey[500],
+                      ),
+                    )
                   ],
                 ),
-                child: SafeArea(
-                  child: ListView(
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    children: [
-                      Row(
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                widget.countryName,
-                                style: context.theme.textTheme.titleLarge,
-                              ),
-                              if (isCurrentResidence) ...[
-                                Gap(4),
-                                Here(shorter: true),
-                              ],
-                            ],
-                          ),
-                          Spacer(),
-                          GestureDetector(
-                            onTap: () {
-                              VibrationService.instance.tap();
-                              context.pop();
-                            },
-                            child: Icon(
-                              CupertinoIcons.clear_circled_solid,
-                              color: Colors.grey[500],
-                              size: 32,
-                            ),
-                          )
-                        ],
+                Gap(64),
+                Text(
+                  statusText,
+                  style: context.theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: context.theme.colorScheme.secondary),
+                ),
+                Gap(48),
+                Center(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: RepaintBoundary(
+                      key: progressKey,
+                      child: ProgressBar(
+                        completionPercentage: progress,
+                        direction: isCurrentResidence
+                            ? ProgressDirection.up
+                            : ProgressDirection.down,
+                        radius: 200,
+                        strokeWidth: 20,
+                        duration: 900.ms,
+                        doneLabel: "You are a resident!",
+                        label: "Residency Progress",
                       ),
-                      Gap(64),
-                      Text(
-                        statusText,
-                        style: context.theme.textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: context.theme.colorScheme.secondary),
-                      ),
-                      Gap(48),
-                      Center(
-                        child: Material(
-                          color: Colors.transparent,
-                          child: RepaintBoundary(
-                            key: progressKey,
-                            child: ProgressBar(
-                              completionPercentage: progress,
-                              direction: isCurrentResidence
-                                  ? ProgressDirection.up
-                                  : ProgressDirection.down,
-                              radius: 200,
-                              strokeWidth: 20,
-                              duration: 900.ms,
-                              doneLabel: "You are a resident!",
-                              label: "Residency Progress",
-                            ),
-                          ),
-                        ),
-                      ),
-                      Gap(32),
-                      Text.rich(TextSpan(children: [
-                        TextSpan(
-                            text: suggestionText,
-                            style: context.theme.textTheme.bodyLarge),
-                        TextSpan(text: "\n"),
-                        TextSpan(
-                            text: "${residence.statusToggleAt.toMMMDDYYYY()}",
-                            style: context.theme.textTheme.bodyLarge
-                                ?.copyWith(fontWeight: FontWeight.w600)),
-                      ]))
-                          .animate(delay: isCurrentResidence ? 1000.ms : 300.ms)
-                          .fade(),
-                      Row(
-                        children: [
-                          Expanded(child: Text("Notify me for status updates")),
-                          Switch(
-                            value: true,
-                            onChanged: (value) {
-                              // TODO: schedule notification for this country
-                            },
-                          ),
-                        ],
-                      )
-                          .animate(delay: isCurrentResidence ? 1100.ms : 300.ms)
-                          .fade(),
-                      Gap(24),
-                      Center(
-                        child: PrimaryButton(
-                          onPressed: () async {
-                            await ShareService.instance
-                                .shareResidence(residence);
-                          },
-                          label: "Share",
-                          leading: Icon(CupertinoIcons.share,
-                              color: context.theme.colorScheme.onPrimary),
-                        ),
-                      )
-                          .animate(delay: isCurrentResidence ? 1200.ms : 400.ms)
-                          .fade(),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                Gap(32),
+                Text.rich(TextSpan(children: [
+                  TextSpan(
+                      text: suggestionText,
+                      style: context.theme.textTheme.bodyLarge),
+                  TextSpan(text: "\n"),
+                  TextSpan(
+                      text: "${residence.statusToggleAt.toMMMDDYYYY()}",
+                      style: context.theme.textTheme.bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.w600)),
+                ]))
+                    .animate(delay: isCurrentResidence ? 1000.ms : 300.ms)
+                    .fade(),
+                Row(
+                  children: [
+                    Expanded(child: Text("Notify me for status updates")),
+                    Switch(
+                      value: true,
+                      onChanged: (value) {
+                        // TODO: schedule notification for this country
+                      },
+                    ),
+                  ],
+                ).animate(delay: isCurrentResidence ? 1100.ms : 300.ms).fade(),
+                Gap(24),
+              ],
             ),
           ),
         ),

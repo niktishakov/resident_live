@@ -82,15 +82,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
   }
 
-  void setSystemOverlayStyle() {
-    final brightness = PlatformDispatcher.instance.platformBrightness;
-    if (brightness == Brightness.dark) {
-      setDarkOverlayStyle();
-    } else {
-      setBrightOverlayStyle();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     FToast().init(context);

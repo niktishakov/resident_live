@@ -1,13 +1,19 @@
-class ActivitySegment {
-  ActivitySegment({
-    required this.startDate,
-    required this.endDate,
-    required this.country,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  DateTime startDate;
-  DateTime endDate;
-  String country;
+part 'activity_segment.model.g.dart';
+part 'activity_segment.model.freezed.dart';
+
+@freezed
+class ActivitySegment with _$ActivitySegment {
+  const factory ActivitySegment({
+    required DateTime startDate,
+    required DateTime endDate,
+    required String country,
+  }) = _ActivitySegment;
+  const ActivitySegment._();
+
+  factory ActivitySegment.fromJson(Map<String, dynamic> json) =>
+      _$ActivitySegmentFromJson(json);
 
   int getDays() {
     return endDate.difference(startDate).inDays + 1;

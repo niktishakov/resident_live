@@ -23,8 +23,7 @@ mixin _$ResidenceModel {
   String get isoCountryCode => throw _privateConstructorUsedError;
   String get countryName => throw _privateConstructorUsedError;
   int get daysSpent => throw _privateConstructorUsedError;
-  DateTime? get startDate => throw _privateConstructorUsedError;
-  DateTime? get endDate => throw _privateConstructorUsedError;
+  List<ActivitySegment> get periods => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,8 +41,7 @@ abstract class $ResidenceModelCopyWith<$Res> {
       {String isoCountryCode,
       String countryName,
       int daysSpent,
-      DateTime? startDate,
-      DateTime? endDate});
+      List<ActivitySegment> periods});
 }
 
 /// @nodoc
@@ -62,8 +60,7 @@ class _$ResidenceModelCopyWithImpl<$Res, $Val extends ResidenceModel>
     Object? isoCountryCode = null,
     Object? countryName = null,
     Object? daysSpent = null,
-    Object? startDate = freezed,
-    Object? endDate = freezed,
+    Object? periods = null,
   }) {
     return _then(_value.copyWith(
       isoCountryCode: null == isoCountryCode
@@ -78,14 +75,10 @@ class _$ResidenceModelCopyWithImpl<$Res, $Val extends ResidenceModel>
           ? _value.daysSpent
           : daysSpent // ignore: cast_nullable_to_non_nullable
               as int,
-      startDate: freezed == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      endDate: freezed == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      periods: null == periods
+          ? _value.periods
+          : periods // ignore: cast_nullable_to_non_nullable
+              as List<ActivitySegment>,
     ) as $Val);
   }
 }
@@ -102,8 +95,7 @@ abstract class _$$ResidenceModelImplCopyWith<$Res>
       {String isoCountryCode,
       String countryName,
       int daysSpent,
-      DateTime? startDate,
-      DateTime? endDate});
+      List<ActivitySegment> periods});
 }
 
 /// @nodoc
@@ -120,8 +112,7 @@ class __$$ResidenceModelImplCopyWithImpl<$Res>
     Object? isoCountryCode = null,
     Object? countryName = null,
     Object? daysSpent = null,
-    Object? startDate = freezed,
-    Object? endDate = freezed,
+    Object? periods = null,
   }) {
     return _then(_$ResidenceModelImpl(
       isoCountryCode: null == isoCountryCode
@@ -136,14 +127,10 @@ class __$$ResidenceModelImplCopyWithImpl<$Res>
           ? _value.daysSpent
           : daysSpent // ignore: cast_nullable_to_non_nullable
               as int,
-      startDate: freezed == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      endDate: freezed == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      periods: null == periods
+          ? _value._periods
+          : periods // ignore: cast_nullable_to_non_nullable
+              as List<ActivitySegment>,
     ));
   }
 }
@@ -155,9 +142,9 @@ class _$ResidenceModelImpl extends _ResidenceModel {
       {required this.isoCountryCode,
       required this.countryName,
       required this.daysSpent,
-      this.startDate,
-      this.endDate})
-      : super._();
+      required final List<ActivitySegment> periods})
+      : _periods = periods,
+        super._();
 
   factory _$ResidenceModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ResidenceModelImplFromJson(json);
@@ -168,14 +155,17 @@ class _$ResidenceModelImpl extends _ResidenceModel {
   final String countryName;
   @override
   final int daysSpent;
+  final List<ActivitySegment> _periods;
   @override
-  final DateTime? startDate;
-  @override
-  final DateTime? endDate;
+  List<ActivitySegment> get periods {
+    if (_periods is EqualUnmodifiableListView) return _periods;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_periods);
+  }
 
   @override
   String toString() {
-    return 'ResidenceModel(isoCountryCode: $isoCountryCode, countryName: $countryName, daysSpent: $daysSpent, startDate: $startDate, endDate: $endDate)';
+    return 'ResidenceModel(isoCountryCode: $isoCountryCode, countryName: $countryName, daysSpent: $daysSpent, periods: $periods)';
   }
 
   @override
@@ -189,15 +179,13 @@ class _$ResidenceModelImpl extends _ResidenceModel {
                 other.countryName == countryName) &&
             (identical(other.daysSpent, daysSpent) ||
                 other.daysSpent == daysSpent) &&
-            (identical(other.startDate, startDate) ||
-                other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate));
+            const DeepCollectionEquality().equals(other._periods, _periods));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, isoCountryCode, countryName, daysSpent, startDate, endDate);
+  int get hashCode => Object.hash(runtimeType, isoCountryCode, countryName,
+      daysSpent, const DeepCollectionEquality().hash(_periods));
 
   @JsonKey(ignore: true)
   @override
@@ -219,8 +207,7 @@ abstract class _ResidenceModel extends ResidenceModel {
       {required final String isoCountryCode,
       required final String countryName,
       required final int daysSpent,
-      final DateTime? startDate,
-      final DateTime? endDate}) = _$ResidenceModelImpl;
+      required final List<ActivitySegment> periods}) = _$ResidenceModelImpl;
   const _ResidenceModel._() : super._();
 
   factory _ResidenceModel.fromJson(Map<String, dynamic> json) =
@@ -233,9 +220,7 @@ abstract class _ResidenceModel extends ResidenceModel {
   @override
   int get daysSpent;
   @override
-  DateTime? get startDate;
-  @override
-  DateTime? get endDate;
+  List<ActivitySegment> get periods;
   @override
   @JsonKey(ignore: true)
   _$$ResidenceModelImplCopyWith<_$ResidenceModelImpl> get copyWith =>

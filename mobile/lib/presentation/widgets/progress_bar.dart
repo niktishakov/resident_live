@@ -13,7 +13,7 @@ class ProgressBar extends StatelessWidget {
     this.radius = 100.0,
     this.strokeWidth = 5.0,
     this.label = 'Progress',
-    this.doneLabel = 'Progress',
+    this.doneLabel = 'Done',
     this.direction = ProgressDirection.up,
     this.duration = const Duration(milliseconds: 1600),
   });

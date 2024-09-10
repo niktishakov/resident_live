@@ -42,12 +42,14 @@ class ResidencyTrackingCubit extends HydratedCubit<ResidencyTrackingState> {
 
   ResidenceModel _updateResidenceDays(ResidenceModel residence) {
     final now = DateTime.now();
-    final lastUpdate = residence.endDate ?? residence.startDate ?? now;
+    final lastUpdate = residence.periods.lastOrNull?.endDate ??
+        residence.periods.lastOrNull?.startDate ??
+        now;
     final daysSinceLastUpdate = now.difference(lastUpdate).inDays;
 
     return residence.copyWith(
       daysSpent: residence.daysSpent + daysSinceLastUpdate,
-      endDate: now,
+      periods: residence.periods, // TODO: update the last period
     );
   }
 

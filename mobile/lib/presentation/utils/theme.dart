@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -178,26 +179,41 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
 );
 
-void setBrightOverlayStyle() {
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Color(0x00000000),
-    systemNavigationBarColor: Colors.transparent,
-    statusBarBrightness: Brightness.light,
-    statusBarIconBrightness: Brightness.dark,
-    systemNavigationBarIconBrightness: Brightness.light,
-    systemStatusBarContrastEnforced: false,
-    systemNavigationBarContrastEnforced: true,
-  ));
+const kBrightOverlayStyle = SystemUiOverlayStyle(
+  statusBarColor: Color(0x00000000),
+  systemNavigationBarColor: Colors.transparent,
+  statusBarBrightness: Brightness.light,
+  statusBarIconBrightness: Brightness.dark,
+  systemNavigationBarIconBrightness: Brightness.light,
+  systemStatusBarContrastEnforced: false,
+  systemNavigationBarContrastEnforced: true,
+);
+
+const kDarkOverlayStyle = SystemUiOverlayStyle(
+  statusBarColor: Colors.white,
+  systemNavigationBarColor: Colors.transparent,
+  statusBarBrightness: Brightness.dark,
+  statusBarIconBrightness: Brightness.light,
+  systemNavigationBarIconBrightness: Brightness.light,
+  systemStatusBarContrastEnforced: false,
+  systemNavigationBarContrastEnforced: true,
+);
+
+void setBrightOverlayStyle() =>
+    SystemChrome.setSystemUIOverlayStyle(kBrightOverlayStyle);
+void setDarkOverlayStyle() =>
+    SystemChrome.setSystemUIOverlayStyle(kDarkOverlayStyle);
+
+void setSystemOverlayStyle() {
+  final brightness = PlatformDispatcher.instance.platformBrightness;
+  if (brightness == Brightness.dark) {
+    setDarkOverlayStyle();
+  } else {
+    setBrightOverlayStyle();
+  }
 }
 
-void setDarkOverlayStyle() {
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.white,
-    systemNavigationBarColor: Colors.transparent,
-    statusBarBrightness: Brightness.dark,
-    statusBarIconBrightness: Brightness.light,
-    systemNavigationBarIconBrightness: Brightness.light,
-    systemStatusBarContrastEnforced: false,
-    systemNavigationBarContrastEnforced: true,
-  ));
-}
+SystemUiOverlayStyle get getSystemOverlayStyle =>
+    PlatformDispatcher.instance.platformBrightness == Brightness.dark
+        ? kDarkOverlayStyle
+        : kBrightOverlayStyle;

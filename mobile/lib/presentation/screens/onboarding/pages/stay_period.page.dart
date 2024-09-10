@@ -31,7 +31,7 @@ class EnterStayDurationPage extends StatefulWidget {
 }
 
 class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
-  Map<String, int> _totalDaysByCountry = {};
+  Map<String, dynamic> _totalDaysByCountry = {};
   late List<String> countries;
 
   @override
@@ -89,7 +89,8 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
           countryDetails['code'] as String,
           ResidenceModel(
             countryName: key,
-            daysSpent: value,
+            daysSpent: value['value'],
+            periods: value['segments'] as List<ActivitySegment>,
             isoCountryCode: countryDetails['code'] as String,
           ));
     });
@@ -112,10 +113,10 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
     ).animate().fade(delay: 1300.ms);
   }
 
-  Map<String, int> _calcTotalDaysByCountry(
+  Map<String, dynamic> _calcTotalDaysByCountry(
     List<ActivitySegment> segments,
   ) {
-    final countryDays = <String, int>{};
+    final countryDays = <String, dynamic>{};
 
     for (var period in segments) {
       final country = period.country;
@@ -123,9 +124,15 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
       final days = range.duration.inDays;
 
       if (countryDays.containsKey(country)) {
-        countryDays[country] = countryDays[country]! + days;
+        countryDays[country] = {
+          "value": countryDays[country]!['value'] + days,
+          "segments": countryDays[country]!['segments'].add(period)
+        };
       } else {
-        countryDays[country] = days;
+        countryDays[country] = {
+          "value": days,
+          "segments": [period],
+        };
       }
     }
 

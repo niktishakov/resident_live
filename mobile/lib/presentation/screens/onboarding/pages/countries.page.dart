@@ -91,7 +91,7 @@ class _EnterCountriesPageState extends State<EnterCountriesPage> {
                   });
                 },
               ).animate().fade(
-                    delay: 1300.ms,
+                    delay: 1000.ms,
                   ),
             ),
             if (filteredCountries.isEmpty)
@@ -148,7 +148,7 @@ class _EnterCountriesPageState extends State<EnterCountriesPage> {
                 ),
               ).animate().fade(
                     duration: 300.ms,
-                    delay: 1400.ms,
+                    delay: 1100.ms,
                   ),
             Container(
               height: selectedCountries.isNotEmpty ? 50 : 0,

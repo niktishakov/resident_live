@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
+import 'package:resident_live/data/data.dart';
 import 'package:resident_live/presentation/screens/home/widgets/rl.navigation_bar.dart';
 import 'package:resident_live/presentation/screens/onboarding/pages/countries.page.dart';
 import 'package:resident_live/presentation/screens/onboarding/pages/stay_period.page.dart';
@@ -120,11 +121,17 @@ class _AddCountryResidencyScreenState extends State<AddCountryResidencyScreen> {
     final newResidence = ResidenceModel(
       countryName: selectedCountry!,
       daysSpent: totalDays,
-      startDate: activities
-          .map((a) => a.start)
-          .reduce((a, b) => a.isBefore(b) ? a : b),
-      endDate:
-          activities.map((a) => a.end).reduce((a, b) => a.isAfter(b) ? a : b),
+      periods: [
+        ActivitySegment(
+          country: selectedCountry!,
+          startDate: activities
+              .map((a) => a.start)
+              .reduce((a, b) => a.isBefore(b) ? a : b),
+          endDate: activities
+              .map((a) => a.end)
+              .reduce((a, b) => a.isAfter(b) ? a : b),
+        )
+      ],
       isoCountryCode: selectedCountry!.substring(
           0, 2), // Simplified; use a proper country code mapping in real app
     );

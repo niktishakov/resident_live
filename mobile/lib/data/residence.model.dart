@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'activity_segment.model.dart';
+
 part 'residence.model.g.dart';
 part 'residence.model.freezed.dart';
 
@@ -9,8 +11,7 @@ class ResidenceModel with _$ResidenceModel {
     required String isoCountryCode,
     required String countryName,
     required int daysSpent,
-    DateTime? startDate,
-    DateTime? endDate,
+    required List<ActivitySegment> periods,
   }) = _ResidenceModel;
   const ResidenceModel._();
 
@@ -19,8 +20,7 @@ class ResidenceModel with _$ResidenceModel {
         isoCountryCode: isoCode,
         countryName: countryName,
         daysSpent: 0,
-        startDate: DateTime.now(),
-        endDate: null,
+        periods: [],
       );
 
   factory ResidenceModel.fromJson(Map<String, dynamic> json) =>

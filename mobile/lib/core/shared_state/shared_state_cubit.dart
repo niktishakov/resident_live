@@ -116,13 +116,15 @@ class SharedStateCubit extends HydratedCubit<SharedStateState> {
 
   ResidenceModel _updateResidenceDays(ResidenceModel residence) {
     final now = DateTime.now();
-    final lastUpdate = residence.endDate ?? residence.startDate ?? now;
+    final lastUpdate = residence.periods.lastOrNull?.endDate ??
+        residence.periods.lastOrNull?.startDate ??
+        now;
     final daysSinceLastUpdate = now.difference(lastUpdate).inDays;
 
     return residence.copyWith(
-      daysSpent: residence.daysSpent + daysSinceLastUpdate,
-      endDate: now,
-    );
+        daysSpent: residence.daysSpent + daysSinceLastUpdate,
+        periods: residence.periods // todo: update the last period
+        );
   }
 
   ResidenceModel getResidencyByName(String countryName) {

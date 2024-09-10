@@ -11,12 +11,9 @@ _$ResidenceModelImpl _$$ResidenceModelImplFromJson(Map<String, dynamic> json) =>
       isoCountryCode: json['isoCountryCode'] as String,
       countryName: json['countryName'] as String,
       daysSpent: (json['daysSpent'] as num).toInt(),
-      startDate: json['startDate'] == null
-          ? null
-          : DateTime.parse(json['startDate'] as String),
-      endDate: json['endDate'] == null
-          ? null
-          : DateTime.parse(json['endDate'] as String),
+      periods: (json['periods'] as List<dynamic>)
+          .map((e) => ActivitySegment.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$ResidenceModelImplToJson(
@@ -25,6 +22,5 @@ Map<String, dynamic> _$$ResidenceModelImplToJson(
       'isoCountryCode': instance.isoCountryCode,
       'countryName': instance.countryName,
       'daysSpent': instance.daysSpent,
-      'startDate': instance.startDate?.toIso8601String(),
-      'endDate': instance.endDate?.toIso8601String(),
+      'periods': instance.periods,
     };

@@ -21,8 +21,9 @@ import 'package:resident_live/presentation/widgets/today_button.dart';
 import '../../../core/shared_state/shared_state_cubit.dart';
 import '../../navigation/screen_names.dart';
 import '../../utils/theme.dart';
-import '../../widgets/week_view.dart';
+import '../../widgets/journey_view/week_line_view.dart';
 import 'widgets/current_residence.dart';
+import 'widgets/greeting_view.dart';
 import 'widgets/other_residences.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -54,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: WeekView(),
+                    child: WeekLineView(),
                   ),
                 ),
                 if (currentResidence != null) ...[
@@ -154,36 +155,10 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
           child: Stack(
             children: [
               Positioned(
-                  left: 24,
-                  bottom: 12.0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text.rich(
-                        style: GoogleFonts.poppins(
-                          height: 30 / 24,
-                          fontSize: 24,
-                        ),
-                        TextSpan(children: [
-                          TextSpan(
-                            text: "Good\n",
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                              color: context.theme.colorScheme.secondary,
-                            ),
-                          ),
-                          TextSpan(
-                            text: "Afternoon",
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                              color: context.theme.colorScheme.secondary
-                                  .withOpacity(0.5),
-                            ),
-                          ),
-                        ]),
-                      ),
-                    ],
-                  )),
+                left: 24,
+                bottom: 12.0,
+                child: GreetingView(),
+              ),
               Positioned(
                 bottom: 12.0,
                 right: 24,

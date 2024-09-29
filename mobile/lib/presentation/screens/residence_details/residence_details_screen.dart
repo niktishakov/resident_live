@@ -4,9 +4,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:resident_live/core/assets/asset.dart';
-import 'package:resident_live/core/assets/asset_image.dart';
-import 'package:resident_live/core/assets/assets.dart';
+import 'package:resident_live/core/assets/rl.asset.dart';
+import 'package:resident_live/core/assets/rl.asset_image.dart';
+import 'package:resident_live/core/assets/rl.assets.dart';
 import 'package:resident_live/core/constants.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/core/extensions/datetime_extension.dart';
@@ -163,8 +163,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                         VibrationService.instance.tap();
                         ShareService.instance.shareResidence(residence);
                       },
-                      child: CoreAssetImage(
-                        CoreAssets.squareAndArrowUpCircle,
+                      child: RlAssetImage(
+                        RlAssets.squareAndArrowUpCircle,
                         width: 32,
                         color: Colors.grey[300],
                       ),

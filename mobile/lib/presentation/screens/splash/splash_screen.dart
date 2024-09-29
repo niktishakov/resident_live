@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:resident_live/core/assets/asset_image.dart';
-import 'package:resident_live/core/assets/assets.dart';
+import 'package:resident_live/core/assets/rl.asset_image.dart';
+import 'package:resident_live/core/assets/rl.assets.dart';
 import 'package:resident_live/core/constants.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/presentation/navigation/screen_names.dart';
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
           alignment: Alignment.center,
           children: [
             RecordingAnimation(),
-            Center(child: CoreAssetImage(CoreAssets.person, width: 45))
+            Center(child: RlAssetImage(RlAssets.person, width: 45))
                 .animate()
                 .fade(
                   duration: 500.ms,

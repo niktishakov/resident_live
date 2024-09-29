@@ -1,3 +1,3 @@
-export 'asset_image.dart';
-export 'asset.dart';
-export 'assets.dart';
+export 'rl.asset_image.dart';
+export 'rl.asset.dart';
+export 'rl.assets.dart';

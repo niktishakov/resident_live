@@ -1,15 +1,15 @@
-class CoreAsset {
-  const CoreAsset.bitmap(this.path) : type = CoreAssetType.bitmap;
+class RlAsset {
+  const RlAsset.bitmap(this.path) : type = RlAssetType.bitmap;
 
-  const CoreAsset.vector(this.path) : type = CoreAssetType.vector;
+  const RlAsset.vector(this.path) : type = RlAssetType.vector;
 
   final String path;
-  final CoreAssetType type;
+  final RlAssetType type;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CoreAsset &&
+      other is RlAsset &&
           runtimeType == other.runtimeType &&
           path == other.path &&
           type == other.type;
@@ -19,11 +19,11 @@ class CoreAsset {
 
   @override
   String toString() {
-    return 'CoreAsset{path: $path, type: $type}';
+    return 'RlAsset{path: $path, type: $type}';
   }
 }
 
-enum CoreAssetType {
+enum RlAssetType {
   bitmap,
   vector,
 }

@@ -99,10 +99,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       child: MaterialApp.router(
           routerConfig: RouterService.instance.config,
           debugShowCheckedModeBanner: false,
-          theme: lightTheme,
+          theme: darkTheme, // TODO: add light theme support
           darkTheme: darkTheme,
           builder: (context, child) {
-            setSystemOverlayStyle();
+            // setSystemOverlayStyle();
+            setDarkOverlayStyle();
             FToastBuilder();
             return child!;
           }),

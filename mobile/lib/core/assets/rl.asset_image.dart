@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'asset.dart';
+import 'rl.asset.dart';
 
-class CoreAssetImage extends StatelessWidget {
-  const CoreAssetImage(
+class RlAssetImage extends StatelessWidget {
+  const RlAssetImage(
     this.asset, {
     Key? key,
     this.width,
@@ -14,7 +14,7 @@ class CoreAssetImage extends StatelessWidget {
     this.alignment = Alignment.center,
   }) : super(key: key);
 
-  final CoreAsset asset;
+  final RlAsset asset;
   final double? width;
   final double? height;
   final Color? color;
@@ -24,7 +24,7 @@ class CoreAssetImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (asset.type) {
-      case CoreAssetType.vector:
+      case RlAssetType.vector:
         return SvgPicture.asset(
           asset.path,
           width: width,
@@ -34,7 +34,7 @@ class CoreAssetImage extends StatelessWidget {
           alignment: alignment,
         );
 
-      case CoreAssetType.bitmap:
+      case RlAssetType.bitmap:
         return ExcludeSemantics(
           child: Image.asset(
             asset.path,

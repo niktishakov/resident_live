@@ -6,4 +6,5 @@ class ScreenNames {
   static String allowLocation = '/allow-location-screen';
   static String addResidency = '/add-residency-screen';
   static String residenceDetails = '/residence-details-screen';
+  static String settings = '/settings-screen';
 }

@@ -4,16 +4,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
+import 'package:resident_live/presentation/widgets/journey_view/journey_page.dart';
 
-import 'vertical_timeline.dart';
+import '../vertical_timeline.dart';
 
-class WeekView extends StatelessWidget {
-  WeekView({Key? key}) : super(key: key);
+class WeekLineView extends StatelessWidget {
+  WeekLineView({Key? key}) : super(key: key);
 
   final DateTime _now = DateTime.now();
 
   List<DateTime> _getDaysOfWeek() {
-    final DateTime startOfWeek = _now.subtract(Duration(days: _now.weekday));
+    final DateTime startOfWeek =
+        _now.subtract(Duration(days: _now.weekday - 1));
     return List.generate(7, (index) => startOfWeek.add(Duration(days: index)));
   }
 
@@ -28,14 +30,16 @@ class WeekView extends StatelessWidget {
         return GestureDetector(
           onTap: () async {
             await CupertinoScaffold.showCupertinoModalBottomSheet(
+              useRootNavigator: true,
               context: context,
               duration: 300.ms,
               animationCurve: Curves.fastEaseInToSlowEaseOut,
-              builder: (context) => VerticalTimeline(),
+              // builder: (context) => VerticalTimeline(),
+              builder: (context) => ResidencyJourneyScreen(),
             );
           },
           child: SizedBox(
-            height: 70,
+            height: 64,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 7,
@@ -49,7 +53,7 @@ class WeekView extends StatelessWidget {
                   width: itemWidth,
                   decoration: BoxDecoration(
                     color: isToday
-                        ? Theme.of(context).primaryColor.withOpacity(0.2)
+                        ? context.theme.primaryColor.withOpacity(0.2)
                         : null,
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -61,8 +65,8 @@ class WeekView extends StatelessWidget {
                             .format(day)
                             .substring(0, 3)
                             .toUpperCase(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w400,
                             fontSize: 12,
                             color: isToday
                                 ? context.theme.primaryColor
@@ -73,11 +77,9 @@ class WeekView extends StatelessWidget {
                       Text(
                         day.day.toString(),
                         style: GoogleFonts.poppins(
-                          fontWeight:
-                              isToday ? FontWeight.w600 : FontWeight.w600,
+                          fontWeight: FontWeight.w600,
                           fontSize: 18,
-                          color:
-                              isToday ? Theme.of(context).primaryColor : null,
+                          color: isToday ? context.theme.primaryColor : null,
                         ),
                       ),
                     ],

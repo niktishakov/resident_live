@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/core/constants.dart';
 import 'package:resident_live/core/extensions/context.extension.dart';
 import 'package:resident_live/core/extensions/datetime_extension.dart';
+import 'package:resident_live/main.dart';
 import 'package:resident_live/presentation/screens/residence_details/residence_details_screen.dart';
 import 'package:resident_live/presentation/utils/hero_utils.dart';
 import 'package:resident_live/presentation/utils/route_utils.dart';
@@ -37,7 +38,7 @@ class CurrentResidenceView extends StatelessWidget {
             }),
       ],
       child: GestureDetector(
-        onTap: () => Navigator.of(context).push(
+        onTap: () => screenNavigatorKey.currentContext?.navigator.push(
           kDefaultFadeRouteBuilder(
             page: ResidenceDetailsScreen(countryName: residence.countryName),
           ),
@@ -50,7 +51,7 @@ class CurrentResidenceView extends StatelessWidget {
             color: Colors.transparent,
             child: Container(
               constraints: BoxConstraints(
-                maxHeight: 230,
+                // maxHeight: 230,
                 maxWidth: context.mediaQuery.size.width,
               ),
               child: Hero(
@@ -60,28 +61,34 @@ class CurrentResidenceView extends StatelessWidget {
                   color: Colors.transparent,
                   elevation: 0,
                   child: RlCard(
+                    gradient: kMainGradient,
+                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
                             Text(
-                              residence.countryName,
+                              "Your Focus",
                               style: GoogleFonts.poppins(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                height: 14 / 12,
                               ),
                             ),
                             Spacer(),
                             Here(),
                           ],
                         ),
-                        SizedBox(height: 16),
-                        if (residence.isResident)
-                          _buildResidentInfo(context)
-                        else
-                          _buildNonResidentInfo(context),
-                        Gap(20),
+                        Text(
+                          residence.countryName,
+                          style: GoogleFonts.poppins(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w600,
+                            height: 32 / 32,
+                          ),
+                        ),
+                        SizedBox(height: 42),
                         _buildProgressIndicator(context),
                       ],
                     ),
@@ -144,27 +151,29 @@ class CurrentResidenceView extends StatelessWidget {
         : context.theme.colorScheme.tertiary;
     final color = context.theme.primaryColor;
     final value = residence.isResident ? 183 : residence.daysSpent;
-    final title =
-        residence.isResident ? "You are a resident" : "Progress to a Residency";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(title,
-                style: context.theme.textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600)),
-            Spacer(),
-            Text(
-              "${value} days of 183",
-              style: TextStyle(
-                  fontSize: 14,
-                  color: context.theme.colorScheme.tertiary.withOpacity(0.5)),
-            )
-          ],
+        Text(
+          "${value}/183 days",
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: context.theme.colorScheme.secondary.withOpacity(0.5),
+          ),
         ),
-        SizedBox(height: 8),
+        Gap(2),
+        Text(
+          "${(value / 183 * 100).round()}%",
+          style: GoogleFonts.poppins(
+            fontSize: 64,
+            fontWeight: FontWeight.w500,
+            color: context.theme.colorScheme.secondary,
+            height: 57 / 64,
+          ),
+        ),
+        Gap(16),
         TweenAnimationBuilder(
           tween: Tween<double>(begin: 0.0, end: value / 183),
           duration: 2.seconds,
@@ -184,6 +193,7 @@ class CurrentResidenceView extends StatelessWidget {
             ).animate().shimmer(duration: 1.seconds, delay: 2.seconds);
           },
         ),
+        Gap(12),
       ],
     );
   }

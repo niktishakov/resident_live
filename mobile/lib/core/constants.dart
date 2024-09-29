@@ -16,5 +16,14 @@ final kMonths = [
   'Sep',
   'Oct',
   'Nov',
-  'Dec'
+  'Dec',
 ];
+
+final kMainGradient = LinearGradient(
+  colors: [
+    Color(0xff1B1B1B),
+    Color(0xff282828),
+  ],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);

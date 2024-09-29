@@ -17,7 +17,7 @@ class Grabber extends StatelessWidget {
       child: Padding(
         padding: padding,
         child: SizedBox(
-          width: 36,
+          width: 50,
           height: 5,
           child: DecoratedBox(
             decoration: BoxDecoration(

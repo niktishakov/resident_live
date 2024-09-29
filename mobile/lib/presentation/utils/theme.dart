@@ -16,7 +16,7 @@ ThemeData darkTheme = ThemeData(
     secondary: Colors.white.withOpacity(0.87),
     tertiary: Colors.grey[300],
     onTertiary: Color(0xff121212),
-    surface: Color(0xff121212),
+    surface: Color(0xff111111),
     onSurface: Colors.white.withOpacity(0.87),
   ),
   cardColor: Color(0xff2b2b2b),

@@ -24,7 +24,7 @@ import '../../utils/theme.dart';
 import '../../widgets/journey_view/week_line_view.dart';
 import 'widgets/current_residence.dart';
 import 'widgets/greeting_view.dart';
-import 'widgets/other_residences.dart';
+import 'widgets/tracking_residences.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -67,46 +67,41 @@ class HomeScreen extends StatelessWidget {
                 ],
                 if (otherResidences.isNotEmpty) ...[
                   SliverToBoxAdapter(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0, vertical: 16),
-                    child: Text("Tracking Residences",
-                        style: context.theme.textTheme.titleLarge),
-                  )),
-                  OtherResidencesView(
-                    residences: otherResidences,
-                  ),
-                ],
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0, vertical: 8),
-                    child: BouncingButton(
-                      onPressed: (_) =>
-                          context.pushNamed(ScreenNames.addResidency),
-                      child: RlCard(
-                        color: context.theme.primaryColor,
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                CupertinoIcons.add_circled_solid,
-                                color: Colors.white,
-                              ),
-                              Gap(4),
-                              Text("Add",
-                                  style: context.theme.textTheme.labelLarge
-                                      ?.copyWith(
-                                    color: Colors.white,
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ),
+                    child: OtherResidencesView(
+                      residences: otherResidences,
                     ),
                   ),
-                ),
+                ],
+                // SliverToBoxAdapter(
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(
+                //         horizontal: 24.0, vertical: 8),
+                //     child: BouncingButton(
+                //       onPressed: (_) =>
+                //           context.pushNamed(ScreenNames.addResidency),
+                //       child: RlCard(
+                //         color: context.theme.primaryColor,
+                //         child: Center(
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               Icon(
+                //                 CupertinoIcons.add_circled_solid,
+                //                 color: Colors.white,
+                //               ),
+                //               Gap(4),
+                //               Text("Add",
+                //                   style: context.theme.textTheme.labelLarge
+                //                       ?.copyWith(
+                //                     color: Colors.white,
+                //                   )),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 SliverToBoxAdapter(
                     child: Gap(context.mediaQuery.padding.bottom + 64)),
               ],

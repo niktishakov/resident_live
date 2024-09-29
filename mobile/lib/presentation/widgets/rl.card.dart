@@ -11,11 +11,13 @@ class RlCard extends StatelessWidget {
     this.gradient,
     this.borderRadius,
     this.child,
+    this.padding,
   });
   final Color? color;
   final Gradient? gradient;
   final BorderRadius? borderRadius;
   final Widget? child;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -27,33 +29,23 @@ class RlCard extends StatelessWidget {
             color: context.theme.colorScheme.secondary.withOpacity(0.1));
 
     final _borderRadius = borderRadius ?? kBorderRadius;
+    final _padding = padding ?? EdgeInsets.all(16.0);
 
     return Material(
       borderRadius: _borderRadius,
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              borderRadius: _borderRadius,
-              color: color ?? context.theme.cardColor,
-              gradient: LinearGradient(
-                colors: [
-                  context.theme.colorScheme.secondary.withOpacity(0.2),
-                  Colors.transparent
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-          ),
-          Container(
             margin: EdgeInsets.all(0.5),
-            padding: EdgeInsets.all(16.0),
+            padding: _padding,
             decoration: BoxDecoration(
               borderRadius: _borderRadius.copyWith(
                 topLeft: Radius.circular(_borderRadius.topLeft.y - 0.5),
                 topRight: Radius.circular(_borderRadius.topRight.y - 0.5),
+              ),
+              border: Border.all(
+                color: context.theme.colorScheme.surface.withOpacity(0.25),
+                width: 1,
               ),
               color: color ?? context.theme.cardColor,
               gradient: gradient,

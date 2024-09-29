@@ -6,8 +6,9 @@ import 'package:resident_live/presentation/screens/onboarding/allow_location_scr
 import 'package:resident_live/presentation/screens/residence_details/residence_details_screen.dart';
 import 'package:resident_live/presentation/utils/core_route_observer.dart';
 
-import '../screens/bottom_bar/bottom_bar_scaffold.dart';
+import '../screens/bottom_bar/bottom_bar.dart';
 import '../screens/onboarding/onboarding_screen.dart';
+import '../screens/settings/settings_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import 'screen_names.dart';
 
@@ -56,29 +57,38 @@ class RouterService {
             );
           },
         ),
-        // ShellRoute(
-        //   navigatorKey: shellKey,
-        //   pageBuilder: (ctx, state, child) {
-        //     return _noTransitionPage(
-        //       BottomBarScaffold(
-        //         state: state,
-        //         child: child,
-        //       ),
-        //       state.uri.toString(),
-        //     );
-        //   },
-        //   routes: [
-        GoRoute(
-          // parentNavigatorKey: shellKey,
-          path: ScreenNames.home,
-          name: ScreenNames.home,
-          pageBuilder: (context, state) => _rootCupertinoPage(
-            const HomeScreen(),
-            ScreenNames.home,
-          ),
+        ShellRoute(
+          navigatorKey: shellKey,
+          pageBuilder: (ctx, state, child) {
+            return CupertinoPage(
+              child: AiBottomBar(
+                state: state,
+                child: child,
+              ),
+              name: state.uri.toString(),
+            );
+          },
+          routes: [
+            GoRoute(
+              parentNavigatorKey: shellKey,
+              path: ScreenNames.home,
+              name: ScreenNames.home,
+              pageBuilder: (context, state) => _noTransitionPage(
+                const HomeScreen(),
+                ScreenNames.home,
+              ),
+            ),
+            GoRoute(
+              parentNavigatorKey: shellKey,
+              path: ScreenNames.settings,
+              name: ScreenNames.settings,
+              pageBuilder: (context, state) => _noTransitionPage(
+                const SettingsScreen(),
+                ScreenNames.settings,
+              ),
+            ),
+          ],
         ),
-        // ],
-        // ),
         GoRoute(
           path: ScreenNames.onboarding,
           name: ScreenNames.onboarding,

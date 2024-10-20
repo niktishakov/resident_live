@@ -28,6 +28,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Why is my app authenticating using face id?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need your location to provide better services.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

@@ -8,21 +8,21 @@
             "name": "Mobile (Debug)",
             "request": "launch",
             "type": "dart",
-            "program": "mobile/lib/main.dart",
+            "program": "mobile/lib/app/main.dart",
             "flutterMode": "debug"
         },
         {
             "name": "Mobile (Profile)",
             "request": "launch",
             "type": "dart",
-            "program": "mobile/lib/main.dart",
+            "program": "mobile/lib/app/main.dart",
             "flutterMode": "profile"
         },
         {
             "name": "Mobile (Release)",
             "request": "launch",
             "type": "dart",
-            "program": "mobile/lib/main.dart",
+            "program": "mobile/lib/app/main.dart",
             "flutterMode": "release"
         }
     ]

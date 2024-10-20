@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:resident_live/app/navigation/screen_names.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/features/features.dart';
+import 'dart:ui';
 
 part 'record.animation.dart';
 
@@ -17,6 +18,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late AuthCubit _authCubit;
+  bool _isAuthenticating = false;
 
   @override
   void initState() {
@@ -38,8 +40,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAndAuthenticate() async {
+    setState(() => _isAuthenticating = true);
     final authResult = await _authCubit.authenticateOnStartup();
     if (!mounted) return;
+    setState(() => _isAuthenticating = false);
 
     if (authResult) {
       _navigateToHome();
@@ -52,9 +56,13 @@ class _SplashScreenState extends State<SplashScreen> {
     context.goNamed(ScreenNames.home);
   }
 
-  void _showPasscodeAuthentication() async {
-    bool result = await _authCubit.authenticateWithPasscode();
-    if (result) {
+  Future<void> _showPasscodeAuthentication() async {
+    setState(() => _isAuthenticating = true);
+    final passcodeResult = await _authCubit.authenticateWithPasscode();
+    if (!mounted) return;
+    setState(() => _isAuthenticating = false);
+
+    if (passcodeResult) {
       _navigateToHome();
     } else {
       _showErrorDialog("Authentication failed. Please try again.");
@@ -73,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                _showPasscodeAuthentication(); // Show passcode authentication after error
+                _authCubit.resetAuthenticationAttempts();
               },
             ),
           ],
@@ -86,37 +94,48 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is BiometricAuthenticationError ||
-            state is BiometricAuthenticationFailed ||
-            state is BiometricAuthenticationExhausted) {
-          _showPasscodeAuthentication();
-        } else if (state is PasscodeAuthenticationFailed ||
-            state is PasscodeAuthenticationFailed) {
-          _showErrorDialog("Authentication failed. Please try again.");
+        if (state.error != null) {
+          _showErrorDialog(state.error!);
+        } else if (state.isAuthenticated) {
+          _navigateToHome();
         }
       },
-      child: ColoredBox(
-        color: context.theme.scaffoldBackgroundColor,
-        child: Center(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              RecordingAnimation(),
-              Center(child: AppAssetImage(AppAssets.person, width: 45))
-                  .animate()
-                  .fade(
-                    duration: 500.ms,
-                    delay: 2.seconds,
-                  ),
-              Positioned(
-                  bottom: MediaQuery.of(context).size.width * 0.5,
-                  child: Text("Resident Live",
-                          style: Theme.of(context).textTheme.headlineLarge)
+      child: Stack(
+        children: [
+          ColoredBox(
+            color: context.theme.scaffoldBackgroundColor,
+            child: Center(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  RecordingAnimation(),
+                  Center(child: AppAssetImage(AppAssets.person, width: 45))
                       .animate()
-                      .fade(delay: 500.ms, duration: 800.ms)),
-            ],
+                      .fade(
+                        duration: 500.ms,
+                        delay: 2.seconds,
+                      ),
+                  Positioned(
+                      bottom: MediaQuery.of(context).size.width * 0.5,
+                      child: Text("Resident Live",
+                              style: Theme.of(context).textTheme.headlineLarge)
+                          .animate()
+                          .fade(delay: 500.ms, duration: 800.ms)),
+                ],
+              ),
+            ),
           ),
-        ),
+          AnimatedOpacity(
+            opacity: _isAuthenticating ? 1.0 : 0.0,
+            duration: Duration(milliseconds: 300),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

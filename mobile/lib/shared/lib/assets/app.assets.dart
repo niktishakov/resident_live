@@ -4,6 +4,7 @@ class AppAssets {
   const AppAssets._();
 
   // SVG
+  static const touchid = AppAsset.vector('assets/svgs/touchid.svg');
   static const terms = AppAsset.vector('assets/svgs/terms.svg');
   static const person2Wave2 =
       AppAsset.vector('assets/svgs/person.2.wave.2.svg');

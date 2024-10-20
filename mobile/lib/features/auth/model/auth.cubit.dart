@@ -1,79 +1,75 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'auth.state.dart';
+import 'auth.state.dart';
 
-class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial()) {
+class AuthCubit extends HydratedCubit<AuthState> {
+  AuthCubit() : super(const AuthState()) {
     _init();
   }
 
   final LocalAuthentication _localAuth = LocalAuthentication();
   static const String _biometricEnabledKey = 'biometric_enabled';
-  static const int _maxBiometricAttempts = 2;
-  int _biometricAttempts = 0;
 
   Future<void> _init() async {
     await checkBiometricSupport();
     await checkBiometricEnabled();
+    await updateBiometricType();
   }
 
   Future<void> checkBiometricSupport() async {
     final bool canCheckBiometrics = await _localAuth.canCheckBiometrics;
     final bool isDeviceSupported = await _localAuth.isDeviceSupported();
     final isSupported = canCheckBiometrics && isDeviceSupported;
-    emit(BiometricSupportChecked(isSupported: isSupported));
+    emit(state.copyWith(isSupported: isSupported));
   }
 
   Future<void> checkBiometricEnabled() async {
     final prefs = await SharedPreferences.getInstance();
     final bool isEnabled = prefs.getBool(_biometricEnabledKey) ?? false;
-    emit(BiometricAuthChecked(isEnabled: isEnabled));
+    emit(state.copyWith(isEnabled: isEnabled));
+  }
+
+  Future<void> updateBiometricType() async {
+    final availableBiometrics = await _localAuth.getAvailableBiometrics();
+    final biometricType = availableBiometrics.contains(BiometricType.face)
+        ? BiometricType.face
+        : availableBiometrics.contains(BiometricType.fingerprint)
+            ? BiometricType.fingerprint
+            : null;
+    emit(state.copyWith(biometricType: biometricType));
   }
 
   Future<void> toggleBiometricAuth() async {
     final prefs = await SharedPreferences.getInstance();
-    final bool currentStatus = prefs.getBool(_biometricEnabledKey) ?? false;
-    await prefs.setBool(_biometricEnabledKey, !currentStatus);
-    emit(BiometricAuthChecked(isEnabled: !currentStatus));
+    final bool newStatus = !state.isEnabled;
+    await prefs.setBool(_biometricEnabledKey, newStatus);
+    emit(state.copyWith(isEnabled: newStatus));
   }
 
   Future<bool> authenticateOnStartup() async {
-    final prefs = await SharedPreferences.getInstance();
-    final bool isEnabled = prefs.getBool(_biometricEnabledKey) ?? false;
-
-    if (!isEnabled) {
-      return true; // No need to authenticate, proceed with navigation
+    if (!state.isEnabled) {
+      emit(state.copyWith(isAuthenticated: true));
+      return true;
     }
 
-    while (_biometricAttempts < _maxBiometricAttempts) {
-      try {
-        final bool isAuthenticated = await _localAuth.authenticate(
-          localizedReason: 'Authenticate to access the app',
-          options: const AuthenticationOptions(
-            stickyAuth: true,
-            biometricOnly: true,
-          ),
-        );
-        if (isAuthenticated) {
-          emit(BiometricAuthenticationComplete(isAuthenticated: true));
-          return true;
-        } else {
-          _biometricAttempts++;
-          emit(BiometricAuthenticationFailed(attempts: _biometricAttempts));
-        }
-      } catch (e) {
-        emit(BiometricAuthenticationError(error: e.toString()));
-        return false;
-      }
+    try {
+      final bool isAuthenticated = await _localAuth.authenticate(
+        localizedReason: 'Authenticate to access the app',
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+          biometricOnly: false,
+        ),
+      );
+      emit(state.copyWith(isAuthenticated: isAuthenticated, error: null));
+      return isAuthenticated;
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+      return false;
     }
-
-    emit(BiometricAuthenticationExhausted());
-    return false;
   }
 
   Future<bool> authenticateWithPasscode() async {
@@ -86,15 +82,10 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
 
-      if (didAuthenticate) {
-        emit(PasscodeAuthenticationComplete(isAuthenticated: true));
-        return true;
-      } else {
-        emit(PasscodeAuthenticationFailed());
-        return false;
-      }
+      emit(state.copyWith(isAuthenticated: didAuthenticate, error: null));
+      return didAuthenticate;
     } catch (e) {
-      emit(PasscodeAuthenticationFailed());
+      emit(state.copyWith(error: e.toString()));
       return false;
     }
   }
@@ -111,15 +102,31 @@ class AuthCubit extends Cubit<AuthState> {
       if (isAuthenticated) {
         await toggleBiometricAuth();
       } else {
-        emit(BiometricAuthenticationError(error: 'Authentication failed'));
+        emit(state.copyWith(error: 'Authentication failed'));
       }
     } catch (e) {
-      emit(BiometricAuthenticationError(error: e.toString()));
+      emit(state.copyWith(error: e.toString()));
     }
   }
 
   void resetAuthenticationAttempts() {
-    _biometricAttempts = 0;
-    emit(AuthInitial());
+    emit(state.copyWith(isAuthenticated: false, error: null));
   }
+
+  String get biometricTitle {
+    switch (state.biometricType) {
+      case BiometricType.face:
+        return 'Face ID';
+      case BiometricType.fingerprint:
+        return 'Touch ID';
+      default:
+        return 'Biometric';
+    }
+  }
+
+  @override
+  AuthState? fromJson(Map<String, dynamic> json) => AuthState.fromJson(json);
+
+  @override
+  Map<String, dynamic>? toJson(AuthState state) => state.toJson();
 }

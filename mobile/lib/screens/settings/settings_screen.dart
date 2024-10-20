@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/features/features.dart';
 import 'package:resident_live/shared/shared.dart';
@@ -20,7 +21,6 @@ class SettingsScreen extends StatelessWidget {
         slivers: [
           AiSliverHeader(
             titleText: "Settings",
-            // leading: context.canPop() ? AiBackButton() : SizedBox(),
           ),
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 24),
@@ -28,29 +28,39 @@ class SettingsScreen extends StatelessWidget {
               delegate: SliverChildListDelegate([
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
-                    if (state is BiometricAuthenticationError) {
+                    if (state.error != null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.error)),
+                        SnackBar(content: Text(state.error!)),
                       );
                     }
                   },
                   builder: (context, state) {
-                    print(state);
-                    final bool isEnabled =
-                        (state is BiometricAuthChecked && state.isEnabled) ||
-                            state is BiometricAuthenticationComplete;
+                    final authCubit = context.read<AuthCubit>();
                     return _buildSettingButton(
-                      asset: AppAssets.faceid,
-                      title: "Face ID Access",
-                      subtitle: isEnabled ? "On" : "Off",
+                      asset: state.biometricType == BiometricType.face
+                          ? AppAssets.faceid
+                          : AppAssets
+                              .touchid, // Assuming you have a touchid asset
+                      title: "${authCubit.biometricTitle} Access",
+                      subtitle: state.isEnabled ? "On" : "Off",
                       onTap: () async {
-                        final authCubit = context.read<AuthCubit>();
-                        if (isEnabled) {
+                        if (state.isEnabled) {
                           await authCubit.toggleBiometricAuth();
                         } else {
                           await authCubit.authenticateAndToggle();
                         }
                       },
+                      trailing: CupertinoSwitch(
+                        value: state.isEnabled,
+                        activeColor: context.theme.colorScheme.primary,
+                        onChanged: (bool value) async {
+                          if (value) {
+                            await authCubit.authenticateAndToggle();
+                          } else {
+                            await authCubit.toggleBiometricAuth();
+                          }
+                        },
+                      ),
                     );
                   },
                 ),
@@ -116,6 +126,7 @@ class SettingsScreen extends StatelessWidget {
     required String title,
     String? subtitle,
     required VoidCallback onTap,
+    Widget? trailing,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -168,8 +179,12 @@ class SettingsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(CupertinoIcons.chevron_forward,
-                  color: Colors.white.withOpacity(0.5), size: 20),
+              trailing ??
+                  Icon(
+                    CupertinoIcons.chevron_forward,
+                    color: Colors.white.withOpacity(0.5),
+                    size: 20,
+                  ),
             ],
           ),
         ),

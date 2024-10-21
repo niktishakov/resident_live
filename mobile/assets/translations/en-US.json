@@ -1,0 +1,19 @@
+{
+  "common": {
+    "appName": "Resident Live"
+  },
+  "home": {
+    "title": "Home"
+  },
+  "settings": {
+    "title": "Settings",
+    "faceIdAccess": "Face ID Access",
+    "touchIdAccess": "Touch ID Access",
+    "language": "Language",
+    "notifications": "Notifications",
+    "shareWithFriends": "Share with friends",
+    "rateUs": "Rate Us",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use"
+  }
+}

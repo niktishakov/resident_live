@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../screens/screens.dart';
 import '../../shared/router/page_types.dart';
 import 'screen_names.dart';
+import '../../screens/language/language_screen.dart';
 
 List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
   return [
@@ -88,6 +89,16 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
         return kRootCupertinoPage(
           ResidenceDetailsScreen(name: extra),
           ScreenNames.residenceDetails,
+        );
+      },
+    ),
+    GoRoute(
+      path: ScreenNames.language,
+      name: ScreenNames.language,
+      pageBuilder: (ctx, state) {
+        return kRootCupertinoPage(
+          const LanguageScreen(),
+          ScreenNames.language,
         );
       },
     ),

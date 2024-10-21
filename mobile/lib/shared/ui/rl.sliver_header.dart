@@ -175,11 +175,11 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         Container(
           height: maxExtent,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(borderOpacity),
+            color: context.theme.colorScheme.surface.withOpacity(borderOpacity),
             border: Border(
               bottom: BorderSide(
                 color: context.theme.dividerColor.withOpacity(borderOpacity),
-                width: 1.0,
+                width: 0.5,
               ),
             ),
           ),
@@ -220,7 +220,7 @@ class AiBackButton extends StatelessWidget {
               },
           child: Icon(
             CupertinoIcons.left_chevron,
-            color: Colors.black,
+            color: context.theme.colorScheme.secondary,
             size: 24,
           )),
     );

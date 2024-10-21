@@ -7,8 +7,10 @@ class RouterService {
     GlobalKey<NavigatorState> navigatorKey,
     List<RouteBase> routes,
     String initialLocation,
+    List<RouteObserver> observers,
   ) {
-    _goRouter = _buildGoRouter(navigatorKey, routes, initialLocation);
+    _goRouter =
+        _buildGoRouter(navigatorKey, routes, initialLocation, observers);
   }
 
   static RouterService? _instance;
@@ -25,21 +27,24 @@ class RouterService {
     required GlobalKey<NavigatorState> navigatorKey,
     required List<RouteBase> routes,
     required String initialLocation,
+    List<RouteObserver> observers = const [],
   }) async {
     assert(_instance == null);
-    _instance = RouterService._(navigatorKey, routes, initialLocation);
+    _instance =
+        RouterService._(navigatorKey, routes, initialLocation, observers);
   }
 
   static GoRouter _buildGoRouter(
     GlobalKey<NavigatorState> navigatorKey,
     List<RouteBase> routes,
     String initialLocation,
+    List<RouteObserver> observers,
   ) {
     return GoRouter(
       navigatorKey: navigatorKey,
       initialLocation: initialLocation,
       routes: routes,
-      observers: [CoreRouteObserver()],
+      observers: observers,
     );
   }
 }

@@ -1,0 +1,19 @@
+{
+  "common": {
+    "appName": "Resident Live"
+  },
+  "home": {
+    "title": "Главная"
+  },
+  "settings": {
+    "title": "Настройки",
+    "faceIdAccess": "Доступ по Face ID",
+    "touchIdAccess": "Доступ по Touch ID",
+    "language": "Язык",
+    "notifications": "Уведомления",
+    "shareWithFriends": "Поделиться с друзьями",
+    "rateUs": "Оценить нас",
+    "privacyPolicy": "Политика конфиденциальности",
+    "termsOfUse": "Условия обслуживания"
+  }
+}

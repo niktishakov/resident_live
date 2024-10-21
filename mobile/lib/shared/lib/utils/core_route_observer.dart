@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../ai.logger.dart';
 
-class CoreRouteObserver extends NavigatorObserver {
+class CoreRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   List<Route<dynamic>> routeStack = [];
 
   static final _logger = AiLogger('CoreRouteObserver');

@@ -1,13 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/features/features.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/shared/ui/rl.sliver_header.dart';
+
+import '../../app/navigation/screen_names.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -20,7 +25,7 @@ class SettingsScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           AiSliverHeader(
-            titleText: "Settings",
+            titleText: LocaleKeys.settings_title.tr(),
           ),
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 24),
@@ -69,7 +74,7 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icons.language,
                   title: "Language",
                   onTap: () {
-                    // Handle Language settings
+                    context.pushNamed(ScreenNames.language);
                   },
                 ),
                 Gap(12),

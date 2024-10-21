@@ -7,25 +7,53 @@ import 'package:path_provider/path_provider.dart';
 import 'package:resident_live/app/navigation/screen_names.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../features/features.dart';
+import '../generated/codegen_loader.g.dart';
 import '../screens/onboarding/export.dart';
 import '../screens/screens.dart';
 import '../shared/shared.dart';
 import 'navigation/get_routes.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 final shellKey = GlobalKey<NavigatorState>();
 
 const String uniqueTaskName = "geofencingTask";
+final supportedLocales = [
+  Locale('en', 'US'),
+  Locale('ru', 'RU')
+]; // Add your supported locales
+final fallbackLocale = Locale('en', 'US');
 
 void main() async {
-  runApp(MaterialApp(home: PresplashScreen()));
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: supportedLocales,
+      path: 'assets/translations', // Path to your translation files
+      fallbackLocale: fallbackLocale,
+      child: MaterialApp(
+        home: PresplashScreen(),
+      ),
+    ),
+  );
+
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getApplicationDocumentsDirectory(),
+  );
 
   await RouterService.init(
     navigatorKey: navigatorKey,
     routes: getRoutes(shellKey),
     initialLocation: ScreenNames.splash,
+    observers: [
+      CoreRouteObserver(),
+      // OverlayStyleObserver(),
+    ],
   );
   await VibrationService.init();
   await ShareService.init();
@@ -35,9 +63,16 @@ void main() async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
-  // HydratedBloc.storage.clear();
+  HydratedBloc.storage.clear();
 
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: supportedLocales,
+      path: 'assets/translations', // Path to your translation files
+      fallbackLocale: fallbackLocale,
+      child: MyApp(),
+    ),
+  );
 
   // TODO: Add background task
   // Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
@@ -83,25 +118,55 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     FToast().init(context);
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => OnboardingCubit()),
-        BlocProvider(create: (_) => LocationCubit(GeolocationService.instance)),
-        BlocProvider(create: (_) => CountriesCubit()),
-        BlocProvider(create: (_) => UserCubit()),
-        BlocProvider(create: (_) => AuthCubit()),
-      ],
-      child: MaterialApp.router(
-          routerConfig: RouterService.instance.router,
-          debugShowCheckedModeBanner: false,
-          theme: darkTheme, // TODO: add light theme support
-          darkTheme: darkTheme,
-          builder: (context, child) {
-            // setSystemOverlayStyle();
-            setDarkOverlayStyle();
-            FToastBuilder();
-            return child!;
-          }),
+    return Builder(
+      builder: (context) {
+        return MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider(
+              create: (context) => LanguageRepository(
+                supportedLocales: supportedLocales,
+                fallbackLocale: fallbackLocale,
+              ),
+            ),
+          ],
+          child: Builder(
+            builder: (context) {
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (_) => OnboardingCubit()),
+                  BlocProvider(
+                      create: (_) =>
+                          LocationCubit(GeolocationService.instance)),
+                  BlocProvider(create: (_) => CountriesCubit()),
+                  BlocProvider(create: (_) => UserCubit()),
+                  BlocProvider(create: (_) => AuthCubit()),
+                  BlocProvider(
+                    create: (_) =>
+                        LanguageCubit(find<LanguageRepository>(context)),
+                  ),
+                ],
+                child: BlocBuilder<LanguageCubit, Locale>(
+                  builder: (context, locale) {
+                    return MaterialApp.router(
+                        routerConfig: RouterService.instance.router,
+                        debugShowCheckedModeBanner: false,
+                        theme: darkTheme, // TODO: add light theme support
+                        darkTheme: darkTheme,
+                        localizationsDelegates: context.localizationDelegates,
+                        supportedLocales: context.supportedLocales,
+                        locale: locale,
+                        builder: (context, child) {
+                          setDarkOverlayStyle();
+                          FToastBuilder();
+                          return child!;
+                        });
+                  },
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

@@ -4,8 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import 'package:resident_live/shared/lib/assets/app.assets.dart';
-import 'package:resident_live/app/navigation/screen_names.dart';
 import 'package:resident_live/screens/bottom_bar/animated_tab_item.dart';
 import 'package:resident_live/shared/shared.dart';
 

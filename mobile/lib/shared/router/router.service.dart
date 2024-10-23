@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:resident_live/shared/lib/utils/core_route_observer.dart';
 
 class RouterService {
   RouterService._(

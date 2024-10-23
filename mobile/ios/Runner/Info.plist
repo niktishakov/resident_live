@@ -28,6 +28,14 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram</string>
+		<string>facebook</string>
+		<string>twitter</string>
+		<string>whatsapp</string>
+	<!-- Add any other apps you want to appear in the share sheet -->
+	</array>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>

@@ -6,8 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:resident_live/features/features.dart';
 import 'package:resident_live/shared/shared.dart';
 
-import '../../app/navigation/screen_names.dart';
-
 class AllowGeoView extends StatelessWidget {
   const AllowGeoView({super.key});
 

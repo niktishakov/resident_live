@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:resident_live/app/navigation/screen_names.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/features/features.dart';
 import 'dart:ui';

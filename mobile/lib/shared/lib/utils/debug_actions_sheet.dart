@@ -9,7 +9,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:resident_live/features/features.dart';
 import 'package:resident_live/shared/shared.dart';
 
-import '../../../app/navigation/screen_names.dart';
+import '../../router/screen_names.dart';
 import '../../../screens/screens.dart';
 
 void showDebugActionsSheet(BuildContext context) {

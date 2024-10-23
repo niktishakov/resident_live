@@ -10,7 +10,6 @@ class AuthCubit extends HydratedCubit<AuthState> {
   AuthCubit() : super(const AuthState()) {
     _init();
   }
-
   final LocalAuthentication _localAuth = LocalAuthentication();
   static const String _biometricEnabledKey = 'biometric_enabled';
 

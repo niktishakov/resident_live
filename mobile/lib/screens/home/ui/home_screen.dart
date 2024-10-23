@@ -4,15 +4,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:resident_live/app/main.dart';
-import '../../../features/features.dart';
-import '../../../shared/shared.dart';
-import '../../../widgets/journey_view/week_line_view.dart';
-import '../../../widgets/vertical_timeline.dart';
-import '../../screens.dart';
-import 'widgets/current_residence.dart';
+import 'package:resident_live/features/features.dart';
+import 'package:resident_live/shared/shared.dart';
+import 'package:resident_live/widgets/widgets.dart';
 import 'widgets/greeting_view.dart';
-import 'widgets/tracking_residences.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

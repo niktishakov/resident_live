@@ -1,12 +1,10 @@
 import 'package:country_list_pick/support/code_countries_en.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:resident_live/screens/home/ui/widgets/rl.navigation_bar.dart';
-import 'package:resident_live/screens/onboarding/ui/pages/countries.page.dart';
-import 'package:resident_live/screens/onboarding/ui/pages/stay_period.page.dart';
+import 'package:resident_live/shared/shared.dart';
 
-import '../../app/navigation/screen_names.dart';
-import '../../shared/lib/constants.dart';
+import '../onboarding/ui/pages/countries.page.dart';
+import '../onboarding/ui/pages/stay_period.page.dart';
 
 class AddCountryResidencyScreen extends StatefulWidget {
   @override

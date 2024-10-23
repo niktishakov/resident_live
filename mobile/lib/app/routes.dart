@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../screens/screens.dart';
-import '../../shared/router/page_types.dart';
-import 'screen_names.dart';
-import '../../screens/language/language_screen.dart';
+import '../screens/screens.dart';
+import '../shared/router/router.dart';
 
 List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
   return [
@@ -99,6 +97,17 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
         return kRootCupertinoPage(
           const LanguageScreen(),
           ScreenNames.language,
+        );
+      },
+    ),
+    GoRoute(
+      path: ScreenNames.webView,
+      name: ScreenNames.webView,
+      pageBuilder: (ctx, state) {
+        return kSlideTransitionPage(
+          WebViewScreen(
+              url: state.extra as String, title: state.extra as String),
+          ScreenNames.webView,
         );
       },
     ),

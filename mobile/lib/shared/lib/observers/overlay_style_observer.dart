@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../app/navigation/screen_names.dart';
+import '../../router/screen_names.dart';
 import 'overlay_styles.dart';
 
 class OverlayStyleObserver extends RouteObserver<PageRoute<dynamic>> {

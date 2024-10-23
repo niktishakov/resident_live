@@ -4,43 +4,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:resident_live/app/navigation/screen_names.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../features/features.dart';
-import '../generated/codegen_loader.g.dart';
-import '../screens/onboarding/export.dart';
 import '../screens/screens.dart';
 import '../shared/shared.dart';
-import 'navigation/get_routes.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'routes.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 final shellKey = GlobalKey<NavigatorState>();
 
 const String uniqueTaskName = "geofencingTask";
-final supportedLocales = [
-  Locale('en', 'US'),
-  Locale('ru', 'RU')
-]; // Add your supported locales
-final fallbackLocale = Locale('en', 'US');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  runApp(
-    EasyLocalization(
-      supportedLocales: supportedLocales,
-      path: 'assets/translations', // Path to your translation files
-      fallbackLocale: fallbackLocale,
-      child: MaterialApp(
-        home: PresplashScreen(),
-      ),
-    ),
-  );
+  runApp(MaterialApp(home: PresplashScreen()));
 
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
@@ -65,14 +47,7 @@ void main() async {
 
   HydratedBloc.storage.clear();
 
-  runApp(
-    EasyLocalization(
-      supportedLocales: supportedLocales,
-      path: 'assets/translations', // Path to your translation files
-      fallbackLocale: fallbackLocale,
-      child: MyApp(),
-    ),
-  );
+  runApp(LocalizedApp(child: MyApp()));
 
   // TODO: Add background task
   // Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
@@ -124,8 +99,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           providers: [
             RepositoryProvider(
               create: (context) => LanguageRepository(
-                supportedLocales: supportedLocales,
-                fallbackLocale: fallbackLocale,
+                supportedLocales: kSupportedLocales,
+                fallbackLocale: kFallbackLocale,
               ),
             ),
           ],

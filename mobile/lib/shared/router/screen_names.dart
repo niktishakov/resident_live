@@ -8,6 +8,7 @@ class ScreenNames {
   static const residenceDetails = '/residence-details-screen';
   static const settings = '/settings-screen';
   static const language = '/language-screen';
+  static const webView = '/web-view-screen';
 
   static List<String> all = [
     splash,

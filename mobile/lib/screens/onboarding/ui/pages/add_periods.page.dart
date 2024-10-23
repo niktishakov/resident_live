@@ -4,17 +4,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:resident_live/shared/lib/constants.dart';
-import 'package:resident_live/screens/home/ui/widgets/rl.navigation_bar.dart';
-import 'package:resident_live/shared/lib/utils/colors_utils.dart';
+import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/shared/shared.dart';
-import 'package:resident_live/shared/ui/primary_button.dart';
-
-import '../../../../domain/domain.dart';
-import '../../../../shared/ui/fade_border.dart';
-import '../../../../widgets/add_periods/widgets/country_selector.dart';
-import '../../../../widgets/add_periods/widgets/timeline_slider.dart';
-import '../../../../widgets/add_periods/widgets/show_toast.dart';
+import 'package:resident_live/widgets/widgets.dart';
 
 class AddPeriodsPage extends StatefulWidget {
   AddPeriodsPage({

@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../features/features.dart';
-import '../../shared/shared.dart';
-import '../add_periods/widgets/country_selector.dart';
+import '../../../features/features.dart';
+import '../../../shared/shared.dart';
+import '../../add_periods/ui/country_selector.dart';
 
 class ResidencyJourneyScreen extends StatelessWidget {
   @override

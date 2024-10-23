@@ -7,3 +7,6 @@ export 'residence_details/residence_details_screen.dart';
 export 'settings/settings_screen.dart';
 export 'splash/export.dart';
 export 'tracking_residences/tracking_residences_screen.dart';
+export 'web_view/webview_screen.dart';
+export 'onboarding/export.dart';
+export 'language/language_screen.dart';

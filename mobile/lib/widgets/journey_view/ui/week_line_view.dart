@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/shared/shared.dart';
-import 'package:resident_live/widgets/journey_view/journey_page.dart';
+import 'package:resident_live/widgets/journey_view/ui/journey_page.dart';
 
 class WeekLineView extends StatelessWidget {
   WeekLineView({Key? key}) : super(key: key);

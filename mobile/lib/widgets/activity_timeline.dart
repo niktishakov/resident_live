@@ -3,13 +3,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'dart:math';
 import 'package:collection/collection.dart';
-
 import 'package:resident_live/shared/shared.dart';
-
-// import 'package:resident_live/screens/onboarding/pages/add_periods.page.dart';
-
 import '../domain/domain.dart';
-// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class ActivityTimeline extends StatefulWidget {
   const ActivityTimeline({

@@ -240,9 +240,10 @@ class _TimelineSliderState extends State<TimelineSlider> {
       },
       child: LayoutBuilder(
         builder: (context, ctrx) {
+          final textOffset =
+              10.0; // Adjust this value to move text closer or further from the edges
           return Column(
             mainAxisSize: MainAxisSize.min,
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Hero(
                 tag: "timeline",
@@ -268,30 +269,27 @@ class _TimelineSliderState extends State<TimelineSlider> {
                           ),
                         ),
                         Positioned(
-                          left: _getPosition(
-                            _startValue + 40,
-                            widget.min,
-                            widget.max,
-                            context,
-                          ),
+                          left: _getPosition(_startValue, widget.min,
+                                  widget.max, ctrx.maxWidth) +
+                              textOffset,
                           top: 10,
                           child: Text(
                             _getDateFromValue(_startValue).toMMMDDString(),
                             style: TextStyle(
+                                fontWeight: FontWeight.w600,
                                 color: context.theme.scaffoldBackgroundColor),
                           ),
                         ),
                         Positioned(
-                          left: _getPosition(
-                            _endValue,
-                            widget.min,
-                            widget.max,
-                            context,
-                          ),
+                          right: ctrx.maxWidth -
+                              _getPosition(_endValue, widget.min, widget.max,
+                                  ctrx.maxWidth) +
+                              textOffset,
                           bottom: 10,
                           child: Text(
                             _getDateFromValue(_endValue).toMMMDDString(),
                             style: TextStyle(
+                                fontWeight: FontWeight.w600,
                                 color: context.theme.scaffoldBackgroundColor),
                           ),
                         ),
@@ -324,17 +322,8 @@ class _TimelineSliderState extends State<TimelineSlider> {
     );
   }
 
-  double _getPosition(
-    double value,
-    double min,
-    double max,
-    BuildContext context,
-  ) {
-    // Calculate the thumb position within the slider range
-    final position = (value) / (max) * (MediaQuery.of(context).size.width - 80);
-    // Offset the label to center it above the thumb
-    return position -
-        20; // Subtract half of the label width (40 / 2) to center the label
+  double _getPosition(double value, double min, double max, double width) {
+    return (value - min) / (max - min) * width;
   }
 
   DateTime _getDateFromValue(double value) {

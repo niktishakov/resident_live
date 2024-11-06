@@ -90,6 +90,8 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
       final countryDetails =
           countriesEnglish.firstWhere((e) => e['name'] as String == key);
 
+      print(value);
+
       return MapEntry(
           countryDetails['code'] as String,
           CountryEntity(
@@ -117,10 +119,10 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
     ).animate().fade(delay: 1300.ms);
   }
 
-  Map<String, dynamic> _calcTotalDaysByCountry(
-    List<StayPeriod> segments,
-  ) {
+  Map<String, dynamic> _calcTotalDaysByCountry(List<StayPeriod> segments) {
     final countryDays = <String, dynamic>{};
+
+    print("_calcTotalDaysByCountry: segments >>>> $segments");
 
     for (var period in segments) {
       final country = period.country;
@@ -128,9 +130,12 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
       final days = range.duration.inDays;
 
       if (countryDays.containsKey(country)) {
+        final List<StayPeriod> existingSegments =
+            List.from(countryDays[country]!['segments']);
+        existingSegments.add(period);
         countryDays[country] = {
           "value": countryDays[country]!['value'] + days,
-          "segments": countryDays[country]!['segments'].add(period)
+          "segments": existingSegments
         };
       } else {
         countryDays[country] = {
@@ -139,6 +144,8 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
         };
       }
     }
+
+    print("country days >>>> $countryDays");
 
     return countryDays;
   }

@@ -10,6 +10,9 @@ class LocationState with _$LocationState {
   const factory LocationState({
     @JsonKey(includeFromJson: false, includeToJson: false) Position? position,
     @JsonKey(includeFromJson: false, includeToJson: false) Placemark? placemark,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    @Default(false)
+    bool isInitialized,
     @Default("") String error,
   }) = _LocationState;
 

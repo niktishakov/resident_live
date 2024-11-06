@@ -5,8 +5,6 @@ import '../shared.dart';
 enum ProgressDirection { up, down }
 
 class ProgressBar extends StatelessWidget {
-  final double completionPercentage;
-
   ProgressBar({
     required this.completionPercentage,
     this.radius = 100.0,
@@ -15,22 +13,29 @@ class ProgressBar extends StatelessWidget {
     this.doneLabel = 'Done',
     this.direction = ProgressDirection.up,
     this.duration = const Duration(milliseconds: 1600),
+    this.backgroundColor,
+    this.valueColor,
   });
 
+  final double completionPercentage;
   final String label;
   final String doneLabel;
   final double radius;
   final double strokeWidth;
   final ProgressDirection direction;
   final Duration duration;
+  final Color? backgroundColor;
+  final Color? valueColor;
 
   @override
   Widget build(BuildContext context) {
     final beginValue =
         direction == ProgressDirection.up ? 0.0 : completionPercentage + 0.1;
-    final valueColor = direction == ProgressDirection.up
-        ? Colors.greenAccent
-        : Colors.redAccent;
+    final _backgroundColor = backgroundColor ?? context.theme.primaryColor;
+    final _valueColor = valueColor ??
+        (direction == ProgressDirection.up
+            ? Colors.greenAccent
+            : Colors.redAccent);
 
     return Column(
       children: [
@@ -55,8 +60,8 @@ class ProgressBar extends StatelessWidget {
                     value: value,
                     strokeWidth: strokeWidth,
                     strokeCap: StrokeCap.round,
-                    backgroundColor: context.theme.primaryColor,
-                    valueColor: AlwaysStoppedAnimation<Color>(valueColor),
+                    backgroundColor: _backgroundColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(_valueColor),
                   );
                 },
               ),

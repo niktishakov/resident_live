@@ -27,3 +27,12 @@ final kMainGradient = LinearGradient(
   begin: Alignment.centerLeft,
   end: Alignment.centerRight,
 );
+
+final kSuccessGradient = LinearGradient(
+  colors: [
+    Color(0xff12BF2D),
+    Color(0xff68B975),
+  ],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);

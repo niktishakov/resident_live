@@ -1,22 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/domain/domain.dart';
+import 'package:resident_live/features/features.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class CurrentResidenceView extends StatelessWidget {
   const CurrentResidenceView({
     Key? key,
-    required this.residence,
+    required this.country,
     required this.onTap,
   }) : super(key: key);
-  final CountryEntity residence;
+  final CountryEntity country;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<LocationCubit>().state;
+    final isHere = state.isCurrentResidence(country.isoCode);
     return CupertinoContextMenu(
       enableHapticFeedback: true,
       actions: [
@@ -24,16 +28,16 @@ class CurrentResidenceView extends StatelessWidget {
             child: Text("Share"),
             trailingIcon: CupertinoIcons.share,
             onPressed: () {
-              ShareService.instance.shareResidence(residence);
+              ShareService.instance.shareResidence(country);
               context.pop();
             }),
       ],
       child: GestureDetector(
         onTap: onTap,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Material(
-            borderRadius: kBorderRadius,
+            borderRadius: BorderRadius.circular(36),
             elevation: 0,
             color: Colors.transparent,
             child: Container(
@@ -42,13 +46,14 @@ class CurrentResidenceView extends StatelessWidget {
                 maxWidth: context.mediaQuery.size.width,
               ),
               child: Hero(
-                tag: 'residence_${residence.name}',
+                tag: 'residence_${country.name}',
                 flightShuttleBuilder: startFlightShuttleBuilder,
                 child: Material(
                   color: Colors.transparent,
                   elevation: 0,
                   child: RlCard(
                     gradient: kMainGradient,
+                    borderRadius: BorderRadius.circular(36),
                     padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,22 +65,20 @@ class CurrentResidenceView extends StatelessWidget {
                               style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
-                                height: 14 / 12,
                               ),
                             ),
                             Spacer(),
-                            Here(),
+                            if (isHere) Here(),
                           ],
                         ),
                         Text(
-                          residence.name,
+                          country.name,
                           style: GoogleFonts.poppins(
                             fontSize: 32,
                             fontWeight: FontWeight.w600,
-                            height: 32 / 32,
                           ),
                         ),
-                        SizedBox(height: 42),
+                        SizedBox(height: 24),
                         _buildProgressIndicator(context),
                       ],
                     ),
@@ -101,7 +104,7 @@ class CurrentResidenceView extends StatelessWidget {
           ),
         ),
         Text(
-          "${residence.daysSpent - 183} days for free",
+          "${country.daysSpent - 183} days for free",
           style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -112,7 +115,7 @@ class CurrentResidenceView extends StatelessWidget {
   }
 
   Widget _buildNonResidentInfo(BuildContext context) {
-    final daysSpent = residence.daysSpent;
+    final daysSpent = country.daysSpent;
     final daysLeft = 183 - daysSpent;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,59 +136,53 @@ class CurrentResidenceView extends StatelessWidget {
   }
 
   Widget _buildProgressIndicator(BuildContext context) {
-    final backgroundColor = residence.isResident
+    final backgroundColor = country.isResident
         ? context.theme.primaryColor
         : context.theme.colorScheme.tertiary;
     final color = context.theme.primaryColor;
-    final value = residence.isResident ? 183 : residence.daysSpent;
+    final value = country.isResident ? 183 : country.daysSpent;
+    final double progress = (value / 183).clamp(0, 1.0);
+    // final progress = 1.0;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "${value}/183 days",
-          style: GoogleFonts.poppins(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: context.theme.colorScheme.secondary.withOpacity(0.5),
-          ),
-        ),
-        Gap(2),
-        Text(
-          "${(value / 183 * 100).round()}%",
-          style: GoogleFonts.poppins(
-            fontSize: 64,
-            fontWeight: FontWeight.w500,
-            color: context.theme.colorScheme.secondary,
-            height: 57 / 64,
-          ),
-        ),
-        Gap(16),
-        SizedBox(
-            width: 500,
-            height: 100,
-            child: DiagonalProgressBar(progress: (value / 183).clamp(0, 1.0))),
-        // TweenAnimationBuilder(
-        //   tween: Tween<double>(begin: 0.0, end: value / 183),
-        //   duration: 2.seconds,
-        //   curve: Curves.fastEaseInToSlowEaseOut,
-        //   builder: (context, v, child) {
-        //     return LinearProgressIndicator(
-        //       value: v,
-        //       backgroundColor: backgroundColor,
-        //       valueColor: AlwaysStoppedAnimation(
-        //         residence.isResident
-        //             ? Color(0xff63FF3C)
-        //             : context.theme.primaryColor,
-        //       ),
-        //       minHeight: 20,
-        //       borderRadius: kBorderRadius,
-        //       color: color,
-        //     ).animate().shimmer(duration: 1.seconds, delay: 2.seconds);
-        //   },
-        // ),
-        Gap(12),
-      ],
+    return LayoutBuilder(
+      builder: (context, ctrx) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "${country.daysSpent}/183 days",
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: context.theme.colorScheme.secondary.withOpacity(0.5),
+              ),
+            ),
+            Gap(2),
+            Text(
+              "${(value / 183 * 100).round()}%",
+              style: GoogleFonts.poppins(
+                fontSize: 64,
+                fontWeight: FontWeight.w500,
+                color: context.theme.colorScheme.secondary,
+                height: 57 / 64,
+              ),
+            ),
+            Gap(16),
+            Container(
+              width: ctrx.maxWidth,
+              height: 62,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24.0),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24.0),
+                child: DiagonalProgressBar(progress: progress),
+              ),
+            ),
+            Gap(8),
+          ],
+        );
+      },
     );
   }
 }

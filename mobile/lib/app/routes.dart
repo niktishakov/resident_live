@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:resident_live/features/features.dart';
+import 'package:resident_live/screens/all_countries/ui/all_countries_screen.dart';
+import 'package:resident_live/screens/residence_details/residence_details_screen2.dart';
+import 'package:resident_live/shared/shared.dart';
 
 import '../screens/screens.dart';
 import '../shared/router/router.dart';
@@ -63,7 +68,10 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       name: ScreenNames.getStarted,
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(
-          const GetStartedScreen(),
+          BlocProvider(
+            create: (context) => GetStartedCubit(find<LocationCubit>(context)),
+            child: const GetStartedScreen(),
+          ),
           ScreenNames.getStarted,
         );
       },
@@ -87,6 +95,28 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
         return kRootCupertinoPage(
           ResidenceDetailsScreen(name: extra),
           ScreenNames.residenceDetails,
+        );
+      },
+    ),
+    GoRoute(
+      path: ScreenNames.residenceDetails2,
+      name: ScreenNames.residenceDetails2,
+      pageBuilder: (ctx, state) {
+        final extra = state.extra as String;
+
+        return kRootCupertinoPage(
+          ResidenceDetailsScreen2(name: extra),
+          ScreenNames.residenceDetails2,
+        );
+      },
+    ),
+    GoRoute(
+      path: ScreenNames.allTrackingCountries,
+      name: ScreenNames.allTrackingCountries,
+      pageBuilder: (ctx, state) {
+        return kRootCupertinoPage(
+          AllCountriesScreen(),
+          ScreenNames.allTrackingCountries,
         );
       },
     ),

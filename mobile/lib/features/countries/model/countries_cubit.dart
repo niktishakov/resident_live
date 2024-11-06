@@ -1,3 +1,4 @@
+import 'package:geocoding/geocoding.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:resident_live/shared/lib/ai.logger.dart';
 
@@ -8,6 +9,74 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
   CountriesCubit() : super(CountriesState.initial());
 
   static final AiLogger _logger = AiLogger('CountriesCubit');
+
+  Future<void> syncCountriesByGeo(Placemark? placemark) async {
+    if (placemark != null) {
+      final countryCode = placemark.isoCountryCode;
+      final countryName = placemark.country;
+
+      if (countryCode == null || countryName == null) {
+        _logger.error("Placemark country code is null: $placemark");
+        return;
+      }
+      final lastVisitedCountry = state.findLastVisitedCountry();
+
+      // first case: last visited country matches placemark country and we just should increase end date to today
+      if (lastVisitedCountry.isoCode == countryCode) {
+        var periods = lastVisitedCountry.periods;
+        final updatedPeriod =
+            periods.removeLast().copyWith(endDate: DateTime.now());
+        final updatedPeriods = [...periods, updatedPeriod];
+        emit(state.copyWith(countries: {
+          ...state.countries,
+          lastVisitedCountry.isoCode:
+              lastVisitedCountry.copyWith(periods: updatedPeriods),
+        }));
+      }
+
+      // second case: last visited country doesn't match placemark country == we moved to another country and need to add new stay period fot the placemark country
+      else {
+        final newPeriod = StayPeriod(
+          startDate: DateTime.now(),
+          endDate: DateTime.now(),
+          country: countryCode,
+        );
+
+        final currentCountry = state.countries[countryCode] ??
+            CountryEntity(
+              isoCode: countryCode,
+              name: countryName,
+              periods: [],
+            );
+
+        final updatedPeriods = [...currentCountry.periods, newPeriod];
+        final updatedCountry = currentCountry.copyWith(periods: updatedPeriods);
+
+        emit(
+          state.copyWith(
+            countries: {
+              ...state.countries,
+              countryCode: updatedCountry,
+            },
+          ),
+        );
+      }
+    }
+  }
+
+  void reorderCountry(int oldIndex, int newIndex) {
+    print("$oldIndex -> $newIndex");
+    final countries =
+        List<MapEntry<String, CountryEntity>>.from(state.countries.entries);
+    final movedCountry = countries.removeAt(oldIndex);
+    countries.insert(newIndex, movedCountry);
+
+    emit(state.copyWith(
+      countries: countries
+          .asMap()
+          .map((index, country) => MapEntry(country.key, country.value)),
+    ));
+  }
 
   void addCountry(CountryEntity countryResidence) {
     emit(state.copyWith(
@@ -20,8 +89,17 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
 
   void removeCountry(String isoCode) {
     final countries = Map<String, CountryEntity>.from(state.countries);
-    countries.remove(isoCode);
+    final removedCountry = countries.remove(isoCode);
     emit(state.copyWith(countries: countries));
+
+    if (removedCountry == null) {
+      _logger
+          .error("Tried to remove non existing country with isoCode: $isoCode");
+    }
+
+    if (removedCountry?.isoCode == state.focusedCountry?.isoCode) {
+      emit(state.copyWith(focusedCountry: countries.values.firstOrNull));
+    }
   }
 
   void updateCountry(CountryEntity updatedCountry) {
@@ -32,6 +110,24 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
 
   void updateCountries(Map<String, CountryEntity> countries) {
     emit(state.copyWith(countries: countries));
+  }
+
+  void setFocusedCountryByIsoCode(String isoCode) {
+    if (state.focusedCountry?.isoCode == isoCode) {
+      emit(state.copyWith(focusedCountry: null)); // Unfocus if already focused
+    } else {
+      final focusedCountry = state.countries[isoCode];
+      if (focusedCountry == null) {
+        _logger.error("Cannot focus on country: $isoCode");
+        return;
+      }
+
+      emit(state.copyWith(focusedCountry: focusedCountry));
+    }
+  }
+
+  void setFocusedCountry(CountryEntity country) {
+    emit(state.copyWith(focusedCountry: country));
   }
 
   void reset() => emit(state.reset());

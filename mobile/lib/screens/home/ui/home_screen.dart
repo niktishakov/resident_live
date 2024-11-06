@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:resident_live/app/main.dart';
 import 'package:resident_live/features/features.dart';
+import 'package:resident_live/screens/all_countries/ui/all_countries_screen.dart';
+import 'package:resident_live/screens/residence_details/residence_details_screen2.dart';
+import 'package:resident_live/screens/screens.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/widgets/widgets.dart';
+import 'widgets/current_residence.dart';
 import 'widgets/greeting_view.dart';
+import 'widgets/tracking_residences.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,86 +25,72 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         final locationState = context.watch<LocationCubit>().state;
         final focusedCountry =
-            state.countries[locationState.placemark?.isoCountryCode];
+            context.watch<CountriesCubit>().state.focusedCountry;
 
         final otherResidences = state.countries.values
             .where((e) => e.isoCode != focusedCountry?.isoCode)
             .toList();
 
-        return GestureDetector(
-          onLongPress: kDebugMode ? () => showDebugActionsSheet(context) : null,
-          child: CupertinoScaffold(
-            overlayStyle: getSystemOverlayStyle,
-            body: Material(
-              child: CustomScrollView(
-                physics: NeverScrollableScrollPhysics(),
-                slivers: [
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: CustomSliverHeaderDelegate(
-                      expandedHeight: 90.0 + context.mediaQuery.padding.top,
+        return BlocListener<CountriesCubit, CountriesState>(
+          listener: (context, state) {
+            if (state.countries.isEmpty) {
+              context.goNamed(ScreenNames.onboarding);
+            }
+          },
+          child: GestureDetector(
+            onLongPress:
+                kDebugMode ? () => showDebugActionsSheet(context) : null,
+            child: CupertinoScaffold(
+              overlayStyle: getSystemOverlayStyle,
+              body: Material(
+                child: CustomScrollView(
+                  physics: NeverScrollableScrollPhysics(),
+                  slivers: [
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: CustomSliverHeaderDelegate(
+                        expandedHeight: 90.0 + context.mediaQuery.padding.top,
+                      ),
                     ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: WeekLineView(),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: WeekLineView(),
+                      ),
                     ),
-                  ),
-                  // if (focusedCountry != null) ...[
-                  //   SliverToBoxAdapter(
-                  //     child: CurrentResidenceView(
-                  //       residence: focusedCountry,
-                  //       onTap: () =>
-                  //           navigatorKey.currentContext?.navigator.push(
-                  //         kDefaultFadeRouteBuilder(
-                  //             page: ResidenceDetailsScreen(
-                  //           name: focusedCountry.name,
-                  //         )),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ],
-                  // if (otherResidences.isNotEmpty) ...[
-                  //   SliverToBoxAdapter(
-                  //     child: OtherResidencesView(
-                  //       residences: otherResidences,
-                  //     ),
-                  //   ),
-                  // ],
-                  // SliverToBoxAdapter(
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.symmetric(
-                  //         horizontal: 24.0, vertical: 8),
-                  //     child: BouncingButton(
-                  //       onPressed: (_) =>
-                  //           context.pushNamed(ScreenNames.addCountry),
-                  //       child: RlCard(
-                  //         color: context.theme.primaryColor,
-                  //         child: Center(
-                  //           child: Row(
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               Icon(
-                  //                 CupertinoIcons.add_circled_solid,
-                  //                 color: Colors.white,
-                  //               ),
-                  //               Gap(4),
-                  //               Text("Add",
-                  //                   style: context.theme.textTheme.labelLarge
-                  //                       ?.copyWith(
-                  //                     color: Colors.white,
-                  //                   )),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  SliverToBoxAdapter(
-                      child: Gap(context.mediaQuery.padding.bottom + 64)),
-                ],
+                    if (focusedCountry != null) ...[
+                      SliverToBoxAdapter(
+                        child: RepaintBoundary(
+                          child: CurrentResidenceView(
+                            country: focusedCountry,
+                            onTap: () =>
+                                navigatorKey.currentContext?.navigator.push(
+                              kDefaultFadeRouteBuilder(
+                                  page: ResidenceDetailsScreen(
+                                name: focusedCountry.name,
+                              )),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                    if (otherResidences.isNotEmpty) ...[
+                      SliverToBoxAdapter(
+                        child: OtherResidencesView(
+                          residences: otherResidences,
+                          onTap: () =>
+                              navigatorKey.currentContext?.navigator.push(
+                            kDefaultFadeRouteBuilder(
+                              page: AllCountriesScreen(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                    SliverToBoxAdapter(
+                        child: Gap(context.mediaQuery.padding.bottom + 64)),
+                  ],
+                ),
               ),
             ),
           ),

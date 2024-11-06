@@ -28,6 +28,19 @@ class CountriesState with _$CountriesState {
         countries.values.firstWhereOrNull((e) => e.name == name), name);
   }
 
+  CountryEntity findLastVisitedCountry() {
+    CountryEntity lastVisitedCountry = countries.values.first;
+    final countriesValues = countries.values;
+    for (final country in countriesValues) {
+      if (country.periods.last.endDate
+          .isAfter(lastVisitedCountry.periods.last.endDate)) {
+        lastVisitedCountry = country;
+      }
+    }
+
+    return lastVisitedCountry;
+  }
+
   CountryEntity getCountryByPlacemark(Placemark country) {
     return _getCountry(
       countries[country.isoCountryCode],

@@ -6,6 +6,9 @@ class ScreenNames {
   static const getStarted = '/get-started-screen';
   static const addCountry = '/add-residency-screen';
   static const residenceDetails = '/residence-details-screen';
+  static const residenceDetails2 = '/residence-details-screen2';
+
+  static const allTrackingCountries = '/all-tracking-countries-screen';
   static const settings = '/settings-screen';
   static const language = '/language-screen';
   static const webView = '/web-view-screen';

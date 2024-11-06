@@ -1,7 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resident_live/screens/residence_details/residence_details_screen2.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class AiSliverAppBar extends StatelessWidget {
@@ -160,7 +164,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get maxExtent => maxHeight;
-
   @override
   Widget build(
     BuildContext context,
@@ -172,14 +175,24 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Container(
-          height: maxExtent,
-          decoration: BoxDecoration(
-            color: context.theme.colorScheme.surface.withOpacity(borderOpacity),
-            border: Border(
-              bottom: BorderSide(
-                color: context.theme.dividerColor.withOpacity(borderOpacity),
-                width: 0.5,
+        ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 30 * borderOpacity,
+              sigmaY: 30 * borderOpacity,
+            ),
+            child: Container(
+              height: maxExtent,
+              decoration: BoxDecoration(
+                color: context.theme.colorScheme.surface
+                    .withOpacity(borderOpacity * 0.8),
+                border: Border(
+                  bottom: BorderSide(
+                    color:
+                        context.theme.dividerColor.withOpacity(borderOpacity),
+                    width: 0.5,
+                  ),
+                ),
               ),
             ),
           ),
@@ -202,10 +215,12 @@ class AiBackButton extends StatelessWidget {
     super.key,
     this.onPressed,
     this.padding,
+    this.title,
   });
 
   final VoidCallback? onPressed;
   final EdgeInsetsGeometry? padding;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -214,14 +229,35 @@ class AiBackButton extends StatelessWidget {
       child: CupertinoButton(
           padding: padding ?? const EdgeInsets.only(left: 12, right: 0),
           minSize: 24,
-          onPressed: onPressed ??
-              () {
-                context.pop();
-              },
-          child: Icon(
-            CupertinoIcons.left_chevron,
-            color: context.theme.colorScheme.secondary,
-            size: 24,
+          onPressed: onPressed ?? () => context.pop(),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.arrow_back_ios_new_outlined,
+                color: context.theme.primaryColor,
+                size: 22,
+                weight: 4,
+              ),
+              if (title != null)
+                Text(
+                  title!,
+                  style: TextStyle(
+                    color: context.theme.primaryColor,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+                    .animate()
+                    .slideX(
+                      begin: 1,
+                      end: 0,
+                      delay: 100.ms,
+                      duration: 300.ms,
+                      curve: Curves.fastOutSlowIn,
+                    )
+                    .fade(begin: 0.01)
+            ],
           )),
     );
   }

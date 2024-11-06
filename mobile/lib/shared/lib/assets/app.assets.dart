@@ -4,6 +4,9 @@ class AppAssets {
   const AppAssets._();
 
   // SVG
+  static const burger = AppAsset.vector('assets/svgs/burger.svg');
+  static const target = AppAsset.vector('assets/svgs/target.svg');
+  static const redirect = AppAsset.vector('assets/svgs/redirect.svg');
   static const touchid = AppAsset.vector('assets/svgs/touchid.svg');
   static const terms = AppAsset.vector('assets/svgs/terms.svg');
   static const person2Wave2 =

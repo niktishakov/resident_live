@@ -141,7 +141,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                     ),
                     children: [
                       TextSpan(
-                        text: "Add your travel timeline: ",
+                        text: "Fill up your travel timeline: ",
                       ),
                       TextSpan(
                         text: "Country > Dates > Add",

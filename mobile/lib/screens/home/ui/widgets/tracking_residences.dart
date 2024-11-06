@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
@@ -6,10 +8,14 @@ import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class OtherResidencesView extends StatefulWidget {
-  const OtherResidencesView({Key? key, required this.residences})
-      : super(key: key);
+  const OtherResidencesView({
+    Key? key,
+    required this.residences,
+    required this.onTap,
+  }) : super(key: key);
 
   final List<CountryEntity> residences;
+  final Future? Function() onTap;
 
   @override
   State<StatefulWidget> createState() => _OtherResidencesViewState();
@@ -25,7 +31,8 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
 
   @override
   Widget build(BuildContext context) {
-    final residences = widget.residences.sublist(0, 2);
+    final residences =
+        widget.residences.sublist(0, min(widget.residences.length, 2));
     return residences.isEmpty
         ? SizedBox()
         : Container(
@@ -46,25 +53,28 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                     ),
                   ),
                 ),
-                Hero(
-                  tag: 'tracking_residences',
-                  flightShuttleBuilder: startFlightShuttleBuilder,
-                  child: RlCard(
-                    gradient: kMainGradient,
-                    borderRadius: BorderRadius.circular(38),
-                    padding: EdgeInsets.symmetric(horizontal: 30),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Column(
-                        children: [
-                          ...residences
-                              .sublist(0, residences.length.clamp(0, 2))
-                              .map((e) => _buildItem(context, e))
-                              .toList(),
-                          Gap(10),
-                          _SeeAll(),
-                          Gap(5),
-                        ],
+                GestureDetector(
+                  onTap: widget.onTap,
+                  child: Hero(
+                    tag: 'tracking_residences',
+                    flightShuttleBuilder: startFlightShuttleBuilder,
+                    child: RlCard(
+                      gradient: kMainGradient,
+                      borderRadius: BorderRadius.circular(38),
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Column(
+                          children: [
+                            ...residences
+                                .sublist(0, residences.length.clamp(0, 2))
+                                .map((e) => _buildItem(context, e))
+                                .toList(),
+                            Gap(10),
+                            _SeeAll(),
+                            Gap(5),
+                          ],
+                        ),
                       ),
                     ),
                   ),

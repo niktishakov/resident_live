@@ -24,6 +24,8 @@ mixin _$LocationState {
   Position? get position => throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false, includeToJson: false)
   Placemark? get placemark => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool get isInitialized => throw _privateConstructorUsedError;
   String get error => throw _privateConstructorUsedError;
 
   /// Serializes this LocationState to a JSON map.
@@ -47,6 +49,7 @@ abstract class $LocationStateCopyWith<$Res> {
       Position? position,
       @JsonKey(includeFromJson: false, includeToJson: false)
       Placemark? placemark,
+      @JsonKey(includeFromJson: false, includeToJson: false) bool isInitialized,
       String error});
 }
 
@@ -67,6 +70,7 @@ class _$LocationStateCopyWithImpl<$Res, $Val extends LocationState>
   $Res call({
     Object? position = freezed,
     Object? placemark = freezed,
+    Object? isInitialized = null,
     Object? error = null,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +82,10 @@ class _$LocationStateCopyWithImpl<$Res, $Val extends LocationState>
           ? _value.placemark
           : placemark // ignore: cast_nullable_to_non_nullable
               as Placemark?,
+      isInitialized: null == isInitialized
+          ? _value.isInitialized
+          : isInitialized // ignore: cast_nullable_to_non_nullable
+              as bool,
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -99,6 +107,7 @@ abstract class _$$LocationStateImplCopyWith<$Res>
       Position? position,
       @JsonKey(includeFromJson: false, includeToJson: false)
       Placemark? placemark,
+      @JsonKey(includeFromJson: false, includeToJson: false) bool isInitialized,
       String error});
 }
 
@@ -117,6 +126,7 @@ class __$$LocationStateImplCopyWithImpl<$Res>
   $Res call({
     Object? position = freezed,
     Object? placemark = freezed,
+    Object? isInitialized = null,
     Object? error = null,
   }) {
     return _then(_$LocationStateImpl(
@@ -128,6 +138,10 @@ class __$$LocationStateImplCopyWithImpl<$Res>
           ? _value.placemark
           : placemark // ignore: cast_nullable_to_non_nullable
               as Placemark?,
+      isInitialized: null == isInitialized
+          ? _value.isInitialized
+          : isInitialized // ignore: cast_nullable_to_non_nullable
+              as bool,
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -142,6 +156,8 @@ class _$LocationStateImpl extends _LocationState {
   const _$LocationStateImpl(
       {@JsonKey(includeFromJson: false, includeToJson: false) this.position,
       @JsonKey(includeFromJson: false, includeToJson: false) this.placemark,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.isInitialized = false,
       this.error = ""})
       : super._();
 
@@ -155,12 +171,15 @@ class _$LocationStateImpl extends _LocationState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   final Placemark? placemark;
   @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool isInitialized;
+  @override
   @JsonKey()
   final String error;
 
   @override
   String toString() {
-    return 'LocationState(position: $position, placemark: $placemark, error: $error)';
+    return 'LocationState(position: $position, placemark: $placemark, isInitialized: $isInitialized, error: $error)';
   }
 
   @override
@@ -172,12 +191,15 @@ class _$LocationStateImpl extends _LocationState {
                 other.position == position) &&
             (identical(other.placemark, placemark) ||
                 other.placemark == placemark) &&
+            (identical(other.isInitialized, isInitialized) ||
+                other.isInitialized == isInitialized) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, position, placemark, error);
+  int get hashCode =>
+      Object.hash(runtimeType, position, placemark, isInitialized, error);
 
   /// Create a copy of LocationState
   /// with the given fields replaced by the non-null parameter values.
@@ -201,6 +223,8 @@ abstract class _LocationState extends LocationState {
       final Position? position,
       @JsonKey(includeFromJson: false, includeToJson: false)
       final Placemark? placemark,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool isInitialized,
       final String error}) = _$LocationStateImpl;
   const _LocationState._() : super._();
 
@@ -213,6 +237,9 @@ abstract class _LocationState extends LocationState {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   Placemark? get placemark;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool get isInitialized;
   @override
   String get error;
 

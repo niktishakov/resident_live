@@ -22,6 +22,7 @@ class LocationCubit extends Cubit<LocationState> {
       await _locationService.requestPermissions();
       final result = _locationService.initialize();
       if (result == null) {
+        emit(state.copyWith(isInitialized: true));
         _locationService.positionStream?.listen(_updatePosition);
       } else {
         emit(state.failure(result));

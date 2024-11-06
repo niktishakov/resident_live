@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/features/features.dart';
 import 'dart:ui';
@@ -27,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeApp() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 2));
     if (!mounted) return;
 
     final state = context.read<CountriesCubit>().state;
@@ -52,6 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToHome() {
+    find<LocationCubit>(context).initialize();
     context.goNamed(ScreenNames.home);
   }
 
@@ -99,42 +102,43 @@ class _SplashScreenState extends State<SplashScreen> {
           _navigateToHome();
         }
       },
-      child: Stack(
-        children: [
-          ColoredBox(
-            color: context.theme.scaffoldBackgroundColor,
-            child: Center(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            ColoredBox(
+              color: context.theme.scaffoldBackgroundColor,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  RecordingAnimation(),
-                  Center(child: AppAssetImage(AppAssets.person, width: 45))
-                      .animate()
-                      .fade(
-                        duration: 500.ms,
-                        delay: 2.seconds,
+                  Transform.translate(
+                      offset: Offset(35, -35), child: RecordingAnimation()),
+                  Center(child: Icon(CupertinoIcons.person_fill, size: 90)),
+                  Transform.translate(
+                    offset: Offset(0, 90),
+                    child: Text(
+                      "Resident Live",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w200,
+                        fontSize: 36,
                       ),
-                  Positioned(
-                      bottom: MediaQuery.of(context).size.width * 0.5,
-                      child: Text("Resident Live",
-                              style: Theme.of(context).textTheme.headlineLarge)
-                          .animate()
-                          .fade(delay: 500.ms, duration: 800.ms)),
+                    ),
+                  ),
                 ],
+              ).animate().fade(delay: 300.ms, duration: 600.ms),
+            ),
+            AnimatedOpacity(
+              opacity: _isAuthenticating ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 300),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  color: Colors.transparent,
+                ),
               ),
             ),
-          ),
-          AnimatedOpacity(
-            opacity: _isAuthenticating ? 1.0 : 0.0,
-            duration: Duration(milliseconds: 300),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                color: Colors.transparent,
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

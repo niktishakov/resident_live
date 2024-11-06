@@ -45,7 +45,7 @@ void main() async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
-  HydratedBloc.storage.clear();
+  // HydratedBloc.storage.clear();
 
   runApp(LocalizedApp(child: MyApp()));
 

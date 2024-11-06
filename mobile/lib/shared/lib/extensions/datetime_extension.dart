@@ -48,4 +48,8 @@ extension Formatting on DateTime {
   String toMMMDDYYYY() {
     return DateFormat("MMM dd, yyyy").format(toLocal());
   }
+
+  String toMMMMDDYYYY() {
+    return DateFormat("MMMM dd, yyyy").format(toLocal());
+  }
 }

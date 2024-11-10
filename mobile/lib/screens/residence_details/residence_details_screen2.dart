@@ -16,9 +16,10 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../features/features.dart';
 import '../../shared/shared.dart';
+import 'widgets/residency_rules_modal.dart';
 
 const _statuses = {
-  'hr': ["You're free to travel about", ""],
+  'hr': ["You're free to travel about", "You can travel until"],
   'h': ["Status update in", "Status will update at"],
   'r': ["You will lose your status in", "Status is safe until"],
   'a': ["Move to this country to regain status in", "Status may be updated at"]
@@ -85,6 +86,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.rlTheme;
     final country =
         context.watch<CountriesCubit>().state.getCountryByName(widget.name);
     final state = context.watch<LocationCubit>().state;
@@ -93,7 +95,9 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
     final focusedCountry = context.watch<CountriesCubit>().state.focusedCountry;
     final isFocused = focusedCountry?.isoCode == country.isoCode;
 
-    final progress = country.isResident ? 1.0 : (country.daysSpent) / 183;
+    final progress = country.isResident
+        ? 1.0
+        : (country.daysSpent) / Duration(days: 183).inDays;
 
     final statuses = getStatusMessage(isHere, isResident);
     final statusText = statuses.first;
@@ -101,279 +105,237 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
 
     return RepaintBoundary(
       key: screenKey,
-      child: CupertinoScaffold(
-        overlayStyle: getSystemOverlayStyle,
-        transitionBackgroundColor: Color(0xff121212),
-        body: Builder(
+      child: Material(
+        child: Builder(
           builder: (context) {
-            return Material(
-              child: AnimatedBuilder(
-                animation: _animationController,
-                builder: (context, child) => DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        context.theme.cardColor,
-                        context.theme.scaffoldBackgroundColor,
-                      ],
+            return AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) => RlCard(
+                borderRadius: BorderRadius.circular(0),
+                padding: EdgeInsets.zero,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    context.theme.cardColor,
+                    context.theme.scaffoldBackgroundColor,
+                  ],
+                ),
+                child: child,
+              ),
+              child: CupertinoPageScaffold(
+                backgroundColor: Colors.transparent,
+                navigationBar: CupertinoNavigationBar(
+                  backgroundColor: Colors.transparent,
+                  leading: AiBackButton(
+                    padding: EdgeInsets.zero,
+                    title: "Back",
+                  ),
+                  trailing: BouncingButton(
+                    onPressed: (_) {
+                      VibrationService.instance.tap();
+                      _captureAndShareScreenshot();
+                    },
+                    child: AppAssetImage(
+                      AppAssets.squareAndArrowUpCircle,
+                      width: 32,
+                      color: Colors.white.withOpacity(0.85),
                     ),
                   ),
-                  child: child,
-                ),
-                child: SafeArea(
-                  child: ListView(
-                    physics: NeverScrollableScrollPhysics(),
+                  middle: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: AiBackButton(
-                                  padding: EdgeInsets.zero,
-                                  title: "Back",
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (isFocused) ...[
-                                    AppAssetImage(
-                                      AppAssets.target,
-                                      width: 18,
-                                      height: 18,
-                                      color:
-                                          context.theme.colorScheme.secondary,
-                                    ),
-                                    Gap(8),
-                                  ],
-                                  Text(
-                                    widget.name,
-                                    style: TextStyle(
-                                      fontFamily: "SFPro",
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 17,
-                                      letterSpacing: -0.3,
-                                    ),
-                                  ),
-                                  if (isHere) ...[
-                                    Gap(4),
-                                    Here(shorter: true),
-                                  ],
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: BouncingButton(
-                                    onPressed: (_) {
-                                      VibrationService.instance.tap();
-                                      _captureAndShareScreenshot();
-                                      // ShareService.instance.shareResidence(country);
-                                    },
-                                    child: AppAssetImage(
-                                      AppAssets.squareAndArrowUpCircle,
-                                      width: 32,
-                                      color: Colors.white.withOpacity(0.85),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                      if (isFocused) ...[
+                        AppAssetImage(
+                          AppAssets.target,
+                          width: 18,
+                          height: 18,
+                          color: context.theme.colorScheme.secondary,
+                        ),
+                        Gap(8),
+                      ],
+                      Text(
+                        widget.name,
+                        style: theme.title16Semi.copyWith(
+                          fontFamily: "SFPro",
+                          color: theme.textPrimaryOnColor,
+                          fontSize: 17,
                         ),
                       ),
-                      Gap(48),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Material(
-                                color: Colors.transparent,
-                                child: RepaintBoundary(
-                                  key: progressKey,
-                                  child: ProgressBar(
-                                    completionPercentage: progress,
-                                    direction: isHere
-                                        ? ProgressDirection.up
-                                        : ProgressDirection.down,
-                                    radius: 200,
-                                    strokeWidth: 20,
+                      if (isHere) ...[
+                        Gap(4),
+                        Here(shorter: true),
+                      ],
+                    ],
+                  ),
+                ),
+                child: ListView(
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    Gap(48),
+                    Padding(
+                      padding: context.paddingEdges24,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Material(
+                              color: Colors.transparent,
+                              child: RepaintBoundary(
+                                key: progressKey,
+                                child: ProgressBar(
+                                  completionPercentage: progress,
+                                  direction: isHere
+                                      ? ProgressDirection.up
+                                      : ProgressDirection.down,
+                                  radius: 200,
+                                  strokeWidth: 20,
+                                  duration: 300.ms,
+                                  doneLabel: "You are a resident!",
+                                  label: "Residency Progress",
+                                  backgroundColor: Color(0xff3C3C3C),
+                                  valueColor: isResident && isHere
+                                      ? Colors.greenAccent
+                                      : context.theme.primaryColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Gap(32),
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: statusText,
+                                  style: theme.body14,
+                                ),
+                                TextSpan(
+                                  text: "\n${country.statusToggleIn} days",
+                                  style: theme.body18M
+                                      .copyWith(fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
+                          )
+                              .animate(delay: 500.ms)
+                              .slideX(
+                                begin: -2,
+                                curve: Curves.fastEaseInToSlowEaseOut,
+                                duration: 500.ms,
+                              )
+                              .fade(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: suggestionText,
+                                      style: theme.body14,
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          "\n${country.statusToggleAt.toMMMMDDYYYY()}",
+                                      style: theme.body18M.copyWith(
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
+                                ),
+                              )
+                                  .animate(delay: 500.ms)
+                                  .slideX(
+                                    begin: -2,
+                                    curve: Curves.fastEaseInToSlowEaseOut,
+                                    duration: 500.ms,
+                                  )
+                                  .fade(),
+                              BouncingButton(
+                                onPressed: (_) async {
+                                  await CupertinoScaffold
+                                      .showCupertinoModalBottomSheet(
+                                    useRootNavigator: true,
+                                    context: context,
                                     duration: 300.ms,
-                                    doneLabel: "You are a resident!",
-                                    label: "Residency Progress",
-                                    backgroundColor: Color(0xff3C3C3C),
-                                    valueColor: isResident && isHere
-                                        ? Colors.greenAccent
-                                        : context.theme.primaryColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Gap(32),
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: statusText,
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: " ${country.statusToggleIn} days",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ).animate(delay: 300.ms).slideX(
-                                  begin: -1.5,
-                                  curve: Curves.fastEaseInToSlowEaseOut,
-                                  duration: 500.ms,
-                                ),
-                            Text(
-                              suggestionText,
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                              ),
-                            ).animate(delay: 300.ms).slideX(
-                                  begin: -1.5,
-                                  curve: Curves.fastEaseInToSlowEaseOut,
-                                  duration: 500.ms,
-                                ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "${country.statusToggleAt.toMMMMDDYYYY()}",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ).animate(delay: 500.ms).slideX(
-                                      begin: -1.5,
-                                      curve: Curves.fastEaseInToSlowEaseOut,
-                                      duration: 500.ms,
-                                    ),
-                                BouncingButton(
-                                  onPressed: (_) async {
-                                    await CupertinoScaffold
-                                        .showCupertinoModalBottomSheet(
-                                      useRootNavigator: true,
-                                      context: context,
-                                      duration: 300.ms,
-                                      animationCurve:
-                                          Curves.fastEaseInToSlowEaseOut,
-                                      builder: (context) =>
-                                          ResidencyJourneyScreen(),
-                                    );
-                                  },
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(24),
-                                        border: Border.all(
-                                            width: 1, color: Colors.white)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            CupertinoIcons.calendar,
-                                            size: 18,
+                                    animationCurve:
+                                        Curves.fastEaseInToSlowEaseOut,
+                                    builder: (context) =>
+                                        ResidencyJourneyScreen(),
+                                  );
+                                },
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(24),
+                                      border: Border.all(
+                                          width: 1, color: Colors.white)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          CupertinoIcons.calendar,
+                                          size: 18,
+                                          color: Colors.white,
+                                        ),
+                                        Gap(4),
+                                        Text(
+                                          "Open",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
                                             color: Colors.white,
+                                            height: 32 / 14,
                                           ),
-                                          Gap(4),
-                                          Text(
-                                            "Open",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              height: 32 / 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ).animate(delay: 500.ms).slideX(
-                                      begin: 1.5,
-                                      curve: Curves.fastEaseInToSlowEaseOut,
-                                      duration: 500.ms,
-                                    ),
-                              ],
-                            ),
-                            Gap(8),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child:
-                                        Text("Notify me for status updates")),
-                                Switch(
-                                  value: true,
-                                  onChanged: (value) {
-                                    // TODO: schedule notification for this country
-                                  },
-                                ),
-                              ],
-                            ).animate().fadeIn(delay: 600.ms),
-                            Gap(24),
-                            Divider(
-                              color: Color(0x88888888),
-                            ).animate().fadeIn(delay: 700.ms),
-                            Gap(24),
-                            if (!isFocused)
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: TransparentButton(
-                                  leading: AppAssetImage(
-                                    AppAssets.target,
-                                    width: 24,
-                                    color: context.theme.colorScheme.secondary,
-                                  ),
-                                  onPressed: () {
-                                    find<CountriesCubit>(context)
-                                        .setFocusedCountry(country);
-                                  },
-                                  child: Text(
-                                    "Focus on this country",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color:
-                                          context.theme.colorScheme.secondary,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                              ).animate().fadeIn(delay: 700.ms),
+                              )
+                                  .animate(delay: 500.ms)
+                                  .slideX(
+                                    begin: 1.5,
+                                    curve: Curves.fastEaseInToSlowEaseOut,
+                                    duration: 500.ms,
+                                  )
+                                  .fade(),
+                            ],
+                          ),
+                          Gap(8),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Text("Notify me for status updates")),
+                              Switch(
+                                value: true,
+                                onChanged: (value) {
+                                  // TODO: schedule notification for this country
+                                },
+                              ),
+                            ],
+                          ).animate().fadeIn(delay: 600.ms),
+                          Gap(24),
+                          Divider(
+                            color: Color(0x88888888),
+                          ).animate().fadeIn(delay: 700.ms),
+                          Gap(24),
+                          if (!isFocused)
                             Align(
                               alignment: Alignment.centerLeft,
                               child: TransparentButton(
                                 leading: AppAssetImage(
-                                  AppAssets.redirect,
+                                  AppAssets.target,
                                   width: 24,
                                   color: context.theme.colorScheme.secondary,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  find<CountriesCubit>(context)
+                                      .setFocusedCountry(country);
+                                },
                                 child: Text(
-                                  "Read a residency rules",
+                                  "Focus on this country",
                                   style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -381,57 +343,94 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                   ),
                                 ),
                               ),
-                            ).animate().fadeIn(delay: 800.ms),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: TransparentButton(
-                                onPressed: () {
-                                  showCupertinoDialog(
-                                    context: context,
-                                    builder: (context) => CupertinoAlertDialog(
-                                      title: Text('Remove Country'),
-                                      content: Text(
-                                          'Are you sure you want to remove this country from tracking?'),
-                                      actions: [
-                                        CupertinoDialogAction(
-                                          child: Text('Cancel'),
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                        ),
-                                        CupertinoDialogAction(
-                                          isDestructiveAction: true,
-                                          child: Text('Remove'),
-                                          onPressed: () {
-                                            context.pop();
-                                            context.pop();
-                                            find<CountriesCubit>(context)
-                                                .removeCountry(country.isoCode);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                leading: Icon(
-                                  CupertinoIcons.rectangle_stack_badge_minus,
-                                  color: Colors.redAccent,
-                                  size: 24,
-                                ),
-                                child: Text(
-                                  "Remove country",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.redAccent,
+                            ).animate().fadeIn(delay: 700.ms),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: TransparentButton(
+                              leading: AppAssetImage(
+                                AppAssets.bookPages,
+                                width: 24,
+                                color: context.theme.colorScheme.secondary,
+                              ),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  useRootNavigator: true,
+                                  useSafeArea: false,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  transitionAnimationController:
+                                      AnimationController(
+                                    vsync: Navigator.of(context),
+                                    duration: const Duration(milliseconds: 300),
                                   ),
+                                  builder: (_) => ResidencyRulesModal(),
+                                ).then((_) {
+                                  // Fade out the blur effect when the modal is dismissed
+                                  Future.delayed(Duration(milliseconds: 300),
+                                      () {
+                                    // Optionally, you can add any additional logic here
+                                  });
+                                });
+                              },
+                              child: Text(
+                                "Read a residency rules",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: context.theme.colorScheme.secondary,
                                 ),
                               ),
-                            ).animate().fadeIn(delay: 900.ms),
-                          ],
-                        ),
+                            ),
+                          ).animate().fadeIn(delay: 800.ms),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: TransparentButton(
+                              onPressed: () {
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) => CupertinoAlertDialog(
+                                    title: Text('Remove Country'),
+                                    content: Text(
+                                        'Are you sure you want to remove this country from tracking?'),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        child: Text('Cancel'),
+                                        onPressed: () => Navigator.pop(context),
+                                      ),
+                                      CupertinoDialogAction(
+                                        isDestructiveAction: true,
+                                        child: Text('Remove'),
+                                        onPressed: () {
+                                          context.pop();
+                                          context.pop();
+                                          find<CountriesCubit>(context)
+                                              .removeCountry(country.isoCode);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              leading: Icon(
+                                CupertinoIcons.rectangle_stack_badge_minus,
+                                color: Colors.redAccent,
+                                size: 24,
+                              ),
+                              child: Text(
+                                "Remove country",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
+                            ),
+                          ).animate().fadeIn(delay: 900.ms),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );

@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:resident_live/shared/lib/theme/export.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 
 import '../features/features.dart';
 import '../screens/screens.dart';
@@ -93,6 +96,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     FToast().init(context);
 
+    final rlThemeProvider = RlThemeProvider(RlTheme());
+
     return Builder(
       builder: (context) {
         return MultiRepositoryProvider(
@@ -108,6 +113,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             builder: (context) {
               return MultiBlocProvider(
                 providers: [
+                  ChangeNotifierProvider.value(value: rlThemeProvider),
                   BlocProvider(create: (_) => OnboardingCubit()),
                   BlocProvider(
                       create: (_) =>
@@ -116,25 +122,32 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   BlocProvider(create: (_) => UserCubit()),
                   BlocProvider(create: (_) => AuthCubit()),
                   BlocProvider(
-                    create: (_) =>
-                        LanguageCubit(find<LanguageRepository>(context)),
+                    create: (_) => LanguageCubit(
+                      find<LanguageRepository>(context),
+                    ),
                   ),
                 ],
                 child: BlocBuilder<LanguageCubit, Locale>(
                   builder: (context, locale) {
-                    return MaterialApp.router(
-                        routerConfig: RouterService.instance.router,
-                        debugShowCheckedModeBanner: false,
-                        theme: darkTheme, // TODO: add light theme support
-                        darkTheme: darkTheme,
-                        localizationsDelegates: context.localizationDelegates,
-                        supportedLocales: context.supportedLocales,
-                        locale: locale,
-                        builder: (context, child) {
-                          setDarkOverlayStyle();
-                          FToastBuilder();
-                          return child!;
-                        });
+                    return Listen<RlThemeProvider>(
+                      builder: (context) {
+                        return MaterialApp.router(
+                          routerConfig: RouterService.instance.router,
+                          debugShowCheckedModeBanner: false,
+                          theme: context.rlTheme.data, // TODO: add light theme
+                          darkTheme:
+                              context.rlTheme.data, // TODO: add light theme
+                          localizationsDelegates: context.localizationDelegates,
+                          supportedLocales: context.supportedLocales,
+                          locale: locale,
+                          builder: (context, child) {
+                            setDarkOverlayStyle();
+                            FToastBuilder();
+                            return child!;
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
               );

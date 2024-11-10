@@ -12,15 +12,12 @@ _$CountriesStateImpl _$$CountriesStateImplFromJson(Map<String, dynamic> json) =>
         (k, e) =>
             MapEntry(k, CountryEntity.fromJson(e as Map<String, dynamic>)),
       ),
-      focusedCountry: json['focusedCountry'] == null
-          ? null
-          : CountryEntity.fromJson(
-              json['focusedCountry'] as Map<String, dynamic>),
+      focusedCountryId: json['focusedCountryId'] as String?,
     );
 
 Map<String, dynamic> _$$CountriesStateImplToJson(
         _$CountriesStateImpl instance) =>
     <String, dynamic>{
       'countries': instance.countries,
-      'focusedCountry': instance.focusedCountry,
+      'focusedCountryId': instance.focusedCountryId,
     };

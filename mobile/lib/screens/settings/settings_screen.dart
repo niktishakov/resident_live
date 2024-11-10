@@ -116,14 +116,11 @@ class SettingsScreen extends StatelessWidget {
                         icon: CupertinoIcons.checkmark_shield,
                         title: "Privacy Policy",
                         onTap: () async {
-                          await CupertinoScaffold.showCupertinoModalBottomSheet(
-                              useRootNavigator: true,
-                              context: context,
-                              duration: 300.ms,
-                              animationCurve: Curves.fastEaseInToSlowEaseOut,
-                              builder: (context) => WebViewScreen(
-                                  url: privacyPolicyUrl,
-                                  title: "Privacy Policy"));
+                          await showWebViewModal(
+                            context: context,
+                            url: privacyPolicyUrl,
+                            title: "Privacy Policy",
+                          );
                         },
                       ),
                       Gap(12),
@@ -131,13 +128,11 @@ class SettingsScreen extends StatelessWidget {
                         asset: AppAssets.terms,
                         title: "Terms of Use",
                         onTap: () async {
-                          await CupertinoScaffold.showCupertinoModalBottomSheet(
-                              useRootNavigator: true,
-                              context: context,
-                              duration: 300.ms,
-                              animationCurve: Curves.fastEaseInToSlowEaseOut,
-                              builder: (context) => WebViewScreen(
-                                  url: termsOfUseUrl, title: "Terms of Use"));
+                          await showWebViewModal(
+                            context: context,
+                            url: termsOfUseUrl,
+                            title: "Terms of Use",
+                          );
                         },
                       ),
                     ]),

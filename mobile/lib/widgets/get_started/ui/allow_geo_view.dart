@@ -19,8 +19,7 @@ class AllowGeoView extends StatelessWidget {
     final successGradient = kSuccessGradient.colors;
     return BlocListener<LocationCubit, LocationState>(
       listener: (context, state) {
-        if (state.placemark != null)
-          find<CountriesCubit>(context).syncCountriesByGeo(state.placemark);
+        find<CountriesCubit>(context).syncCountriesByGeo(state.placemark);
       },
       child: BlocBuilder<GetStartedCubit, GetStartedState>(
         builder: (context, state) {

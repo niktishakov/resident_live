@@ -2,7 +2,7 @@ name: resident_live
 description: "A new Flutter project."
 
 publish_to: 'none'
-version: 1.0.0+11
+version: 1.0.0+13
 
 environment:
   sdk: '>=3.3.2 <4.0.0'
@@ -83,24 +83,24 @@ flutter:
     - assets/translations/
 
   fonts:
-    - family: WorkSans
+    - family: Poppins
       fonts:
-        - asset: assets/fonts/WorkSans/WorkSans-Black.ttf
+        - asset: assets/fonts/Poppins/Poppins-Black.ttf
           weight: 900
-        - asset: assets/fonts/WorkSans/WorkSans-ExtraBold.ttf
+        - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
           weight: 800
-        - asset: assets/fonts/WorkSans/WorkSans-Bold.ttf
+        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
           weight: 700
-        - asset: assets/fonts/WorkSans/WorkSans-SemiBold.ttf
+        - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/WorkSans/WorkSans-Medium.ttf
+        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
           weight: 500
-        - asset: assets/fonts/WorkSans/WorkSans-Regular.ttf
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
           weight: 400
-        - asset: assets/fonts/WorkSans/WorkSans-Light.ttf
+        - asset: assets/fonts/Poppins/Poppins-Light.ttf
           weight: 300
-        - asset: assets/fonts/WorkSans/WorkSans-ExtraLight.ttf
+        - asset: assets/fonts/Poppins/Poppins-ExtraLight.ttf
           weight: 200
-        - asset: assets/fonts/WorkSans/WorkSans-Thin.ttf
+        - asset: assets/fonts/Poppins/Poppins-Thin.ttf
           weight: 100
 

@@ -111,7 +111,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
             ),
           ),
         ),
-        Gap(64),
+        Gap(32),
         ProgressBar(
           completionPercentage: min(completionPercentage, 1.0),
           radius: 200,

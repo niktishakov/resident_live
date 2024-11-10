@@ -4,6 +4,7 @@ class AppAssets {
   const AppAssets._();
 
   // SVG
+  static const bookPages = AppAsset.vector('assets/svgs/book.pages.svg');
   static const burger = AppAsset.vector('assets/svgs/burger.svg');
   static const target = AppAsset.vector('assets/svgs/target.svg');
   static const redirect = AppAsset.vector('assets/svgs/redirect.svg');
@@ -29,6 +30,9 @@ class AppAssets {
   static const person = AppAsset.vector('assets/svgs/icon_person.svg');
   static const squareAndArrowUpCircle =
       AppAsset.vector('assets/svgs/square_and_arrow_up_circle.svg');
+
+  static const circularLoader =
+      AppAsset.bitmap('assets/imgs/circular_loader.png');
 
   // Lotties
   static const indicator = 'assets/lottie/indicator.json';

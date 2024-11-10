@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:resident_live/shared/shared.dart';
+import 'package:resident_live/shared/ui/rl.loader.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:resident_live/shared/ui/rl.sliver_header.dart';
 
 class WebViewScreen extends StatefulWidget {
+  const WebViewScreen({
+    Key? key,
+    required this.url,
+    required this.title,
+  }) : super(key: key);
+
   final String url;
   final String title;
-
-  const WebViewScreen({Key? key, required this.url, required this.title})
-      : super(key: key);
 
   @override
   State<WebViewScreen> createState() => _WebViewScreenState();
@@ -17,6 +21,7 @@ class WebViewScreen extends StatefulWidget {
 
 class _WebViewScreenState extends State<WebViewScreen> {
   late final WebViewController controller;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -29,8 +34,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
           onProgress: (int progress) {
             // Update loading bar.
           },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
+          onPageStarted: (String url) {
+            if (mounted) setState(() => isLoading = true);
+          },
+          onPageFinished: (String url) {
+            if (mounted) setState(() => isLoading = false);
+          },
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
             return NavigationDecision.navigate;
@@ -43,23 +52,44 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Grabber(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Gap(48),
-              Text(
-                widget.url,
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Grabber(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Gap(48),
+                Flexible(
+                  child: Text(
+                    widget.url,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: RlCloseButton(
+                    color: context.rlTheme.iconPrimaryOnColor,
+                  ),
+                ),
+              ],
+            ),
+            Gap(8),
+            Expanded(
+              child: Stack(
+                children: [
+                  WebViewWidget(controller: controller),
+                  if (isLoading)
+                    const Center(
+                      child: RlLoader(),
+                    ),
+                ],
               ),
-              CloseButton(),
-            ],
-          ),
-          Expanded(
-            child: WebViewWidget(controller: controller),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

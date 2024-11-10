@@ -1,6 +1,8 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:resident_live/shared/lib/ai.logger.dart';
+import 'package:resident_live/shared/shared.dart';
+import 'package:resident_live/shared/ui/rl.loader.dart';
 
 import '../../../domain/domain.dart';
 import 'countries_state.dart';
@@ -23,10 +25,16 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
 
       // first case: last visited country matches placemark country and we just should increase end date to today
       if (lastVisitedCountry.isoCode == countryCode) {
-        var periods = lastVisitedCountry.periods;
+        final periods = List<StayPeriod>.from(lastVisitedCountry.periods);
         final updatedPeriod =
             periods.removeLast().copyWith(endDate: DateTime.now());
         final updatedPeriods = [...periods, updatedPeriod];
+
+        _logger.debug(
+            "\n\n\nSync countries by geo: last visited country matches placemark country");
+        _logger.info(
+            "Updated Period: ${updatedPeriod.endDate.toTimeAndMMMMDDString()}");
+
         emit(state.copyWith(countries: {
           ...state.countries,
           lastVisitedCountry.isoCode:
@@ -52,6 +60,12 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
         final updatedPeriods = [...currentCountry.periods, newPeriod];
         final updatedCountry = currentCountry.copyWith(periods: updatedPeriods);
 
+        _logger.debug(
+            "\n\n\nSync countries by geo: last visited country matches placemark country");
+        _logger.info("Updated Country: ${updatedCountry.name}");
+        _logger.info(
+            "Updated Period: ${updatedCountry.periods.last.endDate.toTimeAndMMMMDDString()}");
+
         emit(
           state.copyWith(
             countries: {
@@ -61,11 +75,25 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
           ),
         );
       }
+    } else {
+      _logger.error(
+          "Cannot sync countries by geo: position isn't available. Continue the previous period...");
+
+      final lastVisitedCountry = state.findLastVisitedCountry();
+      final periods = List<StayPeriod>.from(lastVisitedCountry.periods);
+      final updatedPeriod =
+          periods.removeLast().copyWith(endDate: DateTime.now());
+      final updatedPeriods = [...periods, updatedPeriod];
+      emit(state.copyWith(countries: {
+        ...state.countries,
+        lastVisitedCountry.isoCode:
+            lastVisitedCountry.copyWith(periods: updatedPeriods),
+      }));
     }
   }
 
   void reorderCountry(int oldIndex, int newIndex) {
-    print("$oldIndex -> $newIndex");
+    _logger.debug("$oldIndex -> $newIndex");
     final countries =
         List<MapEntry<String, CountryEntity>>.from(state.countries.entries);
     final movedCountry = countries.removeAt(oldIndex);
@@ -98,7 +126,8 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
     }
 
     if (removedCountry?.isoCode == state.focusedCountry?.isoCode) {
-      emit(state.copyWith(focusedCountry: countries.values.firstOrNull));
+      emit(state.copyWith(
+          focusedCountryId: countries.values.firstOrNull?.isoCode));
     }
   }
 
@@ -114,7 +143,8 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
 
   void setFocusedCountryByIsoCode(String isoCode) {
     if (state.focusedCountry?.isoCode == isoCode) {
-      emit(state.copyWith(focusedCountry: null)); // Unfocus if already focused
+      emit(
+          state.copyWith(focusedCountryId: null)); // Unfocus if already focused
     } else {
       final focusedCountry = state.countries[isoCode];
       if (focusedCountry == null) {
@@ -122,12 +152,12 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
         return;
       }
 
-      emit(state.copyWith(focusedCountry: focusedCountry));
+      emit(state.copyWith(focusedCountryId: focusedCountry.isoCode));
     }
   }
 
   void setFocusedCountry(CountryEntity country) {
-    emit(state.copyWith(focusedCountry: country));
+    emit(state.copyWith(focusedCountryId: country.isoCode));
   }
 
   void reset() => emit(state.reset());

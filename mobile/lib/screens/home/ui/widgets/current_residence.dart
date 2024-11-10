@@ -21,6 +21,7 @@ class CurrentResidenceView extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<LocationCubit>().state;
     final isHere = state.isCurrentResidence(country.isoCode);
+    final beginBorderRadius = BorderRadius.circular(24);
     return CupertinoContextMenu(
       enableHapticFeedback: true,
       actions: [
@@ -37,7 +38,7 @@ class CurrentResidenceView extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Material(
-            borderRadius: BorderRadius.circular(36),
+            borderRadius: beginBorderRadius,
             elevation: 0,
             color: Colors.transparent,
             child: Container(
@@ -47,13 +48,28 @@ class CurrentResidenceView extends StatelessWidget {
               ),
               child: Hero(
                 tag: 'residence_${country.name}',
-                flightShuttleBuilder: startFlightShuttleBuilder,
+                flightShuttleBuilder: (
+                  flightContext,
+                  animation,
+                  flightDirection,
+                  fromHeroContext,
+                  toHeroContext,
+                ) =>
+                    toFirstHeroFlightShuttleBuilder(
+                  flightContext: flightContext,
+                  animation: animation,
+                  flightDirection: flightDirection,
+                  fromHeroContext: fromHeroContext,
+                  toHeroContext: toHeroContext,
+                  beginBorderRadius: beginBorderRadius.topLeft.x,
+                  endBorderRadius: kLargeBorderRadius.topLeft.x,
+                ),
                 child: Material(
                   color: Colors.transparent,
                   elevation: 0,
                   child: RlCard(
                     gradient: kMainGradient,
-                    borderRadius: BorderRadius.circular(36),
+                    borderRadius: beginBorderRadius,
                     padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,49 +105,6 @@ class CurrentResidenceView extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildResidentInfo(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "You're available to travel",
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        Text(
-          "${country.daysSpent - 183} days for free",
-          style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Color(0xff63FF3C)),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildNonResidentInfo(BuildContext context) {
-    final daysSpent = country.daysSpent;
-    final daysLeft = 183 - daysSpent;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "To become a resident",
-          style: TextStyle(fontSize: 18),
-        ),
-        Text(
-          "$daysLeft days left",
-          style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: context.theme.primaryColor),
-        ),
-      ],
     );
   }
 

@@ -16,6 +16,10 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       emit(state.copyWith(countries));
     }
   }
+
+  void reset() {
+    emit(state.copyWith([]));
+  }
 }
 
 class OnboardingState {

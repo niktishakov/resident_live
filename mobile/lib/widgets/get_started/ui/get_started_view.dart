@@ -88,6 +88,7 @@ class GetStartedView extends StatelessWidget {
 
                             find<CountriesCubit>(context)
                                 .setFocusedCountry(countries[index]);
+                            find<OnboardingCubit>(context).reset();
 
                             context.goNamed(ScreenNames.home);
                           },

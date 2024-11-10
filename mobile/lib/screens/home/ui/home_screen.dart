@@ -8,7 +8,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/app/main.dart';
 import 'package:resident_live/features/features.dart';
 import 'package:resident_live/screens/all_countries/ui/all_countries_screen.dart';
-import 'package:resident_live/screens/residence_details/residence_details_screen2.dart';
 import 'package:resident_live/screens/screens.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/widgets/widgets.dart';
@@ -66,9 +65,10 @@ class HomeScreen extends StatelessWidget {
                             onTap: () =>
                                 navigatorKey.currentContext?.navigator.push(
                               kDefaultFadeRouteBuilder(
-                                  page: ResidenceDetailsScreen(
-                                name: focusedCountry.name,
-                              )),
+                                page: ResidenceDetailsScreen(
+                                  name: focusedCountry.name,
+                                ),
+                              ),
                             ),
                           ),
                         ),

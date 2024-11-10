@@ -85,11 +85,14 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
         );
         segments.sort((a, b) => a.startDate.compareTo(b.startDate));
       });
-      _controller.animateTo(
-        _controller.position.maxScrollExtent,
-        duration: kDefaultDuration,
-        curve: Curves.fastEaseInToSlowEaseOut,
-      );
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _controller.animateTo(
+          _controller.position.maxScrollExtent,
+          duration: kDefaultDuration,
+          curve: Curves.fastEaseInToSlowEaseOut,
+        );
+      });
       return true;
     } else {
       showToast(context, "Please select a country");

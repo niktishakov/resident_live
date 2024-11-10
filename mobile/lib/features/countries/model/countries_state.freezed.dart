@@ -22,7 +22,7 @@ CountriesState _$CountriesStateFromJson(Map<String, dynamic> json) {
 mixin _$CountriesState {
   Map<String, CountryEntity> get countries =>
       throw _privateConstructorUsedError;
-  CountryEntity? get focusedCountry => throw _privateConstructorUsedError;
+  String? get focusedCountryId => throw _privateConstructorUsedError;
 
   /// Serializes this CountriesState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,10 +40,7 @@ abstract class $CountriesStateCopyWith<$Res> {
           CountriesState value, $Res Function(CountriesState) then) =
       _$CountriesStateCopyWithImpl<$Res, CountriesState>;
   @useResult
-  $Res call(
-      {Map<String, CountryEntity> countries, CountryEntity? focusedCountry});
-
-  $CountryEntityCopyWith<$Res>? get focusedCountry;
+  $Res call({Map<String, CountryEntity> countries, String? focusedCountryId});
 }
 
 /// @nodoc
@@ -62,32 +59,18 @@ class _$CountriesStateCopyWithImpl<$Res, $Val extends CountriesState>
   @override
   $Res call({
     Object? countries = null,
-    Object? focusedCountry = freezed,
+    Object? focusedCountryId = freezed,
   }) {
     return _then(_value.copyWith(
       countries: null == countries
           ? _value.countries
           : countries // ignore: cast_nullable_to_non_nullable
               as Map<String, CountryEntity>,
-      focusedCountry: freezed == focusedCountry
-          ? _value.focusedCountry
-          : focusedCountry // ignore: cast_nullable_to_non_nullable
-              as CountryEntity?,
+      focusedCountryId: freezed == focusedCountryId
+          ? _value.focusedCountryId
+          : focusedCountryId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
-  }
-
-  /// Create a copy of CountriesState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $CountryEntityCopyWith<$Res>? get focusedCountry {
-    if (_value.focusedCountry == null) {
-      return null;
-    }
-
-    return $CountryEntityCopyWith<$Res>(_value.focusedCountry!, (value) {
-      return _then(_value.copyWith(focusedCountry: value) as $Val);
-    });
   }
 }
 
@@ -99,11 +82,7 @@ abstract class _$$CountriesStateImplCopyWith<$Res>
       __$$CountriesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {Map<String, CountryEntity> countries, CountryEntity? focusedCountry});
-
-  @override
-  $CountryEntityCopyWith<$Res>? get focusedCountry;
+  $Res call({Map<String, CountryEntity> countries, String? focusedCountryId});
 }
 
 /// @nodoc
@@ -120,17 +99,17 @@ class __$$CountriesStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? countries = null,
-    Object? focusedCountry = freezed,
+    Object? focusedCountryId = freezed,
   }) {
     return _then(_$CountriesStateImpl(
       countries: null == countries
           ? _value._countries
           : countries // ignore: cast_nullable_to_non_nullable
               as Map<String, CountryEntity>,
-      focusedCountry: freezed == focusedCountry
-          ? _value.focusedCountry
-          : focusedCountry // ignore: cast_nullable_to_non_nullable
-              as CountryEntity?,
+      focusedCountryId: freezed == focusedCountryId
+          ? _value.focusedCountryId
+          : focusedCountryId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -140,7 +119,7 @@ class __$$CountriesStateImplCopyWithImpl<$Res>
 class _$CountriesStateImpl extends _CountriesState {
   const _$CountriesStateImpl(
       {required final Map<String, CountryEntity> countries,
-      this.focusedCountry})
+      this.focusedCountryId})
       : _countries = countries,
         super._();
 
@@ -156,11 +135,11 @@ class _$CountriesStateImpl extends _CountriesState {
   }
 
   @override
-  final CountryEntity? focusedCountry;
+  final String? focusedCountryId;
 
   @override
   String toString() {
-    return 'CountriesState(countries: $countries, focusedCountry: $focusedCountry)';
+    return 'CountriesState(countries: $countries, focusedCountryId: $focusedCountryId)';
   }
 
   @override
@@ -170,14 +149,14 @@ class _$CountriesStateImpl extends _CountriesState {
             other is _$CountriesStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._countries, _countries) &&
-            (identical(other.focusedCountry, focusedCountry) ||
-                other.focusedCountry == focusedCountry));
+            (identical(other.focusedCountryId, focusedCountryId) ||
+                other.focusedCountryId == focusedCountryId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_countries), focusedCountry);
+      const DeepCollectionEquality().hash(_countries), focusedCountryId);
 
   /// Create a copy of CountriesState
   /// with the given fields replaced by the non-null parameter values.
@@ -199,7 +178,7 @@ class _$CountriesStateImpl extends _CountriesState {
 abstract class _CountriesState extends CountriesState {
   const factory _CountriesState(
       {required final Map<String, CountryEntity> countries,
-      final CountryEntity? focusedCountry}) = _$CountriesStateImpl;
+      final String? focusedCountryId}) = _$CountriesStateImpl;
   const _CountriesState._() : super._();
 
   factory _CountriesState.fromJson(Map<String, dynamic> json) =
@@ -208,7 +187,7 @@ abstract class _CountriesState extends CountriesState {
   @override
   Map<String, CountryEntity> get countries;
   @override
-  CountryEntity? get focusedCountry;
+  String? get focusedCountryId;
 
   /// Create a copy of CountriesState
   /// with the given fields replaced by the non-null parameter values.

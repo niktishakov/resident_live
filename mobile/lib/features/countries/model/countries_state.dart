@@ -12,7 +12,7 @@ part 'countries_state.freezed.dart';
 class CountriesState with _$CountriesState {
   const factory CountriesState({
     required Map<String, CountryEntity> countries,
-    CountryEntity? focusedCountry,
+    String? focusedCountryId,
   }) = _CountriesState;
 
   const CountriesState._();
@@ -21,7 +21,9 @@ class CountriesState with _$CountriesState {
       _$CountriesStateFromJson(json);
 
   factory CountriesState.initial() =>
-      CountriesState(countries: {}, focusedCountry: null);
+      CountriesState(countries: {}, focusedCountryId: null);
+
+  CountryEntity? get focusedCountry => countries[focusedCountryId];
 
   CountryEntity getCountryByName(String name) {
     return _getCountry(
@@ -57,5 +59,5 @@ class CountriesState with _$CountriesState {
     return countryResidence ?? CountryEntity.initial(code, name);
   }
 
-  CountriesState reset() => copyWith(countries: {}, focusedCountry: null);
+  CountriesState reset() => copyWith(countries: {}, focusedCountryId: null);
 }

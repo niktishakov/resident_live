@@ -10,14 +10,16 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/domain/domain.dart';
+import 'package:resident_live/screens/residence_details/widgets/header.dart';
 import 'package:resident_live/widgets/widgets.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../features/features.dart';
 import '../../shared/shared.dart';
+import 'widgets/residency_rules_modal.dart';
 
 const _statuses = {
-  'hr': ["You're free to travel about", ""],
+  'hr': ["You're free to travel about", "You can travel until"],
   'h': ["Status update in", "Status will update at"],
   'r': ["You will lose your status in", "Status is safe until"],
   'a': ["Move to this country to regain status in", "Status may be updated at"]
@@ -91,34 +93,18 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
   void _handleDragEnd(DragEndDetails details) {
     if (_animationController.value > 0.5 ||
         details.velocity.pixelsPerSecond.dy > 700) {
-      _animationController.forward().then((_) => context.pop());
+      _animationController.forward().then((_) {
+        if (mounted && context.canPop()) context.pop();
+      });
     } else {
       _animationController.reverse();
     }
   }
 
-  Future<void> _captureAndShareScreenshot() async {
-    final RenderRepaintBoundary boundary =
-        screenKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    final image = await boundary.toImage(pixelRatio: 3.0);
-    final byteData = await image.toByteData(format: ImageByteFormat.png);
-    final bytes = byteData!.buffer.asUint8List();
-
-    await Share.shareXFiles(
-      [
-        XFile.fromData(
-          bytes,
-          name: 'residence_status.png',
-          mimeType: 'image/png',
-        ),
-      ],
-      text:
-          "Track your global residency journey with Resident Live! Download now: ${appStoreLink}",
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final theme = context.rlTheme;
+
     final country =
         context.watch<CountriesCubit>().state.getCountryByName(widget.name);
     final state = context.watch<LocationCubit>().state;
@@ -153,12 +139,24 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                           scale: _scaleAnimation.value,
                           child: Hero(
                             tag: 'residence_${country.name}',
-                            flightShuttleBuilder: endFlightShuttleBuilder,
+                            flightShuttleBuilder: (
+                              flightContext,
+                              animation,
+                              flightDirection,
+                              fromHeroContext,
+                              toHeroContext,
+                            ) =>
+                                toSecondHeroFlightShuttleBuilder(
+                              flightContext: flightContext,
+                              animation: animation,
+                              flightDirection: flightDirection,
+                              fromHeroContext: fromHeroContext,
+                              toHeroContext: toHeroContext,
+                            ),
                             child: Material(
                               color: Colors.transparent,
                               child: RlCard(
                                 // color: context.theme.cardColor,
-                                borderRadius: _borderAnimation.value,
                                 gradient: LinearGradient(
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
@@ -176,57 +174,11 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                       physics: NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.symmetric(horizontal: 8),
                       children: [
-                        Row(
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                if (isFocused) ...[
-                                  AppAssetImage(
-                                    AppAssets.target,
-                                    width: 18,
-                                    height: 18,
-                                    color: context.theme.colorScheme.secondary,
-                                  ),
-                                  Gap(8),
-                                ],
-                                Text(
-                                  widget.name,
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 26),
-                                ),
-                                if (isHere) ...[
-                                  Gap(4),
-                                  Here(shorter: true),
-                                ],
-                              ],
-                            ),
-                            Spacer(),
-                            BouncingButton(
-                              onPressed: (_) {
-                                VibrationService.instance.tap();
-                                _captureAndShareScreenshot();
-                                // ShareService.instance.shareResidence(country);
-                              },
-                              child: AppAssetImage(
-                                AppAssets.squareAndArrowUpCircle,
-                                width: 32,
-                                color: Colors.white.withOpacity(0.85),
-                              ),
-                            ),
-                            Gap(16),
-                            BouncingButton(
-                              onPressed: (_) {
-                                VibrationService.instance.tap();
-                                context.pop();
-                              },
-                              child: Icon(CupertinoIcons.clear_circled_solid,
-                                  size: 34,
-                                  color: Colors.white.withOpacity(0.85)),
-                            )
-                          ],
+                        Header(
+                          countryName: widget.name,
+                          isFocused: isFocused,
+                          isHere: isHere,
+                          screenKey: screenKey,
                         ),
                         Gap(48),
                         Center(
@@ -258,48 +210,46 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                             children: [
                               TextSpan(
                                 text: statusText,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                ),
+                                style: theme.body14,
                               ),
                               TextSpan(
-                                text: " ${country.statusToggleIn} days",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                text: "\n${country.statusToggleIn} days",
+                                style: theme.body18M
+                                    .copyWith(fontWeight: FontWeight.w700),
                               ),
                             ],
                           ),
                         ).animate(delay: 300.ms).slideX(
-                              begin: -1,
-                              curve: Curves.fastEaseInToSlowEaseOut,
-                              duration: 500.ms,
-                            ),
-                        Text(
-                          suggestionText,
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                          ),
-                        ).animate(delay: 300.ms).slideX(
-                              begin: -1,
+                              begin: -2,
                               curve: Curves.fastEaseInToSlowEaseOut,
                               duration: 500.ms,
                             ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "${country.statusToggleAt.toMMMMDDYYYY()}",
-                              style: GoogleFonts.poppins(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: suggestionText,
+                                    style: theme.body14,
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        "\n${country.statusToggleAt.toMMMMDDYYYY()}",
+                                    style: theme.body18M
+                                        .copyWith(fontWeight: FontWeight.w700),
+                                  ),
+                                ],
                               ),
-                            ).animate(delay: 500.ms).slideX(
-                                  begin: -1.5,
+                            )
+                                .animate(delay: 300.ms)
+                                .slideX(
+                                  begin: -2,
                                   curve: Curves.fastEaseInToSlowEaseOut,
                                   duration: 500.ms,
-                                ),
+                                )
+                                .fade(),
                             BouncingButton(
                               onPressed: (_) async {
                                 await CupertinoScaffold
@@ -342,11 +292,14 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                   ),
                                 ),
                               ),
-                            ).animate(delay: 500.ms).slideX(
+                            )
+                                .animate(delay: 500.ms)
+                                .slideX(
                                   begin: 1.5,
                                   curve: Curves.fastEaseInToSlowEaseOut,
                                   duration: 500.ms,
-                                ),
+                                )
+                                .fade(),
                           ],
                         ),
                         Gap(8),
@@ -371,10 +324,29 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                           alignment: Alignment.centerLeft,
                           child: TransparentButton(
                             leading: AppAssetImage(
-                              AppAssets.redirect,
+                              AppAssets.bookPages,
                               width: 24,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                useRootNavigator: true,
+                                useSafeArea: false,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                transitionAnimationController:
+                                    AnimationController(
+                                  vsync: Navigator.of(context),
+                                  duration: const Duration(milliseconds: 300),
+                                ),
+                                builder: (_) => ResidencyRulesModal(),
+                              ).then((_) {
+                                // Fade out the blur effect when the modal is dismissed
+                                Future.delayed(Duration(milliseconds: 300), () {
+                                  // Optionally, you can add any additional logic here
+                                });
+                              });
+                            },
                             child: Text(
                               "Read a residency rules",
                               style: GoogleFonts.poppins(

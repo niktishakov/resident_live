@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -29,12 +31,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeApp() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     if (!mounted) return;
 
-    final state = context.read<CountriesCubit>().state;
+    final state = find<CountriesCubit>(context).state;
+
+    /// The main reason to go to Home is not empty countries list
     if (state.countries.isNotEmpty) {
-      await _checkAndAuthenticate();
+      await find<LocationCubit>(context).initialize();
     } else {
       context.goNamed(ScreenNames.onboarding);
     }
@@ -49,12 +53,11 @@ class _SplashScreenState extends State<SplashScreen> {
     if (authResult) {
       _navigateToHome();
     } else {
-      _showPasscodeAuthentication();
+      await _showPasscodeAuthentication();
     }
   }
 
   void _navigateToHome() {
-    find<LocationCubit>(context).initialize();
     context.goNamed(ScreenNames.home);
   }
 
@@ -94,14 +97,28 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state.error != null) {
-          _showErrorDialog(state.error!);
-        } else if (state.isAuthenticated) {
-          _navigateToHome();
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state.error != null) {
+              _showErrorDialog(state.error!);
+            } else if (state.isAuthenticated) {
+              _navigateToHome();
+            }
+          },
+        ),
+        BlocListener<LocationCubit, LocationState>(
+          listener: (context, state) {
+            if (state.placemark != null && state.placemark?.country != null) {
+              find<CountriesCubit>(context).syncCountriesByGeo(state.placemark);
+              _checkAndAuthenticate();
+            } else if (state.error.isNotEmpty) {
+              _showErrorDialog(state.error);
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         body: Stack(
           children: [

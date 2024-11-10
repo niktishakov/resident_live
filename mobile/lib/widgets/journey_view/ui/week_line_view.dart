@@ -29,6 +29,7 @@ class WeekLineView extends StatelessWidget {
           onTap: () async {
             await CupertinoScaffold.showCupertinoModalBottomSheet(
               useRootNavigator: true,
+              expand: true,
               context: context,
               duration: 300.ms,
               animationCurve: Curves.fastEaseInToSlowEaseOut,

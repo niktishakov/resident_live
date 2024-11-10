@@ -33,6 +33,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
   Widget build(BuildContext context) {
     final residences =
         widget.residences.sublist(0, min(widget.residences.length, 2));
+    final beginBorderRadius = BorderRadius.circular(38);
     return residences.isEmpty
         ? SizedBox()
         : Container(
@@ -57,10 +58,24 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                   onTap: widget.onTap,
                   child: Hero(
                     tag: 'tracking_residences',
-                    flightShuttleBuilder: startFlightShuttleBuilder,
+                    flightShuttleBuilder: (
+                      flightContext,
+                      animation,
+                      flightDirection,
+                      fromHeroContext,
+                      toHeroContext,
+                    ) =>
+                        toFirstHeroFlightShuttleBuilder(
+                      flightContext: flightContext,
+                      animation: animation,
+                      flightDirection: flightDirection,
+                      fromHeroContext: fromHeroContext,
+                      toHeroContext: toHeroContext,
+                      beginBorderRadius: beginBorderRadius.topLeft.x,
+                    ),
                     child: RlCard(
                       gradient: kMainGradient,
-                      borderRadius: BorderRadius.circular(38),
+                      borderRadius: beginBorderRadius,
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 20.0),

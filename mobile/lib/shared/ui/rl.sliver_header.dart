@@ -40,41 +40,16 @@ class AiSliverAppBar extends StatelessWidget {
       backgroundColor: bgColor,
       border: Border.all(color: Colors.transparent),
       padding: const EdgeInsetsDirectional.only(start: 4, end: 8),
-      stretch: stretch,
+      stretch: false,
       previousPageTitle: previousPageTitle,
       automaticallyImplyTitle: !showLargeTitle,
-      alwaysShowMiddle: true,
-      middle: !showLargeTitle
-          ? Text(
-              title,
-              style: GoogleFonts.workSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: context.theme.colorScheme.secondary,
-              ),
-            )
-          : null,
       leading: leading ??
           CupertinoNavigationBarBackButton(
             color: Colors.black, // your desired color
             previousPageTitle: previousPageTitle,
             onPressed: () => context.pop(),
           ),
-      largeTitle: showLargeTitle
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(title,
-                    style: GoogleFonts.poppins(
-                      color: context.theme.colorScheme.secondary,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      height: 30 / 24,
-                      // letterSpacing: 0.2,
-                    )),
-              ],
-            )
-          : null,
+      largeTitle: Text(title),
       trailing: trailing,
     );
   }
@@ -248,15 +223,6 @@ class AiBackButton extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 )
-                    .animate()
-                    .slideX(
-                      begin: 1,
-                      end: 0,
-                      delay: 100.ms,
-                      duration: 300.ms,
-                      curve: Curves.fastOutSlowIn,
-                    )
-                    .fade(begin: 0.01)
             ],
           )),
     );

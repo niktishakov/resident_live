@@ -32,13 +32,16 @@ Widget kFlightShuttleBuilder(
   );
 }
 
-Widget startFlightShuttleBuilder(
-  BuildContext flightContext,
-  Animation<double> animation,
-  HeroFlightDirection flightDirection,
-  BuildContext fromHeroContext,
-  BuildContext toHeroContext,
-) {
+/// Use this to animate to the second hero widget
+Widget toFirstHeroFlightShuttleBuilder({
+  required BuildContext flightContext,
+  required Animation<double> animation,
+  required HeroFlightDirection flightDirection,
+  required BuildContext fromHeroContext,
+  required BuildContext toHeroContext,
+  double? beginBorderRadius,
+  double? endBorderRadius,
+}) {
   return AnimatedBuilder(
     animation: animation,
     builder: (context, child) {
@@ -48,8 +51,8 @@ Widget startFlightShuttleBuilder(
       final fadeInTween =
           Tween<double>(begin: 0.0, end: 1.0).animate(animation);
       final borderRadiusTween = Tween<double>(
-        begin: kBorderRadius.topLeft.x,
-        end: kLargeBorderRadius.bottomLeft.x,
+        begin: beginBorderRadius ?? kBorderRadius.topLeft.x,
+        end: endBorderRadius ?? kLargeBorderRadius.bottomLeft.x,
       ).animate(
         CurvedAnimation(parent: animation, curve: Curves.easeInOut),
       );
@@ -81,13 +84,16 @@ Widget startFlightShuttleBuilder(
   );
 }
 
-Widget endFlightShuttleBuilder(
-  BuildContext flightContext,
-  Animation<double> animation,
-  HeroFlightDirection flightDirection,
-  BuildContext fromHeroContext,
-  BuildContext toHeroContext,
-) {
+/// Use this to animate back to the first hero widget
+Widget toSecondHeroFlightShuttleBuilder({
+  required BuildContext flightContext,
+  required Animation<double> animation,
+  required HeroFlightDirection flightDirection,
+  required BuildContext fromHeroContext,
+  required BuildContext toHeroContext,
+  double? beginBorderRadius,
+  double? endBorderRadius,
+}) {
   return AnimatedBuilder(
     animation: animation,
     builder: (context, child) {
@@ -96,8 +102,8 @@ Widget endFlightShuttleBuilder(
           Tween<double>(begin: 1.0, end: 1.0).animate(animation);
       final fadeInTween = Tween<double>(begin: 1.0, end: 0).animate(animation);
       final borderRadiusTween = Tween<double>(
-        begin: kBorderRadius.topLeft.x,
-        end: kLargeBorderRadius.bottomLeft.x,
+        begin: beginBorderRadius ?? kBorderRadius.topLeft.x,
+        end: endBorderRadius ?? kLargeBorderRadius.bottomLeft.x,
       ).animate(
         CurvedAnimation(parent: animation, curve: Curves.fastOutSlowIn),
       );

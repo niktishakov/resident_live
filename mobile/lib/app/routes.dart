@@ -136,7 +136,9 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       pageBuilder: (ctx, state) {
         return kSlideTransitionPage(
           WebViewScreen(
-              url: state.extra as String, title: state.extra as String),
+            url: state.extra as String,
+            title: state.extra as String,
+          ),
           ScreenNames.webView,
         );
       },

@@ -25,8 +25,21 @@ class CountryEntity with _$CountryEntity {
       _$CountryEntityFromJson(json);
 
   int get daysSpent {
+    final DateTime twelveMonthsAgo =
+        DateTime.now().subtract(const Duration(days: 365));
+
     return periods.fold(0, (sum, period) {
-      return sum + period.endDate.difference(period.startDate).inDays;
+      // Skip periods that end before our 12-month window
+      if (period.endDate.isBefore(twelveMonthsAgo)) {
+        return sum;
+      }
+
+      // Adjust start date if it falls before our 12-month window
+      final DateTime effectiveStart = period.startDate.isBefore(twelveMonthsAgo)
+          ? twelveMonthsAgo
+          : period.startDate;
+
+      return sum + period.endDate.difference(effectiveStart).inDays;
     });
   }
 

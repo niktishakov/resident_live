@@ -1,0 +1,4 @@
+app_identifier("com.nikapps.residentlive") # Replace with your app's bundle ID
+apple_id("starscreamnik@gmail.com") # Replace with your Apple ID email
+team_id("LWV5ZRPC43") # Replace with your Apple Developer Team ID
+itc_team_id("126696443") # App Store Connect Team ID for "Nik Tishakov"

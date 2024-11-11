@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000517">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: app_store_connect_api_key" time="0.003647">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: get_version_number" time="0.115388">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: latest_testflight_build_number" time="2.057219">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: increment_build_number" time="0.517385">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: cd .. &amp;&amp; bundle exec pod install &amp;&amp; flutter build ios --release --no-codesign -t lib/app/main.dart" time="43.869742">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: build_ios_app" time="178.286583">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="7: upload_to_testflight" time="149.342195">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

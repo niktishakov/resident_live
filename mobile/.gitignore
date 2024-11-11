@@ -56,3 +56,11 @@ key.properties
 
 # FVM Version Cache
 .fvm/
+
+
+# Fastlane
+fastlane/report.xml
+fastlane/.env*
+fastlane/README.md
+build/
+fastlane/test_output/

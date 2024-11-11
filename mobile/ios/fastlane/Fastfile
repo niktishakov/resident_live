@@ -1,0 +1,45 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Deploy to TestFlight"
+  lane :beta do
+    # Add this near the top of the lane
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
+      key_filepath: ENV["APP_STORE_CONNECT_KEY_PATH"],
+      duration: 1200 # optional (maximum 1200)
+    )
+    
+    # Get latest build number from TestFlight
+    latest_testflight_build_number = latest_testflight_build_number(
+      app_identifier: "com.nikapps.residentlive",
+      version: get_version_number(
+        xcodeproj: "Runner.xcodeproj",
+        target: "Runner"
+      )
+    )
+    
+    # Increment build number
+    increment_build_number(
+      build_number: (latest_testflight_build_number + 1).to_s,
+      xcodeproj: "Runner.xcodeproj"
+    )
+
+    # Build the Flutter app
+    sh("cd .. && bundle exec pod install && flutter build ios --release --no-codesign -t lib/app/main.dart")
+    
+    # Build and upload to TestFlight
+    build_ios_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      configuration: "Release",
+      clean: true,
+      output_directory: "./build",
+      output_name: "ResidentLive.ipa"
+    )
+    
+    upload_to_testflight
+  end
+end

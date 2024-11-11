@@ -59,8 +59,9 @@ key.properties
 
 
 # Fastlane
-fastlane/report.xml
-fastlane/.env*
-fastlane/README.md
+ios/fastlane/report.xml
+ios/fastlane/.env*
+ios/fastlane/README.md
 build/
 fastlane/test_output/
+ios/fastlane/*.p8

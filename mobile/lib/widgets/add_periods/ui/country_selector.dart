@@ -6,12 +6,13 @@ class CountrySelector extends StatefulWidget {
     required this.countries,
     required this.onCountrySelected,
     this.focusedCountry,
+    this.colors,
   });
 
   final List<String> countries;
   final Function(String, Color) onCountrySelected;
   final String? focusedCountry;
-
+  final Map<String, Color>? colors;
   @override
   _CountrySelectorState createState() => _CountrySelectorState();
 }
@@ -29,7 +30,7 @@ class _CountrySelectorState extends State<CountrySelector>
   }
 
   void _updateCountryColors() {
-    countryColors = getCountryColors(widget.countries);
+    countryColors = widget.colors ?? getCountryColors(widget.countries);
   }
 
   @override

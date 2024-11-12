@@ -1,6 +1,11 @@
 import 'package:intl/intl.dart';
 
 extension Formatting on DateTime {
+  bool get isToday {
+    final now = DateTime.now();
+    return now.day == day && now.month == month && now.year == year;
+  }
+
   String toFormattedString() {
     return DateFormat('MMMM d, yyyy \'at\' h:mm a').format(this);
   }
@@ -51,5 +56,9 @@ extension Formatting on DateTime {
 
   String toMMMMDDYYYY() {
     return DateFormat("MMMM dd, yyyy").format(toLocal());
+  }
+
+  String toMonthYearString() {
+    return DateFormat('MMMM yyyy').format(toLocal());
   }
 }

@@ -15,6 +15,8 @@ class RlTheme {
         title20Semi = _title20Semi,
         title16 = _title16,
         title16Semi = _title16Semi,
+        body22M = _body22M,
+        body22 = _body22,
         body20 = _body20,
         body18 = _body18,
         body18M = _body18M,
@@ -32,8 +34,8 @@ class RlTheme {
         bgCard = const Color(0xFFFFFFFF),
         bgCardClick = const Color(0xFFF9F9F9),
         bgWhite = const Color(0xFFFFFFFF),
-        bgAccent = const Color(0xFF6D7BFA),
-        bgAccentClick = const Color(0xFF6876F7),
+        bgAccent = const Color(0xff50B5FF),
+        bgAccentClick = const Color(0xff50B5FF),
         bgAccentOpacity = const Color.fromRGBO(109, 123, 250, 0.12),
         bgDanger = const Color(0xFFFF6643),
         bgDangerOpacity = const Color.fromRGBO(255, 102, 67, 0.12),
@@ -45,21 +47,21 @@ class RlTheme {
         textPrimary = const Color(0xFF1E1E1E),
         textSecondary = const Color(0xFF878999),
         textTertiary = const Color(0xFFBBBCC6),
-        textAccent = const Color(0xFF6D7BFA),
+        textAccent = const Color(0xff50B5FF),
         textDanger = const Color(0xFFFF6643),
         textSuccess = const Color(0xFF8FC754),
         textPrimaryOnColor = const Color(0xFFFFFFFF),
         textPrimaryInverse = const Color(0xFFFFFFFF),
         textSecondaryInverse = const Color(0xFF9C9DA4),
         borderPrimary = const Color(0xFFE4E5E5),
-        borderAccent = const Color(0xFF6D7BFA),
+        borderAccent = const Color(0xff50B5FF),
         borderWhite = const Color(0xFFFFFFFF),
         borderPrimaryInverse = const Color(0xFF08091C),
         borderDanger = const Color(0xffFF6643),
         iconPrimary = const Color(0xFF1E1E1E),
         iconSecondary = const Color(0xFF878999),
         iconTertiary = const Color(0xFFBBBCC6),
-        iconAccent = const Color(0xFF6D7BFA),
+        iconAccent = const Color(0xff50B5FF),
         iconDanger = const Color(0xFFFF6643),
         iconSuccess = const Color(0xFF8FC754),
         iconPrimaryOnColor = const Color(0xFFFFFFFF),
@@ -75,6 +77,8 @@ class RlTheme {
   final TextStyle title20Semi;
   final TextStyle title16;
   final TextStyle title16Semi;
+  final TextStyle body22M;
+  final TextStyle body22;
   final TextStyle body20;
   final TextStyle body18;
   final TextStyle body18M;

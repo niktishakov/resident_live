@@ -54,6 +54,19 @@ TextStyle _title16Semi = TextStyle(
 );
 
 // Body styles
+TextStyle _body22M = TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 22,
+  fontWeight: FontWeight.w600,
+  height: 28 / 22,
+);
+TextStyle _body22 = TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 22,
+  fontWeight: FontWeight.w400,
+  height: 28 / 22,
+);
+
 TextStyle _body20 = TextStyle(
   fontFamily: _fontFamily,
   fontSize: 20,

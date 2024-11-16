@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:resident_live/shared/shared.dart';
 
-import '../onboarding/ui/pages/countries.page.dart';
+import '../../widgets/find_countries/find_countries_page.dart';
 import '../onboarding/ui/pages/stay_period.page.dart';
 
-class AddCountryResidencyScreen extends StatefulWidget {
+class ManageCountriesScreen extends StatefulWidget {
   @override
-  _AddCountryResidencyScreenState createState() =>
-      _AddCountryResidencyScreenState();
+  _ManageCountriesScreenState createState() => _ManageCountriesScreenState();
 }
 
-class _AddCountryResidencyScreenState extends State<AddCountryResidencyScreen> {
+class _ManageCountriesScreenState extends State<ManageCountriesScreen> {
   String? selectedCountry;
   List<DateTimeRange> activities = [];
   late PageController controller;
@@ -37,7 +36,7 @@ class _AddCountryResidencyScreenState extends State<AddCountryResidencyScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56),
         child: RlCupertinoNavBar(
-          title: "Add Residency",
+          title: "Manage Your Residences",
         ),
       ),
       body: SafeArea(
@@ -45,22 +44,17 @@ class _AddCountryResidencyScreenState extends State<AddCountryResidencyScreen> {
           child: PageView.builder(
             controller: controller,
             physics: const NeverScrollableScrollPhysics(),
-            onPageChanged: (value) {
-              if (value == 2) {
-                // context.goNamed(ScreenNames.allowLocation);
-              }
-            },
-            itemCount: 3,
+            itemCount: 2,
             itemBuilder: (c, i) {
               switch (i) {
                 case 0:
-                  return EnterCountriesPage(onNextPage);
+                  return FindCountriesPage(onNextPage);
                 case 1:
                   return EnterStayDurationPage(onNextPage: () {
                     context.goNamed(ScreenNames.home);
                   });
                 default:
-                  return EnterCountriesPage(onNextPage);
+                  return FindCountriesPage(onNextPage);
               }
             },
           ),

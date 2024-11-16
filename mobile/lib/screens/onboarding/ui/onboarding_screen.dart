@@ -2,9 +2,10 @@ import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:resident_live/screens/screens.dart';
 import 'package:resident_live/shared/shared.dart';
 
-import 'pages/countries.page.dart';
+import '../../../widgets/find_countries/find_countries_page.dart';
 import 'pages/stay_period.page.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -35,13 +36,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           itemBuilder: (c, i) {
             switch (i) {
               case 0:
-                return EnterCountriesPage(onNextPage);
+                return FindCountriesPage(onNextPage);
               case 1:
-                return EnterStayDurationPage(onNextPage: () {
-                  context.goNamed(ScreenNames.getStarted);
-                });
+                return EnterStayDurationPage(onNextPage: onNextPage);
+              case 2:
+                return GetStartedScreen();
               default:
-                return EnterCountriesPage(onNextPage);
+                return FindCountriesPage(onNextPage);
             }
           },
         ),

@@ -4,22 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:resident_live/shared/ui/fade_border.dart';
-import 'package:resident_live/shared/ui/primary_button.dart';
 
-import '../../../../features/features.dart';
-import '../../../../shared/shared.dart';
-import '../../model/onboarding_cubit.dart';
+import '../../features/features.dart';
+import '../../shared/shared.dart';
+import '../../screens/onboarding/model/onboarding_cubit.dart';
 
-class EnterCountriesPage extends StatefulWidget {
-  const EnterCountriesPage(this.onNextPage, {super.key});
+class FindCountriesPage extends StatefulWidget {
+  const FindCountriesPage(this.onNextPage, {super.key});
   final VoidCallback onNextPage;
 
   @override
-  _EnterCountriesPageState createState() => _EnterCountriesPageState();
+  _FindCountriesPageState createState() => _FindCountriesPageState();
 }
 
-class _EnterCountriesPageState extends State<EnterCountriesPage> {
+class _FindCountriesPageState extends State<FindCountriesPage> {
   String searchQuery = "";
   ScrollController controller = ScrollController();
 

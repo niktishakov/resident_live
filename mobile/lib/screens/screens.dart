@@ -1,4 +1,4 @@
-export 'add_residency/add_residency_screen.dart';
+export 'manage_countries/manage_countries_screen.dart';
 export 'bottom_bar/bottom_bar.dart';
 export 'home/ui/home_screen.dart';
 export 'onboarding/ui/onboarding_screen.dart';

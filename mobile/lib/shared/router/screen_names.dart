@@ -4,7 +4,7 @@ class ScreenNames {
   static const onboarding = '/onboarding-screen';
   static const bottomBarShell = '/bottom-bar';
   static const getStarted = '/get-started-screen';
-  static const addCountry = '/add-residency-screen';
+  static const manageCountries = '/manage-countries-screen';
   static const residenceDetails = '/residence-details-screen';
   static const residenceDetails2 = '/residence-details-screen2';
 
@@ -19,7 +19,7 @@ class ScreenNames {
     onboarding,
     bottomBarShell,
     getStarted,
-    addCountry,
+    manageCountries,
     residenceDetails,
     settings
   ];

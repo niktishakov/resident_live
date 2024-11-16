@@ -77,12 +77,12 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       },
     ),
     GoRoute(
-      path: ScreenNames.addCountry,
-      name: ScreenNames.addCountry,
+      path: ScreenNames.manageCountries,
+      name: ScreenNames.manageCountries,
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(
-          AddCountryResidencyScreen(),
-          ScreenNames.addCountry,
+          ManageCountriesScreen(),
+          ScreenNames.manageCountries,
         );
       },
     ),

@@ -18,6 +18,8 @@ class PrimaryButton extends StatelessWidget {
     this.leading,
     this.trailing,
     this.animationDuration,
+    this.padding,
+    this.behavior = HitTestBehavior.deferToChild,
   });
 
   final Widget? leading;
@@ -32,12 +34,14 @@ class PrimaryButton extends StatelessWidget {
   final bool enabled;
   final Widget? trailing;
   final Duration? animationDuration;
-
+  final EdgeInsetsGeometry? padding;
+  final HitTestBehavior behavior;
   @override
   Widget build(BuildContext context) {
     return BouncingButton(
       borderRadius: kBorderRadius,
       vibrate: vibrate,
+      behaviour: behavior,
       onPressed: enabled ? (_) => onPressed?.call() : null,
       child: AnimatedContainer(
         duration: animationDuration ?? kDefaultDuration,
@@ -52,7 +56,8 @@ class PrimaryButton extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeInOut,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
+            padding: padding ??
+                const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,

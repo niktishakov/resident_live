@@ -100,7 +100,6 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
 
-    print("popping: $_isPopping");
     return GestureDetector(
       onVerticalDragStart: _handleDragStart,
       onVerticalDragUpdate: _handleDragUpdate,
@@ -383,11 +382,18 @@ class _CountryItem extends StatelessWidget {
                       builder: (context, value, child) {
                         return SizedBox(
                           width: value * 45,
+                          height: 45,
                           child: Transform.translate(
                             offset: Offset(-40 * (1 - value), 0),
                             child: Opacity(
                               opacity: value.clamp(0.0, 1.0),
-                              child: child,
+                              child: OverflowBox(
+                                minWidth: 45,
+                                maxWidth: 45,
+                                minHeight: 45,
+                                maxHeight: 45,
+                                child: child,
+                              ),
                             ),
                           ),
                         );
@@ -395,7 +401,7 @@ class _CountryItem extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(right: 12.0),
                         child: SizedBox.square(
-                          dimension: 40,
+                          dimension: 45,
                           child: Center(
                             child: RlCheckbox(
                               value: isSelected,
@@ -473,11 +479,18 @@ class _CountryItem extends StatelessWidget {
                       builder: (context, value, child) {
                         return SizedBox(
                           width: value * 45,
+                          height: 45,
                           child: Transform.translate(
-                            offset: Offset(40 * (1 - value), 0),
+                            offset: Offset(45 * (1 - value), 0),
                             child: Opacity(
                               opacity: value.clamp(0.0, 1.0),
-                              child: child,
+                              child: OverflowBox(
+                                minWidth: 45,
+                                maxWidth: 45,
+                                minHeight: 45,
+                                maxHeight: 45,
+                                child: child,
+                              ),
                             ),
                           ),
                         );
@@ -485,7 +498,7 @@ class _CountryItem extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12.0),
                         child: SizedBox.square(
-                          dimension: 40,
+                          dimension: 45,
                           child: Center(
                             child: AppAssetImage(
                               AppAssets.burger,

@@ -11,7 +11,7 @@ import 'package:resident_live/screens/all_countries/ui/all_countries_screen.dart
 import 'package:resident_live/screens/screens.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/widgets/widgets.dart';
-import 'widgets/current_residence.dart';
+import 'widgets/focused_country_view.dart';
 import 'widgets/greeting_view.dart';
 import 'widgets/tracking_residences.dart';
 
@@ -60,13 +60,16 @@ class HomeScreen extends StatelessWidget {
                     if (focusedCountry != null) ...[
                       SliverToBoxAdapter(
                         child: RepaintBoundary(
-                          child: CurrentResidenceView(
-                            country: focusedCountry,
-                            onTap: () =>
-                                navigatorKey.currentContext?.navigator.push(
-                              kDefaultFadeRouteBuilder(
-                                page: ResidenceDetailsScreen(
-                                  name: focusedCountry.name,
+                          child: SizedBox(
+                            height: 320,
+                            child: FocusedCountryView(
+                              focusedCountry: focusedCountry,
+                              onTap: (country) =>
+                                  navigatorKey.currentContext?.navigator.push(
+                                kDefaultFadeRouteBuilder(
+                                  page: ResidenceDetailsScreen(
+                                    name: country.name,
+                                  ),
                                 ),
                               ),
                             ),

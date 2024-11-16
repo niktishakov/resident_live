@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,17 +27,72 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return RepaintBoundary(
+      child: _HeaderContent(
+        countryName: countryName,
+        isFocused: isFocused,
+        isHere: isHere,
+        screenKey: screenKey,
+      ),
+    );
+  }
+}
+
+class _HeaderContent extends StatelessWidget {
+  const _HeaderContent({
+    required this.countryName,
+    required this.isFocused,
+    required this.isHere,
+    required this.screenKey,
+  });
+
+  final String countryName;
+  final bool isFocused;
+  final bool isHere;
+  final GlobalKey<State<StatefulWidget>> screenKey;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = context.theme.colorScheme.secondary;
     return Row(
       children: [
-        if (isFocused) ...[
-          AppAssetImage(
-            AppAssets.target,
-            width: 18,
-            height: 18,
-            color: context.theme.colorScheme.secondary,
-          ),
-          Gap(8),
-        ],
+        SizedBox().animate(delay: 100.ms).swap(
+              builder: (context, _) => TweenAnimationBuilder(
+                duration: Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                tween: Tween<double>(begin: 0, end: isFocused ? 1 : 0),
+                builder: (context, value, child) {
+                  return SizedBox(
+                    width: value * 30,
+                    height: 20,
+                    child: Transform.translate(
+                      offset: Offset(-20 * (1 - value), 0),
+                      child: Opacity(
+                        opacity: value.clamp(0.0, 1.0),
+                        child: OverflowBox(
+                          minWidth: 30,
+                          maxWidth: 30,
+                          minHeight: 20,
+                          maxHeight: 20,
+                          child: child,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: Row(
+                  children: [
+                    AppAssetImage(
+                      AppAssets.target,
+                      width: 20,
+                      height: 20,
+                      color: color,
+                    ),
+                    Gap(8),
+                  ],
+                ),
+              ),
+            ),
         Expanded(
           child: Row(
             children: [
@@ -44,11 +100,13 @@ class Header extends StatelessWidget {
                 countryName,
                 maxLines: 1,
                 style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600, fontSize: 26),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 26,
+                ),
               ),
               if (isHere) ...[
-                Gap(4),
-                Here(shorter: true),
+                const Gap(4),
+                const Here(shorter: true),
               ],
             ],
           ),

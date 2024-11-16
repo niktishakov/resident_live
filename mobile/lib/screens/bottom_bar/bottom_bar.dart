@@ -115,7 +115,7 @@ class AiBottomBar extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 VibrationService.instance.tap();
-                context.push(ScreenNames.addCountry);
+                context.push(ScreenNames.manageCountries);
               },
               child: ColoredBox(
                 color: Colors.transparent,
@@ -154,7 +154,7 @@ class AiBottomBar extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               VibrationService.instance.tap();
-              context.push(ScreenNames.addCountry);
+              context.push(ScreenNames.manageCountries);
             },
             child: ColoredBox(
               color: Colors.transparent,

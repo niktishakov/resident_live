@@ -180,6 +180,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                       color: sliderColor,
                       periods: segments,
                       onAddPeriodPressed: _onAddPeriodPressed,
+                      countryColors: getCountryColors(widget.countries),
                     ),
                   ),
                 ],

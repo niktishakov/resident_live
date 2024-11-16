@@ -26,6 +26,8 @@ class _JourneyCalendarState extends State<JourneyCalendar> {
   late DateTime _nextMonth;
   bool _isAnimating = false;
   int _slideDirection = 0; // -1 for left, 1 for right
+  double _dragStart = 0;
+  static const double _swipeThreshold = 50;
 
   @override
   void initState() {
@@ -60,7 +62,22 @@ class _JourneyCalendarState extends State<JourneyCalendar> {
           ),
           Divider(color: Color(0xff121212), thickness: 2),
           ClipRect(
-            child: _buildCalendarGrid(context),
+            child: GestureDetector(
+              onHorizontalDragStart: (details) {
+                if (!_isAnimating) {
+                  _dragStart = details.localPosition.dx;
+                }
+              },
+              onHorizontalDragEnd: (details) {
+                if (!_isAnimating) {
+                  final dragDistance = _dragStart - details.localPosition.dx;
+                  if (dragDistance.abs() > _swipeThreshold) {
+                    _navigateMonth(dragDistance > 0 ? 1 : -1);
+                  }
+                }
+              },
+              child: _buildCalendarGrid(context),
+            ),
           ),
         ],
       ),

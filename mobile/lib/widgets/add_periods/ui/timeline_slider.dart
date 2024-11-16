@@ -18,6 +18,7 @@ class TimelineSlider extends StatefulWidget {
     this.height = 80.5,
     required this.periods,
     required this.onAddPeriodPressed,
+    required this.countryColors,
   });
 
   final double min;
@@ -30,6 +31,7 @@ class TimelineSlider extends StatefulWidget {
   final double height;
   final List<StayPeriod> periods;
   final bool Function(RangeValues) onAddPeriodPressed;
+  final Map<String, Color> countryColors;
 
   @override
   _TimelineSliderState createState() => _TimelineSliderState();
@@ -166,6 +168,13 @@ class _TimelineSliderState extends State<TimelineSlider> {
       }
     }
 
+    // the last case is when there are no empty days left, set the zero range
+    if (periods.isNotEmpty &&
+        currentRange.start == 0 &&
+        currentRange.end == 365) {
+      currentRange = RangeValues(0, 1);
+    }
+
     setState(() {
       _startValue = currentRange.start;
       _endValue = currentRange.end;
@@ -266,6 +275,8 @@ class _TimelineSliderState extends State<TimelineSlider> {
                             start: _startValue,
                             end: _endValue,
                             color: widget.color,
+                            periods: widget.periods,
+                            countryColors: widget.countryColors,
                           ),
                         ),
                         Positioned(
@@ -340,48 +351,75 @@ class _SliderPainter extends CustomPainter {
     required this.start,
     required this.end,
     required this.color,
+    required this.periods,
+    required this.countryColors,
     this.strokeWidth = 80.0,
   });
+
   final double min;
   final double max;
   final double start;
   final double end;
   final Color color;
+  final List<StayPeriod> periods;
+  final Map<String, Color> countryColors;
   final double strokeWidth;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.grey[200]!
       ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.round;
+      ..strokeCap = StrokeCap.butt;
 
-    final widthOffset = strokeWidth / 2;
+    final widthOffset = 0.0;
 
+    // Draw background track
+    paint.color = Colors.grey[200]!;
     canvas.drawLine(
       Offset(widthOffset, size.height / 2),
       Offset(size.width - widthOffset, size.height / 2),
       paint,
     );
 
+    // Draw existing periods
+    for (final period in periods) {
+      final startX = _getXPosition(period.startDate, size.width);
+      final endX = _getXPosition(period.endDate, size.width);
+
+      paint.color = countryColors[period.country]!;
+
+      final periodRect = Rect.fromPoints(
+        Offset(startX, (size.height - strokeWidth) / 2),
+        Offset(endX, (size.height + strokeWidth) / 2),
+      );
+      canvas.drawRect(periodRect, paint);
+    }
+
+    // Draw current selection
     paint.color = color;
+    final startX = (start - min) / (max - min) * size.width;
+    final endX = (end - min) / (max - min) * size.width;
 
-    final startX = (start - min) / (max - min) * size.width + widthOffset;
-    final endX = (end - min) / (max - min) * size.width - widthOffset;
-
-    canvas.drawLine(
-      Offset(startX, size.height / 2),
-      Offset(endX, size.height / 2),
-      paint,
+    final selectedRect = Rect.fromPoints(
+      Offset(startX, (size.height - strokeWidth) / 2),
+      Offset(endX, (size.height + strokeWidth) / 2),
     );
+    canvas.drawRect(selectedRect, paint);
+  }
 
-    paint.color = color;
-    paint.style = PaintingStyle.fill;
-
-    canvas.drawCircle(Offset(startX, size.height / 2), widthOffset, paint);
-    canvas.drawCircle(Offset(endX, size.height / 2), widthOffset, paint);
+  double _getXPosition(DateTime date, double width) {
+    final now = DateTime.now();
+    final daysFromNow = now.difference(date).inDays;
+    return ((max - daysFromNow) - min) / (max - min) * width;
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant _SliderPainter oldDelegate) {
+    return oldDelegate.min != min ||
+        oldDelegate.max != max ||
+        oldDelegate.start != start ||
+        oldDelegate.end != end ||
+        oldDelegate.color != color ||
+        !ListEquality().equals(oldDelegate.periods, periods);
+  }
 }

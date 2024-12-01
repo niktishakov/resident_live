@@ -38,9 +38,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               case 0:
                 return FindCountriesPage(onNextPage);
               case 1:
-                return EnterStayDurationPage(onNextPage: onNextPage);
-              case 2:
-                return GetStartedScreen();
+                return EnterStayDurationPage(onNextPage: () {
+                  context.pushNamed(ScreenNames.getStarted);
+                });
+
               default:
                 return FindCountriesPage(onNextPage);
             }

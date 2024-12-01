@@ -15,8 +15,15 @@ class ResidencyJourneyScreen extends StatefulWidget {
 }
 
 class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
-  // Local state to track visible countries
+  // Add state for current month
+  late DateTime _currentMonth;
   Set<String> _visibleCountries = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _currentMonth = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +32,6 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
         final countryPeriods = _convertToCalendarPeriods(state.countries);
         final countryNames = state.countries.values.map((e) => e.name).toList();
 
-        // Initialize visible countries if empty
         if (_visibleCountries.isEmpty) {
           _visibleCountries = countryNames.toSet();
         }
@@ -50,10 +56,15 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: JourneyCalendar(
-                          currentMonth: DateTime.now(),
+                          currentMonth: _currentMonth,
                           countryPeriods: countryPeriods,
                           visibleCountries: _visibleCountries,
                           countryColors: countryColors,
+                          onMonthChanged: (newMonth) {
+                            setState(() {
+                              _currentMonth = newMonth;
+                            });
+                          },
                         ),
                       ),
                       const Gap(16),
@@ -63,11 +74,12 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
                           countries: countryNames,
                           colors: countryColors,
                           focusedCountry: state.focusedCountry,
+                          currentMonth: _currentMonth,
+                          countryPeriods: countryPeriods,
                           disabledCountries: countryNames
                               .where((c) => !_visibleCountries.contains(c))
                               .toList(),
                           onCountrySelected: (country, isEnabled) {
-                            print('country: $country, isEnabled: $isEnabled');
                             setState(() {
                               if (isEnabled) {
                                 _visibleCountries.add(country);

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:resident_live/domain/entities/country/country.entity.dart';
 import 'package:resident_live/shared/shared.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class CountryDisabler extends StatefulWidget {
   const CountryDisabler({
     required this.countries,
     required this.onCountrySelected,
+    required this.currentMonth,
+    required this.countryPeriods,
     this.disabledCountries = const [],
     this.colors,
     this.focusedCountry,
@@ -17,6 +20,8 @@ class CountryDisabler extends StatefulWidget {
   final List<String> disabledCountries;
   final Map<String, Color>? colors;
   final CountryEntity? focusedCountry;
+  final DateTime currentMonth;
+  final Map<String, List<DateTimeRange>> countryPeriods;
 
   @override
   _CountryDisablerState createState() => _CountryDisablerState();
@@ -25,13 +30,41 @@ class CountryDisabler extends StatefulWidget {
 class _CountryDisablerState extends State<CountryDisabler>
     with WidgetsBindingObserver {
   late Map<String, Color> countryColors;
+  List<String> _visibleCountries = [];
 
   @override
   void initState() {
     super.initState();
-    // Assign a unique color to each country
     WidgetsBinding.instance.addObserver(this);
     _updateCountryColors();
+    _updateVisibleCountries();
+  }
+
+  @override
+  void didUpdateWidget(CountryDisabler oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentMonth != widget.currentMonth) {
+      setState(() {
+        _updateVisibleCountries();
+      });
+    }
+  }
+
+  void _updateVisibleCountries() {
+    _visibleCountries = widget.countries.where((country) {
+      final periods = widget.countryPeriods[country] ?? [];
+      return periods
+          .any((period) => _isDateRangeVisible(period, widget.currentMonth));
+    }).toList();
+  }
+
+  bool _isDateRangeVisible(DateTimeRange period, DateTime currentMonth) {
+    final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
+    final lastDayOfMonth =
+        DateTime(currentMonth.year, currentMonth.month + 1, 0);
+
+    return !(period.end.isBefore(firstDayOfMonth) ||
+        period.start.isAfter(lastDayOfMonth));
   }
 
   void _updateCountryColors() {
@@ -51,49 +84,58 @@ class _CountryDisablerState extends State<CountryDisabler>
 
   @override
   Widget build(BuildContext context) {
-    print('focusedCountry: ${widget.focusedCountry}');
+    // Filter countries first
+    final visibleItems = widget.countries
+        .where((country) => _visibleCountries.contains(country))
+        .toList();
+
     return Wrap(
       spacing: 8.0,
       runSpacing: 8.0,
-      children: widget.countries.map((String country) {
+      children: visibleItems.map((String country) {
         final isDisabled = widget.disabledCountries.contains(country);
+
         return GestureDetector(
+          key: ValueKey(country),
           onTap: () {
             widget.onCountrySelected(country, isDisabled);
           },
-          child: Opacity(
-            opacity: isDisabled ? 0.5 : 1.0,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: countryColors[country],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (widget.focusedCountry?.name == country) ...[
-                    AppAssetImage(
-                      AppAssets.target,
-                      color: context.theme.colorScheme.surface,
-                      height: 20,
-                    ),
-                    const Gap(4),
-                  ],
-                  Text(
-                    country,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontFamily: "Poppins",
-                      color: context.theme.colorScheme.surface,
-                      fontWeight: FontWeight.w500,
-                    ),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color:
+                  countryColors[country]?.withOpacity(isDisabled ? 0.5 : 1.0),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (widget.focusedCountry?.name == country) ...[
+                  AppAssetImage(
+                    AppAssets.target,
+                    color: context.theme.colorScheme.surface,
+                    height: 20,
                   ),
+                  const Gap(4),
                 ],
-              ),
+                Text(
+                  country,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: "Poppins",
+                    color: context.theme.colorScheme.surface,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
-        );
+        ).animate().fadeIn(duration: 300.ms, curve: Curves.easeInOut).scale(
+              begin: const Offset(0.8, 0.8),
+              end: const Offset(1.0, 1.0),
+              duration: 300.ms,
+              curve: Curves.easeInOut,
+            );
       }).toList(),
     );
   }

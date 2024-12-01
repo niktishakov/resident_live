@@ -1,3 +1,4 @@
 {
-    "openctx.enable": true
+    "openctx.enable": true,
+    "editor.maxTokenizationLineLength": 300,
 }

@@ -22,7 +22,7 @@ const _statuses = {
   'hr': ["You're free to travel about", "You can travel until"],
   'h': ["Status update in", "Status will update at"],
   'r': ["You will lose your status in", "Status is safe until"],
-  'a': ["Move to this country to regain status in", "Status may be updated at"]
+  'a': ["Move to this country to reach status in", "Status may be updated at"]
 };
 
 List<String> getStatusMessage(bool isHere, bool isResident) =>

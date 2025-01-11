@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:resident_live/shared/shared.dart';
 
-import '../../widgets/find_countries/find_countries_page.dart';
+import '../../widgets/find_countries/ui/find_countries_page.dart';
 import '../onboarding/ui/pages/stay_period.page.dart';
 
 class ManageCountriesScreen extends StatefulWidget {

@@ -8,6 +8,7 @@ class DiagonalProgressBar extends StatefulWidget {
   final double lineWidth;
   final double lineSpacing;
   final Duration animationDuration;
+  final bool isAnimationEnabled;
 
   const DiagonalProgressBar({
     super.key,
@@ -17,6 +18,7 @@ class DiagonalProgressBar extends StatefulWidget {
     this.lineWidth = 2,
     this.lineSpacing = 6,
     this.animationDuration = const Duration(milliseconds: 1500),
+    this.isAnimationEnabled = true,
   });
 
   @override
@@ -38,30 +40,33 @@ class _DiagonalProgressBarState extends State<DiagonalProgressBar>
     );
 
     _progressAnimation = Tween<double>(
-      begin: 0,
+      begin: widget.isAnimationEnabled ? 0 : widget.progress,
       end: widget.progress,
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     ));
 
-    _controller.forward();
+    if (widget.isAnimationEnabled) {
+      _controller.forward();
+    }
   }
 
   @override
   void didUpdateWidget(DiagonalProgressBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.progress != widget.progress) {
-      // Update progress animation
       _progressAnimation = Tween<double>(
-        begin: oldWidget.progress,
+        begin: widget.isAnimationEnabled ? oldWidget.progress : widget.progress,
         end: widget.progress,
       ).animate(CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,
       ));
 
-      _controller.forward(from: 0);
+      if (widget.isAnimationEnabled) {
+        _controller.forward(from: 0);
+      }
     }
   }
 

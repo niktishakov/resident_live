@@ -10,6 +10,8 @@ import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/features/features.dart';
 import 'dart:ui';
 
+import 'package:resident_live/shared/ui/rl.loader.dart';
+
 part 'record.animation.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,6 +20,8 @@ class SplashScreen extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
+
+final _logger = AiLogger("SplashScreen");
 
 class _SplashScreenState extends State<SplashScreen> {
   late AuthCubit _authCubit;
@@ -45,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAndAuthenticate() async {
+    _logger.debug("Check and authenticate");
     setState(() => _isAuthenticating = true);
     final authResult = await _authCubit.authenticateOnStartup();
     if (!mounted) return;
@@ -58,10 +63,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToHome() {
+    _logger.debug("Navigate to home");
     context.goNamed(ScreenNames.home);
   }
 
   Future<void> _showPasscodeAuthentication() async {
+    _logger.debug("Show passcode authentication");
     setState(() => _isAuthenticating = true);
     final passcodeResult = await _authCubit.authenticateWithPasscode();
     if (!mounted) return;
@@ -70,29 +77,12 @@ class _SplashScreenState extends State<SplashScreen> {
     if (passcodeResult) {
       _navigateToHome();
     } else {
-      _showErrorDialog("Authentication failed. Please try again.");
+      await AppDialogs.showError(
+        context: context,
+        title: "Authentication failed",
+        message: "Please try again.",
+      );
     }
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Authentication Error'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _authCubit.resetAuthenticationAttempts();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -102,9 +92,11 @@ class _SplashScreenState extends State<SplashScreen> {
         BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state.error != null) {
-              _showErrorDialog(state.error!);
-            } else if (state.isAuthenticated) {
-              _navigateToHome();
+              ToastService.instance.showToast(
+                context,
+                message: state.error!,
+                status: ToastStatus.failure,
+              );
             }
           },
         ),
@@ -114,7 +106,11 @@ class _SplashScreenState extends State<SplashScreen> {
               find<CountriesCubit>(context).syncCountriesByGeo(state.placemark);
               _checkAndAuthenticate();
             } else if (state.error.isNotEmpty) {
-              _showErrorDialog(state.error);
+              ToastService.instance.showToast(
+                context,
+                message: state.error,
+                status: ToastStatus.failure,
+              );
             }
           },
         ),

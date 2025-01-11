@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:resident_live/screens/screens.dart';
 import 'package:resident_live/shared/shared.dart';
 
-import '../../../widgets/find_countries/find_countries_page.dart';
+import '../../../widgets/find_countries/ui/find_countries_page.dart';
 import 'pages/stay_period.page.dart';
 
 class OnboardingScreen extends StatefulWidget {

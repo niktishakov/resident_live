@@ -12,10 +12,10 @@ import 'package:resident_live/shared/shared.dart';
 class FocusedCountryView extends StatefulWidget {
   const FocusedCountryView({
     Key? key,
-    required this.focusedCountry,
+    this.focusedCountry,
     required this.onTap,
   }) : super(key: key);
-  final CountryEntity focusedCountry;
+  final CountryEntity? focusedCountry;
   final Function(CountryEntity) onTap;
 
   @override
@@ -32,8 +32,10 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
     super.initState();
     final countries =
         context.read<CountriesCubit>().state.countries.values.toList();
-    _currentPageCountry =
-        countries.firstWhere((c) => c.isoCode == widget.focusedCountry.isoCode);
+    _currentPageCountry = countries.firstWhere(
+      (c) => c.isoCode == widget.focusedCountry?.isoCode,
+      orElse: () => countries.first,
+    );
     _currentPage = countries.indexOf(_currentPageCountry);
     _pageController = PageController(initialPage: _currentPage);
   }
@@ -85,7 +87,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                         final isHere =
                             state.isCurrentResidence(country.isoCode);
                         final isFocused =
-                            country.isoCode == widget.focusedCountry.isoCode;
+                            country.isoCode == widget.focusedCountry?.isoCode;
                         return Hero(
                           tag: 'residence_${country.name}',
                           flightShuttleBuilder: (
@@ -258,7 +260,10 @@ class FocusedCountryCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(24.0),
-                child: DiagonalProgressBar(progress: progress),
+                child: DiagonalProgressBar(
+                  progress: progress,
+                  isAnimationEnabled: isHere,
+                ),
               ),
             ),
             Gap(8),

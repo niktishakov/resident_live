@@ -32,15 +32,17 @@ class RlCupertinoNavBar extends StatelessWidget {
     super.key,
     this.title = '',
     this.leading,
+    this.actions,
   });
   final String title;
   final Widget? leading;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
     final canPop = context.canPop();
     return CupertinoNavigationBar(
-      padding: EdgeInsetsDirectional.only(start: 0, end: 16),
+      padding: EdgeInsetsDirectional.only(start: 0, end: 0),
       leading: canPop
           ? leading ??
               CupertinoButton(
@@ -48,12 +50,16 @@ class RlCupertinoNavBar extends StatelessWidget {
                   onPressed: context.pop,
                   child: Icon(
                     CupertinoIcons.back,
+                    size: 28,
                     color: context.theme.colorScheme.secondary,
                   ))
           : null,
       backgroundColor: context.theme.scaffoldBackgroundColor,
       middle: Text(title, style: context.theme.textTheme.titleMedium),
       border: null,
+      trailing: actions != null
+          ? Row(mainAxisSize: MainAxisSize.min, children: actions!)
+          : null,
     );
   }
 }

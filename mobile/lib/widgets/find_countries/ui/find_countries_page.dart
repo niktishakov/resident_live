@@ -5,9 +5,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import '../../features/features.dart';
-import '../../shared/shared.dart';
-import '../../screens/onboarding/model/onboarding_cubit.dart';
+import '../../../features/features.dart';
+import '../../../shared/shared.dart';
+import '../../../screens/onboarding/model/onboarding_cubit.dart';
 
 class FindCountriesPage extends StatefulWidget {
   const FindCountriesPage(this.onNextPage, {super.key});
@@ -20,6 +20,7 @@ class FindCountriesPage extends StatefulWidget {
 class _FindCountriesPageState extends State<FindCountriesPage> {
   String searchQuery = "";
   ScrollController controller = ScrollController();
+  TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
@@ -32,8 +33,9 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    _textController.dispose();
+    super.dispose();
   }
 
   @override
@@ -79,6 +81,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: CupertinoSearchTextField(
+                controller: _textController,
                 style: context.theme.textTheme.bodyLarge,
                 padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
                 placeholder: "Search countries",
@@ -116,29 +119,35 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                     itemCount: filteredCountries.length,
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     itemBuilder: (context, index) {
-                      String country = filteredCountries[index]['name']!;
+                      String country =
+                          filteredCountries[index]['name'] ?? "Unknown";
                       return SizedBox(
                         height: 44,
                         child: CupertinoButton(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Flexible(
-                                child: Text(country,
-                                    style: context.theme.textTheme.bodyLarge),
-                              ),
-                            ],
-                          ),
-                          onPressed: () {
-                            context.read<OnboardingCubit>().addCountry(country);
-
-                            controller.animateTo(
-                              controller.position.maxScrollExtent,
-                              duration: kDefaultDuration,
-                              curve: Curves.easeInCubic,
-                            );
-                          },
-                        ),
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            onPressed: () {
+                              context
+                                  .read<OnboardingCubit>()
+                                  .addCountry(country);
+                              _textController.text = '';
+                              setState(() => searchQuery = '');
+                              // Wait for the next frame to ensure the list is updated
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                controller.animateTo(
+                                  controller.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.fastOutSlowIn,
+                                );
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  child: Text(country,
+                                      style: context.theme.textTheme.bodyLarge),
+                                ),
+                              ],
+                            )),
                       );
                     },
                   ),
@@ -150,12 +159,13 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
             Container(
               height: selectedCountries.isNotEmpty ? 50 : 0,
               child: Center(
-                child: ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  controller: controller,
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    ...selectedCountries.map((country) {
+                child: ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    controller: controller,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: selectedCountries.length,
+                    itemBuilder: (context, index) {
+                      final country = selectedCountries[index];
                       return GestureDetector(
                         onTap: () {
                           context
@@ -206,8 +216,6 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                         ),
                       );
                     }),
-                  ],
-                ),
               ),
             ),
             if (selectedCountries.isNotEmpty) ...[

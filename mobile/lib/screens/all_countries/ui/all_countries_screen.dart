@@ -138,187 +138,204 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                   ),
                   Visibility(
                     visible: !_isPopping,
-                    child: RlCard(
-                      borderRadius: _borderAnimation.value,
-                      gradient: vGradient,
-                      padding: context.paddingEdges24,
-                      child: CupertinoPageScaffold(
-                        backgroundColor: Colors.transparent,
-                        navigationBar: CupertinoNavigationBar(
-                          padding: EdgeInsetsDirectional.all(0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(60),
+                      child: RlCard(
+                        borderRadius: _borderAnimation.value,
+                        gradient: vGradient,
+                        padding: EdgeInsets.zero,
+                        child: CupertinoPageScaffold(
                           backgroundColor: Colors.transparent,
-                          middle: Text(
-                            "All Tracking Residences",
-                            style: theme.title16Semi.copyWith(
-                              color: theme.textPrimaryOnColor,
-                              fontFamily: "SFPro",
-                            ),
-                          ),
-                          leading: TransparentButton(
-                            width: 60,
-                            onPressed: () {
-                              setState(() {
-                                isEditing = !isEditing;
-                                selected = [];
-                              });
-                            },
-                            child: Text(
-                              isEditing ? "Done" : "Edit",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: isEditing
-                                    ? FontWeight.w600
-                                    : FontWeight.w500,
+                          navigationBar: CupertinoNavigationBar(
+                            padding:
+                                EdgeInsetsDirectional.symmetric(horizontal: 24),
+                            backgroundColor: Colors.transparent,
+                            middle: Text(
+                              "All Tracking Residences",
+                              style: theme.title16Semi.copyWith(
+                                color: theme.textPrimaryOnColor,
+                                fontFamily: "SFPro",
                               ),
                             ),
+                            leading: TransparentButton(
+                              width: 60,
+                              onPressed: () {
+                                setState(() {
+                                  isEditing = !isEditing;
+                                  selected = [];
+                                });
+                              },
+                              child: Text(
+                                isEditing ? "Done" : "Edit",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: isEditing
+                                      ? FontWeight.w600
+                                      : FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            trailing: BouncingButton(
+                              onPressed: (_) {
+                                VibrationService.instance.tap();
+                                context.pop();
+                              },
+                              child: Icon(CupertinoIcons.clear_circled_solid,
+                                  size: 34,
+                                  color: Colors.white.withOpacity(0.85)),
+                            ),
                           ),
-                          trailing: BouncingButton(
-                            onPressed: (_) {
-                              VibrationService.instance.tap();
-                              context.pop();
-                            },
-                            child: Icon(CupertinoIcons.clear_circled_solid,
-                                size: 34,
-                                color: Colors.white.withOpacity(0.85)),
-                          ),
-                        ),
-                        child: SafeArea(
-                          child: Column(
-                            children: [
-                              Gap(32),
-                              BlocBuilder<CountriesCubit, CountriesState>(
-                                  builder: (c, s) {
-                                return RlCard(
-                                  borderRadius: BorderRadius.circular(24),
-                                  padding: EdgeInsets.symmetric(vertical: 8),
-                                  child: Stack(
-                                    children: [
-                                      // Normal ListView
-                                      Opacity(
-                                        opacity: isEditing ? 0.0 : 1.0,
-                                        child: IgnorePointer(
-                                          ignoring: isEditing,
-                                          child: ListView.builder(
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, index) {
-                                              final country = s.countries.values
-                                                  .toList()[index];
-                                              return _CountryItem(
-                                                country: country,
-                                                toggleSelection:
-                                                    toggleSelection,
-                                                isEditing: isEditing,
-                                                isSelected: selected
-                                                    .contains(country.isoCode),
-                                                isLast: index ==
-                                                    s.countries.length - 1,
-                                              );
-                                            },
-                                            itemCount: s.countries.length,
+                          child: SafeArea(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24.0),
+                              child: Column(
+                                children: [
+                                  Gap(32),
+                                  BlocBuilder<CountriesCubit, CountriesState>(
+                                      builder: (c, s) {
+                                    return RlCard(
+                                      borderRadius: BorderRadius.circular(24),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8),
+                                      child: Stack(
+                                        children: [
+                                          // Normal ListView
+                                          Opacity(
+                                            opacity: isEditing ? 0.0 : 1.0,
+                                            child: IgnorePointer(
+                                              ignoring: isEditing,
+                                              child: ListView.builder(
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                itemBuilder: (context, index) {
+                                                  final country = s
+                                                      .countries.values
+                                                      .toList()[index];
+                                                  return _CountryItem(
+                                                    country: country,
+                                                    toggleSelection:
+                                                        toggleSelection,
+                                                    isEditing: isEditing,
+                                                    isSelected:
+                                                        selected.contains(
+                                                            country.isoCode),
+                                                    isLast: index ==
+                                                        s.countries.length - 1,
+                                                  );
+                                                },
+                                                itemCount: s.countries.length,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
 
-                                      // Reorderable ListView
-                                      Opacity(
-                                        opacity: isEditing ? 1.0 : 0.0,
-                                        child: IgnorePointer(
-                                          ignoring: !isEditing,
-                                          child: ReorderableListView.builder(
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, index) {
-                                              final country = s.countries.values
-                                                  .toList()[index];
-                                              return _CountryItem(
-                                                key: Key(country.isoCode),
-                                                country: country,
-                                                toggleSelection:
-                                                    toggleSelection,
-                                                isEditing: isEditing,
-                                                isSelected: selected
-                                                    .contains(country.isoCode),
-                                                isLast: index ==
-                                                    s.countries.length - 1,
-                                              );
-                                            },
-                                            itemCount: s.countries.length,
-                                            onReorder:
-                                                (int oldIndex, int newIndex) {
-                                              find<CountriesCubit>(context)
-                                                  .reorderCountry(
-                                                oldIndex,
-                                                newIndex,
-                                              );
-                                            },
+                                          // Reorderable ListView
+                                          Opacity(
+                                            opacity: isEditing ? 1.0 : 0.0,
+                                            child: IgnorePointer(
+                                              ignoring: !isEditing,
+                                              child:
+                                                  ReorderableListView.builder(
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                itemBuilder: (context, index) {
+                                                  final country = s
+                                                      .countries.values
+                                                      .toList()[index];
+                                                  return _CountryItem(
+                                                    key: Key(country.isoCode),
+                                                    country: country,
+                                                    toggleSelection:
+                                                        toggleSelection,
+                                                    isEditing: isEditing,
+                                                    isSelected:
+                                                        selected.contains(
+                                                            country.isoCode),
+                                                    isLast: index ==
+                                                        s.countries.length - 1,
+                                                  );
+                                                },
+                                                itemCount: s.countries.length,
+                                                onReorder: (int oldIndex,
+                                                    int newIndex) {
+                                                  find<CountriesCubit>(context)
+                                                      .reorderCountry(
+                                                    oldIndex,
+                                                    newIndex,
+                                                  );
+                                                },
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }),
-                              Spacer(),
-                              TweenAnimationBuilder(
-                                duration: 500.ms,
-                                curve: Curves.fastOutSlowIn,
-                                tween: Tween<double>(
-                                    begin: 1.0, end: isEditing ? 0.0 : 1.0),
-                                builder: (context, value, child) {
-                                  return Transform.translate(
-                                    offset: Offset(0, value * 300),
-                                    child: child,
-                                  );
-                                },
-                                child: PrimaryButton(
-                                  label: "Delete",
-                                  backgroundColor: Colors.redAccent,
-                                  enabled: selected.isNotEmpty,
-                                  onPressed: () {
-                                    VibrationService.instance.tap();
-                                    showCupertinoDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (context) =>
-                                          CupertinoAlertDialog(
-                                        title: Text("Delete Residences"),
-                                        content: Text(
-                                            "Are you sure you want to delete the selected residences?"),
-                                        actions: [
-                                          CupertinoDialogAction(
-                                            child: Text("Delete"),
-                                            isDestructiveAction: true,
-                                            onPressed: () async {
-                                              setState(() => _isPopping = true);
-
-                                              context.pop();
-                                              for (final isoCode in selected) {
-                                                find<CountriesCubit>(context)
-                                                    .removeCountry(isoCode);
-                                              }
-                                              setState(selected.clear);
-                                              VibrationService.instance
-                                                  .success();
-                                            },
-                                          ),
-                                          CupertinoDialogAction(
-                                            child: Text("Cancel"),
-                                            onPressed: () => context.pop(),
-                                          )
                                         ],
                                       ),
                                     );
-                                  },
-                                ),
+                                  }),
+                                  Spacer(),
+                                  TweenAnimationBuilder(
+                                    duration: 500.ms,
+                                    curve: Curves.fastOutSlowIn,
+                                    tween: Tween<double>(
+                                        begin: 1.0, end: isEditing ? 0.0 : 1.0),
+                                    builder: (context, value, child) {
+                                      return Transform.translate(
+                                        offset: Offset(0, value * 300),
+                                        child: child,
+                                      );
+                                    },
+                                    child: PrimaryButton(
+                                      label: "Delete",
+                                      backgroundColor: Colors.redAccent,
+                                      enabled: selected.isNotEmpty,
+                                      onPressed: () {
+                                        VibrationService.instance.tap();
+                                        showCupertinoDialog(
+                                          context: context,
+                                          barrierDismissible: true,
+                                          builder: (context) =>
+                                              CupertinoAlertDialog(
+                                            title: Text("Delete Residences"),
+                                            content: Text(
+                                                "Are you sure you want to delete the selected residences?"),
+                                            actions: [
+                                              CupertinoDialogAction(
+                                                child: Text("Delete"),
+                                                isDestructiveAction: true,
+                                                onPressed: () async {
+                                                  setState(
+                                                      () => _isPopping = true);
+
+                                                  context.pop();
+                                                  for (final isoCode
+                                                      in selected) {
+                                                    find<CountriesCubit>(
+                                                            context)
+                                                        .removeCountry(isoCode);
+                                                  }
+                                                  setState(selected.clear);
+                                                  VibrationService.instance
+                                                      .success();
+                                                },
+                                              ),
+                                              CupertinoDialogAction(
+                                                child: Text("Cancel"),
+                                                onPressed: () => context.pop(),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ).animate().fade(delay: 200.ms),
+                      ).animate().fade(delay: 200.ms),
+                    ),
                   ),
                 ],
               ),

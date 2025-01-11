@@ -22,7 +22,7 @@ const _statuses = {
   'hr': ["You're free to travel about", "You can travel until"],
   'h': ["Status update in", "Status will update at"],
   'r': ["You will lose your status in", "Status is safe until"],
-  'a': ["Move to this country to regain status in", "Status may be updated at"]
+  'a': ["Move to this country to reach status in", "Status may be updated at"]
 };
 
 List<String> getStatusMessage(bool isHere, bool isResident) =>
@@ -321,8 +321,24 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                             color: Color(0x88888888),
                           ).animate().fadeIn(delay: 700.ms),
                           Gap(24),
-                          if (!isFocused)
-                            Align(
+                          TweenAnimationBuilder(
+                            duration: Duration(milliseconds: 250),
+                            curve: Curves.easeInOut,
+                            tween:
+                                Tween<double>(begin: 0, end: isFocused ? 0 : 1),
+                            builder: (context, value, child) {
+                              return SizedBox(
+                                height: value * 40,
+                                child: Transform.translate(
+                                  offset: Offset(-20 * (1 - value), 0),
+                                  child: Opacity(
+                                    opacity: value.clamp(0.0, 1.0),
+                                    child: child,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Align(
                               alignment: Alignment.centerLeft,
                               child: TransparentButton(
                                 leading: AppAssetImage(
@@ -343,7 +359,8 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                   ),
                                 ),
                               ),
-                            ).animate().fadeIn(delay: 700.ms),
+                            ),
+                          ).animate().fadeIn(delay: 700.ms),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: TransparentButton(

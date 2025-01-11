@@ -5,42 +5,42 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000281">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000189">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: app_store_connect_api_key" time="0.004746">
+      <testcase classname="fastlane.lanes" name="1: app_store_connect_api_key" time="0.00149">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: get_version_number" time="0.094423">
+      <testcase classname="fastlane.lanes" name="2: get_version_number" time="0.026753">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: latest_testflight_build_number" time="2.199925">
+      <testcase classname="fastlane.lanes" name="3: latest_testflight_build_number" time="1.899262">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: increment_build_number" time="1.908802">
+      <testcase classname="fastlane.lanes" name="4: increment_build_number" time="0.227823">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="5: cd .. &amp;&amp; bundle exec pod install &amp;&amp; flutter build ios --release --no-codesign -t lib/app/main.dart" time="125.801988">
+      <testcase classname="fastlane.lanes" name="5: cd .. &amp;&amp; bundle exec pod install &amp;&amp; flutter build ios --release --no-codesign -t lib/app/main.dart" time="17.079918">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="6: build_ios_app" time="205.525172">
+      <testcase classname="fastlane.lanes" name="6: build_ios_app" time="160.447066">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="7: upload_to_testflight" time="281.004291">
+      <testcase classname="fastlane.lanes" name="7: upload_to_testflight" time="370.208695">
         
       </testcase>
     

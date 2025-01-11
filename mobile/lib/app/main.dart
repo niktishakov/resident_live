@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:resident_live/shared/lib/theme/export.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -19,14 +17,13 @@ import 'routes.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 final shellKey = GlobalKey<NavigatorState>();
 
-const String uniqueTaskName = "geofencingTask";
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
   runApp(MaterialApp(home: PresplashScreen()));
 
+  AiLogger.initialize(isReleaseMode: kReleaseMode, env: null);
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
@@ -35,47 +32,19 @@ void main() async {
     navigatorKey: navigatorKey,
     routes: getRoutes(shellKey),
     initialLocation: ScreenNames.splash,
-    observers: [
-      CoreRouteObserver(),
-      // OverlayStyleObserver(),
-    ],
+    observers: [CoreRouteObserver()],
   );
+
+  // Initialize other services
   await VibrationService.init();
   await ShareService.init();
+  await ToastService.init();
   GeolocationService.instance.initialize();
-  AiLogger.initialize(isReleaseMode: kReleaseMode, env: null);
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
-  );
 
-  // HydratedBloc.storage.clear();
+  final workmanager = await WorkmanagerService.initialize();
+  await workmanager.registerPeriodicTask();
 
   runApp(LocalizedApp(child: MyApp()));
-
-  // TODO: Add background task
-  // Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
-  // Workmanager().registerPeriodicTask("1", uniqueTaskName,
-  //     frequency: Duration(minutes: 1)); // Adjust frequency as n
-}
-
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    switch (task) {
-      case uniqueTaskName:
-        await updateCurrentAddress();
-        break;
-    }
-    return Future.value(true);
-  });
-}
-
-/// TODO: Add background task to update current user address and update numbers
-Future<void> updateCurrentAddress() async {
-  final sharedPrefs = await SharedPreferences.getInstance();
-  final sharedAddress = sharedPrefs.getString('current_address');
-  if (sharedAddress != null) {
-    // sharedPrefs.setString('current_address', );
-  }
 }
 
 class MyApp extends StatefulWidget {
@@ -94,8 +63,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    FToast().init(context);
-
     final rlThemeProvider = RlThemeProvider(RlTheme());
 
     return Builder(
@@ -111,6 +78,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           ],
           child: Builder(
             builder: (context) {
+              FToastBuilder();
+
               return MultiBlocProvider(
                 providers: [
                   ChangeNotifierProvider.value(value: rlThemeProvider),

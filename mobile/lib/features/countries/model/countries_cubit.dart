@@ -18,22 +18,19 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
       final countryName = placemark.country;
 
       if (countryCode == null || countryName == null) {
-        _logger.error("Placemark country code is null: $placemark");
+        _logger.error("Invalid placemark data - missing country code or name");
         return;
       }
       final lastVisitedCountry = state.findLastVisitedCountry();
 
-      // first case: last visited country matches placemark country and we just should increase end date to today
+      // Same country case
       if (lastVisitedCountry.isoCode == countryCode) {
         final periods = List<StayPeriod>.from(lastVisitedCountry.periods);
         final updatedPeriod =
             periods.removeLast().copyWith(endDate: DateTime.now());
         final updatedPeriods = [...periods, updatedPeriod];
 
-        _logger.debug(
-            "\n\n\nSync countries by geo: last visited country matches placemark country");
-        _logger.info(
-            "Updated Period: ${updatedPeriod.endDate.toTimeAndMMMMDDString()}");
+        _logger.info("Still in ${countryName} - updating stay period end date");
 
         emit(state.copyWith(countries: {
           ...state.countries,
@@ -41,8 +38,7 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
               lastVisitedCountry.copyWith(periods: updatedPeriods),
         }));
       }
-
-      // second case: last visited country doesn't match placemark country == we moved to another country and need to add new stay period fot the placemark country
+      // New country case
       else {
         final newPeriod = StayPeriod(
           startDate: DateTime.now(),
@@ -60,11 +56,7 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
         final updatedPeriods = [...currentCountry.periods, newPeriod];
         final updatedCountry = currentCountry.copyWith(periods: updatedPeriods);
 
-        _logger.debug(
-            "\n\n\nSync countries by geo: last visited country matches placemark country");
-        _logger.info("Updated Country: ${updatedCountry.name}");
-        _logger.info(
-            "Updated Period: ${updatedCountry.periods.last.endDate.toTimeAndMMMMDDString()}");
+        _logger.info("Moved to new country: ${countryName}");
 
         emit(
           state.copyWith(
@@ -76,8 +68,7 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
         );
       }
     } else {
-      _logger.error(
-          "Cannot sync countries by geo: position isn't available. Continue the previous period...");
+      _logger.info("No location data - extending current stay period");
 
       final lastVisitedCountry = state.findLastVisitedCountry();
       final periods = List<StayPeriod>.from(lastVisitedCountry.periods);
@@ -93,10 +84,11 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
   }
 
   void reorderCountry(int oldIndex, int newIndex) {
-    _logger.debug("$oldIndex -> $newIndex");
     final countries =
         List<MapEntry<String, CountryEntity>>.from(state.countries.entries);
+
     final movedCountry = countries.removeAt(oldIndex);
+
     countries.insert(newIndex, movedCountry);
 
     emit(state.copyWith(

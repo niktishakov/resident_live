@@ -1,4 +1,6 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class GeolocationService {
   // Private constructor
@@ -16,6 +18,10 @@ class GeolocationService {
 
   // Stream to listen for position updates
   Stream<Position>? _positionStream;
+
+  // Add new fields
+  static const String LAST_POSITION_KEY = 'last_position';
+  static const String LAST_UPDATE_TIME_KEY = 'last_update_time';
 
   // Method to initialize the position stream
   String? initialize() {
@@ -74,4 +80,37 @@ class GeolocationService {
 
   // Getter for the position stream
   Stream<Position>? get positionStream => _positionStream;
+
+  // Add method for background position update
+  Future<void> updateBackgroundPosition() async {
+    try {
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      _currentPosition = position;
+
+      // Store position and timestamp in SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(LAST_POSITION_KEY, position.toJson().toString());
+      await prefs.setInt(
+          LAST_UPDATE_TIME_KEY, DateTime.now().millisecondsSinceEpoch);
+    } catch (e) {
+      print('Background position update failed: $e');
+    }
+  }
+
+  // Add method to retrieve last stored position
+  Future<Position?> getLastStoredPosition() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final positionStr = prefs.getString(LAST_POSITION_KEY);
+      if (positionStr != null) {
+        return Position.fromMap(json.decode(positionStr));
+      }
+    } catch (e) {
+      print('Failed to get stored position: $e');
+    }
+    return null;
+  }
 }

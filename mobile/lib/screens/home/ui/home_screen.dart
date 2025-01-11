@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
             }
           },
           child: GestureDetector(
-            onTap: () => kDebugMode ? _showLastStoredLocation(context) : null,
+            onTap: () => _showLastStoredLocation(context),
             onLongPress: () {
               if (kDebugMode) {
                 showDebugActionsSheet(context);

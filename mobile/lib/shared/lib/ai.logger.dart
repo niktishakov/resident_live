@@ -41,7 +41,6 @@ class AiLogger {
           '${rec.time.toIso8601String()} ${_levelEmoji[rec.level]} ${_levelName[rec.level]} - '
           '[${rec.loggerName}] ${stringifyMessage(rec.message)}';
 
-      // ignore: avoid_print
       print(entry);
     });
   }

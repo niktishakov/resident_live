@@ -19,31 +19,35 @@ class FocusOnView extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text.rich(
-                  style: GoogleFonts.poppins(
-                    fontSize: 24,
-                    height: 30 / 24,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Focus on one country to\n',
-                      ),
-                      TextSpan(
-                        text: 'effectively',
-                        style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          height: 30 / 24,
-                          fontWeight: FontWeight.w600,
-                          color: context.theme.colorScheme.primary,
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text.rich(
+                    style: GoogleFonts.poppins(
+                      fontSize: 24,
+                      height: 30 / 24,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Focus on one country to\n',
                         ),
-                      ),
-                      TextSpan(
-                        text: ' track tax\nresidency',
-                      ),
-                    ],
+                        TextSpan(
+                          text: 'effectively',
+                          style: GoogleFonts.poppins(
+                            fontSize: 24,
+                            height: 30 / 24,
+                            fontWeight: FontWeight.w600,
+                            color: context.theme.colorScheme.primary,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' track tax\nresidency',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Gap(32),

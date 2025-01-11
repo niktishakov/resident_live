@@ -259,6 +259,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
                 ),
                 child: Text(
                   e.country,
+                  maxLines: 1,
                   style: TextStyle(
                     color: context.theme.scaffoldBackgroundColor,
                   ),

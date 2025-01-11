@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:collection/collection.dart';
 import 'package:resident_live/shared/shared.dart';
+import 'dart:math' as math;
 
 import '../../../domain/domain.dart';
 
@@ -37,9 +39,18 @@ class TimelineSlider extends StatefulWidget {
   _TimelineSliderState createState() => _TimelineSliderState();
 }
 
-class _TimelineSliderState extends State<TimelineSlider> {
+class _TimelineSliderState extends State<TimelineSlider>
+    with TickerProviderStateMixin {
   late double _startValue;
   late double _endValue;
+  late AnimationController _shimmerController;
+  late Animation<double> _shimmerAnimation;
+  bool _isDraggingLeft = false;
+  bool _isDraggingRight = false;
+  late AnimationController _leftHandleController;
+  late AnimationController _rightHandleController;
+  late Animation<double> _leftHandleScale;
+  late Animation<double> _rightHandleScale;
 
   @override
   void initState() {
@@ -47,9 +58,53 @@ class _TimelineSliderState extends State<TimelineSlider> {
     _startValue = widget.initialStart;
     _endValue = widget.initialEnd;
 
+    _shimmerController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
+
+    _shimmerAnimation = Tween<double>(
+      begin: -1.0,
+      end: 1.0,
+    ).animate(_shimmerController);
+
+    // Initialize handle animations
+    _leftHandleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _rightHandleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
+    _leftHandleScale = Tween<double>(
+      begin: 1.0,
+      end: 1.3,
+    ).animate(CurvedAnimation(
+      parent: _leftHandleController,
+      curve: Curves.easeOutCubic,
+    ));
+
+    _rightHandleScale = Tween<double>(
+      begin: 1.0,
+      end: 1.3,
+    ).animate(CurvedAnimation(
+      parent: _rightHandleController,
+      curve: Curves.easeOutCubic,
+    ));
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _updateDefaultRangeValues();
     });
+  }
+
+  @override
+  void dispose() {
+    _shimmerController.dispose();
+    _leftHandleController.dispose();
+    _rightHandleController.dispose();
+    super.dispose();
   }
 
   bool comparePeriods(List<StayPeriod> periods, List<StayPeriod> other) {
@@ -90,18 +145,104 @@ class _TimelineSliderState extends State<TimelineSlider> {
   }
 
   Widget _buildMonths(BuildContext context, double timelineWidth) {
+    final startDate = _getDateFromValue(_startValue);
+    final endDate = _getDateFromValue(_endValue);
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ..._getMonthLabels()
-            .mapIndexed((index, e) => Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(e),
-                  ],
-                ))
-            .toList(),
+        OutlinedButton(
+          onPressed: () => _showDatePicker(context, true),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: widget.color),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          child: Text(
+            '${startDate.toMMMDDYYYY()}',
+            style: TextStyle(color: widget.color),
+          ),
+        ),
+        Gap(16),
+        OutlinedButton(
+          onPressed: () => _showDatePicker(context, false),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: widget.color),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          child: Text(
+            '${endDate.toMMMDDYYYY()}',
+            style: TextStyle(color: widget.color),
+          ),
+        ),
       ],
+    );
+  }
+
+  void _showDatePicker(BuildContext context, bool isStart) {
+    final title = isStart ? "Period From" : "Period To";
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        DateTime initialDate = isStart
+            ? _getDateFromValue(_startValue)
+            : _getDateFromValue(_endValue);
+
+        return Container(
+          height: 300,
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('Cancel'),
+                  ),
+                  Text(title,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: context.theme.colorScheme.onSurface)),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Done'),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.date,
+                  initialDateTime: initialDate,
+                  minimumDate: widget.startDate,
+                  maximumDate: widget.endDate,
+                  onDateTimeChanged: (DateTime newDate) {
+                    final days =
+                        widget.endDate.difference(newDate).inDays.toDouble();
+                    final newValue = widget.max - days;
+
+                    if (isStart) {
+                      if (isRangeAvailable(RangeValues(newValue, _endValue))) {
+                        setState(() => _startValue = newValue);
+                      }
+                    } else {
+                      if (isRangeAvailable(
+                          RangeValues(_startValue, newValue))) {
+                        setState(() => _endValue = newValue);
+                      }
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -216,120 +357,143 @@ class _TimelineSliderState extends State<TimelineSlider> {
     );
   }
 
+  void _onPanStart(DragStartDetails details) {
+    final renderBox = context.findRenderObject() as RenderBox;
+    final position = renderBox.globalToLocal(details.globalPosition);
+    final value =
+        (position.dx / renderBox.size.width) * (widget.max - widget.min) +
+            widget.min;
+
+    if ((value - _startValue).abs() < 10) {
+      _isDraggingLeft = true;
+      _leftHandleController.forward();
+    } else if ((value - _endValue).abs() < 10) {
+      _isDraggingRight = true;
+      _rightHandleController.forward();
+    }
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    if (_isDraggingLeft) {
+      _leftHandleController.reverse();
+    }
+    if (_isDraggingRight) {
+      _rightHandleController.reverse();
+    }
+    _isDraggingLeft = false;
+    _isDraggingRight = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final periods = widget.periods;
     final color = widget.color;
-    return GestureDetector(
-      onPanUpdate: (details) {
-        final renderBox = context.findRenderObject() as RenderBox;
-        final position = renderBox.globalToLocal(details.globalPosition);
-        final newValue =
-            (position.dx / renderBox.size.width) * (widget.max - widget.min) +
+    return AnimatedBuilder(
+      animation: Listenable.merge(
+          [_shimmerAnimation, _leftHandleScale, _rightHandleScale]),
+      builder: (context, child) {
+        return GestureDetector(
+          onPanStart: _onPanStart,
+          onPanEnd: _onPanEnd,
+          onPanUpdate: (details) {
+            final renderBox = context.findRenderObject() as RenderBox;
+            final position = renderBox.globalToLocal(details.globalPosition);
+            final newValue = (position.dx / renderBox.size.width) *
+                    (widget.max - widget.min) +
                 widget.min;
 
-        if ((newValue - _startValue).abs() < (_endValue - newValue).abs()) {
-          // Left thumb is being moved
-          final newStartValue = newValue.clamp(widget.min, _endValue - 1);
-          if ((newStartValue - _startValue).abs() >= 1 &&
-              isRangeAvailable(RangeValues(newStartValue, _endValue))) {
-            VibrationService.instance.light();
-            setState(() => _startValue = newStartValue);
-          }
-        } else {
-          // Right thumb is being moved
-          final newEndValue = newValue.clamp(_startValue + 1, widget.max);
-          if ((newEndValue - _endValue).abs() >= 1 &&
-              isRangeAvailable(RangeValues(_startValue, newEndValue))) {
-            VibrationService.instance.light();
-
-            setState(() => _endValue = newEndValue);
-          }
-        }
-      },
-      child: LayoutBuilder(
-        builder: (context, ctrx) {
-          final textOffset =
-              10.0; // Adjust this value to move text closer or further from the edges
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Hero(
-                tag: "timeline",
-                transitionOnUserGestures: true,
-                flightShuttleBuilder: _flightShuttleBuilder,
-                createRectTween: (begin, end) {
-                  return RectTween(begin: begin, end: end);
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(40),
-                  child: Material(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CustomPaint(
-                          size: Size(ctrx.maxWidth, widget.height),
-                          painter: _SliderPainter(
-                            min: widget.min,
-                            max: widget.max,
-                            start: _startValue,
-                            end: _endValue,
-                            color: widget.color,
-                            periods: widget.periods,
-                            countryColors: widget.countryColors,
-                          ),
+            if (_isDraggingLeft) {
+              final newStartValue = newValue.clamp(widget.min, _endValue - 1);
+              if (isRangeAvailable(RangeValues(newStartValue, _endValue))) {
+                VibrationService.instance.light();
+                setState(() => _startValue = newStartValue);
+              }
+            } else if (_isDraggingRight) {
+              final newEndValue = newValue.clamp(_startValue + 1, widget.max);
+              if (isRangeAvailable(RangeValues(_startValue, newEndValue))) {
+                VibrationService.instance.light();
+                setState(() => _endValue = newEndValue);
+              }
+            }
+          },
+          child: LayoutBuilder(
+            builder: (context, ctrx) {
+              final textOffset =
+                  10.0; // Adjust this value to move text closer or further from the edges
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildMonths(context, MediaQuery.of(context).size.width),
+                  Gap(10),
+                  Hero(
+                    tag: "timeline",
+                    transitionOnUserGestures: true,
+                    flightShuttleBuilder: _flightShuttleBuilder,
+                    createRectTween: (begin, end) {
+                      return RectTween(begin: begin, end: end);
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(40),
+                      child: Material(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CustomPaint(
+                              size: Size(ctrx.maxWidth, widget.height),
+                              painter: _SliderPainter(
+                                min: widget.min,
+                                max: widget.max,
+                                start: _startValue,
+                                end: _endValue,
+                                color: widget.color,
+                                periods: widget.periods,
+                                countryColors: widget.countryColors,
+                                shimmerValue: _shimmerAnimation.value,
+                                isDragging: _isDraggingLeft || _isDraggingRight,
+                                leftHandleScale: _leftHandleScale.value,
+                                rightHandleScale: _rightHandleScale.value,
+                              ),
+                            ),
+                          ],
                         ),
-                        Positioned(
-                          left: _getPosition(_startValue, widget.min,
-                                  widget.max, ctrx.maxWidth) +
-                              textOffset,
-                          top: 10,
-                          child: Text(
-                            _getDateFromValue(_startValue).toMMMDDString(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: context.theme.scaffoldBackgroundColor),
-                          ),
-                        ),
-                        Positioned(
-                          right: ctrx.maxWidth -
-                              _getPosition(_endValue, widget.min, widget.max,
-                                  ctrx.maxWidth) +
-                              textOffset,
-                          bottom: 10,
-                          child: Text(
-                            _getDateFromValue(_endValue).toMMMDDString(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: context.theme.scaffoldBackgroundColor),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Gap(10),
-              _buildMonths(context, MediaQuery.of(context).size.width),
-              Gap(16),
-              PrimaryButton(
-                vibrate: false,
-                backgroundColor: color,
-                enabled: isRangeAvailable(RangeValues(_startValue, _endValue)),
-                onPressed: () {
-                  final result = widget
-                      .onAddPeriodPressed(RangeValues(_startValue, _endValue));
-                  if (result) {
-                    _updateDefaultRangeValues();
-                  }
-                },
-                fontSize: 16,
-                label: 'Add Period',
-              ).animate().fade(delay: 150.ms),
-            ],
-          );
-        },
-      ),
+                  Gap(8),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ..._getMonthLabels()
+                            .mapIndexed((index, e) => Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(e),
+                                  ],
+                                ))
+                            .toList(),
+                      ]),
+                  Gap(16),
+                  PrimaryButton(
+                    vibrate: false,
+                    backgroundColor: color,
+                    enabled:
+                        isRangeAvailable(RangeValues(_startValue, _endValue)),
+                    onPressed: () {
+                      final result = widget.onAddPeriodPressed(
+                          RangeValues(_startValue, _endValue));
+                      if (result) {
+                        _updateDefaultRangeValues();
+                      }
+                    },
+                    fontSize: 16,
+                    label: 'Add Period',
+                  ).animate().fade(delay: 150.ms),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
@@ -345,6 +509,8 @@ class _TimelineSliderState extends State<TimelineSlider> {
 }
 
 class _SliderPainter extends CustomPainter {
+  static const double handleWidth = 16.0;
+
   _SliderPainter({
     required this.min,
     required this.max,
@@ -353,7 +519,11 @@ class _SliderPainter extends CustomPainter {
     required this.color,
     required this.periods,
     required this.countryColors,
+    required this.shimmerValue,
     this.strokeWidth = 80.0,
+    required this.isDragging,
+    required this.leftHandleScale,
+    required this.rightHandleScale,
   });
 
   final double min;
@@ -364,6 +534,10 @@ class _SliderPainter extends CustomPainter {
   final List<StayPeriod> periods;
   final Map<String, Color> countryColors;
   final double strokeWidth;
+  final double shimmerValue;
+  final bool isDragging;
+  final double leftHandleScale;
+  final double rightHandleScale;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -374,19 +548,20 @@ class _SliderPainter extends CustomPainter {
     final widthOffset = 0.0;
 
     // Draw background track
-    paint.color = Colors.grey[200]!;
+    paint.color = Color(0xff50B5FF);
     canvas.drawLine(
       Offset(widthOffset, size.height / 2),
       Offset(size.width - widthOffset, size.height / 2),
       paint,
     );
 
-    // Draw existing periods
+    // Draw existing periods to country color
     for (final period in periods) {
       final startX = _getXPosition(period.startDate, size.width);
       final endX = _getXPosition(period.endDate, size.width);
 
-      paint.color = countryColors[period.country]!;
+      // paint.color = countryColors[period.country]!;
+      paint.color = Colors.greenAccent;
 
       final periodRect = Rect.fromPoints(
         Offset(startX, (size.height - strokeWidth) / 2),
@@ -395,16 +570,86 @@ class _SliderPainter extends CustomPainter {
       canvas.drawRect(periodRect, paint);
     }
 
-    // Draw current selection
-    paint.color = color;
+    // Draw current selection with animated waves or fixed shape
     final startX = (start - min) / (max - min) * size.width;
     final endX = (end - min) / (max - min) * size.width;
 
-    final selectedRect = Rect.fromPoints(
-      Offset(startX, (size.height - strokeWidth) / 2),
-      Offset(endX, (size.height + strokeWidth) / 2),
-    );
-    canvas.drawRect(selectedRect, paint);
+    paint.color = color;
+    paint.style = PaintingStyle.fill;
+
+    final selectedPath = Path();
+    final verticalOffset = (size.height - strokeWidth) / 2;
+
+    // Always draw rectangular shape
+    selectedPath.addRect(Rect.fromPoints(
+      Offset(startX, verticalOffset),
+      Offset(endX, verticalOffset + strokeWidth),
+    ));
+
+    canvas.drawPath(selectedPath, paint);
+
+    // Draw shimmer effect
+    paint
+      ..color = Colors.white.withValues(alpha: 0.4)
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    final spacing = 8.0;
+    final offsetX = shimmerValue * spacing;
+
+    final shimmerPath = Path();
+    for (double x = -size.width + offsetX; x < size.width * 2; x += spacing) {
+      shimmerPath.moveTo(x, strokeWidth * 2);
+      shimmerPath.lineTo(x + strokeWidth / 2, -strokeWidth);
+    }
+
+    canvas.save();
+    canvas.clipPath(selectedPath);
+    canvas.drawPath(shimmerPath, paint);
+    canvas.restore();
+
+    // Draw handles
+    final handlePaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+    // Update handle drawing with circles and white border
+    void drawHandle(double x, double scale) {
+      canvas.save();
+      canvas.translate(x, size.height / 2);
+      canvas.scale(scale);
+      canvas.translate(-x, -size.height / 2);
+
+      // Draw shadow
+      canvas.drawCircle(
+        Offset(x, size.height / 2),
+        handleWidth,
+        Paint()
+          ..color = Colors.black.withOpacity(0.1)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, 2),
+      );
+
+      // Draw white border
+      canvas.drawCircle(
+        Offset(x, size.height / 2),
+        handleWidth,
+        Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2.0,
+      );
+
+      // Draw handle
+      canvas.drawCircle(
+        Offset(x, size.height / 2),
+        handleWidth,
+        handlePaint,
+      );
+
+      canvas.restore();
+    }
+
+    drawHandle(startX, leftHandleScale);
+    drawHandle(endX, rightHandleScale);
   }
 
   double _getXPosition(DateTime date, double width) {
@@ -420,6 +665,16 @@ class _SliderPainter extends CustomPainter {
         oldDelegate.start != start ||
         oldDelegate.end != end ||
         oldDelegate.color != color ||
+        oldDelegate.shimmerValue != shimmerValue ||
+        oldDelegate.isDragging != isDragging ||
+        oldDelegate.leftHandleScale != leftHandleScale ||
+        oldDelegate.rightHandleScale != rightHandleScale ||
         !ListEquality().equals(oldDelegate.periods, periods);
+  }
+}
+
+extension DateTimeFormatting on DateTime {
+  String toMMDDString() {
+    return '${kMonths[month - 1].substring(0, 3)} ${day.toString().padLeft(2, '0')}';
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DeviceEmulatorService {
+class EmulatorService {
   static Widget iPhoneSE2022({required Widget child}) {
     return _DeviceEmulator(
       size: const Size(375, 667),
@@ -166,8 +166,7 @@ class _DeviceEmulator extends StatelessWidget {
                             child: Opacity(
                               opacity: 0.5,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 4, vertical: 2),
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                                 decoration: BoxDecoration(
                                   color: Colors.purple,
                                   borderRadius: BorderRadius.circular(4),

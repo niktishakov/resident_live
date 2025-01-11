@@ -47,7 +47,7 @@ class AllowGeoView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
+                        padding: const EdgeInsets.only(left: 8.0),
                         child: Text.rich(
                           style: GoogleFonts.poppins(
                             fontSize: 24,

@@ -125,39 +125,69 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
-        child: RlCupertinoNavBar(title: "Add Stay Periods"),
+        child: RlCupertinoNavBar(
+          title: "Add Stay Periods",
+          actions: [
+            CupertinoButton(
+                padding: EdgeInsets.only(right: 16),
+                onPressed: () {
+                  showCupertinoDialog(
+                      context: context,
+                      builder: (context) => CupertinoAlertDialog(
+                            title: Text(
+                              "How To Add Stay Periods",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(height: 8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "1. Select a country\n2. Adjust dates on timeline\n3. Tap Add Period button",
+                                      style: TextStyle(
+                                        height: 1.8,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    SizedBox(height: 16),
+                                    Text(
+                                      "You can add multiple periods\nto your timeline.",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        letterSpacing: 0.2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              CupertinoDialogAction(
+                                child: Text("OK"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          ));
+                },
+                child: Icon(
+                  CupertinoIcons.info,
+                  color: context.theme.colorScheme.secondary,
+                  size: 28,
+                )),
+          ],
+        ),
       ),
       body: SafeArea(
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           children: [
-            Gap(9),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text.rich(
-                  textAlign: TextAlign.left,
-                  TextSpan(
-                    style: context.theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w400,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: "Fill up your travel timeline: ",
-                      ),
-                      TextSpan(
-                        text: "Country > Dates > Add",
-                        style: context.theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ).animate().fade(delay: 200.ms),
-              ),
-            ),
-            Gap(16),
             CountrySelector(
               countries: widget.countries,
               focusedCountry: focusedCountry,
@@ -167,7 +197,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
-                  Gap(20),
+                  Gap(6),
                   SizedBox(
                     width: context.mediaQuery.size.width,
                     child: TimelineSlider(

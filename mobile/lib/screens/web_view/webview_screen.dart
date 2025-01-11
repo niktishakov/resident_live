@@ -5,6 +5,8 @@ import 'package:resident_live/shared/ui/rl.loader.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:resident_live/shared/ui/rl.sliver_header.dart';
 
+import 'widgets/web_page_progress_indicator.dart';
+
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
     Key? key,
@@ -21,7 +23,7 @@ class WebViewScreen extends StatefulWidget {
 
 class _WebViewScreenState extends State<WebViewScreen> {
   late final WebViewController controller;
-  bool isLoading = true;
+  double _progress = 0.0;
 
   @override
   void initState() {
@@ -31,14 +33,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-            // Update loading bar.
-          },
-          onPageStarted: (String url) {
-            if (mounted) setState(() => isLoading = true);
-          },
-          onPageFinished: (String url) {
-            if (mounted) setState(() => isLoading = false);
+          onProgress: (progress) {
+            setState(() {
+              _progress = progress / 100.0;
+            });
           },
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
@@ -76,15 +74,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 ),
               ],
             ),
-            Gap(8),
+            Gap(4),
+            WebPageProgressIndicator(
+              progress: _progress,
+            ),
             Expanded(
               child: Stack(
                 children: [
                   WebViewWidget(controller: controller),
-                  if (isLoading)
-                    const Center(
-                      child: RlLoader(),
-                    ),
                 ],
               ),
             ),

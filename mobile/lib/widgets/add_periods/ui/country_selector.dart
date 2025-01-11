@@ -60,18 +60,21 @@ class _CountrySelectorState extends State<CountrySelector>
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: isSelected
-                  ? countryColors[country]
-                  : context.theme.colorScheme
-                      .tertiary, // Change color for selected country
+              color: isSelected ? countryColors[country] : Colors.transparent,
               borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                width: 0.6,
+                color: isSelected
+                    ? countryColors[country]!
+                    : context.theme.colorScheme.onSurface,
+              ),
             ),
             child: Text(
               country,
               style: TextStyle(
                 color: isSelected
                     ? context.theme.scaffoldBackgroundColor
-                    : Colors.black,
+                    : context.theme.colorScheme.onSurface,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
             ),

@@ -11,12 +11,40 @@ import 'package:resident_live/screens/all_countries/ui/all_countries_screen.dart
 import 'package:resident_live/screens/screens.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/widgets/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/focused_country_view.dart';
 import 'widgets/greeting_view.dart';
 import 'widgets/tracking_residences.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  Future<void> _showLastStoredLocation(BuildContext context) async {
+    final position = await GeolocationService.instance.getLastStoredPosition();
+    if (position != null) {
+      final lastUpdate = await SharedPreferences.getInstance().then(
+          (prefs) => prefs.getInt(GeolocationService.LAST_UPDATE_TIME_KEY));
+
+      final lastUpdateStr = lastUpdate != null
+          ? DateTime.fromMillisecondsSinceEpoch(lastUpdate).toString()
+          : 'unknown';
+
+      ToastService.instance.showToast(
+        context,
+        message:
+            'Last stored location:\nLat: ${position.latitude.toStringAsFixed(4)}\n'
+            'Lng: ${position.longitude.toStringAsFixed(4)}\n'
+            'Time: $lastUpdateStr',
+        status: ToastStatus.warning,
+      );
+    } else {
+      ToastService.instance.showToast(
+        context,
+        message: 'No stored location found',
+        status: ToastStatus.warning,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +65,12 @@ class HomeScreen extends StatelessWidget {
             }
           },
           child: GestureDetector(
-            onLongPress:
-                kDebugMode ? () => showDebugActionsSheet(context) : null,
+            onTap: () => kDebugMode ? _showLastStoredLocation(context) : null,
+            onLongPress: () {
+              if (kDebugMode) {
+                showDebugActionsSheet(context);
+              }
+            },
             child: CupertinoScaffold(
               overlayStyle: getSystemOverlayStyle,
               body: Material(
@@ -57,26 +89,24 @@ class HomeScreen extends StatelessWidget {
                         child: WeekLineView(),
                       ),
                     ),
-                    if (focusedCountry != null) ...[
-                      SliverToBoxAdapter(
-                        child: RepaintBoundary(
-                          child: SizedBox(
-                            height: 320,
-                            child: FocusedCountryView(
-                              focusedCountry: focusedCountry,
-                              onTap: (country) =>
-                                  navigatorKey.currentContext?.navigator.push(
-                                kDefaultFadeRouteBuilder(
-                                  page: ResidenceDetailsScreen(
-                                    name: country.name,
-                                  ),
+                    SliverToBoxAdapter(
+                      child: RepaintBoundary(
+                        child: SizedBox(
+                          height: 320,
+                          child: FocusedCountryView(
+                            focusedCountry: focusedCountry,
+                            onTap: (country) =>
+                                navigatorKey.currentContext?.navigator.push(
+                              kDefaultFadeRouteBuilder(
+                                page: ResidenceDetailsScreen(
+                                  name: country.name,
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ],
+                    ),
                     if (otherResidences.isNotEmpty) ...[
                       SliverToBoxAdapter(
                         child: OtherResidencesView(

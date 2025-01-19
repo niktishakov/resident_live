@@ -3,6 +3,7 @@
 A Flutter mobile application for [brief description of what your app does - appears to be related to residential/location services based on the dependencies].
 
 Directory structure:
+```
 └── niktishakov-resident_live/
     ├── README.md
     ├── LICENSE
@@ -95,7 +96,7 @@ Directory structure:
         │           └── ui/
         │               └── widgets/
         └── .vscode/
-
+```
 
 ## Features
 

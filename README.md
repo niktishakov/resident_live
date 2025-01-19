@@ -97,6 +97,7 @@ Directory structure:
         │               └── widgets/
         └── .vscode/
 ```
+(https://gitingest.com/niktishakov/resident_live/)
 
 ## Features
 

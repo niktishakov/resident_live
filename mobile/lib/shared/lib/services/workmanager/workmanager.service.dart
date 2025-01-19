@@ -60,7 +60,7 @@ class WorkmanagerService {
       if (task == WorkmanagerConstants.backgroundLocationTask) {
         try {
           _logger.info('Initializing GeolocationService for background task');
-          await GeolocationService.instance.initialize();
+          GeolocationService.instance.initialize();
 
           _logger.info('Updating background position');
           await GeolocationService.instance.updateBackgroundPosition();

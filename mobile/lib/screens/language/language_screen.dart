@@ -1,7 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resident_live/features/language/model/language_cubit.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/ui/rl.sliver_header.dart';
+
+import 'model/constants.dart';
+import 'model/language_utils.dart';
 
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({Key? key}) : super(key: key);
@@ -17,7 +22,7 @@ class LanguageScreen extends StatelessWidget {
           return CustomScrollView(
             slivers: [
               AiSliverHeader(
-                titleText: 'Select Language',
+                titleText: LocaleKeys.language_title.tr(),
                 // Add any other properties your RlSliverHeader might need
               ),
               SliverList(
@@ -27,7 +32,8 @@ class LanguageScreen extends StatelessWidget {
                     final isSelected = locale == currentLocale;
 
                     return ListTile(
-                      title: Text(_getLanguageName(locale)),
+                      title: Text(getLanguageName(locale, native: false)),
+                      subtitle: Text(getLanguageName(locale, native: true)),
                       trailing: isSelected
                           ? Icon(Icons.check,
                               color: Theme.of(context).primaryColor)
@@ -48,17 +54,5 @@ class LanguageScreen extends StatelessWidget {
         },
       ),
     );
-  }
-
-  String _getLanguageName(Locale locale) {
-    switch (locale.toString()) {
-      case 'en_US':
-        return 'English';
-      case 'es_ES':
-        return 'Español';
-      // Add more cases for other supported languages
-      default:
-        return locale.languageCode;
-    }
   }
 }

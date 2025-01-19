@@ -60,7 +60,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
     final isSelected = widget.isSelected;
     final textColor = isSelected
         ? context.theme.colorScheme.secondary
-        : context.theme.colorScheme.secondary.withOpacity(0.75);
+        : context.theme.colorScheme.secondary.withValues(alpha: 0.5);
 
     return GestureDetector(
       onTap: () {
@@ -72,7 +72,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
-          color: Colors.white.withOpacity(0.0001),
+          color: Colors.white.withValues(alpha: 0.0001),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -91,6 +91,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
                 fontWeight: FontWeight.w500,
                 color: textColor,
                 letterSpacing: 0.1,
+                height: 1.75,
               ),
             )
           ],

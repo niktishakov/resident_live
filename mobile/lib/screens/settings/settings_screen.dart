@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -10,11 +9,12 @@ import 'package:local_auth/local_auth.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/features/features.dart';
+import 'package:resident_live/features/report/ui/report_bug_button.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/screens/screens.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/shared/ui/rl.sliver_header.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -53,7 +53,9 @@ class SettingsScreen extends StatelessWidget {
                                 : AppAssets
                                     .touchid, // Assuming you have a touchid asset
                             title: "${authCubit.biometricTitle} Access",
-                            subtitle: state.isEnabled ? "On" : "Off",
+                            subtitle: state.isEnabled
+                                ? LocaleKeys.common_on.tr()
+                                : LocaleKeys.common_off.tr(),
                             onTap: () async {
                               if (!state.isSupported && state.error != null) {
                                 print("Open App Settings");
@@ -81,7 +83,7 @@ class SettingsScreen extends StatelessWidget {
                       Gap(12),
                       _buildSettingButton(
                         icon: Icons.language,
-                        title: "Language",
+                        title: LocaleKeys.settings_language.tr(),
                         onTap: () {
                           context.pushNamed(ScreenNames.language);
                         },
@@ -89,15 +91,15 @@ class SettingsScreen extends StatelessWidget {
                       Gap(12),
                       _buildSettingButton(
                         icon: CupertinoIcons.bell,
-                        title: "Notifications",
+                        title: LocaleKeys.settings_notifications.tr(),
                         onTap: () {
                           // Handle Notifications settings
                         },
                       ),
-                      Gap(52),
+                      Gap(32),
                       _buildSettingButton(
                         asset: AppAssets.person2Wave2,
-                        title: "Share with friends",
+                        title: LocaleKeys.settings_shareWithFriends.tr(),
                         trailing: SizedBox(),
                         onTap: () {
                           ShareService.instance.shareText(appStoreLink);
@@ -106,35 +108,65 @@ class SettingsScreen extends StatelessWidget {
                       Gap(12),
                       _buildSettingButton(
                         icon: CupertinoIcons.star,
-                        title: "Rate Us",
+                        title: LocaleKeys.settings_rateUs.tr(),
                         onTap: () {
                           launchUrl(Uri.parse(appStoreLink));
                         },
                       ),
-                      Gap(52),
+                      Gap(32),
                       _buildSettingButton(
                         icon: CupertinoIcons.checkmark_shield,
-                        title: "Privacy Policy",
+                        title: LocaleKeys.settings_privacyPolicy.tr(),
                         onTap: () async {
                           await showWebViewModal(
                             context: context,
                             url: privacyPolicyUrl,
-                            title: "Privacy Policy",
+                            title: LocaleKeys.settings_privacyPolicy.tr(),
                           );
                         },
                       ),
                       Gap(12),
                       _buildSettingButton(
                         asset: AppAssets.terms,
-                        title: "Terms of Use",
+                        title: LocaleKeys.settings_termsOfUse.tr(),
                         onTap: () async {
                           await showWebViewModal(
                             context: context,
                             url: termsOfUseUrl,
-                            title: "Terms of Use",
+                            title: LocaleKeys.settings_termsOfUse.tr(),
                           );
                         },
                       ),
+                      Gap(12),
+                      _buildSettingButton(
+                        asset: AppAssets.info,
+                        title: LocaleKeys.settings_aboutApp.tr(),
+                        trailing: SizedBox(),
+                        onTap: () async {
+                          await showCupertinoDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (context) => Consumer<DeviceInfoService>(
+                              builder: (context, deviceInfo, child) {
+                                return CupertinoAlertDialog(
+                                  title:
+                                      Text(LocaleKeys.settings_aboutApp.tr()),
+                                  content: Column(
+                                    children: [
+                                      Gap(12),
+                                      Text("${deviceInfo.appName}"),
+                                      Text(
+                                          "${deviceInfo.appVersion} (${deviceInfo.buildNumber})"),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      ReportBugButton(),
+                      Gap(12),
                     ]),
                   ),
                 ),

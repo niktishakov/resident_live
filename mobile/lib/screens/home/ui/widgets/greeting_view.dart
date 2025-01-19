@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'dart:async';
 
 import 'package:resident_live/shared/lib/assets/export.dart';
@@ -31,22 +33,22 @@ class _GreetingViewState extends State<GreetingView> {
 
     if (hour >= 5 && hour < 12) {
       setState(() {
-        greeting = 'Good Morning';
+        greeting = LocaleKeys.focus_goodMorning.tr();
         icon = AppAssets.sunHorizonFill;
       });
     } else if (hour >= 12 && hour < 17) {
       setState(() {
-        greeting = 'Good Afternoon';
+        greeting = LocaleKeys.focus_goodAfternoon.tr();
         icon = AppAssets.sunMaxFill;
       });
     } else if (hour >= 17 && hour < 20) {
       setState(() {
-        greeting = 'Good Evening';
+        greeting = LocaleKeys.focus_goodEvening.tr();
         icon = AppAssets.sunHorizonFill;
       });
     } else {
       setState(() {
-        greeting = 'Good Night';
+        greeting = LocaleKeys.focus_goodNight.tr();
         icon = AppAssets.moonFill;
       });
     }
@@ -75,7 +77,7 @@ class _GreetingViewState extends State<GreetingView> {
               ),
               children: [
                 TextSpan(
-                  text: 'Good',
+                  text: greeting.split(' ')[0],
                 ),
                 WidgetSpan(
                   alignment: PlaceholderAlignment.middle,

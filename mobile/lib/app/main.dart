@@ -7,6 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/single_child_widget.dart';
+
 import 'package:provider/provider.dart';
 
 import '../features/features.dart';
@@ -23,32 +25,70 @@ void main() async {
 
   runApp(MaterialApp(home: PresplashScreen()));
 
-  AiLogger.initialize(isReleaseMode: kReleaseMode, env: null);
+  final envHolder = EnvHolder(Environment.prod);
+  final secrets = await Secrets.create(envHolder);
+
+  AiLogger.initialize();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
+  );
+
+  AiAnalytics.init(
+    mixpanel: MixpanelService(secrets.mixpanelToken),
+    environment: envHolder.value,
   );
 
   await RouterService.init(
     navigatorKey: navigatorKey,
     routes: getRoutes(shellKey),
     initialLocation: ScreenNames.splash,
-    observers: [CoreRouteObserver()],
+    observers: [
+      CoreRouteObserver(),
+      AiAnalyticsObserver(AiAnalytics.instance),
+    ],
   );
 
-  // Initialize other services
+  final rlThemeProvider = RlThemeProvider(RlTheme());
+
   await VibrationService.init();
   await ShareService.init();
   await ToastService.init();
   GeolocationService.instance.initialize();
+  final deviceInfoService = await DeviceInfoService.create();
 
   final workmanager = await WorkmanagerService.initialize();
   await workmanager.registerPeriodicTask();
 
-  runApp(LocalizedApp(child: MyApp()));
+  runApp(
+    LocalizedApp(
+      child: MyApp(
+        providers: [
+          BlocProvider(create: (_) => OnboardingCubit()),
+          BlocProvider(
+              create: (_) => LocationCubit(GeolocationService.instance)),
+          BlocProvider(create: (_) => CountriesCubit()),
+          BlocProvider(create: (_) => UserCubit()),
+          BlocProvider(create: (_) => AuthCubit()),
+          BlocProvider(
+            create: (_) => LanguageCubit(
+              LanguageRepository(
+                supportedLocales: kSupportedLocales,
+                fallbackLocale: kFallbackLocale,
+              ),
+            ),
+          ),
+          ChangeNotifierProvider.value(value: rlThemeProvider),
+          Provider.value(value: deviceInfoService),
+        ],
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.providers});
+
+  final List<SingleChildWidget> providers;
 
   @override
   State<StatefulWidget> createState() => _MyAppState();
@@ -63,65 +103,39 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final rlThemeProvider = RlThemeProvider(RlTheme());
-
     return Builder(
       builder: (context) {
-        return MultiRepositoryProvider(
-          providers: [
-            RepositoryProvider(
-              create: (context) => LanguageRepository(
-                supportedLocales: kSupportedLocales,
-                fallbackLocale: kFallbackLocale,
-              ),
-            ),
-          ],
-          child: Builder(
-            builder: (context) {
-              FToastBuilder();
+        return Builder(
+          builder: (context) {
+            FToastBuilder();
 
-              return MultiBlocProvider(
-                providers: [
-                  ChangeNotifierProvider.value(value: rlThemeProvider),
-                  BlocProvider(create: (_) => OnboardingCubit()),
-                  BlocProvider(
-                      create: (_) =>
-                          LocationCubit(GeolocationService.instance)),
-                  BlocProvider(create: (_) => CountriesCubit()),
-                  BlocProvider(create: (_) => UserCubit()),
-                  BlocProvider(create: (_) => AuthCubit()),
-                  BlocProvider(
-                    create: (_) => LanguageCubit(
-                      find<LanguageRepository>(context),
-                    ),
-                  ),
-                ],
-                child: BlocBuilder<LanguageCubit, Locale>(
-                  builder: (context, locale) {
-                    return Listen<RlThemeProvider>(
-                      builder: (context) {
-                        return MaterialApp.router(
-                          routerConfig: RouterService.instance.router,
-                          debugShowCheckedModeBanner: false,
-                          theme: context.rlTheme.data, // TODO: add light theme
-                          darkTheme:
-                              context.rlTheme.data, // TODO: add light theme
-                          localizationsDelegates: context.localizationDelegates,
-                          supportedLocales: context.supportedLocales,
-                          locale: locale,
-                          builder: (context, child) {
-                            setDarkOverlayStyle();
-                            FToastBuilder();
-                            return child!;
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+            return MultiBlocProvider(
+              providers: widget.providers,
+              child: BlocBuilder<LanguageCubit, Locale>(
+                builder: (context, locale) {
+                  return Listen<RlThemeProvider>(
+                    builder: (context) {
+                      return MaterialApp.router(
+                        routerConfig: RouterService.instance.router,
+                        debugShowCheckedModeBanner: false,
+                        theme: context.rlTheme.data, // TODO: add light theme
+                        darkTheme:
+                            context.rlTheme.data, // TODO: add light theme
+                        localizationsDelegates: context.localizationDelegates,
+                        supportedLocales: context.supportedLocales,
+                        locale: locale,
+                        builder: (context, child) {
+                          setDarkOverlayStyle();
+                          FToastBuilder();
+                          return child!;
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            );
+          },
         );
       },
     );

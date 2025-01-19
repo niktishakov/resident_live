@@ -1,19 +1,73 @@
 {
   "common": {
-    "appName": "Resident Live"
+    "appName": "Resident Live",
+    "on": "Вкл",
+    "off": "Выкл",
+    "cancel": "Отмена",
+    "remove": "Удалить"
   },
-  "home": {
-    "title": "Главная"
+  "bottom_tabs": {
+    "focus": "Фокус",
+    "settings": "Настройки"
+  },
+  "focus": {
+    "goodNight": "Доброй Ночи",
+    "goodMorning": "Доброе Утро",
+    "goodAfternoon": "Добрый День",
+    "goodEvening": "Добрый Вечер",
+    "yourFocus": "Ваш Фокус",
+    "setFocus": "Сфокусироваться",
+    "of": "из",
+    "days": "дней",
+    "trackingResidences": "Отслеживаемые страны",
+    "seeAll": "раскрыть все"
   },
   "settings": {
     "title": "Настройки",
-    "faceIdAccess": "Доступ по Face ID",
-    "touchIdAccess": "Доступ по Touch ID",
+    "biometricAuth": "Биометрический доступ",
+    "faceIdAccess": "Включить Face ID",
+    "touchIdAccess": "Включить Touch ID",
     "language": "Язык",
     "notifications": "Уведомления",
     "shareWithFriends": "Поделиться с друзьями",
     "rateUs": "Оценить нас",
     "privacyPolicy": "Политика конфиденциальности",
-    "termsOfUse": "Условия обслуживания"
+    "termsOfUse": "Условия обслуживания",
+    "aboutApp": "О приложении",
+    "reportBug": "Сообщить об ошибке"
+  },
+  "language": {
+    "title": "Выберите язык",
+    "selectLanguage": "Выберите язык"
+  },
+  "residency_details": {
+    "residencyProgress": "Прогресc",
+    "youAreAResident": "Вы резидент!",
+    "open": "Открыть",
+    "calendar": "Календарь",
+    "moveToReachStatus": "Езжайте в эту страну для достижения статуса через",
+    "days": "дней",
+    "statusMayBeUpdated": "Статус может быть обновлен от",
+    "focusOnThisCountry": "Cфокусироваться на этой стране",
+    "notifyMe": "Уведомлять меня об обновлениях статуса",
+    "readRules": "Правила резидентства",
+    "removeCountry": "Удалить страну",
+    "removeCountryConfirmation": "Вы уверены, что хотите удалить эту страну из отслеживания?",
+    "residencyRulesResources": "Ресурсы по правилам резидентства",
+    "readOn": "Читать на"
+  },
+  "statuses": {
+    "freeToTravel": "Вы свободно можете путешествовать",
+    "travelUntil": "Вы можете путешествовать до",
+    "statusUpdateIn": "Статус обновится через",
+    "statusWillUpdateAt": "Статус будет обновлен в",
+    "youWillLoseYourStatusIn": "Вы потеряете статус через",
+    "statusIsSafeUntil": "Статус сохранен до",
+    "moveToThisCountryToReachStatusIn": "Езжайте сюда для достижения статуса через",
+    "statusMayBeUpdatedAt": "Статус может быть обновлен от"
+  },
+  "calendar": {
+    "yourJourney": "Ваш путь за",
+    "last12Months": "Последние 12 месяцев"
   }
 }

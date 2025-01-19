@@ -4,6 +4,7 @@ class AppAssets {
   const AppAssets._();
 
   // SVG
+  static const info = AppAsset.vector('assets/svgs/info.svg');
   static const bookPages = AppAsset.vector('assets/svgs/book.pages.svg');
   static const burger = AppAsset.vector('assets/svgs/burger.svg');
   static const target = AppAsset.vector('assets/svgs/target.svg');

@@ -1,10 +1,12 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/domain/domain.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class OtherResidencesView extends StatefulWidget {
@@ -45,7 +47,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                 Padding(
                   padding: const EdgeInsets.only(left: 24.0, bottom: 13),
                   child: Text(
-                    "Tracking Residences",
+                    LocaleKeys.focus_trackingResidences.tr(),
                     style: GoogleFonts.poppins(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
@@ -123,8 +125,8 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                       style: GoogleFonts.poppins(
                           fontSize: 12,
                           color: context.theme.colorScheme.tertiary
-                              .withOpacity(0.5)),
-                      "${residence.daysSpent} of 183 days"),
+                              .withValues(alpha: 0.5)),
+                      "${residence.daysSpent} ${LocaleKeys.focus_of.tr()} 183 ${LocaleKeys.focus_days.tr()}"),
                 ],
               )
             ],
@@ -165,7 +167,7 @@ class _SeeAll extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'see all',
+          LocaleKeys.focus_seeAll.tr(),
           style: GoogleFonts.poppins(
             fontSize: 11,
             fontWeight: FontWeight.w400,

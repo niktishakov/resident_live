@@ -1,12 +1,30 @@
 {
   "common": {
-    "appName": "Resident Live"
+    "appName": "Resident Live",
+    "on": "On",
+    "off": "Off",
+    "cancel": "Cancel",
+    "remove": "Remove"
   },
-  "home": {
-    "title": "Home"
+  "bottom_tabs": {
+    "focus": "Focus",
+    "settings": "Settings"
+  },
+  "focus": {
+    "goodNight": "Good Night",
+    "goodMorning": "Good Morning",
+    "goodAfternoon": "Good Afternoon",
+    "goodEvening": "Good Evening",
+    "yourFocus": "Your Focus",
+    "setFocus": "Set Focus",
+    "of": "of",
+    "days": "Days",
+    "trackingResidences": "Tracking Residences",
+    "seeAll": "see all"
   },
   "settings": {
     "title": "Settings",
+    "biometricAuth": "Biometric Access",
     "faceIdAccess": "Face ID Access",
     "touchIdAccess": "Touch ID Access",
     "language": "Language",
@@ -14,6 +32,42 @@
     "shareWithFriends": "Share with friends",
     "rateUs": "Rate Us",
     "privacyPolicy": "Privacy Policy",
-    "termsOfUse": "Terms of Use"
+    "termsOfUse": "Terms of Use",
+    "aboutApp": "About App",
+    "reportBug": "Report a Bug"
+  },
+  "language": {
+    "title": "Select Language",
+    "selectLanguage": "Select Language"
+  },
+  "residency_details": {
+    "residencyProgress": "Residency Progress",
+    "youAreAResident": "You are a resident!",
+    "open": "Open",
+    "calendar": "Calendar",
+    "moveToReachStatus": "Move to this country to reach status in",
+    "days": "days",
+    "statusMayBeUpdated": "Status may be updated at",
+    "notifyMe": "Notify me for status updates",
+    "focusOnThisCountry": "Focus on this country",
+    "readRules": "Read a residency rules",
+    "removeCountry": "Remove country",
+    "removeCountryConfirmation": "Are you sure you want to remove this country from tracking?",
+    "residencyRulesResources": "Residency Rules Resources",
+    "readOn": "Read on"
+  },
+  "statuses": {
+    "freeToTravel": "You're free to travel about",
+    "travelUntil": "You can travel until",
+    "statusUpdateIn": "Status update in",
+    "statusWillUpdateAt": "Status will update at",
+    "youWillLoseYourStatusIn": "You will lose your status in",
+    "statusIsSafeUntil": "Status is safe until",
+    "moveToThisCountryToReachStatusIn": "Move to this country to reach status in",
+    "statusMayBeUpdatedAt": "Status may be updated at"
+  },
+  "calendar": {
+    "yourJourney": "Your Journey Over the",
+    "last12Months": "Last 12 Months"
   }
 }

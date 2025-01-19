@@ -31,6 +31,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _authCubit = context.read<AuthCubit>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _navigateToHome();
+    });
+    return;
     _initializeApp();
   }
 
@@ -50,6 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkAndAuthenticate() async {
     _logger.debug("Check and authenticate");
+
     setState(() => _isAuthenticating = true);
     final authResult = await _authCubit.authenticateOnStartup();
     if (!mounted) return;

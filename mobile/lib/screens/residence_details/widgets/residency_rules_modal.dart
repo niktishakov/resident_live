@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:resident_live/domain/domain.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class ResidencyRulesModal extends StatelessWidget {
@@ -38,7 +40,7 @@ class ResidencyRulesModal extends StatelessWidget {
                   const Grabber(),
                   const Gap(12),
                   Text(
-                    "Residency Rules Resources",
+                    LocaleKeys.residency_details_residencyRulesResources.tr(),
                     style: theme.body18.copyWith(
                       fontWeight: FontWeight.w300,
                       color: theme.textPrimaryOnColor,
@@ -66,7 +68,9 @@ class ResidencyRulesModal extends StatelessWidget {
                               AppAssets.redirect,
                               width: 22,
                             ),
-                            child: Text("Read on KPMG", style: textStyle),
+                            child: Text(
+                                "${LocaleKeys.residency_details_readOn.tr()} KPMG",
+                                style: textStyle),
                           ),
                           TransparentButton(
                             onPressed: () {
@@ -80,7 +84,9 @@ class ResidencyRulesModal extends StatelessWidget {
                               AppAssets.redirect,
                               width: 22,
                             ),
-                            child: Text("Read on Deloitte", style: textStyle),
+                            child: Text(
+                                "${LocaleKeys.residency_details_readOn.tr()} Deloitte",
+                                style: textStyle),
                           ),
                           TransparentButton(
                             onPressed: () {
@@ -94,7 +100,9 @@ class ResidencyRulesModal extends StatelessWidget {
                               AppAssets.redirect,
                               width: 22,
                             ),
-                            child: Text("Read on PWC", style: textStyle),
+                            child: Text(
+                                "${LocaleKeys.residency_details_readOn.tr()} PWC",
+                                style: textStyle),
                           )
                         ],
                       ),

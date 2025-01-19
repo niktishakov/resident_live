@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,20 +10,31 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:resident_live/domain/domain.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/screens/residence_details/widgets/header.dart';
 import 'package:resident_live/widgets/widgets.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../features/features.dart';
 import '../../shared/shared.dart';
 import 'widgets/residency_rules_modal.dart';
 
-const _statuses = {
-  'hr': ["You're free to travel about", "You can travel until"],
-  'h': ["Status update in", "Status will update at"],
-  'r': ["You will lose your status in", "Status is safe until"],
-  'a': ["Move to this country to reach status in", "Status may be updated at"]
+final _statuses = {
+  'hr': [
+    LocaleKeys.residency_details_youAreAResident.tr(),
+    LocaleKeys.residency_details_youAreAResident.tr()
+  ],
+  'h': [
+    LocaleKeys.residency_details_statusUpdateIn.tr(),
+    LocaleKeys.residency_details_statusWillUpdateAt.tr()
+  ],
+  'r': [
+    LocaleKeys.residency_details_youWillLoseYourStatusIn.tr(),
+    LocaleKeys.residency_details_statusIsSafeUntil.tr()
+  ],
+  'a': [
+    LocaleKeys.residency_details_moveToThisCountryToReachStatusIn.tr(),
+    LocaleKeys.residency_details_statusMayBeUpdatedAt.tr()
+  ]
 };
 
 List<String> getStatusMessage(bool isHere, bool isResident) =>
@@ -200,8 +212,12 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                               radius: 200,
                                               strokeWidth: 20,
                                               duration: 300.ms,
-                                              doneLabel: "You are a resident!",
-                                              label: "Residency Progress",
+                                              doneLabel: LocaleKeys
+                                                  .residency_details_youAreAResident
+                                                  .tr(),
+                                              label: LocaleKeys
+                                                  .residency_details_residencyProgress
+                                                  .tr(),
                                               backgroundColor:
                                                   Color(0xff3C3C3C),
                                               valueColor: isResident && isHere
@@ -295,7 +311,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                     ),
                                                     Gap(4),
                                                     Text(
-                                                      "Open",
+                                                      LocaleKeys
+                                                          .residency_details_calendar
+                                                          .tr(),
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize: 14,
@@ -325,7 +343,10 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                         children: [
                                           Expanded(
                                               child: Text(
-                                                  "Notify me for status updates")),
+                                            LocaleKeys
+                                                .residency_details_notifyMe
+                                                .tr(),
+                                          )),
                                           Switch(
                                             value: true,
                                             onChanged: (value) {
@@ -371,7 +392,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                   .setFocusedCountry(country);
                                             },
                                             child: Text(
-                                              "Focus on this country",
+                                              LocaleKeys
+                                                  .residency_details_focusOnThisCountry
+                                                  .tr(),
                                               style: GoogleFonts.poppins(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500,
@@ -415,7 +438,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                             });
                                           },
                                           child: Text(
-                                            "Read a residency rules",
+                                            LocaleKeys
+                                                .residency_details_readRules
+                                                .tr(),
                                             style: GoogleFonts.poppins(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
@@ -433,18 +458,25 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                               context: context,
                                               builder: (context) =>
                                                   CupertinoAlertDialog(
-                                                title: Text('Remove Country'),
-                                                content: Text(
-                                                    'Are you sure you want to remove this country from tracking?'),
+                                                title: Text(LocaleKeys
+                                                    .residency_details_removeCountry
+                                                    .tr()),
+                                                content: Text(LocaleKeys
+                                                    .residency_details_removeCountryConfirmation
+                                                    .tr()),
                                                 actions: [
                                                   CupertinoDialogAction(
-                                                    child: Text('Cancel'),
+                                                    child: Text(LocaleKeys
+                                                        .common_cancel
+                                                        .tr()),
                                                     onPressed: () =>
                                                         Navigator.pop(context),
                                                   ),
                                                   CupertinoDialogAction(
                                                     isDestructiveAction: true,
-                                                    child: Text('Remove'),
+                                                    child: Text(LocaleKeys
+                                                        .common_remove
+                                                        .tr()),
                                                     onPressed: () {
                                                       context.pop();
                                                       context.pop();
@@ -465,7 +497,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                             size: 24,
                                           ),
                                           child: Text(
-                                            "Remove country",
+                                            LocaleKeys
+                                                .residency_details_removeCountry
+                                                .tr(),
                                             style: GoogleFonts.poppins(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,

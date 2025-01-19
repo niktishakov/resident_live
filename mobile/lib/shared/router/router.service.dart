@@ -6,7 +6,7 @@ class RouterService {
     GlobalKey<NavigatorState> navigatorKey,
     List<RouteBase> routes,
     String initialLocation,
-    List<RouteObserver> observers,
+    List<NavigatorObserver> observers,
   ) {
     _goRouter =
         _buildGoRouter(navigatorKey, routes, initialLocation, observers);
@@ -26,7 +26,7 @@ class RouterService {
     required GlobalKey<NavigatorState> navigatorKey,
     required List<RouteBase> routes,
     required String initialLocation,
-    List<RouteObserver> observers = const [],
+    List<NavigatorObserver> observers = const [],
   }) async {
     assert(_instance == null);
     _instance =
@@ -37,7 +37,7 @@ class RouterService {
     GlobalKey<NavigatorState> navigatorKey,
     List<RouteBase> routes,
     String initialLocation,
-    List<RouteObserver> observers,
+    List<NavigatorObserver> observers,
   ) {
     return GoRouter(
       navigatorKey: navigatorKey,

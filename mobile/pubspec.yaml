@@ -8,9 +8,10 @@ environment:
   sdk: '>=3.3.2 <4.0.0'
 
 scripts: 
-  gen: dart run build_runner watch
+  gen: flutter pub run build_runner watch
   gen_locales: dart run easy_localization:generate -S assets/translations -f keys
   run: flutter run -t lib/app/main.dart
+  run-release: flutter run -t lib/app/main.dart --release
   deploy: cd ios && fastlane beta
   clean: |
     flutter clean 
@@ -21,6 +22,7 @@ dependencies:
     sdk: flutter
   intl: ^0.19.0
 
+  mixpanel_flutter: ^2.3.3
   cupertino_icons: ^1.0.6
   go_router: ^14.2.3
   gap: ^3.0.1
@@ -55,6 +57,8 @@ dependencies:
   app_settings: ^5.1.1
   soft_edge_blur: ^0.1.3
   permission_handler: ^11.3.1
+  device_info_plus: ^11.2.0
+  package_info_plus: ^8.1.2
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +90,7 @@ flutter:
     - assets/svgs/
     - assets/imgs/
     - assets/translations/
+    - secrets.json
 
   fonts:
     - family: SFPro

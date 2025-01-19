@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -7,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/features/features.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class FocusedCountryView extends StatefulWidget {
@@ -171,7 +173,7 @@ class FocusedCountryCard extends StatelessWidget {
                       width: constraints.maxWidth * 0.5,
                       child: AnimatedCrossFade(
                         firstChild: Text(
-                          "Your Focus",
+                          LocaleKeys.focus_yourFocus.tr(),
                           style: context.rlTheme.body14,
                         ),
                         secondChild: GestureDetector(
@@ -180,7 +182,7 @@ class FocusedCountryCard extends StatelessWidget {
                           behavior: HitTestBehavior.opaque,
                           child: PrimaryButton(
                             behavior: HitTestBehavior.opaque,
-                            label: "Set Focus",
+                            label: LocaleKeys.focus_setFocus.tr(),
                             fontSize: 12,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 4),
@@ -234,7 +236,7 @@ class FocusedCountryCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${country.daysSpent}/183 days",
+              "${country.daysSpent}/183 ${LocaleKeys.focus_days.tr()}",
               style: GoogleFonts.poppins(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,

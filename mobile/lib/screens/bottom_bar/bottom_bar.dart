@@ -1,9 +1,11 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/screens/bottom_bar/animated_tab_item.dart';
 import 'package:resident_live/shared/shared.dart';
 
@@ -23,7 +25,7 @@ class AiBottomBar extends StatelessWidget {
     AiBottomBarItem(
       icon: AppAssets.personCircle,
       iconFill: AppAssets.personCircleFill,
-      label: 'Focus',
+      label: LocaleKeys.bottom_tabs_focus.tr(),
       path: ScreenNames.home,
     ),
     AiBottomBarItem(
@@ -42,7 +44,7 @@ class AiBottomBar extends StatelessWidget {
     AiBottomBarItem(
       icon: AppAssets.gearshape,
       iconFill: AppAssets.gearshapeFill,
-      label: 'Settings',
+      label: LocaleKeys.bottom_tabs_settings.tr(),
       path: ScreenNames.settings,
       animation: (isSelected, child) => TweenAnimationBuilder<double>(
         tween: Tween<double>(begin: 0.0, end: isSelected ? 1.0 : 0.0),

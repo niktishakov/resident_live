@@ -22,6 +22,15 @@ class ShareService {
     return _instance;
   }
 
+  Future<bool> shareFile(File file) async {
+    try {
+      await Share.shareXFiles([XFile(file.path)]);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> shareImage(
     XFile img, {
     String? subject,

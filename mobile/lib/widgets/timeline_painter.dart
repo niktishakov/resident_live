@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resident_live/shared/shared.dart';
 
 import '../domain/domain.dart';
 
@@ -64,21 +65,8 @@ class TimelinePainter extends CustomPainter {
   }
 
   String _formatDate(DateTime date) {
-    final months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ];
-    return '${months[date.month - 1]}';
+    final months = kMonths;
+    return '${months[date.month - 1].substring(0, 3)}';
   }
 
   void _drawText(Canvas canvas, String text, double x, double y, Color color) {

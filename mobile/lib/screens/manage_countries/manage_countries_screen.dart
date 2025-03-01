@@ -1,6 +1,8 @@
 import 'package:country_list_pick/support/code_countries_en.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 
 import '../../widgets/find_countries/ui/find_countries_page.dart';
@@ -22,9 +24,6 @@ class _ManageCountriesScreenState extends State<ManageCountriesScreen> {
     super.initState();
   }
 
-  final List<String> countries =
-      countriesEnglish.map((e) => e['name'] as String).toList();
-
   void onNextPage() => controller.nextPage(
         duration: kDefaultDuration,
         curve: Curves.easeIn,
@@ -36,7 +35,7 @@ class _ManageCountriesScreenState extends State<ManageCountriesScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56),
         child: RlCupertinoNavBar(
-          title: "Manage Your Residences",
+          title: LocaleKeys.where_have_you_been_manageYourResidences.tr(),
         ),
       ),
       body: SafeArea(

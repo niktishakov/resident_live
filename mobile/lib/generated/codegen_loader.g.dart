@@ -6,6 +6,13 @@ abstract class LocaleKeys {
   static const common_off = 'common.off';
   static const common_cancel = 'common.cancel';
   static const common_remove = 'common.remove';
+  static const common_delete = 'common.delete';
+  static const common_edit = 'common.edit';
+  static const common_done = 'common.done';
+  static const common_continue = 'common.continue';
+  static const common_progress = 'common.progress';
+  static const common_ok = 'common.ok';
+  static const common_apply = 'common.apply';
 
   static const bottom_tabs_focus = 'bottom_tabs.focus';
   static const bottom_tabs_settings = 'bottom_tabs.settings';
@@ -76,4 +83,57 @@ abstract class LocaleKeys {
 
   static const calendar_yourJourney = 'calendar.yourJourney';
   static const calendar_last12Months = 'calendar.last12Months';
+
+  static const all_countries_allTrackingResidences =
+      'all_countries.allTrackingResidences';
+  static const all_countries_of = 'all_countries.of';
+  static const all_countries_days = 'all_countries.days';
+
+  static const where_have_you_been_title = 'where_have_you_been.title';
+  static const where_have_you_been_searchCountries =
+      'where_have_you_been.searchCountries';
+  static const where_have_you_been_noResultsFound =
+      'where_have_you_been.noResultsFound';
+  static const where_have_you_been_selectCountries =
+      'where_have_you_been.selectCountries';
+  static const where_have_you_been_manageYourResidences =
+      'where_have_you_been.manageYourResidences';
+
+  static const add_stay_period_title = 'add_stay_period.title';
+  static const add_stay_period_description = 'add_stay_period.description';
+  static const add_stay_period_clickToGetStarted =
+      'add_stay_period.clickToGetStarted';
+  static const add_stay_period_howToAddStayPeriods =
+      'add_stay_period.howToAddStayPeriods';
+  static const add_stay_period_addStayPeriod = 'add_stay_period.addStayPeriod';
+  static const add_stay_period_addStayPeriods =
+      'add_stay_period.addStayPeriods';
+  static const add_stay_period_points = 'add_stay_period.points';
+  static const add_stay_period_youCanAddMorePeriods =
+      'add_stay_period.youCanAddMorePeriods';
+  static const add_stay_period_periodFrom = 'add_stay_period.periodFrom';
+  static const add_stay_period_periodTo = 'add_stay_period.periodTo';
+
+  static const weekdays_monday = 'weekdays.monday';
+  static const weekdays_tuesday = 'weekdays.tuesday';
+  static const weekdays_wednesday = 'weekdays.wednesday';
+  static const weekdays_thursday = 'weekdays.thursday';
+  static const weekdays_friday = 'weekdays.friday';
+  static const weekdays_saturday = 'weekdays.saturday';
+  static const weekdays_sunday = 'weekdays.sunday';
+
+  static const months_january = 'months.january';
+  static const months_february = 'months.february';
+  static const months_march = 'months.march';
+  static const months_april = 'months.april';
+  static const months_may = 'months.may';
+  static const months_june = 'months.june';
+  static const months_july = 'months.july';
+  static const months_august = 'months.august';
+  static const months_september = 'months.september';
+  static const months_october = 'months.october';
+  static const months_november = 'months.november';
+  static const months_december = 'months.december';
+
+  static const countries = 'countries';
 }

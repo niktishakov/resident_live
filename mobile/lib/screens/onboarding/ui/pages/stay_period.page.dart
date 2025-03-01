@@ -1,9 +1,11 @@
 import 'package:country_list_pick/support/code_countries_en.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 
 import '../../../../domain/domain.dart';
@@ -30,7 +32,12 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
 
   @override
   void initState() {
-    countries = context.read<OnboardingCubit>().state.selectedCountries;
+    countries = context
+        .read<OnboardingCubit>()
+        .state
+        .selectedCountries
+        .map((e) => getCountryName(e.isoCode))
+        .toList();
     super.initState();
   }
 
@@ -42,7 +49,7 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
           Gap(32),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text("Add Your Stay Period",
+            child: Text(LocaleKeys.add_stay_period_title.tr(),
                 style: Theme.of(context).textTheme.headlineSmall),
           ).animate().fade(
                 duration: 1.seconds,
@@ -50,8 +57,7 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
           Gap(16),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-                    'For each country you visited, let us know how many days you stayed.',
+            child: Text(LocaleKeys.add_stay_period_description.tr(),
                     style: context.theme.textTheme.bodyMedium)
                 .animate()
                 .fade(
@@ -87,8 +93,8 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
 
   void _onContinue() {
     final residences = _totalDaysByCountry.map((key, value) {
-      final countryDetails =
-          countriesEnglish.firstWhere((e) => e['name'] as String == key);
+      final countryDetails = countriesEnglish
+          .firstWhere((e) => getCountryName(e['code'] as String) == key);
 
       print(value);
 
@@ -113,7 +119,7 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
             : PrimaryButton(
                 onPressed: _onContinue,
                 fontSize: 20,
-                label: "Continue",
+                label: LocaleKeys.common_continue.tr(),
               ).animate().fade(delay: 500.ms),
       ),
     ).animate().fade(delay: 1300.ms);
@@ -121,8 +127,6 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
 
   Map<String, dynamic> _calcTotalDaysByCountry(List<StayPeriod> segments) {
     final countryDays = <String, dynamic>{};
-
-    print("_calcTotalDaysByCountry: segments >>>> $segments");
 
     for (var period in segments) {
       final country = period.country;
@@ -144,8 +148,6 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
         };
       }
     }
-
-    print("country days >>>> $countryDays");
 
     return countryDays;
   }

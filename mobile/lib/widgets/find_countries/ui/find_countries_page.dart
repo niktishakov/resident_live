@@ -1,9 +1,12 @@
 import 'package:country_list_pick/support/code_countries_en.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:resident_live/domain/domain.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 
 import '../../../features/features.dart';
 import '../../../shared/shared.dart';
@@ -26,7 +29,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
   void initState() {
     final sharedState = context.read<CountriesCubit>().state;
     sharedState.countries.forEach((key, value) {
-      context.read<OnboardingCubit>().addCountry(value.name);
+      context.read<OnboardingCubit>().addCountry(value);
     });
     super.initState();
   }
@@ -46,7 +49,9 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
     List filteredCountries = countriesEnglish
         .where((country) =>
             !selectedCountries.contains(country['name']) &&
-            country['name']!.toLowerCase().contains(searchQuery.toLowerCase()))
+            getCountryName(country['code'])
+                .toLowerCase()
+                .contains(searchQuery.toLowerCase()))
         .toList();
 
     return SafeArea(
@@ -58,7 +63,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text("Where Have You Been?",
+              child: Text(LocaleKeys.where_have_you_been_title.tr(),
                       style: context.theme.textTheme.headlineSmall)
                   .animate()
                   .fade(
@@ -68,8 +73,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
             Gap(24),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                      "Select the countries you’ve visited in the last 12 months.",
+              child: Text(LocaleKeys.where_have_you_been_selectCountries.tr(),
                       style: context.theme.textTheme.bodyMedium)
                   .animate()
                   .fade(
@@ -84,7 +88,8 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                 controller: _textController,
                 style: context.theme.textTheme.bodyLarge,
                 padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                placeholder: "Search countries",
+                placeholder:
+                    LocaleKeys.where_have_you_been_searchCountries.tr(),
                 onChanged: (value) {
                   setState(() {
                     searchQuery = value;
@@ -98,7 +103,8 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
               Expanded(
                 child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    child: Text("No results found",
+                    child: Text(
+                        LocaleKeys.where_have_you_been_noResultsFound.tr(),
                         style: context.theme.textTheme.bodyLarge)
                     // .animate()
                     // .fade(
@@ -119,8 +125,11 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                     itemCount: filteredCountries.length,
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     itemBuilder: (context, index) {
-                      String country =
+                      String originName =
                           filteredCountries[index]['name'] ?? "Unknown";
+                      final originCode =
+                          filteredCountries[index]['code'] ?? "Unknown";
+                      final localizedName = getCountryName(originCode);
                       return SizedBox(
                         height: 44,
                         child: CupertinoButton(
@@ -128,7 +137,11 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                             onPressed: () {
                               context
                                   .read<OnboardingCubit>()
-                                  .addCountry(country);
+                                  .addCountry(CountryEntity(
+                                    name: originName,
+                                    isoCode: originCode,
+                                    periods: [],
+                                  ));
                               _textController.text = '';
                               setState(() => searchQuery = '');
                               // Wait for the next frame to ensure the list is updated
@@ -143,7 +156,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                             child: Row(
                               children: [
                                 Flexible(
-                                  child: Text(country,
+                                  child: Text(localizedName,
                                       style: context.theme.textTheme.bodyLarge),
                                 ),
                               ],
@@ -166,6 +179,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                     itemCount: selectedCountries.length,
                     itemBuilder: (context, index) {
                       final country = selectedCountries[index];
+                      final localizedName = getCountryName(country.isoCode);
                       return GestureDetector(
                         onTap: () {
                           context
@@ -190,7 +204,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    country,
+                                    localizedName,
                                     style: context.theme.textTheme.bodyMedium!
                                         .copyWith(
                                       color:
@@ -228,7 +242,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                           widget.onNextPage();
                         }
                       : null,
-                  label: "Continue",
+                  label: LocaleKeys.common_continue.tr(),
                 ).animate().fade(delay: 300.ms).shimmer(delay: 5.seconds),
               ),
               Gap(8)

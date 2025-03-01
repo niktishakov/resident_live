@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:collection/collection.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'dart:math' as math;
 
@@ -183,7 +185,9 @@ class _TimelineSliderState extends State<TimelineSlider>
   }
 
   void _showDatePicker(BuildContext context, bool isStart) {
-    final title = isStart ? "Period From" : "Period To";
+    final title = isStart
+        ? LocaleKeys.add_stay_period_periodFrom.tr()
+        : LocaleKeys.add_stay_period_periodTo.tr();
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -201,7 +205,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text('Cancel'),
+                    child: Text(LocaleKeys.common_cancel.tr()),
                   ),
                   Text(title,
                       style: TextStyle(
@@ -211,7 +215,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('Done'),
+                    child: Text(LocaleKeys.common_done.tr()),
                   ),
                 ],
               ),
@@ -486,7 +490,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                       }
                     },
                     fontSize: 16,
-                    label: 'Add Period',
+                    label: LocaleKeys.add_stay_period_addStayPeriod.tr(),
                   ).animate().fade(delay: 150.ms),
                 ],
               );

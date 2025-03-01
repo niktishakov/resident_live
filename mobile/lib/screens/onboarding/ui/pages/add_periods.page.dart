@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:resident_live/domain/domain.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/widgets/widgets.dart';
 
@@ -126,7 +127,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: RlCupertinoNavBar(
-          title: "Add Stay Periods",
+          title: LocaleKeys.add_stay_period_addStayPeriods.tr(),
           actions: [
             CupertinoButton(
                 padding: EdgeInsets.only(right: 16),
@@ -135,7 +136,8 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                       context: context,
                       builder: (context) => CupertinoAlertDialog(
                             title: Text(
-                              "How To Add Stay Periods",
+                              LocaleKeys.add_stay_period_howToAddStayPeriods
+                                  .tr(),
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
@@ -149,7 +151,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "1. Select a country\n2. Adjust dates on timeline\n3. Tap Add Period button",
+                                      LocaleKeys.add_stay_period_points.tr(),
                                       style: TextStyle(
                                         height: 1.8,
                                         fontSize: 15,
@@ -157,7 +159,9 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                                     ),
                                     SizedBox(height: 16),
                                     Text(
-                                      "You can add multiple periods\nto your timeline.",
+                                      LocaleKeys
+                                          .add_stay_period_youCanAddMorePeriods
+                                          .tr(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 13,
@@ -170,7 +174,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                             ),
                             actions: [
                               CupertinoDialogAction(
-                                child: Text("OK"),
+                                child: Text(LocaleKeys.common_ok.tr()),
                                 onPressed: () => Navigator.pop(context),
                               ),
                             ],
@@ -238,7 +242,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text("Delete",
+                            Text(LocaleKeys.common_delete.tr(),
                                 style: context.theme.textTheme.bodyMedium
                                     ?.copyWith(color: Colors.white)),
                             Gap(8),
@@ -249,7 +253,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                       child: CupertinoContextMenu(
                         actions: [
                           CupertinoContextMenuAction(
-                            child: Text("Delete"),
+                            child: Text(LocaleKeys.common_delete.tr()),
                             trailingIcon: CupertinoIcons.delete,
                             isDestructiveAction: true,
                             onPressed: () {
@@ -311,7 +315,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                   onPressed: () {
                     Navigator.pop(context, segments);
                   },
-                  label: "Apply",
+                  label: LocaleKeys.common_apply.tr(),
                 )
                     .animate(
                       onPlay: (controller) =>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/widgets/journey_view/ui/journey_page.dart';
@@ -12,18 +13,18 @@ class WeekLineView extends StatelessWidget {
   final DateTime _now = DateTime.now();
 
   List<DateTime> _getDaysOfWeek() {
-    final DateTime startOfWeek =
-        _now.subtract(Duration(days: _now.weekday - 1));
+    final startOfWeek = _now.subtract(Duration(days: _now.weekday - 1));
     return List.generate(7, (index) => startOfWeek.add(Duration(days: index)));
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<DateTime> daysOfWeek = _getDaysOfWeek();
+    final daysOfWeek = _getDaysOfWeek();
 
     return LayoutBuilder(
       builder: (context, ctrx) {
         final itemWidth = ctrx.maxWidth / 7;
+        initializeDateFormatting('ru'); // Initialize Russian locale
 
         return GestureDetector(
           onTap: () async {
@@ -60,10 +61,7 @@ class WeekLineView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        DateFormat('EEE')
-                            .format(day)
-                            .substring(0, 3)
-                            .toUpperCase(),
+                        DateFormat('EEE', "ru").format(day).toUpperCase(),
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w400,
                             fontSize: 12,

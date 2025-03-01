@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 
 import '../shared.dart';
 
@@ -9,8 +11,8 @@ class ProgressBar extends StatelessWidget {
     required this.completionPercentage,
     this.radius = 100.0,
     this.strokeWidth = 5.0,
-    this.label = 'Progress',
-    this.doneLabel = 'Done',
+    this.label,
+    this.doneLabel,
     this.direction = ProgressDirection.up,
     this.duration = const Duration(milliseconds: 1600),
     this.backgroundColor,
@@ -18,8 +20,8 @@ class ProgressBar extends StatelessWidget {
   });
 
   final double completionPercentage;
-  final String label;
-  final String doneLabel;
+  final String? label;
+  final String? doneLabel;
   final double radius;
   final double strokeWidth;
   final ProgressDirection direction;
@@ -29,6 +31,8 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final label = this.label ?? LocaleKeys.common_progress.tr();
+    final doneLabel = this.doneLabel ?? LocaleKeys.common_done.tr();
     final beginValue =
         direction == ProgressDirection.up ? 0.0 : completionPercentage + 0.1;
     final _backgroundColor = backgroundColor ?? context.theme.primaryColor;

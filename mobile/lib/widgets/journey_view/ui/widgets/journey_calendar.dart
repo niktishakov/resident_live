@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class JourneyCalendar extends StatefulWidget {
@@ -393,19 +395,19 @@ class _JourneyCalendarState extends State<JourneyCalendar>
   String _getWeekDayLabel(int weekday) {
     switch (weekday) {
       case 1:
-        return 'Mon';
+        return LocaleKeys.weekdays_monday.tr();
       case 2:
-        return 'Tue';
+        return LocaleKeys.weekdays_tuesday.tr();
       case 3:
-        return 'Wed';
+        return LocaleKeys.weekdays_wednesday.tr();
       case 4:
-        return 'Thu';
+        return LocaleKeys.weekdays_thursday.tr();
       case 5:
-        return 'Fri';
+        return LocaleKeys.weekdays_friday.tr();
       case 6:
-        return 'Sat';
+        return LocaleKeys.weekdays_saturday.tr();
       case 7:
-        return 'Sun';
+        return LocaleKeys.weekdays_sunday.tr();
       default:
         return '';
     }

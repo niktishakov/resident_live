@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -8,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/features/countries/model/countries_cubit.dart';
 import 'package:resident_live/features/countries/model/countries_state.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class AllCountriesScreen extends StatefulWidget {
@@ -151,7 +153,8 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                 EdgeInsetsDirectional.symmetric(horizontal: 24),
                             backgroundColor: Colors.transparent,
                             middle: Text(
-                              "All Tracking Residences",
+                              LocaleKeys.all_countries_allTrackingResidences
+                                  .tr(),
                               style: theme.title16Semi.copyWith(
                                 color: theme.textPrimaryOnColor,
                                 fontFamily: "SFPro",
@@ -166,7 +169,9 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                 });
                               },
                               child: Text(
-                                isEditing ? "Done" : "Edit",
+                                isEditing
+                                    ? LocaleKeys.common_done.tr()
+                                    : LocaleKeys.common_edit.tr(),
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: isEditing
@@ -457,7 +462,7 @@ class _CountryItem extends StatelessWidget {
                                             color: context
                                                 .theme.colorScheme.tertiary
                                                 .withOpacity(0.5)),
-                                        "${country.daysSpent} of 183 days"),
+                                        "${country.daysSpent} ${LocaleKeys.all_countries_of.tr()} 183 ${LocaleKeys.all_countries_days.tr()}"),
                                   )
                                 ],
                               ),

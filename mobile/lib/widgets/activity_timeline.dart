@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'dart:math';
 import 'package:collection/collection.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 import '../domain/domain.dart';
 
@@ -50,7 +52,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
   }
 
   String _formatDate(DateTime date) {
-    return '${kMonths[date.month - 1]}';
+    return '${kMonths[date.month - 1].substring(0, 3)}';
   }
 
   List<String> _getMonthLabels() {
@@ -194,7 +196,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
       alignment: Alignment.center,
       child: segments.isEmpty
           ? Text(
-              'Click to get started',
+              LocaleKeys.add_stay_period_clickToGetStarted.tr(),
               style: context.theme.textTheme.headlineSmall?.copyWith(
                 color: context.theme.scaffoldBackgroundColor,
               ),

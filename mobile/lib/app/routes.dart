@@ -7,7 +7,6 @@ import 'package:resident_live/screens/residence_details/residence_details_screen
 import 'package:resident_live/shared/shared.dart';
 
 import '../screens/screens.dart';
-import '../shared/router/router.dart';
 
 List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
   return [

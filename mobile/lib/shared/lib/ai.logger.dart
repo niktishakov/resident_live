@@ -35,11 +35,11 @@ class AiLogger {
     if (!await _logFile.exists()) {
       await _logFile.create();
     } else {
-      _logFile.writeAsStringSync("", mode: FileMode.append);
+      _logFile.writeAsStringSync('', mode: FileMode.append);
     }
   }
 
-  static void initialize() async {
+  static Future<void> initialize() async {
     await _initFile();
     String stringifyMessage(dynamic message) {
       return message is Map || message is Iterable
@@ -56,7 +56,7 @@ class AiLogger {
 
       // ignore: avoid_print
       print(entry);
-      _logFile.writeAsStringSync("\n$entry", mode: FileMode.append);
+      _logFile.writeAsStringSync('\n$entry', mode: FileMode.append);
     });
   }
 

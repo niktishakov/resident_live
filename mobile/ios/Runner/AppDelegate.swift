@@ -1,39 +1,64 @@
 import UIKit
 import Flutter
 import workmanager
-
+import UserNotifications
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
+  /// Registers all pubspec-referenced Flutter plugins in the given registry.  
+  static func registerPlugins(with registry: FlutterPluginRegistry) {
+    GeneratedPluginRegistrant.register(with: registry)
+  }
+
+
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-
     GeneratedPluginRegistrant.register(with: self)
-    UNUserNotificationCenter.current().delegate = self
 
-    WorkmanagerPlugin.setPluginRegistrantCallback { registry in
-      // Registry in this case is the FlutterEngine that is created in Workmanager's
-      // performFetchWithCompletionHandler or BGAppRefreshTask.
-      // This will make other plugins available during a background operation.
-      GeneratedPluginRegistrant.register(with: registry)
+    // Request notification permissions
+    UNUserNotificationCenter.current().requestAuthorization(
+      options: [.alert, .sound, .badge]
+    ) { granted, error in
+      print("Notification permission granted: \(granted)")
     }
 
-    // When this task is scheduled from dart it will run with minimum 20 minute frequency. The
-    // frequency is not guaranteed rather iOS will schedule it as per user's App usage pattern.
-    // If frequency is not provided it will default to 15 minutes
-      WorkmanagerPlugin.registerPeriodicTask(withIdentifier: "be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh", frequency: NSNumber(value: 15 * 60))
+    WorkmanagerPlugin.setPluginRegistrantCallback { registry in  
+        // The following code will be called upon WorkmanagerPlugin's registration.
+        // Note : all of the app's plugins may not be required in this context ;
+        // instead of using GeneratedPluginRegistrant.register(with: registry),
+        // you may want to register only specific plugins.
+        AppDelegate.registerPlugins(with: registry)
+    }
 
+    // Register background task to run every 15 minutes (900 seconds)
+    // Note: iOS may adjust this timing based on device usage patterns
+    WorkmanagerPlugin.registerPeriodicTask(
+      withIdentifier: "be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh", 
+      frequency: NSNumber(value: 15 * 60)
+    )
 
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
+// Handle notifications when app is in foreground
   override func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification,
-        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-         completionHandler(.alert) // shows banner even if app is in foreground
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification,
+    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+  ) {
+    // Show notification with alert, sound, and badge even if app is in foreground
+    completionHandler([.alert, .sound, .badge])
+  }
+
+  // Handle notification interaction when app is in background
+  override func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    didReceive response: UNNotificationResponse,
+    withCompletionHandler completionHandler: @escaping () -> Void
+  ) {
+    completionHandler()
   }
 }

@@ -1,20 +1,19 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:workmanager/workmanager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/single_child_widget.dart';
 
 import 'package:provider/provider.dart';
+import 'package:resident_live/features/workmanager/workmanager.service.dart';
 
 import '../features/features.dart';
 import '../screens/screens.dart';
 import '../shared/shared.dart';
 import 'routes.dart';
+import 'service_locator.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 final shellKey = GlobalKey<NavigatorState>();
@@ -50,14 +49,17 @@ void main() async {
 
   final rlThemeProvider = RlThemeProvider(RlTheme());
 
+  final deviceInfoService = await DeviceInfoService.create();
   await VibrationService.init();
   await ShareService.init();
   await ToastService.init();
-  GeolocationService.instance.initialize();
-  final deviceInfoService = await DeviceInfoService.create();
 
-  final workmanager = await WorkmanagerService.initialize();
-  await workmanager.registerPeriodicTask();
+  await ServiceLocator.init();
+
+  // Initialize notification service
+  await NotificationService.initialize();
+  await WorkmanagerService.initialize();
+  await WorkmanagerService.scheduleBackgroundTask();
 
   runApp(
     LocalizedApp(
@@ -65,7 +67,10 @@ void main() async {
         providers: [
           BlocProvider(create: (_) => OnboardingCubit()),
           BlocProvider(
-              create: (_) => LocationCubit(GeolocationService.instance)),
+            create: (_) => LocationCubit(
+              getIt<GeolocationService>(),
+            ),
+          ),
           BlocProvider(create: (_) => CountriesCubit()),
           BlocProvider(create: (_) => UserCubit()),
           BlocProvider(create: (_) => AuthCubit()),

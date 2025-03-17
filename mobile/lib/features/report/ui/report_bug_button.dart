@@ -1,5 +1,5 @@
-
 import 'package:flutter/cupertino.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:resident_live/shared/shared.dart';
 
@@ -24,72 +24,38 @@ class _ReportBugButtonState extends State<ReportBugButton> {
           : () async {
               setState(() => _isLoading = true);
 
-              // Show modal popup to get user message
-              final message = await showCupertinoDialog<String>(
-                context: context,
-                builder: (context) {
-                  var inputText = '';
-                  return CupertinoAlertDialog(
-                    title: Text('Send a Bug Report'),
-                    content: Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
-                      child: CupertinoTextField(
-                        placeholder:
-                            'Write a description of the issue (optional)',
-                        onChanged: (value) => inputText = value,
-                        maxLines: 5,
-                        minLines: 2,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                        autofocus: true,
-                        autocorrect: true,
-                        maxLength: 1000,
-                      ),
-                    ),
-                    actions: [
-                      CupertinoDialogAction(
-                        isDestructiveAction: true,
-                        onPressed: () => context.pop(),
-                        child: Text('Cancel'),
-                      ),
-                      CupertinoDialogAction(
-                        isDefaultAction: true,
-                        onPressed: () => context.pop(inputText),
-                        child: Text('Send'),
-                      ),
-                    ],
+              final logFile = AiLogger.logFile;
+              final logger = AiLogger('SettingsScreen');
+
+              if (await logFile.exists()) {
+                try {
+                  await ShareService.instance.shareFile(logFile);
+                } catch (e) {
+                  logger.error(e);
+                  ToastService.instance.showToast(
+                    context,
+                    message: 'Failed to send bug report: ${e.toString()}',
                   );
-                },
-              );
-
-              if (message != null) {
-                final logFile = AiLogger.logFile;
-                final logger = AiLogger('SettingsScreen');
-
-                if (await logFile.exists()) {
-                  try {
-                    await ShareService.instance.shareFile(logFile);
-                    ToastService.instance.showToast(context,
-                        message: 'Log file shared successfully',);
-                  } catch (e) {
-                    logger.error(e);
-                    ToastService.instance.showToast(context,
-                        message: 'Failed to send bug report: ${e.toString()}',);
-                  }
-                } else {
-                  logger.error('Log file not found!');
-                  ToastService.instance
-                      .showToast(context, message: 'Log file not found!');
                 }
+              } else {
+                logger.error('Log file not found!');
+                ToastService.instance
+                    .showToast(context, message: 'Log file not found!');
               }
               setState(() => _isLoading = false);
             },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('Report a Bug', style: theme.body18),
-          if (_isLoading) const CupertinoActivityIndicator(),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Report a Bug', style: theme.body18),
+            if (_isLoading) ...[
+              Gap(8),
+              const CupertinoActivityIndicator(),
+            ],
+          ],
+        ),
       ),
     );
   }

@@ -183,7 +183,9 @@ class FocusedCountryCard extends StatelessWidget {
                             label: LocaleKeys.focus_setFocus.tr(),
                             fontSize: 12,
                             padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 4,),
+                              horizontal: 16,
+                              vertical: 4,
+                            ),
                             leading: AppAssetImage(
                               AppAssets.target,
                               height: 14,
@@ -261,7 +263,7 @@ class FocusedCountryCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(24.0),
                 child: DiagonalProgressBar(
-                  progress: progress,
+                  progress: progress.toDouble(),
                   isAnimationEnabled: isHere,
                 ),
               ),

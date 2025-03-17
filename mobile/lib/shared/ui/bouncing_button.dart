@@ -7,7 +7,6 @@ import 'package:resident_live/shared/lib/constants.dart';
 import 'package:resident_live/shared/lib/services/vibration_service.dart';
 
 class BouncingButton extends StatefulWidget {
-
   BouncingButton({
     Key? key,
     required this.child,
@@ -70,7 +69,7 @@ class _BouncingState extends State<BouncingButton>
         (event.localPosition.dy - _initPosition.dy).abs() > 5;
   }
 
-  Future<void> _callPressCallback(PointerEvent event) {
+  Future<void> _callPressCallback(PointerEvent event) async {
     if (widget.debounce) {
       if (_lock!.locked) return; // prevent multiple taps
       return _lock!.synchronized(() async {

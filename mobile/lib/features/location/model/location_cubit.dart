@@ -10,9 +10,9 @@ import 'location_state.dart';
 class LocationCubit extends Cubit<LocationState> {
   LocationCubit(this._locationService)
       : super(LocationState(
-          position: Position.fromMap({"latitude": 0.0, "longitude": 0.0}),
+          position: Position.fromMap({'latitude': 0.0, 'longitude': 0.0}),
           placemark: Placemark(),
-        ));
+        ),);
 
   final GeolocationService _locationService;
   static final AiLogger _logger = AiLogger('LocationCubit');
@@ -39,11 +39,11 @@ class LocationCubit extends Cubit<LocationState> {
       if (position != null) {
         await _updatePosition(position);
       } else {
-        _logger.error("Failed to update location - current position is null");
-        emit(state.failure("Current position is null"));
+        _logger.error('Failed to update location - current position is null');
+        emit(state.failure('Current position is null'));
       }
     } catch (e) {
-      _logger.error("Error updating location: $e");
+      _logger.error('Error updating location: $e');
       emit(state.failure(e.toString()));
     }
   }

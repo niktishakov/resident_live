@@ -34,7 +34,7 @@ class TodayButton extends StatelessWidget {
             Icon(CupertinoIcons.calendar, size: iconSize),
             Gap(6),
             Text(
-              "${DateTime.now().toMMMDDYYYY()}",
+              '${DateTime.now().toMMMDDYYYY()}',
               style: style ??
                   context.theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w700,

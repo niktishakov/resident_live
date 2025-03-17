@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
 
 import '../../../features/features.dart';
@@ -21,15 +20,15 @@ class FindCountriesPage extends StatefulWidget {
 }
 
 class _FindCountriesPageState extends State<FindCountriesPage> {
-  String searchQuery = "";
+  String searchQuery = '';
   ScrollController controller = ScrollController();
-  TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
     final sharedState = context.read<CountriesCubit>().state;
     sharedState.countries.forEach((key, value) {
-      context.read<OnboardingCubit>().addCountry(value);
+      context.read<OnboardingCubit>().addCountry(value.isoCode);
     });
     super.initState();
   }
@@ -46,12 +45,12 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
     final selectedCountries =
         context.watch<OnboardingCubit>().state.selectedCountries;
     // Filter the countries to exclude the ones already selected
-    List filteredCountries = countriesEnglish
+    final List filteredCountries = countriesEnglish
         .where((country) =>
             !selectedCountries.contains(country['name']) &&
             getCountryName(country['code'])
                 .toLowerCase()
-                .contains(searchQuery.toLowerCase()))
+                .contains(searchQuery.toLowerCase()),)
         .toList();
 
     return SafeArea(
@@ -64,7 +63,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(LocaleKeys.where_have_you_been_title.tr(),
-                      style: context.theme.textTheme.headlineSmall)
+                      style: context.theme.textTheme.headlineSmall,)
                   .animate()
                   .fade(
                     duration: 1.seconds,
@@ -74,7 +73,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(LocaleKeys.where_have_you_been_selectCountries.tr(),
-                      style: context.theme.textTheme.bodyMedium)
+                      style: context.theme.textTheme.bodyMedium,)
                   .animate()
                   .fade(
                     duration: 1.seconds,
@@ -105,7 +104,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Text(
                         LocaleKeys.where_have_you_been_noResultsFound.tr(),
-                        style: context.theme.textTheme.bodyLarge)
+                        style: context.theme.textTheme.bodyLarge,),
                     // .animate()
                     // .fade(
                     //   duration: 500.seconds,
@@ -125,10 +124,10 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                     itemCount: filteredCountries.length,
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     itemBuilder: (context, index) {
-                      String originName =
-                          filteredCountries[index]['name'] ?? "Unknown";
+                      final String originName =
+                          filteredCountries[index]['name'] ?? 'Unknown';
                       final originCode =
-                          filteredCountries[index]['code'] ?? "Unknown";
+                          filteredCountries[index]['code'] ?? 'Unknown';
                       final localizedName = getCountryName(originCode);
                       return SizedBox(
                         height: 44,
@@ -137,11 +136,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                             onPressed: () {
                               context
                                   .read<OnboardingCubit>()
-                                  .addCountry(CountryEntity(
-                                    name: originName,
-                                    isoCode: originCode,
-                                    periods: [],
-                                  ));
+                                  .addCountry(originCode);
                               _textController.text = '';
                               setState(() => searchQuery = '');
                               // Wait for the next frame to ensure the list is updated
@@ -157,10 +152,10 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                               children: [
                                 Flexible(
                                   child: Text(localizedName,
-                                      style: context.theme.textTheme.bodyLarge),
+                                      style: context.theme.textTheme.bodyLarge,),
                                 ),
                               ],
-                            )),
+                            ),),
                       );
                     },
                   ),
@@ -179,7 +174,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                     itemCount: selectedCountries.length,
                     itemBuilder: (context, index) {
                       final country = selectedCountries[index];
-                      final localizedName = getCountryName(country.isoCode);
+                      final localizedName = getCountryName(country);
                       return GestureDetector(
                         onTap: () {
                           context
@@ -229,7 +224,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                           ),
                         ),
                       );
-                    }),
+                    },),
               ),
             ),
             if (selectedCountries.isNotEmpty) ...[
@@ -245,7 +240,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                   label: LocaleKeys.common_continue.tr(),
                 ).animate().fade(delay: 300.ms).shimmer(delay: 5.seconds),
               ),
-              Gap(8)
+              Gap(8),
             ],
           ],
         ),

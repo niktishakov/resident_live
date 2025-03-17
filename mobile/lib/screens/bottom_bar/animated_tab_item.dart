@@ -93,7 +93,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
                 letterSpacing: 0.1,
                 height: 1.75,
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -112,7 +112,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
       child: SizedBox.square(
         dimension: iconSize,
         child: Container(
-          key: ValueKey("${item.path}_tab_icon"),
+          key: ValueKey('${item.path}_tab_icon'),
           child: widget.isSelected
               ? AppAssetImage(
                   itemFill,

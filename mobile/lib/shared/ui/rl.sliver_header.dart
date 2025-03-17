@@ -2,10 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/screens/residence_details/residence_details_screen2.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class AiSliverAppBar extends StatelessWidget {
@@ -122,15 +120,15 @@ class AiSliverHeader extends StatelessWidget {
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
 
   _SliverAppBarDelegate({
     required this.minHeight,
     required this.maxHeight,
     required this.child,
   });
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
 
   static double feedMaxOffset = 50;
 
@@ -222,9 +220,9 @@ class AiBackButton extends StatelessWidget {
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
                   ),
-                )
+                ),
             ],
-          )),
+          ),),
     );
   }
 }

@@ -20,7 +20,7 @@ class RlCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final brightness = PlatformDispatcher.instance.platformBrightness;
-    final border = null;
+    const border = null;
 
     final _borderRadius = borderRadius ?? kBorderRadius;
     final _padding = padding ?? EdgeInsets.all(16.0);

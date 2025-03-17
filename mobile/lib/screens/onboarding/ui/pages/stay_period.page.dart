@@ -15,12 +15,12 @@ import '../../model/onboarding_cubit.dart';
 import 'add_periods.page.dart';
 
 class EnterStayDurationPage extends StatefulWidget {
-  final VoidCallback onNextPage;
 
   const EnterStayDurationPage({
     required this.onNextPage,
     Key? key,
   }) : super(key: key);
+  final VoidCallback onNextPage;
 
   @override
   _EnterStayDurationPageState createState() => _EnterStayDurationPageState();
@@ -36,7 +36,7 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
         .read<OnboardingCubit>()
         .state
         .selectedCountries
-        .map((e) => getCountryName(e.isoCode))
+        .map(getCountryName)
         .toList();
     super.initState();
   }
@@ -50,7 +50,7 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(LocaleKeys.add_stay_period_title.tr(),
-                style: Theme.of(context).textTheme.headlineSmall),
+                style: Theme.of(context).textTheme.headlineSmall,),
           ).animate().fade(
                 duration: 1.seconds,
               ),
@@ -58,7 +58,7 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Text(LocaleKeys.add_stay_period_description.tr(),
-                    style: context.theme.textTheme.bodyMedium)
+                    style: context.theme.textTheme.bodyMedium,)
                 .animate()
                 .fade(
                   duration: 1.seconds,
@@ -86,7 +86,7 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
           ).animate().fade(delay: 1000.ms),
           Spacer(),
           _buildButton(context),
-        ]),
+        ],),
       ),
     );
   }
@@ -104,7 +104,7 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
             name: key,
             periods: value['segments'] as List<StayPeriod>,
             isoCode: countryDetails['code'] as String,
-          ));
+          ),);
     });
     context.read<CountriesCubit>().updateCountries(residences);
     widget.onNextPage();
@@ -134,17 +134,17 @@ class _EnterStayDurationPageState extends State<EnterStayDurationPage> {
       final days = range.duration.inDays;
 
       if (countryDays.containsKey(country)) {
-        final List<StayPeriod> existingSegments =
-            List.from(countryDays[country]!['segments']);
+        final existingSegments =
+            List<StayPeriod>.from(countryDays[country]!['segments']);
         existingSegments.add(period);
         countryDays[country] = {
-          "value": countryDays[country]!['value'] + days,
-          "segments": existingSegments
+          'value': countryDays[country]!['value'] + days,
+          'segments': existingSegments,
         };
       } else {
         countryDays[country] = {
-          "value": days,
-          "segments": [period],
+          'value': days,
+          'segments': [period],
         };
       }
     }

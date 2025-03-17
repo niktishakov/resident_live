@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'dart:async';
 
-import 'package:resident_live/shared/lib/assets/export.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class GreetingView extends StatefulWidget {

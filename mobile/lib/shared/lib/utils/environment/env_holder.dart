@@ -1,7 +1,7 @@
 import 'environment.dart';
 
 class EnvHolder {
-  EnvHolder(this._env) {}
+  EnvHolder(this._env);
 
   final Environment _env;
 

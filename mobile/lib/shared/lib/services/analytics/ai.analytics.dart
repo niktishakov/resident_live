@@ -20,7 +20,7 @@ class AiAnalytics {
   static AiAnalytics? _instance;
   static AiAnalytics get instance {
     assert(_instance != null,
-        'Remember to initialise Appsflyer by calling its init method');
+        'Remember to initialise Appsflyer by calling its init method',);
     return _instance!;
   }
 

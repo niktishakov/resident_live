@@ -19,7 +19,7 @@ class ToastService {
 
   static ToastService get instance {
     assert(_instance != null,
-        'Remember to initialise ToastService by calling its init method');
+        'Remember to initialise ToastService by calling its init method',);
     return _instance!;
   }
 
@@ -55,7 +55,7 @@ class ToastService {
         : status == ToastStatus.failure
             ? Icon(CupertinoIcons.xmark, color: Color(0xffFF6643))
             : Icon(CupertinoIcons.exclamationmark_triangle,
-                color: Colors.amber);
+                color: Colors.amber,);
 
     final Widget toast = Container(
       margin: EdgeInsets.symmetric(horizontal: 24),

@@ -1,12 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class JourneyCalendar extends StatefulWidget {
+
+  const JourneyCalendar({
+    super.key,
+    required this.currentMonth,
+    required this.countryPeriods,
+    required this.visibleCountries,
+    required this.countryColors,
+    required this.onMonthChanged,
+  });
   static Set<String> visitedMonths = {};
 
   static void resetVisitedMonths() {
@@ -18,15 +26,6 @@ class JourneyCalendar extends StatefulWidget {
   final Set<String> visibleCountries; // Currently visible countries
   final Map<String, Color> countryColors; // Colors for each country
   final ValueChanged<DateTime> onMonthChanged;
-
-  const JourneyCalendar({
-    super.key,
-    required this.currentMonth,
-    required this.countryPeriods,
-    required this.visibleCountries,
-    required this.countryColors,
-    required this.onMonthChanged,
-  });
 
   @override
   State<JourneyCalendar> createState() => _JourneyCalendarState();
@@ -137,12 +136,12 @@ class _JourneyCalendarState extends State<JourneyCalendar>
       children: [
         CupertinoButton(
           padding: EdgeInsets.zero,
+          onPressed: _isAnimating ? null : () => _navigateMonth(-1),
           child: Icon(
             CupertinoIcons.chevron_left,
             color: Colors.white,
             size: 24,
           ),
-          onPressed: _isAnimating ? null : () => _navigateMonth(-1),
         ),
         Expanded(
           child: Stack(
@@ -160,7 +159,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
                   return Transform.translate(
                     offset: Offset(value * 80, 0),
                     child: Opacity(
-                      opacity: (1 - value.abs()),
+                      opacity: 1 - value.abs(),
                       child: Center(
                         child: Text(
                           _displayedMonth.toMonthYearString(),
@@ -192,7 +191,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
                     return Transform.translate(
                       offset: Offset(value * 80, 0),
                       child: Opacity(
-                        opacity: (1 - value.abs()),
+                        opacity: 1 - value.abs(),
                         child: Center(
                           child: Text(
                             _nextMonth.toMonthYearString(),
@@ -208,11 +207,11 @@ class _JourneyCalendarState extends State<JourneyCalendar>
         ),
         CupertinoButton(
           padding: EdgeInsets.zero,
+          onPressed: _isAnimating ? null : () => _navigateMonth(1),
           child: Icon(
             CupertinoIcons.chevron_right,
             color: Colors.white,
           ),
-          onPressed: _isAnimating ? null : () => _navigateMonth(1),
         ),
       ],
     );
@@ -234,7 +233,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
             return Transform.translate(
               offset: Offset(value * MediaQuery.of(context).size.width, 0),
               child: Opacity(
-                opacity: (1 - value.abs()),
+                opacity: 1 - value.abs(),
                 child: _buildCalendarContent(_displayedMonth),
               ),
             );
@@ -261,7 +260,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
               return Transform.translate(
                 offset: Offset(value * MediaQuery.of(context).size.width, 0),
                 child: Opacity(
-                  opacity: (1 - value.abs()),
+                  opacity: 1 - value.abs(),
                   child: _buildCalendarContent(_nextMonth),
                 ),
               );
@@ -334,7 +333,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
                     final periods = widget.countryPeriods[country] ?? [];
                     for (final period in periods) {
                       if (date.isAfter(
-                              period.start.subtract(Duration(days: 1))) &&
+                              period.start.subtract(Duration(days: 1)),) &&
                           date.isBefore(period.end.add(Duration(days: 1)))) {
                         todayColor = widget.countryColors[country];
                         break;
@@ -470,7 +469,7 @@ class CalendarPainter extends CustomPainter {
         ..color = color
         ..style = PaintingStyle.fill;
 
-      print("Country: $country");
+      print('Country: $country');
       for (final period in periods) {
         if (!_isDateRangeVisible(period, currentMonth)) continue;
 
@@ -485,8 +484,8 @@ class CalendarPainter extends CustomPainter {
 
           final y = row * cellHeight + (cellHeight * 0.85);
 
-          double rowStartX = _getXPositionForDate(startDate, cellWidth);
-          double rowEndX = _getXPositionForDate(endDate, cellWidth);
+          var rowStartX = _getXPositionForDate(startDate, cellWidth);
+          var rowEndX = _getXPositionForDate(endDate, cellWidth);
 
           print('row: $row, startRow: $startDate, endRow: $endDate');
           if (row != startRow) rowStartX = cellWidth / 2;
@@ -498,7 +497,7 @@ class CalendarPainter extends CustomPainter {
           if (rowStartX == rowEndX) {
             if (progress > 0) {
               canvas.drawCircle(
-                  Offset(rowStartX, y), circleRadius, circlePaint);
+                  Offset(rowStartX, y), circleRadius, circlePaint,);
             }
           } else {
             final path = Path();
@@ -509,7 +508,7 @@ class CalendarPainter extends CustomPainter {
             canvas.drawCircle(Offset(rowStartX, y), circleRadius, circlePaint);
             if (progress > 0) {
               canvas.drawCircle(
-                  Offset(animatedEndX, y), circleRadius, circlePaint);
+                  Offset(animatedEndX, y), circleRadius, circlePaint,);
             }
           }
         }

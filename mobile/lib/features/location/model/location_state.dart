@@ -13,16 +13,16 @@ class LocationState with _$LocationState {
     @JsonKey(includeFromJson: false, includeToJson: false)
     @Default(false)
     bool isInitialized,
-    @Default("") String error,
+    @Default('') String error,
   }) = _LocationState;
+
+  factory LocationState.fromJson(Map<String, dynamic> json) =>
+      _$LocationStateFromJson(json);
 
   const LocationState._();
 
   LocationState reset() => copyWith(position: null, placemark: null);
   LocationState failure(String error) => copyWith(error: error);
-
-  factory LocationState.fromJson(Map<String, dynamic> json) =>
-      _$LocationStateFromJson(json);
 
   bool isCurrentResidence(String isoCode) {
     return placemark?.isoCountryCode == isoCode;

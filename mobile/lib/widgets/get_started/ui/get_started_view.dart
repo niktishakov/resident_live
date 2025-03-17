@@ -16,7 +16,7 @@ class GetStartedView extends StatelessWidget {
       builder: (context, state) {
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
-          transitionBuilder: (Widget child, Animation<double> animation) {
+          transitionBuilder: (child, animation) {
             return FadeTransition(
               opacity: animation,
               child: SlideTransition(
@@ -66,11 +66,11 @@ class GetStartedView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         PrimaryButton(
-                          label: "Get Started",
+                          label: 'Get Started',
                           gradient: LinearGradient(colors: [
                             context.theme.primaryColor,
                             Color(0xff306D99),
-                          ]),
+                          ],),
                           textStyle: GoogleFonts.poppins(
                             fontSize: 18,
                             height: 30 / 18,

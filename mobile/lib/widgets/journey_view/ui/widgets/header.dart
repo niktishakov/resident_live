@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
-import 'package:resident_live/app/routes.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 
@@ -23,12 +22,12 @@ class Header extends StatelessWidget {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: LocaleKeys.calendar_yourJourney.tr() + "\n",
+                    text: '${LocaleKeys.calendar_yourJourney.tr()}\n',
                   ),
                   TextSpan(
                     text: LocaleKeys.calendar_last12Months.tr(),
                     style: theme.body22M.copyWith(color: theme.textAccent),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -37,7 +36,7 @@ class Header extends StatelessWidget {
         RlCloseButton(
           color: context.theme.colorScheme.secondary.withOpacity(0.85),
         ),
-        Gap(16)
+        Gap(16),
       ],
     );
   }

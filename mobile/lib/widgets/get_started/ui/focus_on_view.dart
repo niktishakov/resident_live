@@ -129,11 +129,11 @@ class CountryProgressBar extends StatelessWidget {
                           gradient: LinearGradient(
                             colors: [
                               Color.lerp(Color(0xffD9D9D9).withOpacity(0.2),
-                                  Color(0xff50B5FF), selectionValue)!,
+                                  Color(0xff50B5FF), selectionValue,)!,
                               Color.lerp(
                                   Color(0xff737373).withOpacity(0.1),
                                   Color(0xff50B5FF).withOpacity(0.5),
-                                  selectionValue)!,
+                                  selectionValue,)!,
                             ],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,

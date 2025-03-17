@@ -37,7 +37,7 @@ class _CountrySelectorState extends State<CountrySelector>
   void didChangePlatformBrightness() {
     setState(_updateCountryColors);
     widget.onCountrySelected(
-        widget.focusedCountry!, countryColors[widget.focusedCountry]!);
+        widget.focusedCountry!, countryColors[widget.focusedCountry]!,);
   }
 
   @override
@@ -51,7 +51,7 @@ class _CountrySelectorState extends State<CountrySelector>
     return Wrap(
       spacing: 8.0, // Adjusts the space between items
       runSpacing: 8.0, // Adjusts the space between lines
-      children: widget.countries.map((String country) {
+      children: widget.countries.map((country) {
         final isSelected = widget.focusedCountry == country;
         return GestureDetector(
           onTap: () {

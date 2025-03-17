@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,15 +19,15 @@ class AuthCubit extends HydratedCubit<AuthState> {
   }
 
   Future<void> checkBiometricSupport() async {
-    final bool canCheckBiometrics = await _localAuth.canCheckBiometrics;
-    final bool isDeviceSupported = await _localAuth.isDeviceSupported();
+    final canCheckBiometrics = await _localAuth.canCheckBiometrics;
+    final isDeviceSupported = await _localAuth.isDeviceSupported();
     final isSupported = canCheckBiometrics && isDeviceSupported;
     emit(state.copyWith(isSupported: isSupported));
   }
 
   Future<void> checkBiometricEnabled() async {
     final prefs = await SharedPreferences.getInstance();
-    final bool isEnabled = prefs.getBool(_biometricEnabledKey) ?? false;
+    final isEnabled = prefs.getBool(_biometricEnabledKey) ?? false;
     emit(state.copyWith(isEnabled: isEnabled));
   }
 
@@ -44,7 +43,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
 
   Future<void> toggleBiometricAuth() async {
     final prefs = await SharedPreferences.getInstance();
-    final bool newStatus = !state.isEnabled;
+    final newStatus = !state.isEnabled;
     await prefs.setBool(_biometricEnabledKey, newStatus);
     emit(state.copyWith(isEnabled: newStatus));
   }
@@ -56,7 +55,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
     }
 
     try {
-      final bool isAuthenticated = await _localAuth.authenticate(
+      final isAuthenticated = await _localAuth.authenticate(
         localizedReason: 'Authenticate to access the app',
         options: const AuthenticationOptions(
           stickyAuth: true,
@@ -73,7 +72,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
 
   Future<bool> authenticateWithPasscode() async {
     try {
-      final bool didAuthenticate = await _localAuth.authenticate(
+      final didAuthenticate = await _localAuth.authenticate(
         localizedReason: 'Please enter your passcode',
         options: const AuthenticationOptions(
           stickyAuth: true,
@@ -91,7 +90,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
 
   Future<void> authenticateAndToggle() async {
     try {
-      final bool isAuthenticated = await _localAuth.authenticate(
+      final isAuthenticated = await _localAuth.authenticate(
         localizedReason: 'Authenticate to enable Face ID access',
         options: const AuthenticationOptions(
           stickyAuth: true,

@@ -129,14 +129,14 @@ class _HeaderContent extends StatelessWidget {
             context.pop();
           },
           child: Icon(CupertinoIcons.clear_circled_solid,
-              size: 34, color: Colors.white.withOpacity(0.85)),
-        )
+              size: 34, color: Colors.white.withOpacity(0.85),),
+        ),
       ],
     );
   }
 
   Future<void> _captureAndShareScreenshot() async {
-    final RenderRepaintBoundary boundary =
+    final boundary =
         screenKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     final image = await boundary.toImage(pixelRatio: 3.0);
     final byteData = await image.toByteData(format: ImageByteFormat.png);
@@ -151,7 +151,7 @@ class _HeaderContent extends StatelessWidget {
         ),
       ],
       text:
-          "Track your global residency journey with Resident Live! Download now: ${appStoreLink}",
+          'Track your global residency journey with Resident Live! Download now: $appStoreLink',
     );
   }
 }

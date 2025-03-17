@@ -19,10 +19,10 @@ import '../../shared/shared.dart';
 import 'widgets/residency_rules_modal.dart';
 
 const _statuses = {
-  'hr': ["You're free to travel about", "You can travel until"],
-  'h': ["Status update in", "Status will update at"],
-  'r': ["You will lose your status in", "Status is safe until"],
-  'a': ["Move to this country to reach status in", "Status may be updated at"]
+  'hr': ["You're free to travel about", 'You can travel until'],
+  'h': ['Status update in', 'Status will update at'],
+  'r': ['You will lose your status in', 'Status is safe until'],
+  'a': ['Move to this country to reach status in', 'Status may be updated at'],
 };
 
 List<String> getStatusMessage(bool isHere, bool isResident) =>
@@ -65,7 +65,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
   }
 
   Future<void> _captureAndShareScreenshot() async {
-    final RenderRepaintBoundary boundary =
+    final boundary =
         screenKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     final image = await boundary.toImage(pixelRatio: 3.0);
     final byteData = await image.toByteData(format: ImageByteFormat.png);
@@ -80,7 +80,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
         ),
       ],
       text:
-          "Track your global residency journey with Resident Live! Download now: ${appStoreLink}",
+          'Track your global residency journey with Resident Live! Download now: $appStoreLink',
     );
   }
 
@@ -129,7 +129,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                   backgroundColor: Colors.transparent,
                   leading: AiBackButton(
                     padding: EdgeInsets.zero,
-                    title: "Back",
+                    title: 'Back',
                   ),
                   trailing: BouncingButton(
                     onPressed: (_) {
@@ -158,7 +158,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                       Text(
                         widget.name,
                         style: theme.title16Semi.copyWith(
-                          fontFamily: "SFPro",
+                          fontFamily: 'SFPro',
                           color: theme.textPrimaryOnColor,
                           fontSize: 17,
                         ),
@@ -192,8 +192,8 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                   radius: 200,
                                   strokeWidth: 20,
                                   duration: 300.ms,
-                                  doneLabel: "You are a resident!",
-                                  label: "Residency Progress",
+                                  doneLabel: 'You are a resident!',
+                                  label: 'Residency Progress',
                                   backgroundColor: Color(0xff3C3C3C),
                                   valueColor: isResident && isHere
                                       ? Colors.greenAccent
@@ -211,7 +211,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                   style: theme.body14,
                                 ),
                                 TextSpan(
-                                  text: "\n${country.statusToggleIn} days",
+                                  text: '\n${country.statusToggleIn} days',
                                   style: theme.body18M
                                       .copyWith(fontWeight: FontWeight.w700),
                                 ),
@@ -237,9 +237,9 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                     ),
                                     TextSpan(
                                       text:
-                                          "\n${country.statusToggleAt.toMMMMDDYYYY()}",
+                                          '\n${country.statusToggleAt.toMMMMDDYYYY()}',
                                       style: theme.body18M.copyWith(
-                                          fontWeight: FontWeight.w700),
+                                          fontWeight: FontWeight.w700,),
                                     ),
                                   ],
                                 ),
@@ -268,10 +268,10 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(24),
                                       border: Border.all(
-                                          width: 1, color: Colors.white)),
+                                          width: 1, color: Colors.white,),),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
+                                        horizontal: 16.0,),
                                     child: Row(
                                       children: [
                                         Icon(
@@ -281,7 +281,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                         ),
                                         Gap(4),
                                         Text(
-                                          "Open",
+                                          'Open',
                                           style: GoogleFonts.poppins(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
@@ -307,7 +307,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                           Row(
                             children: [
                               Expanded(
-                                  child: Text("Notify me for status updates")),
+                                  child: Text('Notify me for status updates'),),
                               Switch(
                                 value: true,
                                 onChanged: (value) {
@@ -351,7 +351,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                       .setFocusedCountry(country);
                                 },
                                 child: Text(
-                                  "Focus on this country",
+                                  'Focus on this country',
                                   style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -391,7 +391,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                 });
                               },
                               child: Text(
-                                "Read a residency rules",
+                                'Read a residency rules',
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -409,7 +409,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                   builder: (context) => CupertinoAlertDialog(
                                     title: Text('Remove Country'),
                                     content: Text(
-                                        'Are you sure you want to remove this country from tracking?'),
+                                        'Are you sure you want to remove this country from tracking?',),
                                     actions: [
                                       CupertinoDialogAction(
                                         child: Text('Cancel'),
@@ -435,7 +435,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                 size: 24,
                               ),
                               child: Text(
-                                "Remove country",
+                                'Remove country',
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,

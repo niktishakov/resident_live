@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:resident_live/features/features.dart';
-import 'package:resident_live/shared/shared.dart';
 
 // Define the state
 class GetStartedState extends Equatable {
@@ -35,9 +34,9 @@ class GetStartedState extends Equatable {
 
 // Define the cubit
 class GetStartedCubit extends Cubit<GetStartedState> {
-  final LocationCubit _locationCubit;
 
   GetStartedCubit(this._locationCubit) : super(GetStartedState());
+  final LocationCubit _locationCubit;
 
   void setFocusedCountry(int index) {
     emit(state.copyWith(focusedCountryIndex: index));
@@ -61,6 +60,6 @@ class GetStartedCubit extends Cubit<GetStartedState> {
       isGeoPermissionAllowed: false,
       isGetStartedTriggered: false,
       focusedCountryIndex: -1,
-    ));
+    ),);
   }
 }

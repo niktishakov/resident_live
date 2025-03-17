@@ -36,16 +36,7 @@ class CoreRouteObserver extends RouteObserver<PageRoute<dynamic>> {
     _logger.info(routeToString());
   }
 
-  @override
-  void didStartUserGesture(
-      Route<dynamic> route, Route<dynamic>? previousRoute) {
-    super.didStartUserGesture(route, previousRoute);
-  }
 
-  @override
-  void didStopUserGesture() {
-    super.didStopUserGesture();
-  }
 
   String routeToString() {
     return routeStack.map((item) => item.settings.name).toList().toString();

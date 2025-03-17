@@ -1,4 +1,3 @@
-import 'package:country_list_pick/support/code_countries_en.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -51,7 +50,7 @@ class _ManageCountriesScreenState extends State<ManageCountriesScreen> {
                 case 1:
                   return EnterStayDurationPage(onNextPage: () {
                     context.goNamed(ScreenNames.home);
-                  });
+                  },);
                 default:
                   return FindCountriesPage(onNextPage);
               }

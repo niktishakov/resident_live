@@ -16,11 +16,11 @@ class RlNavBar extends StatelessWidget {
       largeTitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Resident Live",
+          Text('Resident Live',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   letterSpacing: -1.0,
-                  color: context.theme.colorScheme.secondary)),
+                  color: context.theme.colorScheme.secondary,),),
         ],
       ),
     );
@@ -52,7 +52,7 @@ class RlCupertinoNavBar extends StatelessWidget {
                     CupertinoIcons.back,
                     size: 28,
                     color: context.theme.colorScheme.secondary,
-                  ))
+                  ),)
           : null,
       backgroundColor: context.theme.scaffoldBackgroundColor,
       middle: Text(title, style: context.theme.textTheme.titleMedium),

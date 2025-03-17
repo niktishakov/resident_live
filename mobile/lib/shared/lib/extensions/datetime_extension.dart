@@ -13,21 +13,21 @@ extension Formatting on DateTime {
   /// Parse DateTime object to String
   /// for ex. 'December 12'
   String toMMMMddString() {
-    return DateFormat("MMMM dd").format(this);
+    return DateFormat('MMMM dd').format(this);
   }
 
   // Format DateTime object to String: '2023-09-25T06:00:02.000000+0000'
   String formatDateTimeToString() {
-    String value = this.toIso8601String();
+    var value = toIso8601String();
     value = value.substring(0, value.length - 4);
-    return "${value}000000+0000";
+    return '${value}000000+0000';
   }
 
   /// Format DateTime object to String: '2023-09-25T06:00:02Z'
   String formatDateTimeToString2() {
-    String value = this.toIso8601String();
+    var value = toIso8601String();
     value = value.substring(0, value.length - 4);
-    return "${value}Z";
+    return '${value}Z';
   }
 
   String formatTimeToSecString() {
@@ -51,11 +51,11 @@ extension Formatting on DateTime {
   }
 
   String toMMMDDYYYY() {
-    return DateFormat("MMM dd, yyyy").format(toLocal());
+    return DateFormat('MMM dd, yyyy').format(toLocal());
   }
 
   String toMMMMDDYYYY() {
-    return DateFormat("MMMM dd, yyyy").format(toLocal());
+    return DateFormat('MMMM dd, yyyy').format(toLocal());
   }
 
   String toMonthYearString() {

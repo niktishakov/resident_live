@@ -1,12 +1,12 @@
 extension IntExtension on int {
-  roundToNearestTen() {
+  int roundToNearestTen() {
     if (this == 0) {
       return 0;
     }
     return ((this - 1) ~/ 10 + 1) * 10;
   }
 
-  roundToNearestFive() {
+  int roundToNearestFive() {
     if (this == 0) {
       return 0;
     }
@@ -14,6 +14,6 @@ extension IntExtension on int {
   }
 
   String toTimeZoneOffset() {
-    return this >= 0 ? "+$this" : "-$this";
+    return this >= 0 ? '+$this' : '-$this';
   }
 }

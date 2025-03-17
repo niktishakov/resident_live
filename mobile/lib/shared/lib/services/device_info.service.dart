@@ -13,12 +13,12 @@ class DeviceInfoService {
     this.androidInfo,
     this.packageInfo,
   ) : assert((iosInfo != null && androidInfo == null) ||
-            (iosInfo == null && androidInfo != null));
+            (iosInfo == null && androidInfo != null),);
 
   final IosDeviceInfo? iosInfo;
   final AndroidDeviceInfo? androidInfo;
   final PackageInfo packageInfo;
-  final _logger = AiLogger("DeviceInfoService");
+  final _logger = AiLogger('DeviceInfoService');
 
   static Future<DeviceInfoService> create() async {
     final packageInfo = await PackageInfo.fromPlatform();

@@ -9,7 +9,6 @@ import 'package:local_auth/local_auth.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/features/features.dart';
-import 'package:resident_live/features/report/ui/report_bug_button.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/shared/ui/rl.sliver_header.dart';
@@ -52,13 +51,13 @@ class SettingsScreen extends StatelessWidget {
                                 ? AppAssets.faceid
                                 : AppAssets
                                     .touchid, // Assuming you have a touchid asset
-                            title: "${authCubit.biometricTitle} Access",
+                            title: '${authCubit.biometricTitle} Access',
                             subtitle: state.isEnabled
                                 ? LocaleKeys.common_on.tr()
                                 : LocaleKeys.common_off.tr(),
                             onTap: () async {
                               if (!state.isSupported && state.error != null) {
-                                print("Open App Settings");
+                                print('Open App Settings');
                               }
                               if (state.isEnabled) {
                                 await authCubit.toggleBiometricAuth();
@@ -68,8 +67,8 @@ class SettingsScreen extends StatelessWidget {
                             },
                             trailing: CupertinoSwitch(
                               value: state.isEnabled,
-                              activeColor: context.theme.colorScheme.primary,
-                              onChanged: (bool value) async {
+                              activeTrackColor: context.theme.colorScheme.primary,
+                              onChanged: (value) async {
                                 if (value) {
                                   await authCubit.authenticateAndToggle();
                                 } else {
@@ -154,9 +153,9 @@ class SettingsScreen extends StatelessWidget {
                                   content: Column(
                                     children: [
                                       Gap(12),
-                                      Text("${deviceInfo.appName}"),
+                                      Text('${deviceInfo.appName}'),
                                       Text(
-                                          "${deviceInfo.appVersion} (${deviceInfo.buildNumber})"),
+                                          '${deviceInfo.appVersion} (${deviceInfo.buildNumber})',),
                                     ],
                                   ),
                                 );
@@ -206,7 +205,7 @@ class SettingsScreen extends StatelessWidget {
                         color: Colors.white,
                         width: 30,
                         height: 24,
-                        fit: BoxFit.contain)
+                        fit: BoxFit.contain,)
                     : icon != null
                         ? Icon(icon, color: Colors.white, size: 24)
                         : null,

@@ -18,7 +18,7 @@ abstract class AnalyticsEvent {
   bool get hasParams => _params.isNotEmpty;
 
   Map<String, dynamic> getParams(
-      {AnalyticsService service = AnalyticsService.amplitude}) {
+      {AnalyticsService service = AnalyticsService.amplitude,}) {
     final parameters = <String, dynamic>{..._params};
 
     // if (service.isAppsflyer) {

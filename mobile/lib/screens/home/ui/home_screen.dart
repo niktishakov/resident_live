@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
     final position = await GeolocationService.instance.getLastStoredPosition();
     if (position != null) {
       final lastUpdate = await SharedPreferences.getInstance().then(
-          (prefs) => prefs.getInt(GeolocationService.LAST_UPDATE_TIME_KEY));
+          (prefs) => prefs.getInt(GeolocationService.LAST_UPDATE_TIME_KEY),);
 
       final lastUpdateStr = lastUpdate != null
           ? DateTime.fromMillisecondsSinceEpoch(lastUpdate).toString()
@@ -121,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                     SliverToBoxAdapter(
-                        child: Gap(context.mediaQuery.padding.bottom + 64)),
+                        child: Gap(context.mediaQuery.padding.bottom + 64),),
                   ],
                 ),
               ),
@@ -134,9 +134,9 @@ class HomeScreen extends StatelessWidget {
 }
 
 class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final double expandedHeight;
 
   CustomSliverHeaderDelegate({required this.expandedHeight});
+  final double expandedHeight;
 
   @override
   double get minExtent => kToolbarHeight + 44;
@@ -146,7 +146,7 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+      BuildContext context, double shrinkOffset, bool overlapsContent,) {
     final proportion = (expandedHeight - shrinkOffset) / expandedHeight;
     const largeSize = 32.0;
     const smallSize = 18.0;
@@ -159,7 +159,7 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
         0.0 + (MediaQuery.of(context).size.width / 4 - 0.0) * (1 - proportion);
 
     // Divider opacity - 0.0 when fully expanded, 1.0 when fully collapsed
-    final double dividerOpacity = 1 - proportion;
+    final dividerOpacity = 1 - proportion;
 
     return ClipRect(
       child: Container(
@@ -208,7 +208,7 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
                   height: 2.0,
                   width: double.infinity,
                 ),
-              )
+              ),
             ],
           ),
         ),

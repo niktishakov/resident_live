@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/features/countries/model/countries_cubit.dart';
 import 'package:resident_live/features/features.dart';
-import 'package:resident_live/features/location/model/location_cubit.dart';
 import 'package:resident_live/screens/screens.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +22,7 @@ class AllowGeoView extends StatelessWidget {
         builder: (context, state) {
           return AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
-            transitionBuilder: (Widget child, Animation<double> animation) {
+            transitionBuilder: (child, animation) {
               return FadeTransition(
                 opacity: animation,
                 child: SlideTransition(
@@ -103,11 +100,11 @@ class AllowGeoView extends StatelessWidget {
                             ),
                             trailing: state.isGeoPermissionAllowed
                                 ? Icon(CupertinoIcons.checkmark_seal_fill,
-                                    size: 22)
+                                    size: 22,)
                                 : null,
                             label: state.isGeoPermissionAllowed
-                                ? "Allowed"
-                                : "Allow",
+                                ? 'Allowed'
+                                : 'Allow',
                           ).animate(onComplete: (controller) {
                             if (state.isGeoPermissionAllowed) {
                               controller.stop();
@@ -115,7 +112,7 @@ class AllowGeoView extends StatelessWidget {
                               controller.reset();
                               controller.forward();
                             }
-                          }).shimmer(duration: 1.seconds, delay: 1.seconds),
+                          },).shimmer(duration: 1.seconds, delay: 1.seconds),
                         ],
                       ),
                       Gap(8),

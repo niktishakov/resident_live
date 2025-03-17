@@ -39,7 +39,7 @@ Page kSlideTransitionPage(Widget screen, String name) {
         ).animate(CurvedAnimation(
           parent: animation,
           curve: Curves.fastOutSlowIn,
-        )),
+        ),),
         child: child,
       );
     },

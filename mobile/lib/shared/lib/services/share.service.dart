@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:resident_live/shared/lib/extensions/datetime_extension.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -17,8 +16,6 @@ class ShareService {
   static late ShareService _instance;
 
   static ShareService get instance {
-    assert(_instance != null,
-        'Remember to initialise ShareService by calling its init method');
     return _instance;
   }
 

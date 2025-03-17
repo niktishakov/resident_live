@@ -113,11 +113,6 @@ class EmulatorService {
 }
 
 class _DeviceEmulator extends StatelessWidget {
-  final Size size;
-  final double devicePixelRatio;
-  final EdgeInsets safeArea;
-  final String deviceName;
-  final Widget child;
 
   const _DeviceEmulator({
     Key? key,
@@ -127,6 +122,11 @@ class _DeviceEmulator extends StatelessWidget {
     required this.deviceName,
     required this.child,
   }) : super(key: key);
+  final Size size;
+  final double devicePixelRatio;
+  final EdgeInsets safeArea;
+  final String deviceName;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -196,8 +196,8 @@ class _DeviceEmulator extends StatelessWidget {
   }
 
   double _calculateScale(BoxConstraints constraints) {
-    double scaleWidth = constraints.maxWidth / size.width;
-    double scaleHeight = constraints.maxHeight / size.height;
+    final scaleWidth = constraints.maxWidth / size.width;
+    final scaleHeight = constraints.maxHeight / size.height;
     return scaleWidth < scaleHeight ? scaleWidth : scaleHeight;
   }
 }

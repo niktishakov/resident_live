@@ -33,7 +33,7 @@ class TimelinePainter extends CustomPainter {
     // Draw background timeline
     paint.color = Colors.grey[300]!;
     canvas.drawLine(
-        Offset(0, size.height / 2), Offset(size.width, size.height / 2), paint);
+        Offset(0, size.height / 2), Offset(size.width, size.height / 2), paint,);
 
     // Draw segments
     for (var segment in segments) {
@@ -42,11 +42,11 @@ class TimelinePainter extends CustomPainter {
 
       paint.color = countryColors[segment.country] ?? Colors.grey;
       canvas.drawLine(Offset(startX, size.height / 2),
-          Offset(endX, size.height / 2), paint);
+          Offset(endX, size.height / 2), paint,);
 
       // Draw country code
       _drawText(canvas, segment.country, (startX + endX) / 2,
-          size.height / 2 - 25, Colors.white);
+          size.height / 2 - 25, Colors.white,);
     }
 
     // Draw date labels
@@ -55,11 +55,11 @@ class TimelinePainter extends CustomPainter {
 
   void _drawDateLabels(Canvas canvas, Size size) {
     final totalDays = endDate.difference(startDate).inDays;
-    final labelCount = 12; // Number of labels to show
+    const labelCount = 12; // Number of labels to show
 
-    for (int i = 0; i <= labelCount; i++) {
+    for (var i = 0; i <= labelCount; i++) {
       final x = i * size.width / labelCount;
-      final date = startDate.add(Duration(days: (i * totalDays ~/ labelCount)));
+      final date = startDate.add(Duration(days: i * totalDays ~/ labelCount));
       _drawText(canvas, _formatDate(date), x, size.height - 15, Colors.black);
     }
   }
@@ -73,7 +73,7 @@ class TimelinePainter extends CustomPainter {
     final textSpan = TextSpan(
       text: text,
       style: TextStyle(
-          color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+          color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold,),
     );
     final textPainter = TextPainter(
       text: textSpan,

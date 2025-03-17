@@ -27,11 +27,11 @@ class CountriesState with _$CountriesState {
 
   CountryEntity getCountryByName(String name) {
     return _getCountry(
-        countries.values.firstWhereOrNull((e) => e.name == name), name);
+        countries.values.firstWhereOrNull((e) => e.name == name), name,);
   }
 
   CountryEntity findLastVisitedCountry() {
-    CountryEntity lastVisitedCountry = countries.values.first;
+    var lastVisitedCountry = countries.values.first;
     final countriesValues = countries.values;
     for (final country in countriesValues) {
       if (country.periods.last.endDate

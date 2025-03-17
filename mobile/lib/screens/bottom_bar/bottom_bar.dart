@@ -148,7 +148,7 @@ class AiBottomBar extends StatelessWidget {
               ),
             );
           },
-        ));
+        ),);
       }
 
       return LayoutBuilder(
@@ -217,11 +217,6 @@ class AiBottomBar extends StatelessWidget {
 }
 
 class AiBottomBarItem {
-  final String path;
-  final AppAsset icon;
-  final AppAsset iconFill;
-  final String label;
-  final TweenAnimationBuilder Function(bool, Widget)? animation;
 
   const AiBottomBarItem({
     required this.path,
@@ -230,6 +225,11 @@ class AiBottomBarItem {
     required this.label,
     this.animation,
   });
+  final String path;
+  final AppAsset icon;
+  final AppAsset iconFill;
+  final String label;
+  final TweenAnimationBuilder Function(bool, Widget)? animation;
 }
 
 class BlurredBottomNavBar extends StatelessWidget {

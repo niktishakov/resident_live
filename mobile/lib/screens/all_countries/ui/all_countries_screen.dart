@@ -43,7 +43,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
     _opacityAnimation =
         Tween<double>(begin: 1.0, end: 0.5).animate(_animationController);
     _borderAnimation = Tween<BorderRadius>(
-            begin: kLargeBorderRadius, end: BorderRadius.circular(38))
+            begin: kLargeBorderRadius, end: BorderRadius.circular(38),)
         .animate(_animationController);
 
     super.initState();
@@ -157,7 +157,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                   .tr(),
                               style: theme.title16Semi.copyWith(
                                 color: theme.textPrimaryOnColor,
-                                fontFamily: "SFPro",
+                                fontFamily: 'SFPro',
                               ),
                             ),
                             leading: TransparentButton(
@@ -187,7 +187,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                               },
                               child: Icon(CupertinoIcons.clear_circled_solid,
                                   size: 34,
-                                  color: Colors.white.withOpacity(0.85)),
+                                  color: Colors.white.withOpacity(0.85),),
                             ),
                           ),
                           child: SafeArea(
@@ -225,7 +225,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                                     isEditing: isEditing,
                                                     isSelected:
                                                         selected.contains(
-                                                            country.isoCode),
+                                                            country.isoCode,),
                                                     isLast: index ==
                                                         s.countries.length - 1,
                                                   );
@@ -257,14 +257,14 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                                     isEditing: isEditing,
                                                     isSelected:
                                                         selected.contains(
-                                                            country.isoCode),
+                                                            country.isoCode,),
                                                     isLast: index ==
                                                         s.countries.length - 1,
                                                   );
                                                 },
                                                 itemCount: s.countries.length,
-                                                onReorder: (int oldIndex,
-                                                    int newIndex) {
+                                                onReorder: (oldIndex,
+                                                    newIndex,) {
                                                   find<CountriesCubit>(context)
                                                       .reorderCountry(
                                                     oldIndex,
@@ -277,13 +277,13 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                         ],
                                       ),
                                     );
-                                  }),
+                                  },),
                                   Spacer(),
                                   TweenAnimationBuilder(
                                     duration: 500.ms,
                                     curve: Curves.fastOutSlowIn,
                                     tween: Tween<double>(
-                                        begin: 1.0, end: isEditing ? 0.0 : 1.0),
+                                        begin: 1.0, end: isEditing ? 0.0 : 1.0,),
                                     builder: (context, value, child) {
                                       return Transform.translate(
                                         offset: Offset(0, value * 300),
@@ -291,7 +291,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                       );
                                     },
                                     child: PrimaryButton(
-                                      label: "Delete",
+                                      label: 'Delete',
                                       backgroundColor: Colors.redAccent,
                                       enabled: selected.isNotEmpty,
                                       onPressed: () {
@@ -301,33 +301,33 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                           barrierDismissible: true,
                                           builder: (context) =>
                                               CupertinoAlertDialog(
-                                            title: Text("Delete Residences"),
+                                            title: Text('Delete Residences'),
                                             content: Text(
-                                                "Are you sure you want to delete the selected residences?"),
+                                                'Are you sure you want to delete the selected residences?',),
                                             actions: [
                                               CupertinoDialogAction(
-                                                child: Text("Delete"),
                                                 isDestructiveAction: true,
                                                 onPressed: () async {
                                                   setState(
-                                                      () => _isPopping = true);
+                                                      () => _isPopping = true,);
 
                                                   context.pop();
                                                   for (final isoCode
                                                       in selected) {
                                                     find<CountriesCubit>(
-                                                            context)
+                                                            context,)
                                                         .removeCountry(isoCode);
                                                   }
                                                   setState(selected.clear);
                                                   VibrationService.instance
                                                       .success();
                                                 },
+                                                child: Text('Delete'),
                                               ),
                                               CupertinoDialogAction(
-                                                child: Text("Cancel"),
+                                                child: Text('Cancel'),
                                                 onPressed: () => context.pop(),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         );
@@ -451,7 +451,7 @@ class _CountryItem extends StatelessWidget {
                                 children: [
                                   Text(country.name,
                                       style: theme.body12M.copyWith(
-                                          color: theme.textPrimaryOnColor)),
+                                          color: theme.textPrimaryOnColor,),),
                                   Gap(4),
                                   Flexible(
                                     child: Text(
@@ -461,9 +461,9 @@ class _CountryItem extends StatelessWidget {
                                             fontSize: 12,
                                             color: context
                                                 .theme.colorScheme.tertiary
-                                                .withOpacity(0.5)),
-                                        "${country.daysSpent} ${LocaleKeys.all_countries_of.tr()} 183 ${LocaleKeys.all_countries_days.tr()}"),
-                                  )
+                                                .withOpacity(0.5),),
+                                        '${country.daysSpent} ${LocaleKeys.all_countries_of.tr()} 183 ${LocaleKeys.all_countries_days.tr()}',),
+                                  ),
                                 ],
                               ),
                               Gap(6),
@@ -488,7 +488,7 @@ class _CountryItem extends StatelessWidget {
                                     stops: [1.0, 0.5, 0.0],
                                   );
                                 },
-                              )
+                              ),
                             ],
                           ),
                         );

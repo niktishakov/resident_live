@@ -1,7 +1,5 @@
-import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:resident_live/shared/shared.dart';
 
@@ -29,8 +27,8 @@ class _ReportBugButtonState extends State<ReportBugButton> {
               // Show modal popup to get user message
               final message = await showCupertinoDialog<String>(
                 context: context,
-                builder: (BuildContext context) {
-                  String inputText = '';
+                builder: (context) {
+                  var inputText = '';
                   return CupertinoAlertDialog(
                     title: Text('Send a Bug Report'),
                     content: Padding(
@@ -50,14 +48,14 @@ class _ReportBugButtonState extends State<ReportBugButton> {
                     ),
                     actions: [
                       CupertinoDialogAction(
-                        child: Text('Cancel'),
                         isDestructiveAction: true,
                         onPressed: () => context.pop(),
+                        child: Text('Cancel'),
                       ),
                       CupertinoDialogAction(
-                        child: Text('Send'),
                         isDefaultAction: true,
                         onPressed: () => context.pop(inputText),
+                        child: Text('Send'),
                       ),
                     ],
                   );
@@ -66,22 +64,22 @@ class _ReportBugButtonState extends State<ReportBugButton> {
 
               if (message != null) {
                 final logFile = AiLogger.logFile;
-                final logger = AiLogger("SettingsScreen");
+                final logger = AiLogger('SettingsScreen');
 
                 if (await logFile.exists()) {
                   try {
                     await ShareService.instance.shareFile(logFile);
                     ToastService.instance.showToast(context,
-                        message: "Log file shared successfully");
+                        message: 'Log file shared successfully',);
                   } catch (e) {
                     logger.error(e);
                     ToastService.instance.showToast(context,
-                        message: "Failed to send bug report: ${e.toString()}");
+                        message: 'Failed to send bug report: ${e.toString()}',);
                   }
                 } else {
-                  logger.error("Log file not found!");
+                  logger.error('Log file not found!');
                   ToastService.instance
-                      .showToast(context, message: "Log file not found!");
+                      .showToast(context, message: 'Log file not found!');
                 }
               }
               setState(() => _isLoading = false);
@@ -89,7 +87,7 @@ class _ReportBugButtonState extends State<ReportBugButton> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Report a Bug", style: theme.body18),
+          Text('Report a Bug', style: theme.body18),
           if (_isLoading) const CupertinoActivityIndicator(),
         ],
       ),

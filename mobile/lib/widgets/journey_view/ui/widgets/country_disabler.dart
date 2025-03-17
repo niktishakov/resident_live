@@ -44,9 +44,7 @@ class _CountryDisablerState extends State<CountryDisabler>
   void didUpdateWidget(CountryDisabler oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentMonth != widget.currentMonth) {
-      setState(() {
-        _updateVisibleCountries();
-      });
+      setState(_updateVisibleCountries);
     }
   }
 
@@ -92,7 +90,7 @@ class _CountryDisablerState extends State<CountryDisabler>
     return Wrap(
       spacing: 8.0,
       runSpacing: 8.0,
-      children: visibleItems.map((String country) {
+      children: visibleItems.map((country) {
         final isDisabled = widget.disabledCountries.contains(country);
 
         return GestureDetector(
@@ -122,7 +120,7 @@ class _CountryDisablerState extends State<CountryDisabler>
                   country,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: "Poppins",
+                    fontFamily: 'Poppins',
                     color: context.theme.colorScheme.surface,
                     fontWeight: FontWeight.w500,
                   ),

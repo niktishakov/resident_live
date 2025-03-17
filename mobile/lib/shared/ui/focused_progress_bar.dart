@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
 
 class FocusedProgressBar extends StatefulWidget {
   FocusedProgressBar({required this.value});
@@ -50,9 +49,9 @@ class _AnimatedProgressBarState extends State<FocusedProgressBar>
 }
 
 class ProgressBarPainter extends CustomPainter {
-  final double progress;
 
   ProgressBarPainter(this.progress);
+  final double progress;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -61,7 +60,7 @@ class ProgressBarPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final segmentWidth = size.width / 10; // Assuming 10 segments
-    for (int i = 0; i < 10; i++) {
+    for (var i = 0; i < 10; i++) {
       if (i < (progress * 10).round()) {
         canvas.drawRect(
           Rect.fromLTWH(i * segmentWidth, 0, segmentWidth, size.height),

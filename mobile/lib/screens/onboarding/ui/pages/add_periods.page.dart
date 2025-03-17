@@ -96,7 +96,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
       });
       return true;
     } else {
-      showToast(context, "Please select a country");
+      showToast(context, 'Please select a country');
       return false;
     }
   }
@@ -178,13 +178,13 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                                 onPressed: () => Navigator.pop(context),
                               ),
                             ],
-                          ));
+                          ),);
                 },
                 child: Icon(
                   CupertinoIcons.info,
                   color: context.theme.colorScheme.secondary,
                   size: 28,
-                )),
+                ),),
           ],
         ),
       ),
@@ -244,7 +244,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                           children: [
                             Text(LocaleKeys.common_delete.tr(),
                                 style: context.theme.textTheme.bodyMedium
-                                    ?.copyWith(color: Colors.white)),
+                                    ?.copyWith(color: Colors.white),),
                             Gap(8),
                             Icon(CupertinoIcons.delete, color: Colors.white),
                           ],
@@ -253,13 +253,13 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                       child: CupertinoContextMenu(
                         actions: [
                           CupertinoContextMenuAction(
-                            child: Text(LocaleKeys.common_delete.tr()),
                             trailingIcon: CupertinoIcons.delete,
                             isDestructiveAction: true,
                             onPressed: () {
                               setState(() => segments.removeAt(index));
                               context.pop();
                             },
+                            child: Text(LocaleKeys.common_delete.tr()),
                           ),
                         ],
                         child: Material(
@@ -321,7 +321,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                       onPlay: (controller) =>
                           _canApply ? controller.repeat() : null,
                     )
-                    .shimmer(duration: 1.seconds, delay: 3.seconds)),
+                    .shimmer(duration: 1.seconds, delay: 3.seconds),),
             Gap(8),
           ],
         ),

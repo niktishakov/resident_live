@@ -3,17 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:synchronized/synchronized.dart';
 
-import '../lib/constants.dart';
-import '../lib/services/vibration_service.dart';
+import 'package:resident_live/shared/lib/constants.dart';
+import 'package:resident_live/shared/lib/services/vibration_service.dart';
 
 class BouncingButton extends StatefulWidget {
-  final Widget child;
-  final BorderRadius? borderRadius;
-  final Function(PointerEvent)? onPressed;
-  final bool vibrate;
-  final bool debounce;
-  final Duration debounceDuration;
-  final HitTestBehavior? behaviour;
 
   BouncingButton({
     Key? key,
@@ -25,6 +18,13 @@ class BouncingButton extends StatefulWidget {
     this.debounceDuration = const Duration(seconds: 3),
     this.behaviour,
   }) : super(key: key);
+  final Widget child;
+  final BorderRadius? borderRadius;
+  final Function(PointerEvent)? onPressed;
+  final bool vibrate;
+  final bool debounce;
+  final Duration debounceDuration;
+  final HitTestBehavior? behaviour;
 
   @override
   _BouncingState createState() => _BouncingState();
@@ -70,7 +70,7 @@ class _BouncingState extends State<BouncingButton>
         (event.localPosition.dy - _initPosition.dy).abs() > 5;
   }
 
-  _callPressCallback(PointerEvent event) {
+  Future<void> _callPressCallback(PointerEvent event) {
     if (widget.debounce) {
       if (_lock!.locked) return; // prevent multiple taps
       return _lock!.synchronized(() async {

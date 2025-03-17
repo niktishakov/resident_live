@@ -16,7 +16,7 @@ class AnalyticsParameters {
 
   static const String name = 'name';
 
-  static const String seconds = "seconds";
+  static const String seconds = 'seconds';
 
   /// Used by [ButtonTapEvent] and represents the text of the button
   /// This is the Google Analytics name, the mixpanel equivalent is [MixpanelReplacementKeys.tileTitle].

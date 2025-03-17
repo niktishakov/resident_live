@@ -1,9 +1,7 @@
-import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -21,20 +19,20 @@ import 'widgets/residency_rules_modal.dart';
 final _statuses = {
   'hr': [
     LocaleKeys.residency_details_youAreAResident.tr(),
-    LocaleKeys.residency_details_youAreAResident.tr()
+    LocaleKeys.residency_details_youAreAResident.tr(),
   ],
   'h': [
     LocaleKeys.residency_details_statusUpdateIn.tr(),
-    LocaleKeys.residency_details_statusWillUpdateAt.tr()
+    LocaleKeys.residency_details_statusWillUpdateAt.tr(),
   ],
   'r': [
     LocaleKeys.residency_details_youWillLoseYourStatusIn.tr(),
-    LocaleKeys.residency_details_statusIsSafeUntil.tr()
+    LocaleKeys.residency_details_statusIsSafeUntil.tr(),
   ],
   'a': [
     LocaleKeys.residency_details_moveToThisCountryToReachStatusIn.tr(),
-    LocaleKeys.residency_details_statusMayBeUpdatedAt.tr()
-  ]
+    LocaleKeys.residency_details_statusMayBeUpdatedAt.tr(),
+  ],
 };
 
 List<String> getStatusMessage(bool isHere, bool isResident) =>
@@ -237,9 +235,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                             ),
                                             TextSpan(
                                               text:
-                                                  "\n${country.statusToggleIn} days",
+                                                  '\n${country.statusToggleIn} days',
                                               style: theme.body18M.copyWith(
-                                                  fontWeight: FontWeight.w700),
+                                                  fontWeight: FontWeight.w700,),
                                             ),
                                           ],
                                         ),
@@ -262,10 +260,10 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                 ),
                                                 TextSpan(
                                                   text:
-                                                      "\n${country.statusToggleAt.toMMMMDDYYYY()}",
+                                                      '\n${country.statusToggleAt.toMMMMDDYYYY()}',
                                                   style: theme.body18M.copyWith(
                                                       fontWeight:
-                                                          FontWeight.w700),
+                                                          FontWeight.w700,),
                                                 ),
                                               ],
                                             ),
@@ -297,11 +295,11 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                       BorderRadius.circular(24),
                                                   border: Border.all(
                                                       width: 1,
-                                                      color: Colors.white)),
+                                                      color: Colors.white,),),
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        horizontal: 16.0),
+                                                        horizontal: 16.0,),
                                                 child: Row(
                                                   children: [
                                                     Icon(
@@ -346,7 +344,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                             LocaleKeys
                                                 .residency_details_notifyMe
                                                 .tr(),
-                                          )),
+                                          ),),
                                           Switch(
                                             value: true,
                                             onChanged: (value) {
@@ -364,7 +362,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                         duration: Duration(milliseconds: 250),
                                         curve: Curves.easeInOut,
                                         tween: Tween<double>(
-                                            begin: 0, end: isFocused ? 0 : 1),
+                                            begin: 0, end: isFocused ? 0 : 1,),
                                         builder: (context, value, child) {
                                           return SizedBox(
                                             height: value * 40,
@@ -424,7 +422,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                   AnimationController(
                                                 vsync: Navigator.of(context),
                                                 duration: const Duration(
-                                                    milliseconds: 300),
+                                                    milliseconds: 300,),
                                               ),
                                               builder: (_) =>
                                                   ResidencyRulesModal(),
@@ -460,15 +458,15 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                   CupertinoAlertDialog(
                                                 title: Text(LocaleKeys
                                                     .residency_details_removeCountry
-                                                    .tr()),
+                                                    .tr(),),
                                                 content: Text(LocaleKeys
                                                     .residency_details_removeCountryConfirmation
-                                                    .tr()),
+                                                    .tr(),),
                                                 actions: [
                                                   CupertinoDialogAction(
                                                     child: Text(LocaleKeys
                                                         .common_cancel
-                                                        .tr()),
+                                                        .tr(),),
                                                     onPressed: () =>
                                                         Navigator.pop(context),
                                                   ),
@@ -476,14 +474,14 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                     isDestructiveAction: true,
                                                     child: Text(LocaleKeys
                                                         .common_remove
-                                                        .tr()),
+                                                        .tr(),),
                                                     onPressed: () {
                                                       context.pop();
                                                       context.pop();
                                                       find<CountriesCubit>(
-                                                              context)
+                                                              context,)
                                                           .removeCountry(
-                                                              country.isoCode);
+                                                              country.isoCode,);
                                                     },
                                                   ),
                                                 ],

@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:resident_live/shared/shared.dart';
 
 class RlCheckbox extends StatefulWidget {
-  final bool value;
-  final ValueChanged<bool> onToggle;
 
   const RlCheckbox({
     Key? key,
     required this.value,
     required this.onToggle,
   }) : super(key: key);
+  final bool value;
+  final ValueChanged<bool> onToggle;
 
   @override
   _RlCheckboxState createState() => _RlCheckboxState();
@@ -88,7 +87,7 @@ class _RlCheckboxState extends State<RlCheckbox>
               child: Center(
                 child: widget.value
                     ? Icon(CupertinoIcons.check_mark,
-                        color: context.theme.colorScheme.surface, size: 18)
+                        color: context.theme.colorScheme.surface, size: 18,)
                     : null,
               ),
             ),

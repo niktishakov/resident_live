@@ -15,6 +15,9 @@ class UserState with _$UserState {
     @Default('') String error,
   }) = _UserState;
 
+  factory UserState.fromJson(Map<String, dynamic> json) =>
+      _$UserStateFromJson(json);
+
   factory UserState.initial() => UserState(
         isLoading: false,
         users: [UserEntity.mock()],
@@ -35,7 +38,4 @@ class UserState with _$UserState {
       copyWith(error: error, isLoading: false, silent: false);
 
   UserState reset() => copyWith(users: [], focusedUser: UserEntity.mock());
-
-  factory UserState.fromJson(Map<String, dynamic> json) =>
-      _$UserStateFromJson(json);
 }

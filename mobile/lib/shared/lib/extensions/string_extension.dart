@@ -16,7 +16,7 @@ extension Parsing on String {
     if (match != null) {
       // Extract the sign, hours, and optional minutes from the match groups
       final sign = match.group(1) == '-' ? '-' : '+';
-      int hours = int.parse(match.group(2)!);
+      var hours = int.parse(match.group(2)!);
       final minutes = match.group(3) != null ? int.parse(match.group(3)!) : 0;
 
       // Adjust hours based on the minutes value
@@ -37,8 +37,8 @@ extension Parsing on String {
   Color fromHexToColor() {
     try {
       final buffer = StringBuffer();
-      if (this.length == 6 || this.length == 7) buffer.write('ff');
-      buffer.write(this.replaceFirst('#', ''));
+      if (length == 6 || length == 7) buffer.write('ff');
+      buffer.write(replaceFirst('#', ''));
 
       return Color(int.parse(buffer.toString(), radix: 16));
     } catch (e) {
@@ -48,6 +48,6 @@ extension Parsing on String {
 
   /// String to lowcase and snake case
   String toSnakeCase() {
-    return this.toLowerCase().replaceAll(' ', '_');
+    return toLowerCase().replaceAll(' ', '_');
   }
 }

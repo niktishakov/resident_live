@@ -102,14 +102,14 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
   }
 
   Map<String, List<DateTimeRange>> _convertToCalendarPeriods(
-      Map<String, CountryEntity> countries) {
+      Map<String, CountryEntity> countries,) {
     return Map.fromEntries(
       countries.values.map((country) {
         final periods = country.periods
             .map((period) => DateTimeRange(
                   start: period.startDate,
                   end: period.endDate,
-                ))
+                ),)
             .toList();
 
         return MapEntry(country.name, periods);

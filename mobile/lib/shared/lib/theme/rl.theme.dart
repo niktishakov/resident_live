@@ -158,9 +158,8 @@ class RlTheme {
         circularTrackColor: Color(0xffD9D9D9),
         color: Color(
           0xff8E8E8E,
-        )),
+        ),),
     scaffoldBackgroundColor: Color(0xff121212),
-    dialogBackgroundColor: Color(0xff191919),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
@@ -172,13 +171,13 @@ class RlTheme {
       textTheme: CupertinoTextThemeData(
         primaryColor: Colors.white,
         navLargeTitleTextStyle: TextStyle(
-            color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
+            color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold,),
         navTitleTextStyle: TextStyle(color: Colors.black),
         navActionTextStyle: TextStyle(color: Colors.black),
       ),
     ),
     navigationBarTheme: NavigationBarThemeData(
-      labelTextStyle: MaterialStatePropertyAll(TextStyle(color: Colors.white)),
+      labelTextStyle: WidgetStatePropertyAll(TextStyle(color: Colors.white)),
     ),
     textTheme: TextTheme(
       headlineLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
@@ -235,7 +234,7 @@ ThemeData lightTheme = ThemeData(
       circularTrackColor: Color(0xffD9D9D9),
       color: Color(
         0xff8E8E8E,
-      )),
+      ),),
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
@@ -247,13 +246,13 @@ ThemeData lightTheme = ThemeData(
     textTheme: CupertinoTextThemeData(
       primaryColor: Colors.black,
       navLargeTitleTextStyle: TextStyle(
-          color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+          color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold,),
       navTitleTextStyle: TextStyle(color: Colors.white),
       navActionTextStyle: TextStyle(color: Colors.white),
     ),
   ),
   navigationBarTheme: NavigationBarThemeData(
-    labelTextStyle: MaterialStatePropertyAll(TextStyle(color: Colors.black)),
+    labelTextStyle: WidgetStatePropertyAll(TextStyle(color: Colors.black)),
   ),
   listTileTheme: ListTileThemeData(
     iconColor: Colors.black,
@@ -261,7 +260,6 @@ ThemeData lightTheme = ThemeData(
     selectedColor: Colors.blue,
     tileColor: Colors.white,
   ),
-  dialogBackgroundColor: Color(0xfff5f5f5),
   textTheme: TextTheme(
     headlineLarge: GoogleFonts.poppins().copyWith(color: Colors.black),
     headlineMedium: GoogleFonts.poppins().copyWith(color: Colors.black),

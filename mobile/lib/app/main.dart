@@ -1,11 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:workmanager/workmanager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -65,7 +62,7 @@ void main() async {
         providers: [
           BlocProvider(create: (_) => OnboardingCubit()),
           BlocProvider(
-              create: (_) => LocationCubit(GeolocationService.instance)),
+              create: (_) => LocationCubit(GeolocationService.instance),),
           BlocProvider(create: (_) => CountriesCubit()),
           BlocProvider(create: (_) => UserCubit()),
           BlocProvider(create: (_) => AuthCubit()),

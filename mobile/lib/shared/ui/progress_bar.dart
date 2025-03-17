@@ -77,7 +77,7 @@ class ProgressBar extends StatelessWidget {
               duration: duration, // Adjust the duration as needed
               builder: (context, value, child) {
                 return Text(
-                  "${(value * 100).toStringAsFixed(1)}%",
+                  '${(value * 100).toStringAsFixed(1)}%',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 );
               },
@@ -95,13 +95,13 @@ class ProgressBar extends StatelessWidget {
                 Text(label,
                     style: TextStyle(
                         color: context.theme.colorScheme.secondary
-                            .withOpacity(0.6))),
-                Text(doneLabel, style: TextStyle(fontWeight: FontWeight.w600))
+                            .withOpacity(0.6),),),
+                Text(doneLabel, style: TextStyle(fontWeight: FontWeight.w600)),
               ],
               index: value == 1.0 ? 1 : 0,
             );
           },
-        )
+        ),
       ],
     );
   }

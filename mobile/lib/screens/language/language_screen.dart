@@ -5,7 +5,6 @@ import 'package:resident_live/features/language/model/language_cubit.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/ui/rl.sliver_header.dart';
 
-import 'model/constants.dart';
 import 'model/language_utils.dart';
 
 class LanguageScreen extends StatelessWidget {
@@ -36,13 +35,13 @@ class LanguageScreen extends StatelessWidget {
                       subtitle: Text(getLanguageName(locale, native: true)),
                       trailing: isSelected
                           ? Icon(Icons.check,
-                              color: Theme.of(context).primaryColor)
+                              color: Theme.of(context).primaryColor,)
                           : null,
                       onTap: () {
                         // print(
                         //     "locale.languageCode: ${locale.languageCode}, locale.countryCode: ${locale.countryCode}");
                         languageCubit.setLanguage(
-                            locale.languageCode, locale.countryCode);
+                            locale.languageCode, locale.countryCode,);
                       },
                     );
                   },

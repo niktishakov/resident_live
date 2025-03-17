@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
@@ -61,7 +60,7 @@ class ResidencyRulesModal extends StatelessWidget {
                               showWebViewModal(
                                 context: context,
                                 url: kpmgUrl,
-                                title: "KPMG",
+                                title: 'KPMG',
                               );
                             },
                             leading: AppAssetImage(
@@ -69,15 +68,15 @@ class ResidencyRulesModal extends StatelessWidget {
                               width: 22,
                             ),
                             child: Text(
-                                "${LocaleKeys.residency_details_readOn.tr()} KPMG",
-                                style: textStyle),
+                                '${LocaleKeys.residency_details_readOn.tr()} KPMG',
+                                style: textStyle,),
                           ),
                           TransparentButton(
                             onPressed: () {
                               showWebViewModal(
                                 context: context,
                                 url: deloitteUrl,
-                                title: "Deloitte",
+                                title: 'Deloitte',
                               );
                             },
                             leading: AppAssetImage(
@@ -85,15 +84,15 @@ class ResidencyRulesModal extends StatelessWidget {
                               width: 22,
                             ),
                             child: Text(
-                                "${LocaleKeys.residency_details_readOn.tr()} Deloitte",
-                                style: textStyle),
+                                '${LocaleKeys.residency_details_readOn.tr()} Deloitte',
+                                style: textStyle,),
                           ),
                           TransparentButton(
                             onPressed: () {
                               showWebViewModal(
                                 context: context,
                                 url: pwcUrl,
-                                title: "PWC",
+                                title: 'PWC',
                               );
                             },
                             leading: AppAssetImage(
@@ -101,9 +100,9 @@ class ResidencyRulesModal extends StatelessWidget {
                               width: 22,
                             ),
                             child: Text(
-                                "${LocaleKeys.residency_details_readOn.tr()} PWC",
-                                style: textStyle),
-                          )
+                                '${LocaleKeys.residency_details_readOn.tr()} PWC',
+                                style: textStyle,),
+                          ),
                         ],
                       ),
                     ),

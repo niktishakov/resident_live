@@ -5,7 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 /// iOS requires the Xcode build folder to be rebuilt after changes to the version string in pubspec.yaml.
 /// Clean the Xcode build folder with: XCode Menu -> Product -> (Holding Option Key) Clean build folder.
 class PackageInfoService {
-  PackageInfoService._(this._info) : assert(_info != null);
+  PackageInfoService._(this._info);
 
   final PackageInfo _info;
 

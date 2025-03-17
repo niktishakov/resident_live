@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-import 'env_secret.dart';
 import 'environment/env_holder.dart';
 
 /// Create the file secrets.json in the root directory of this app.

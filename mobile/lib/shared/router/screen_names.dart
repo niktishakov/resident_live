@@ -21,6 +21,6 @@ class ScreenNames {
     getStarted,
     manageCountries,
     residenceDetails,
-    settings
+    settings,
   ];
 }

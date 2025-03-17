@@ -1,4 +1,4 @@
-part of "splash_screen.dart";
+part of 'splash_screen.dart';
 
 class RecordingAnimation extends StatefulWidget {
   @override

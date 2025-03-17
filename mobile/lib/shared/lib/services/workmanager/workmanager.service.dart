@@ -32,7 +32,7 @@ class WorkmanagerService {
 
   late final GeolocationService geolocationService;
 
-  static final _logger = AiLogger("WorkmanagerService");
+  static final _logger = AiLogger('WorkmanagerService');
 
   bool isReady = false;
 
@@ -46,7 +46,7 @@ class WorkmanagerService {
       isReady = true;
       _logger.info('Internal initialization completed successfully');
     } catch (e) {
-      _logger.error("Workmanager initialization failed: $e");
+      _logger.error('Workmanager initialization failed: $e');
       rethrow;
     }
   }
@@ -54,8 +54,8 @@ class WorkmanagerService {
   @pragma('vm:entry-point')
   static void callbackDispatcher() {
     Workmanager().executeTask((task, inputData) async {
-      _logger.info("Native called background task: $task");
-      _logger.info("Task input data: $inputData");
+      _logger.info('Native called background task: $task');
+      _logger.info('Task input data: $inputData');
 
       if (task == WorkmanagerConstants.backgroundLocationTask) {
         try {
@@ -68,7 +68,7 @@ class WorkmanagerService {
           _logger.info('Background location task completed successfully');
           return true;
         } catch (e) {
-          _logger.error("Background location task failed: $e");
+          _logger.error('Background location task failed: $e');
           return false;
         }
       }
@@ -87,7 +87,7 @@ class WorkmanagerService {
 
     try {
       _logger.info(
-          'Registering periodic task: ${WorkmanagerConstants.iOSBackgroundAppRefresh}');
+          'Registering periodic task: ${WorkmanagerConstants.iOSBackgroundAppRefresh}',);
       await Workmanager().registerPeriodicTask(
         WorkmanagerConstants.iOSBackgroundAppRefresh,
         WorkmanagerConstants.iOSBackgroundAppRefresh,

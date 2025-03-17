@@ -67,23 +67,23 @@ class AdsProductsReceivedEvent extends AnalyticsEvent {
             AnalyticsParameters.monthlyProductId: monthlyProductId,
           if (yearlyProductId != null)
             AnalyticsParameters.yearlyProductId: yearlyProductId,
-        });
+        },);
 }
 
 class NativeQuickActionClickEvent extends AnalyticsEvent {
   NativeQuickActionClickEvent({
     required actionName,
     required String setName,
-  }) : super(name: "native_quick_action_click", params: {
+  }) : super(name: 'native_quick_action_click', params: {
           AnalyticsParameters.name: actionName,
-          AnalyticsParameters.setName: setName
-        });
+          AnalyticsParameters.setName: setName,
+        },);
 }
 
 class OfferBannerClickEvent extends AnalyticsEvent {
   OfferBannerClickEvent({required bool withCountdown})
       : super(
-          name: "offer_banner_click",
+          name: 'offer_banner_click',
           params: {
             AnalyticsParameters.withCountdown: withCountdown.toString(),
           },
@@ -93,7 +93,7 @@ class OfferBannerClickEvent extends AnalyticsEvent {
 class OfferBannerShowEvent extends AnalyticsEvent {
   OfferBannerShowEvent({required bool withCountdown})
       : super(
-          name: "offer_banner_show",
+          name: 'offer_banner_show',
           params: {
             AnalyticsParameters.withCountdown: withCountdown.toString(),
           },

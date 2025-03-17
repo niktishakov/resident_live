@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:resident_live/screens/screens.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/widgets/widgets.dart';
-import 'package:soft_edge_blur/soft_edge_blur.dart';
 
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({super.key});

@@ -39,7 +39,7 @@ class _AnimatedTextTransitionState extends State<AnimatedTextTransition>
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
-    ));
+    ),);
 
     _opacityAnimation = Tween<double>(
       begin: 1.0,
@@ -47,7 +47,7 @@ class _AnimatedTextTransitionState extends State<AnimatedTextTransition>
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeOutQuart,
-    ));
+    ),);
   }
 
   @override

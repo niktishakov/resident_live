@@ -9,7 +9,7 @@ class AppDialogs {
   }) async {
     return showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
           title: Text(title),
           content: Text(message),

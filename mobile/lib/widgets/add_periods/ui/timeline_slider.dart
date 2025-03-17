@@ -6,7 +6,6 @@ import 'package:gap/gap.dart';
 import 'package:collection/collection.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
 import 'package:resident_live/shared/shared.dart';
-import 'dart:math' as math;
 
 import '../../../domain/domain.dart';
 
@@ -86,7 +85,7 @@ class _TimelineSliderState extends State<TimelineSlider>
     ).animate(CurvedAnimation(
       parent: _leftHandleController,
       curve: Curves.easeOutCubic,
-    ));
+    ),);
 
     _rightHandleScale = Tween<double>(
       begin: 1.0,
@@ -94,7 +93,7 @@ class _TimelineSliderState extends State<TimelineSlider>
     ).animate(CurvedAnimation(
       parent: _rightHandleController,
       curve: Curves.easeOutCubic,
-    ));
+    ),);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _updateDefaultRangeValues();
@@ -112,7 +111,7 @@ class _TimelineSliderState extends State<TimelineSlider>
   bool comparePeriods(List<StayPeriod> periods, List<StayPeriod> other) {
     if (periods.length != other.length) return false;
 
-    for (int i = 0; i < periods.length; i++) {
+    for (var i = 0; i < periods.length; i++) {
       if (periods[i] != other[i]) return false;
     }
 
@@ -190,8 +189,8 @@ class _TimelineSliderState extends State<TimelineSlider>
         : LocaleKeys.add_stay_period_periodTo.tr();
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) {
-        DateTime initialDate = isStart
+      builder: (context) {
+        final initialDate = isStart
             ? _getDateFromValue(_startValue)
             : _getDateFromValue(_endValue);
 
@@ -210,7 +209,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                   Text(title,
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: context.theme.colorScheme.onSurface)),
+                          color: context.theme.colorScheme.onSurface,),),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -225,7 +224,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                   initialDateTime: initialDate,
                   minimumDate: widget.startDate,
                   maximumDate: widget.endDate,
-                  onDateTimeChanged: (DateTime newDate) {
+                  onDateTimeChanged: (newDate) {
                     final days =
                         widget.endDate.difference(newDate).inDays.toDouble();
                     final newValue = widget.max - days;
@@ -236,7 +235,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                       }
                     } else {
                       if (isRangeAvailable(
-                          RangeValues(_startValue, newValue))) {
+                          RangeValues(_startValue, newValue),)) {
                         setState(() => _endValue = newValue);
                       }
                     }
@@ -251,8 +250,8 @@ class _TimelineSliderState extends State<TimelineSlider>
   }
 
   bool isRangeAvailable(RangeValues values) {
-    DateTime start = _getDateFromValue(values.start);
-    DateTime end = _getDateFromValue(values.end);
+    final start = _getDateFromValue(values.start);
+    final var end = _getDateFromValue(values.end);
 
     for (var segment in widget.periods) {
       // If start or end date of new segment lies within an existing segment, return false
@@ -274,12 +273,12 @@ class _TimelineSliderState extends State<TimelineSlider>
     // Sort periods by startDate to make sure they are in chronological order
     periods.sort((a, b) => a.startDate.compareTo(b.startDate));
 
-    for (int i = 0; i < periods.length - 1; i++) {
-      DateTime gapStart = periods[i]
+    for (var i = 0; i < periods.length - 1; i++) {
+      final var gapStart = periods[i]
           .endDate
           .add(Duration(days: 1)); // the day after the current segment's end
-      DateTime gapEnd = periods[i + 1].startDate.subtract(
-          Duration(days: 1)); // the day before the next segment's start
+      final gapEnd = periods[i + 1].startDate.subtract(
+          Duration(days: 1),); // the day before the next segment's start
 
       if (gapEnd.isAfter(gapStart)) {
         // Set the range to fit entirely within the first gap
@@ -394,7 +393,7 @@ class _TimelineSliderState extends State<TimelineSlider>
     final color = widget.color;
     return AnimatedBuilder(
       animation: Listenable.merge(
-          [_shimmerAnimation, _leftHandleScale, _rightHandleScale]),
+          [_shimmerAnimation, _leftHandleScale, _rightHandleScale],),
       builder: (context, child) {
         return GestureDetector(
           onPanStart: _onPanStart,
@@ -422,7 +421,7 @@ class _TimelineSliderState extends State<TimelineSlider>
           },
           child: LayoutBuilder(
             builder: (context, ctrx) {
-              final textOffset =
+              const textOffset =
                   10.0; // Adjust this value to move text closer or further from the edges
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -430,7 +429,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                   _buildMonths(context, MediaQuery.of(context).size.width),
                   Gap(10),
                   Hero(
-                    tag: "timeline",
+                    tag: 'timeline',
                     transitionOnUserGestures: true,
                     flightShuttleBuilder: _flightShuttleBuilder,
                     createRectTween: (begin, end) {
@@ -473,9 +472,9 @@ class _TimelineSliderState extends State<TimelineSlider>
                                   children: [
                                     Text(e),
                                   ],
-                                ))
+                                ),)
                             .toList(),
-                      ]),
+                      ],),
                   Gap(16),
                   PrimaryButton(
                     vibrate: false,
@@ -484,7 +483,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                         isRangeAvailable(RangeValues(_startValue, _endValue)),
                     onPressed: () {
                       final result = widget.onAddPeriodPressed(
-                          RangeValues(_startValue, _endValue));
+                          RangeValues(_startValue, _endValue),);
                       if (result) {
                         _updateDefaultRangeValues();
                       }
@@ -513,7 +512,6 @@ class _TimelineSliderState extends State<TimelineSlider>
 }
 
 class _SliderPainter extends CustomPainter {
-  static const double handleWidth = 16.0;
 
   _SliderPainter({
     required this.min,
@@ -524,11 +522,11 @@ class _SliderPainter extends CustomPainter {
     required this.periods,
     required this.countryColors,
     required this.shimmerValue,
-    this.strokeWidth = 80.0,
     required this.isDragging,
     required this.leftHandleScale,
     required this.rightHandleScale,
   });
+  static const double handleWidth = 16.0;
 
   final double min;
   final double max;
@@ -549,7 +547,7 @@ class _SliderPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.butt;
 
-    final widthOffset = 0.0;
+    const widthOffset = 0.0;
 
     // Draw background track
     paint.color = Color(0xff50B5FF);
@@ -588,7 +586,7 @@ class _SliderPainter extends CustomPainter {
     selectedPath.addRect(Rect.fromPoints(
       Offset(startX, verticalOffset),
       Offset(endX, verticalOffset + strokeWidth),
-    ));
+    ),);
 
     canvas.drawPath(selectedPath, paint);
 
@@ -598,11 +596,11 @@ class _SliderPainter extends CustomPainter {
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 
-    final spacing = 8.0;
+    const spacing = 8.0;
     final offsetX = shimmerValue * spacing;
 
     final shimmerPath = Path();
-    for (double x = -size.width + offsetX; x < size.width * 2; x += spacing) {
+    for (var x = -size.width + offsetX; x < size.width * 2; x += spacing) {
       shimmerPath.moveTo(x, strokeWidth * 2);
       shimmerPath.lineTo(x + strokeWidth / 2, -strokeWidth);
     }

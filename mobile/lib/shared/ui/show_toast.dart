@@ -19,7 +19,7 @@ void showToast(BuildContext context, String content) {
         Icon(Icons.error_outline, color: context.theme.scaffoldBackgroundColor),
         SizedBox(width: 12.0),
         Text(content,
-            style: TextStyle(color: context.theme.scaffoldBackgroundColor)),
+            style: TextStyle(color: context.theme.scaffoldBackgroundColor),),
       ],
     ),
   );

@@ -27,7 +27,7 @@ class _DateScalePickerState extends State<DateScalePicker> {
   }
 
   String getCountryForDate(DateTime date, CountriesState state) {
-    String name = 'Unknown';
+    var name = 'Unknown';
     state.countries.values.forEach((residence) {
       final startDate = residence.periods.lastOrNull?.startDate;
       final endDate = startDate?.add(residence.daysSpent.days);
@@ -45,8 +45,8 @@ class _DateScalePickerState extends State<DateScalePicker> {
   Widget build(BuildContext context) {
     return BlocBuilder<CountriesCubit, CountriesState>(
       builder: (context, state) {
-        final DateTime date = currentDate;
-        String country = getCountryForDate(date, state);
+        final date = currentDate;
+        final country = getCountryForDate(date, state);
         final countryColor = getCountryColors(
           state.countries.values.map((e) => e.name).toList(),
         )[country];
@@ -108,13 +108,13 @@ class _DateScalePickerState extends State<DateScalePicker> {
                     },
                     childDelegate: ListWheelChildBuilderDelegate(
                       builder: (context, index) {
-                        DateTime date = currentDate
+                        final date = currentDate
                             .subtract(Duration(days: totalDays - index));
-                        String country = getCountryForDate(date, state);
+                        final country = getCountryForDate(date, state);
                         final countryColor = getCountryColors(state
                             .countries.values
                             .map((e) => e.name)
-                            .toList())[country];
+                            .toList(),)[country];
 
                         return Container(
                           padding: EdgeInsets.symmetric(vertical: 4.0),
@@ -122,7 +122,7 @@ class _DateScalePickerState extends State<DateScalePicker> {
                           decoration: BoxDecoration(
                             color: countryColor,
                             borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(16)),
+                                left: Radius.circular(16),),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

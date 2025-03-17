@@ -10,7 +10,6 @@ import 'package:resident_live/shared/shared.dart';
 import 'package:resident_live/features/features.dart';
 import 'dart:ui';
 
-import 'package:resident_live/shared/ui/rl.loader.dart';
 
 part 'record.animation.dart';
 
@@ -21,7 +20,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-final _logger = AiLogger("SplashScreen");
+final _logger = AiLogger('SplashScreen');
 
 class _SplashScreenState extends State<SplashScreen> {
   late AuthCubit _authCubit;
@@ -53,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAndAuthenticate() async {
-    _logger.debug("Check and authenticate");
+    _logger.debug('Check and authenticate');
 
     setState(() => _isAuthenticating = true);
     final authResult = await _authCubit.authenticateOnStartup();
@@ -68,12 +67,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToHome() {
-    _logger.debug("Navigate to home");
+    _logger.debug('Navigate to home');
     context.goNamed(ScreenNames.home);
   }
 
   Future<void> _showPasscodeAuthentication() async {
-    _logger.debug("Show passcode authentication");
+    _logger.debug('Show passcode authentication');
     setState(() => _isAuthenticating = true);
     final passcodeResult = await _authCubit.authenticateWithPasscode();
     if (!mounted) return;
@@ -84,8 +83,8 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       await AppDialogs.showError(
         context: context,
-        title: "Authentication failed",
-        message: "Please try again.",
+        title: 'Authentication failed',
+        message: 'Please try again.',
       );
     }
   }
@@ -129,12 +128,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 alignment: Alignment.center,
                 children: [
                   Transform.translate(
-                      offset: Offset(35, -35), child: RecordingAnimation()),
+                      offset: Offset(35, -35), child: RecordingAnimation(),),
                   Center(child: Icon(CupertinoIcons.person_fill, size: 90)),
                   Transform.translate(
                     offset: Offset(0, 90),
                     child: Text(
-                      "Resident Live",
+                      'Resident Live',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w200,

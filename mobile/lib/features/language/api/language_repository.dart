@@ -3,13 +3,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:resident_live/app/main.dart';
 
 class LanguageRepository {
-  final List<Locale> supportedLocales;
-  final Locale fallbackLocale;
 
   LanguageRepository({
     required this.supportedLocales,
     required this.fallbackLocale,
   });
+  final List<Locale> supportedLocales;
+  final Locale fallbackLocale;
 
   Locale get currentLocale {
     final context = navigatorKey.currentContext;

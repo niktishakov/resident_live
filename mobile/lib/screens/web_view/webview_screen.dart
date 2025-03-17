@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:resident_live/shared/shared.dart';
-import 'package:resident_live/shared/ui/rl.loader.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:resident_live/shared/ui/rl.sliver_header.dart';
 
 import 'widgets/web_page_progress_indicator.dart';
 
@@ -38,8 +36,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
               _progress = progress / 100.0;
             });
           },
-          onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
+          onWebResourceError: (error) {},
+          onNavigationRequest: (request) {
             return NavigationDecision.navigate;
           },
         ),

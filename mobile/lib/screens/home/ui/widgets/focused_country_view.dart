@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/features/features.dart';
@@ -83,7 +81,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                         });
                       },
                       itemCount: countries.length,
-                      restorationId: "FocusedCountryViewPageView",
+                      restorationId: 'FocusedCountryViewPageView',
                       itemBuilder: (context, index) {
                         final country = countries[index];
                         final isHere =
@@ -185,7 +183,7 @@ class FocusedCountryCard extends StatelessWidget {
                             label: LocaleKeys.focus_setFocus.tr(),
                             fontSize: 12,
                             padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 4),
+                                horizontal: 16, vertical: 4,),
                             leading: AppAssetImage(
                               AppAssets.target,
                               height: 14,
@@ -227,7 +225,7 @@ class FocusedCountryCard extends StatelessWidget {
         : context.theme.colorScheme.tertiary;
     final color = context.theme.primaryColor;
     final value = country.isResident ? 183 : country.daysSpent;
-    final double progress = (value / 183).clamp(0, 1.0);
+    final progress = (value / 183).clamp(0, 1.0);
     // final progress = 1.0;
 
     return LayoutBuilder(
@@ -236,7 +234,7 @@ class FocusedCountryCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${country.daysSpent}/183 ${LocaleKeys.focus_days.tr()}",
+              '${country.daysSpent}/183 ${LocaleKeys.focus_days.tr()}',
               style: GoogleFonts.poppins(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -245,7 +243,7 @@ class FocusedCountryCard extends StatelessWidget {
             ),
             Gap(2),
             Text(
-              "${(value / 183 * 100).round()}%",
+              '${(value / 183 * 100).round()}%',
               style: GoogleFonts.poppins(
                 fontSize: 64,
                 fontWeight: FontWeight.w500,

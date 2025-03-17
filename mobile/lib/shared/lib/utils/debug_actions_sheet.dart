@@ -9,7 +9,6 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:resident_live/features/features.dart';
 import 'package:resident_live/shared/shared.dart';
 
-import '../../router/screen_names.dart';
 import '../../../screens/screens.dart';
 
 void showDebugActionsSheet(BuildContext context) {
@@ -46,7 +45,7 @@ void showDebugActionsSheet(BuildContext context) {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       useRootNavigator: true,
-      routeSettings: const RouteSettings(name: "prompt_examples"),
+      routeSettings: const RouteSettings(name: 'prompt_examples'),
       builder: (context) {
         return MakeDismissible(
           child: DraggableScrollableSheet(
@@ -59,7 +58,7 @@ void showDebugActionsSheet(BuildContext context) {
                 top: Radius.circular(32),
               ),
               child: ColoredBox(
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.surface,
                 child: FractionallySizedBox(
                   heightFactor: 1.0,
                   widthFactor: 1.0,
@@ -69,7 +68,7 @@ void showDebugActionsSheet(BuildContext context) {
                       Grabber(color: Colors.white),
                       const Gap(16),
                       buildActionRow(
-                        title: "Erase Data & Restart",
+                        title: 'Erase Data & Restart',
                         color: Colors.red,
                         onTap: () {
                           find<LocationCubit>(context).reset();
@@ -79,7 +78,7 @@ void showDebugActionsSheet(BuildContext context) {
                         },
                       ),
                       buildActionRow(
-                        title: "Go to /pre-splash",
+                        title: 'Go to /pre-splash',
                         color: Colors.blue,
                         onTap: () async {
                           context.pop();
@@ -87,18 +86,18 @@ void showDebugActionsSheet(BuildContext context) {
                             MaterialPageRoute(
                               builder: (c) => PresplashScreen(),
                             ),
-                          ));
+                          ),);
                         },
                       ),
                       ...ScreenNames.all
                           .map((e) => buildActionRow(
-                                title: "Go to $e",
+                                title: 'Go to $e',
                                 color: Colors.blue,
                                 onTap: () {
                                   context.pop();
                                   context.pushReplacementNamed(e);
                                 },
-                              ))
+                              ),)
                           .toList(),
                     ],
                   ),
@@ -107,5 +106,5 @@ void showDebugActionsSheet(BuildContext context) {
             ),
           ),
         );
-      });
+      },);
 }

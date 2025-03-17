@@ -116,7 +116,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                   style: GoogleFonts.poppins(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                  )),
+                  ),),
               Spacer(),
               Column(
                 children: [
@@ -125,10 +125,10 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                       style: GoogleFonts.poppins(
                           fontSize: 12,
                           color: context.theme.colorScheme.tertiary
-                              .withValues(alpha: 0.5)),
-                      "${residence.daysSpent} ${LocaleKeys.focus_of.tr()} 183 ${LocaleKeys.focus_days.tr()}"),
+                              .withValues(alpha: 0.5),),
+                      '${residence.daysSpent} ${LocaleKeys.focus_of.tr()} 183 ${LocaleKeys.focus_days.tr()}',),
                 ],
-              )
+              ),
             ],
           ),
           Gap(6),
@@ -152,7 +152,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                 stops: [1.0, 0.5, 0.0],
               );
             },
-          )
+          ),
         ],
       ),
     );
@@ -160,7 +160,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
 }
 
 class _SeeAll extends StatelessWidget {
-  const _SeeAll({super.key});
+  const _SeeAll();
 
   @override
   Widget build(BuildContext context) {

@@ -61,14 +61,14 @@ class WeekLineView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        DateFormat('EEE', "ru").format(day).toUpperCase(),
+                        DateFormat('EEE', 'ru').format(day).toUpperCase(),
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
                             color: isToday
                                 ? context.theme.primaryColor
                                 : context.theme.colorScheme.secondary
-                                    .withOpacity(0.5)),
+                                    .withOpacity(0.5),),
                       ),
                       SizedBox(height: 4),
                       Text(

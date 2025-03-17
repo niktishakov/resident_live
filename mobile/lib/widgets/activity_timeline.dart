@@ -42,7 +42,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
   double calcProgressBySegments() {
     final totalDays = endDate.difference(startDate).inDays;
 
-    int usedDays = 0;
+    var usedDays = 0;
 
     for (var segment in segments) {
       usedDays += segment.startDate.difference(segment.endDate).inDays;
@@ -100,7 +100,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
                         child: Stack(
                           children: [
                             _buildTimeline(context, timelineWidth),
-                            ..._buildSegments(context, timelineWidth, totalDays)
+                            ..._buildSegments(context, timelineWidth, totalDays),
                           ],
                         ),
                       ),
@@ -222,7 +222,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
                       Text(e),
                     ],
                   ),
-                ))
+                ),)
             .toList(),
       ],
     );
@@ -259,6 +259,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
                         : Radius.zero,
                   ),
                 ),
+                alignment: Alignment.center,
                 child: Text(
                   e.country,
                   maxLines: 1,
@@ -266,7 +267,6 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
                     color: context.theme.scaffoldBackgroundColor,
                   ),
                 ),
-                alignment: Alignment.center,
               ),
             );
           }).toList()
@@ -275,12 +275,12 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
 }
 
 class CountrySelectionDialog extends StatelessWidget {
-  final List<String> countries;
-  final Function(String) onSelect;
 
   const CountrySelectionDialog(
-      {Key? key, required this.countries, required this.onSelect})
+      {Key? key, required this.countries, required this.onSelect,})
       : super(key: key);
+  final List<String> countries;
+  final Function(String) onSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +298,7 @@ class CountrySelectionDialog extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(countries[index],
                     style: context.theme.textTheme.bodyLarge
-                        ?.copyWith(color: context.theme.primaryColor)),
+                        ?.copyWith(color: context.theme.primaryColor),),
               ),
               onPressed: (_) {
                 onSelect(countries[index]);

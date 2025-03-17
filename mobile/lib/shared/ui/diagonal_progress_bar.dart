@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class DiagonalProgressBar extends StatefulWidget {
-  final double progress; // Value between 0.0 and 1.0
-  final Color startColor;
-  final Color endColor;
-  final double lineWidth;
-  final double lineSpacing;
-  final Duration animationDuration;
-  final bool isAnimationEnabled;
 
   const DiagonalProgressBar({
     super.key,
@@ -20,6 +13,13 @@ class DiagonalProgressBar extends StatefulWidget {
     this.animationDuration = const Duration(milliseconds: 1500),
     this.isAnimationEnabled = true,
   });
+  final double progress; // Value between 0.0 and 1.0
+  final Color startColor;
+  final Color endColor;
+  final double lineWidth;
+  final double lineSpacing;
+  final Duration animationDuration;
+  final bool isAnimationEnabled;
 
   @override
   State<DiagonalProgressBar> createState() => _DiagonalProgressBarState();
@@ -45,7 +45,7 @@ class _DiagonalProgressBarState extends State<DiagonalProgressBar>
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
-    ));
+    ),);
 
     if (widget.isAnimationEnabled) {
       _controller.forward();
@@ -62,7 +62,7 @@ class _DiagonalProgressBarState extends State<DiagonalProgressBar>
       ).animate(CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,
-      ));
+      ),);
 
       if (widget.isAnimationEnabled) {
         _controller.forward(from: 0);
@@ -96,11 +96,6 @@ class _DiagonalProgressBarState extends State<DiagonalProgressBar>
 }
 
 class _DiagonalProgressPainter extends CustomPainter {
-  final double progress;
-  final Color startColor;
-  final Color endColor;
-  final double lineWidth;
-  final double lineSpacing;
 
   _DiagonalProgressPainter({
     required this.progress,
@@ -109,6 +104,11 @@ class _DiagonalProgressPainter extends CustomPainter {
     required this.lineWidth,
     required this.lineSpacing,
   });
+  final double progress;
+  final Color startColor;
+  final Color endColor;
+  final double lineWidth;
+  final double lineSpacing;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -117,7 +117,7 @@ class _DiagonalProgressPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final progressWidth = size.width * progress;
-    final angle = -math.pi / 4; // 45-degree angle
+    const angle = -math.pi / 4; // 45-degree angle
     final lineLength = size.height * 1.5;
     final totalLines = (size.width / lineSpacing).ceil() + 30;
 

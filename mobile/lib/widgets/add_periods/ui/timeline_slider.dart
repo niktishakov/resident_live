@@ -82,18 +82,22 @@ class _TimelineSliderState extends State<TimelineSlider>
     _leftHandleScale = Tween<double>(
       begin: 1.0,
       end: 1.3,
-    ).animate(CurvedAnimation(
-      parent: _leftHandleController,
-      curve: Curves.easeOutCubic,
-    ),);
+    ).animate(
+      CurvedAnimation(
+        parent: _leftHandleController,
+        curve: Curves.easeOutCubic,
+      ),
+    );
 
     _rightHandleScale = Tween<double>(
       begin: 1.0,
       end: 1.3,
-    ).animate(CurvedAnimation(
-      parent: _rightHandleController,
-      curve: Curves.easeOutCubic,
-    ),);
+    ).animate(
+      CurvedAnimation(
+        parent: _rightHandleController,
+        curve: Curves.easeOutCubic,
+      ),
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _updateDefaultRangeValues();
@@ -206,10 +210,13 @@ class _TimelineSliderState extends State<TimelineSlider>
                     onPressed: () => Navigator.pop(context),
                     child: Text(LocaleKeys.common_cancel.tr()),
                   ),
-                  Text(title,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: context.theme.colorScheme.onSurface,),),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: context.theme.colorScheme.onSurface,
+                    ),
+                  ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -235,7 +242,8 @@ class _TimelineSliderState extends State<TimelineSlider>
                       }
                     } else {
                       if (isRangeAvailable(
-                          RangeValues(_startValue, newValue),)) {
+                        RangeValues(_startValue, newValue),
+                      )) {
                         setState(() => _endValue = newValue);
                       }
                     }
@@ -251,7 +259,7 @@ class _TimelineSliderState extends State<TimelineSlider>
 
   bool isRangeAvailable(RangeValues values) {
     final start = _getDateFromValue(values.start);
-    final var end = _getDateFromValue(values.end);
+    final end = _getDateFromValue(values.end);
 
     for (var segment in widget.periods) {
       // If start or end date of new segment lies within an existing segment, return false
@@ -274,11 +282,12 @@ class _TimelineSliderState extends State<TimelineSlider>
     periods.sort((a, b) => a.startDate.compareTo(b.startDate));
 
     for (var i = 0; i < periods.length - 1; i++) {
-      final var gapStart = periods[i]
+      final gapStart = periods[i]
           .endDate
           .add(Duration(days: 1)); // the day after the current segment's end
       final gapEnd = periods[i + 1].startDate.subtract(
-          Duration(days: 1),); // the day before the next segment's start
+            Duration(days: 1),
+          ); // the day before the next segment's start
 
       if (gapEnd.isAfter(gapStart)) {
         // Set the range to fit entirely within the first gap
@@ -393,7 +402,8 @@ class _TimelineSliderState extends State<TimelineSlider>
     final color = widget.color;
     return AnimatedBuilder(
       animation: Listenable.merge(
-          [_shimmerAnimation, _leftHandleScale, _rightHandleScale],),
+        [_shimmerAnimation, _leftHandleScale, _rightHandleScale],
+      ),
       builder: (context, child) {
         return GestureDetector(
           onPanStart: _onPanStart,
@@ -444,6 +454,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                             CustomPaint(
                               size: Size(ctrx.maxWidth, widget.height),
                               painter: _SliderPainter(
+                                strokeWidth: 20,
                                 min: widget.min,
                                 max: widget.max,
                                 start: _startValue,
@@ -464,17 +475,20 @@ class _TimelineSliderState extends State<TimelineSlider>
                   ),
                   Gap(8),
                   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ..._getMonthLabels()
-                            .mapIndexed((index, e) => Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(e),
-                                  ],
-                                ),)
-                            .toList(),
-                      ],),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ..._getMonthLabels()
+                          .mapIndexed(
+                            (index, e) => Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(e),
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ],
+                  ),
                   Gap(16),
                   PrimaryButton(
                     vibrate: false,
@@ -483,7 +497,8 @@ class _TimelineSliderState extends State<TimelineSlider>
                         isRangeAvailable(RangeValues(_startValue, _endValue)),
                     onPressed: () {
                       final result = widget.onAddPeriodPressed(
-                          RangeValues(_startValue, _endValue),);
+                        RangeValues(_startValue, _endValue),
+                      );
                       if (result) {
                         _updateDefaultRangeValues();
                       }
@@ -512,7 +527,6 @@ class _TimelineSliderState extends State<TimelineSlider>
 }
 
 class _SliderPainter extends CustomPainter {
-
   _SliderPainter({
     required this.min,
     required this.max,
@@ -525,6 +539,7 @@ class _SliderPainter extends CustomPainter {
     required this.isDragging,
     required this.leftHandleScale,
     required this.rightHandleScale,
+    required this.strokeWidth,
   });
   static const double handleWidth = 16.0;
 
@@ -583,10 +598,12 @@ class _SliderPainter extends CustomPainter {
     final verticalOffset = (size.height - strokeWidth) / 2;
 
     // Always draw rectangular shape
-    selectedPath.addRect(Rect.fromPoints(
-      Offset(startX, verticalOffset),
-      Offset(endX, verticalOffset + strokeWidth),
-    ),);
+    selectedPath.addRect(
+      Rect.fromPoints(
+        Offset(startX, verticalOffset),
+        Offset(endX, verticalOffset + strokeWidth),
+      ),
+    );
 
     canvas.drawPath(selectedPath, paint);
 

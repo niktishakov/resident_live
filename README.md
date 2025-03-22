@@ -132,3 +132,44 @@ The app uses two main font families:
 
 Both fonts include weights from 100 (Thin) to 900 (Black).
 
+## CI/CD
+
+### iOS Deployment
+
+#### Prerequisites
+- Xcode installed
+- [Fastlane](https://fastlane.tools/) installed (`gem install fastlane`)
+- Apple Developer Account access
+- App Store Connect API Key configured with the following environment variables:
+  - `APP_STORE_CONNECT_KEY_ID`
+  - `APP_STORE_CONNECT_ISSUER_ID`
+  - `APP_STORE_CONNECT_KEY_PATH`
+
+#### Available Lanes
+
+1. Deploy to TestFlight:
+```bash
+cd mobile/ios
+fastlane ios beta
+```
+This will:
+- Automatically increment the build number
+- Build the Flutter app
+- Create an IPA file
+- Upload it to TestFlight
+
+2. Build Ad-Hoc IPA:
+```bash
+cd mobile/ios
+fastlane ios adhoc
+```
+This will:
+- Increment the build number
+- Build the Flutter app
+- Create an ad-hoc IPA in the `./build` directory
+- Output file: `ResidentLive_AdHoc.ipa`
+
+### Android Deployment
+
+[Note: Add Android deployment steps once configured]
+

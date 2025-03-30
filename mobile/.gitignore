@@ -5,15 +5,13 @@
 *.swp
 .DS_Store
 .atom/
-.build/
 .buildlog/
 .history
 .svn/
-.swiftpm/
 migrate_working_dir/
 *.env
-secrets.json
-service_account.json
+*/secrets.json
+*/service_account.json
 
 # IntelliJ related
 *.iml
@@ -35,7 +33,7 @@ service_account.json
 .packages
 .pub-cache/
 .pub/
-/build/
+build/
 
 # Symbolication related
 app.*.symbols
@@ -46,12 +44,19 @@ app.*.map.json
 # iOS generated files
 Flutter/Generated.xcconfig
 Flutter/flutter_export_environment.sh
-Runner/GeneratedPluginRegistrant.*
+GeneratedPluginRegistrant.*
 
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+**/ios/bin
+**/ios/cache
+**/ios/extensions
+**/ios/gems
+ios/specifications
+
 
 key.properties
 ```
@@ -59,11 +64,56 @@ key.properties
 # FVM Version Cache
 .fvm/
 
+.ruby-lsp/
 
-# Fastlane
+**/dgph
+*.mode1v3
+*.mode2v3
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+**/*sync/
+.sconsign.dblite
+.tags*
+**/.vagrant/
+**/DerivedData/
+Icon?
+**/Pods/
+**/.symlinks/
+profile
+xcuserdata
+**/.generated/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+ios/Flutter/flutter_export_environment.sh
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Exceptions to above rules.
+!default.mode1v3
+!default.mode2v3
+!default.pbxuser
+!default.perspectivev3
+
+# fastlane 
 ios/fastlane/report.xml
-ios/fastlane/.env*
-ios/fastlane/README.md
-build/
-fastlane/test_output/
-ios/fastlane/*.p8
+
+gradle-wrapper.jar
+android/.gradle
+android/captures/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+GeneratedPluginRegistrant.java
+
+# Remember to never publicly share your keystore.
+# See https://flutter.dev/docs/deployment/android#reference-the-keystore-from-the-app
+key.properties
+**/*.keystore
+**/*.jks

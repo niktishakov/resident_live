@@ -34,10 +34,11 @@ platform :ios do
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
       export_method: "app-store",
-      configuration: "Release",
-      clean: true,
-      output_directory: "./build",
-      output_name: "ResidentLive.ipa"
+      export_options: {
+        provisioningProfiles: { 
+          "com.nikapps.residentlive" => "rl-testflight-profile"
+        }
+      }
     )
     
     upload_to_testflight

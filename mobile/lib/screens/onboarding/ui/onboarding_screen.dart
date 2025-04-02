@@ -1,11 +1,10 @@
-import 'package:country_list_pick/country_list_pick.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:resident_live/shared/shared.dart';
-
-import '../../../widgets/find_countries/ui/find_countries_page.dart';
-import 'pages/stay_period.page.dart';
+import "package:country_list_pick/country_list_pick.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:go_router/go_router.dart";
+import "package:resident_live/screens/onboarding/ui/pages/stay_period.page.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/find_countries/ui/find_countries_page.dart";
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -55,8 +54,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       context: context,
       builder: (context) {
         return CupertinoActionSheet(
-          title: Text('Select Item'),
-          actions: ['One', 'Two', 'Three'].map((item) {
+          title: const Text("Select Item"),
+          actions: ["One", "Two", "Three"].map((item) {
             return CupertinoActionSheetAction(
               onPressed: () {
                 Navigator.pop(context);
@@ -69,7 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Navigator.pop(context);
             },
             isDefaultAction: true,
-            child: Text('Cancel'),
+            child: const Text("Cancel"),
           ),
         );
       },

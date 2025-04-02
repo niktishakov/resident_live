@@ -1,12 +1,10 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geocoding/geocoding.dart';
+import "package:collection/collection.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:geocoding/geocoding.dart";
+import "package:resident_live/domain/domain.dart";
 
-import 'package:collection/collection.dart';
-
-import '../../../domain/domain.dart';
-
-part 'countries_state.g.dart';
-part 'countries_state.freezed.dart';
+part "countries_state.freezed.dart";
+part "countries_state.g.dart";
 
 @freezed
 class CountriesState with _$CountriesState {
@@ -21,7 +19,7 @@ class CountriesState with _$CountriesState {
       _$CountriesStateFromJson(json);
 
   factory CountriesState.initial() =>
-      CountriesState(countries: {}, focusedCountryId: null);
+      const CountriesState(countries: {}, focusedCountryId: null);
 
   CountryEntity? get focusedCountry => countries[focusedCountryId];
 
@@ -46,15 +44,15 @@ class CountriesState with _$CountriesState {
   CountryEntity getCountryByPlacemark(Placemark country) {
     return _getCountry(
       countries[country.isoCountryCode],
-      country.isoCountryCode ?? 'Unknown',
-      country.country ?? 'Unknown',
+      country.isoCountryCode ?? "Unknown",
+      country.country ?? "Unknown",
     );
   }
 
   CountryEntity _getCountry(
     CountryEntity? countryResidence,
     String code, [
-    String name = 'Unknown',
+    String name = "Unknown",
   ]) {
     return countryResidence ?? CountryEntity.initial(code, name);
   }

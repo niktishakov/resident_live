@@ -1,10 +1,9 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:flutter/foundation.dart';
-import 'package:resident_live/shared/shared.dart';
-
-import 'analytics_parameters.dart';
-import 'events/analytics_event.dart';
+import "package:flutter/foundation.dart";
+import "package:resident_live/shared/lib/services/analytics/analytics_parameters.dart";
+import "package:resident_live/shared/lib/services/analytics/events/analytics_event.dart";
+import "package:resident_live/shared/shared.dart";
 
 class AiAnalytics {
   AiAnalytics._(
@@ -14,19 +13,18 @@ class AiAnalytics {
   final MixpanelService? _mixpanel;
   final Map<String, dynamic> Function() _getCustomParams;
 
-  final AiLogger _logger = AiLogger('AiAnalytics');
+  final AiLogger _logger = AiLogger("AiAnalytics");
   final Map<String, dynamic> _defaults = <String, dynamic>{};
 
   static AiAnalytics? _instance;
   static AiAnalytics get instance {
     assert(_instance != null,
-        'Remember to initialise Appsflyer by calling its init method',);
+        "Remember to initialise Appsflyer by calling its init method",);
     return _instance!;
   }
 
   static void init({
-    MixpanelService? mixpanel,
-    required Environment environment,
+    required Environment environment, MixpanelService? mixpanel,
     Map<String, dynamic> Function()? getCustomParams,
   }) {
     if (_instance == null) {
@@ -34,7 +32,7 @@ class AiAnalytics {
       _instance!._defaults.addAll(<String, dynamic>{
         AnalyticsParameters.appEnviroment: environment.asString,
         // 'checked' mode indicates that performance is not representative of what will happen in release mode.
-        AnalyticsParameters.mode: kReleaseMode ? 'release' : 'checked',
+        AnalyticsParameters.mode: kReleaseMode ? "release" : "checked",
       });
     }
   }
@@ -52,7 +50,7 @@ class AiAnalytics {
 
       _mixpanel?.logEvent(event.getName(), parameters);
 
-      _logger.info('Event: ${event.getName()}, Params: $parameters');
+      _logger.info("Event: ${event.getName()}, Params: $parameters");
     } catch (e, stackTrace) {
       _logger.error(e, stackTrace);
     }
@@ -76,7 +74,7 @@ class AiAnalytics {
       if (parameters != null && parameters.isNotEmpty) ...parameters,
     };
 
-    _logger.info('Event: $screenName, Params: $params');
+    _logger.info("Event: $screenName, Params: $params");
 
     _mixpanel?.setCurrentScreen(screenName, params);
   }

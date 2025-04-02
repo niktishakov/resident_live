@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'dart:math' as math;
+import "dart:math" as math;
+
+import "package:flutter/material.dart";
 
 class DiagonalProgressBar extends StatefulWidget {
 
   const DiagonalProgressBar({
-    super.key,
-    required this.progress,
+    required this.progress, super.key,
     this.startColor = Colors.white,
     this.endColor = Colors.blue,
     this.lineWidth = 2,
@@ -132,7 +132,7 @@ class _DiagonalProgressPainter extends CustomPainter {
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
         colors: [startColor, endColor],
-        stops: [0.0, 0.61],
+        stops: const [0.0, 0.61],
       );
 
       paint.shader =

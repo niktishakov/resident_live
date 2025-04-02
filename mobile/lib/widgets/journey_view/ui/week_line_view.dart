@@ -1,16 +1,33 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:resident_live/widgets/journey_view/ui/journey_page.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:intl/date_symbol_data_local.dart";
+import "package:intl/intl.dart";
+import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/journey_view/ui/journey_page.dart";
 
-class WeekLineView extends StatelessWidget {
-  WeekLineView({Key? key}) : super(key: key);
+class WeekLineView extends StatefulWidget {
+  const WeekLineView({super.key});
 
+  @override
+  State<WeekLineView> createState() => _WeekLineViewState();
+}
+
+class _WeekLineViewState extends State<WeekLineView> {
   final DateTime _now = DateTime.now();
+  String? _currentLocale;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final locale = Localizations.localeOf(context).toString();
+    if (_currentLocale != locale) {
+      _currentLocale = locale;
+      initializeDateFormatting(locale);
+    }
+  }
 
   List<DateTime> _getDaysOfWeek() {
     final startOfWeek = _now.subtract(Duration(days: _now.weekday - 1));
@@ -20,11 +37,11 @@ class WeekLineView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final daysOfWeek = _getDaysOfWeek();
+    final locale = _currentLocale ?? Localizations.localeOf(context).toString();
 
     return LayoutBuilder(
       builder: (context, ctrx) {
         final itemWidth = ctrx.maxWidth / 7;
-        initializeDateFormatting('ru'); // Initialize Russian locale
 
         return GestureDetector(
           onTap: () async {
@@ -34,8 +51,7 @@ class WeekLineView extends StatelessWidget {
               context: context,
               duration: 300.ms,
               animationCurve: Curves.fastEaseInToSlowEaseOut,
-              // builder: (context) => VerticalTimeline(),
-              builder: (context) => ResidencyJourneyScreen(),
+              builder: (context) => const ResidencyJourneyScreen(),
             );
           },
           child: SizedBox(
@@ -61,16 +77,17 @@ class WeekLineView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        DateFormat('EEE', 'ru').format(day).toUpperCase(),
+                        DateFormat("EEE", locale).format(day).toUpperCase(),
                         style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: isToday
-                                ? context.theme.primaryColor
-                                : context.theme.colorScheme.secondary
-                                    .withOpacity(0.5),),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: isToday
+                              ? context.theme.primaryColor
+                              : context.theme.colorScheme.secondary
+                                  .withOpacity(0.5),
+                        ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         day.day.toString(),
                         style: GoogleFonts.poppins(

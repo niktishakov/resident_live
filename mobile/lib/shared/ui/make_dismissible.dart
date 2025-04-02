@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
+import "package:flutter/cupertino.dart";
+import "package:go_router/go_router.dart";
 
 /// Make the bottom sheet dismissible by tapping on the background
 class MakeDismissible extends StatelessWidget {
-  const MakeDismissible({super.key, required this.child});
+  const MakeDismissible({required this.child, super.key});
 
   final Widget child;
 

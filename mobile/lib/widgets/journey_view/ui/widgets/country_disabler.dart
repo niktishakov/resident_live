@@ -1,15 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:resident_live/domain/entities/country/country.entity.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/domain/entities/country/country.entity.dart";
+import "package:resident_live/shared/shared.dart";
 
 class CountryDisabler extends StatefulWidget {
-  const CountryDisabler({
-    required this.countries,
-    required this.onCountrySelected,
-    required this.currentMonth,
-    required this.countryPeriods,
+  const CountryDisabler({required this.countries, required this.onCountrySelected, required this.currentMonth, required this.countryPeriods, super.key,
     this.disabledCountries = const [],
     this.colors,
     this.focusedCountry,
@@ -99,7 +95,7 @@ class _CountryDisablerState extends State<CountryDisabler>
             widget.onCountrySelected(country, isDisabled);
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color:
                   countryColors[country]?.withOpacity(isDisabled ? 0.5 : 1.0),
@@ -120,7 +116,7 @@ class _CountryDisablerState extends State<CountryDisabler>
                   country,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: 'Poppins',
+                    fontFamily: "Poppins",
                     color: context.theme.colorScheme.surface,
                     fontWeight: FontWeight.w500,
                   ),

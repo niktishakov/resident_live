@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/foundation.dart";
+import "package:flutter/material.dart";
+import "package:resident_live/shared/shared.dart";
 
 class RlCard extends StatelessWidget {
   const RlCard({
@@ -23,14 +23,14 @@ class RlCard extends StatelessWidget {
     const border = null;
 
     final _borderRadius = borderRadius ?? kBorderRadius;
-    final _padding = padding ?? EdgeInsets.all(16.0);
+    final _padding = padding ?? const EdgeInsets.all(16.0);
 
     return Material(
-      borderRadius: _borderRadius,
+      borderRadius: borderRadius,
       child: Stack(
         children: [
           Container(
-            margin: EdgeInsets.all(0.5),
+            margin: const EdgeInsets.all(0.5),
             padding: _padding,
             decoration: BoxDecoration(
               borderRadius: _borderRadius.copyWith(

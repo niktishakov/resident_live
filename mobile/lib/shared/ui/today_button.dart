@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
-import 'package:gap/gap.dart';
+import "package:flutter/cupertino.dart";
+import "package:gap/gap.dart";
 
-import '../shared.dart';
+import "package:resident_live/shared/shared.dart";
 
 class TodayButton extends StatelessWidget {
   const TodayButton({
-    super.key,
+    required this.onTap, super.key,
     this.style,
     this.iconSize = 22,
-    required this.onTap,
   });
   final TextStyle? style;
   final double iconSize;
@@ -16,15 +15,15 @@ class TodayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _borderRadius = BorderRadius.circular(8);
+    final borderRadius = BorderRadius.circular(8);
     return BouncingButton(
       onPressed: (_) => onTap(),
       vibrate: false,
-      borderRadius: _borderRadius,
+      borderRadius: borderRadius,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         decoration: BoxDecoration(
-          borderRadius: _borderRadius,
+          borderRadius: borderRadius,
           border:
               Border.all(color: context.theme.colorScheme.secondary, width: 1),
         ),
@@ -32,9 +31,9 @@ class TodayButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(CupertinoIcons.calendar, size: iconSize),
-            Gap(6),
+            const Gap(6),
             Text(
-              '${DateTime.now().toMMMDDYYYY()}',
+              DateTime.now().toMMMDDYYYY(),
               style: style ??
                   context.theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w700,

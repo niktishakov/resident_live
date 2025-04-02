@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:resident_live/shared/lib/constants.dart';
+import "package:flutter/material.dart";
+import "package:resident_live/shared/lib/constants.dart";
 
 Widget kFlightShuttleBuilder(
   BuildContext flightContext,

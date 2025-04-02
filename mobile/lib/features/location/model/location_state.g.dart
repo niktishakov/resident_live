@@ -8,7 +8,7 @@ part of 'location_state.dart';
 
 _$LocationStateImpl _$$LocationStateImplFromJson(Map<String, dynamic> json) =>
     _$LocationStateImpl(
-      error: json['error'] as String? ?? "",
+      error: json['error'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$LocationStateImplToJson(_$LocationStateImpl instance) =>

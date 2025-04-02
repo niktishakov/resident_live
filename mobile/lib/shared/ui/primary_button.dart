@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/shared/shared.dart";
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
-    super.key,
-    required this.label,
+    required this.label, super.key,
     this.vibrate = false,
     this.fontSize = 20.0,
     this.textColor,
@@ -65,9 +64,9 @@ class PrimaryButton extends StatelessWidget {
                 if (leading != null) ...[
                   AnimatedSize(
                     duration: const Duration(milliseconds: 200),
-                    child: leading!,
+                    child: leading,
                   ),
-                  Gap(8),
+                  const Gap(8),
                 ],
                 Text(
                   label,
@@ -79,10 +78,10 @@ class PrimaryButton extends StatelessWidget {
                       ),
                 ),
                 if (trailing != null) ...[
-                  Gap(8),
+                  const Gap(8),
                   AnimatedSize(
                     duration: const Duration(milliseconds: 200),
-                    child: trailing!,
+                    child: trailing,
                   ),
                 ],
               ],

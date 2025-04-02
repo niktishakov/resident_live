@@ -1,13 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:intl/intl.dart";
 
-import '../features/features.dart';
-import '../shared/shared.dart';
+import "package:resident_live/features/features.dart";
+import "package:resident_live/shared/shared.dart";
 
 class DateScalePicker extends StatefulWidget {
+  const DateScalePicker({super.key});
+
   @override
   _DateScalePickerState createState() => _DateScalePickerState();
 }
@@ -27,8 +29,8 @@ class _DateScalePickerState extends State<DateScalePicker> {
   }
 
   String getCountryForDate(DateTime date, CountriesState state) {
-    var name = 'Unknown';
-    state.countries.values.forEach((residence) {
+    var name = "Unknown";
+    for (final residence in state.countries.values) {
       final startDate = residence.periods.lastOrNull?.startDate;
       final endDate = startDate?.add(residence.daysSpent.days);
       if (startDate != null) {
@@ -36,7 +38,7 @@ class _DateScalePickerState extends State<DateScalePicker> {
           name = residence.name;
         }
       }
-    });
+    }
 
     return name;
   }
@@ -56,8 +58,8 @@ class _DateScalePickerState extends State<DateScalePicker> {
             Expanded(
               flex: 3,
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                padding: EdgeInsets.symmetric(vertical: 16),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 decoration: BoxDecoration(
                   color: countryColor,
                   borderRadius: kBorderRadius,
@@ -65,7 +67,7 @@ class _DateScalePickerState extends State<DateScalePicker> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(DateFormat('dd MMM yyyy').format(currentDate)),
+                    Text(DateFormat("dd MMM yyyy").format(currentDate)),
                     Text(currentCountry),
                     // Add more UI elements as needed
                   ],
@@ -117,18 +119,18 @@ class _DateScalePickerState extends State<DateScalePicker> {
                             .toList(),)[country];
 
                         return Container(
-                          padding: EdgeInsets.symmetric(vertical: 4.0),
-                          margin: EdgeInsets.only(right: 0),
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          margin: const EdgeInsets.only(right: 0),
                           decoration: BoxDecoration(
                             color: countryColor,
-                            borderRadius: BorderRadius.horizontal(
+                            borderRadius: const BorderRadius.horizontal(
                                 left: Radius.circular(16),),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '${DateFormat('dd MMM yyyy').format(date)}',
+                                DateFormat("dd MMM yyyy").format(date),
                                 style: GoogleFonts.poppins(
                                   color: Colors.white,
                                 ),

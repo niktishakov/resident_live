@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import "package:flutter/material.dart";
+import "package:gap/gap.dart";
 
-import '../shared/shared.dart';
-import 'month_range.dart';
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/month_range.dart";
 
 class VerticalTimeline extends StatefulWidget {
+  const VerticalTimeline({super.key});
+
   @override
   _VerticalTimelineState createState() => _VerticalTimelineState();
 }
@@ -19,23 +21,23 @@ class _VerticalTimelineState extends State<VerticalTimeline> {
     return Scaffold(
       body: Column(
         children: [
-          Grabber(),
+          const Grabber(),
           Row(
             children: [
-              Spacer(),
+              const Spacer(),
               RlCloseButton(
                   color: context.theme.colorScheme.secondary.withOpacity(0.5),),
-              Gap(16),
+              const Gap(16),
             ],
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text('Your activity for the last 12 months',
+            child: Text("Your activity for the last 12 months",
                 style: context.theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),),
           ),
-          Expanded(
+          const Expanded(
             child: DateScalePicker(),
           ),
         ],
@@ -70,7 +72,7 @@ class ScalePainter extends CustomPainter {
         canvas.drawLine(
             Offset(size.width - 20, y), Offset(size.width, y), paint,);
         textPainter.text = TextSpan(
-          text: '$i',
+          text: "$i",
           style: TextStyle(
               color: i == currentValue.round() ? Colors.black : Colors.grey,
               fontSize: 14,),

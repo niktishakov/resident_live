@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/cupertino.dart";
+import "package:go_router/go_router.dart";
+import "package:resident_live/shared/shared.dart";
 
 class RlNavBar extends StatelessWidget {
   const RlNavBar({super.key});
@@ -16,7 +16,7 @@ class RlNavBar extends StatelessWidget {
       largeTitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Resident Live',
+          Text("Resident Live",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   letterSpacing: -1.0,
@@ -30,7 +30,7 @@ class RlNavBar extends StatelessWidget {
 class RlCupertinoNavBar extends StatelessWidget {
   const RlCupertinoNavBar({
     super.key,
-    this.title = '',
+    this.title = "",
     this.leading,
     this.actions,
   });
@@ -42,7 +42,7 @@ class RlCupertinoNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final canPop = context.canPop();
     return CupertinoNavigationBar(
-      padding: EdgeInsetsDirectional.only(start: 0, end: 0),
+      padding: const EdgeInsetsDirectional.only(start: 0, end: 0),
       leading: canPop
           ? leading ??
               CupertinoButton(

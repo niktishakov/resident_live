@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/material.dart";
+import "package:resident_live/shared/shared.dart";
 
 class RlLoader extends StatefulWidget {
   const RlLoader({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.duration,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

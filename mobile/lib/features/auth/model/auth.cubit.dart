@@ -1,16 +1,16 @@
-import 'dart:async';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "dart:async";
 
-import 'auth.state.dart';
+import "package:hydrated_bloc/hydrated_bloc.dart";
+import "package:local_auth/local_auth.dart";
+import "package:resident_live/features/auth/model/auth.state.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 class AuthCubit extends HydratedCubit<AuthState> {
   AuthCubit() : super(const AuthState()) {
     _init();
   }
   final LocalAuthentication _localAuth = LocalAuthentication();
-  static const String _biometricEnabledKey = 'biometric_enabled';
+  static const String _biometricEnabledKey = "biometric_enabled";
 
   Future<void> _init() async {
     await checkBiometricSupport();
@@ -56,7 +56,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
 
     try {
       final isAuthenticated = await _localAuth.authenticate(
-        localizedReason: 'Authenticate to access the app',
+        localizedReason: "Authenticate to access the app",
         options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: false,
@@ -73,7 +73,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
   Future<bool> authenticateWithPasscode() async {
     try {
       final didAuthenticate = await _localAuth.authenticate(
-        localizedReason: 'Please enter your passcode',
+        localizedReason: "Please enter your passcode",
         options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: false,
@@ -91,7 +91,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
   Future<void> authenticateAndToggle() async {
     try {
       final isAuthenticated = await _localAuth.authenticate(
-        localizedReason: 'Authenticate to enable Face ID access',
+        localizedReason: "Authenticate to enable Face ID access",
         options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: true,
@@ -100,7 +100,7 @@ class AuthCubit extends HydratedCubit<AuthState> {
       if (isAuthenticated) {
         await toggleBiometricAuth();
       } else {
-        emit(state.copyWith(error: 'Authentication failed'));
+        emit(state.copyWith(error: "Authentication failed"));
       }
     } catch (e) {
       emit(state.copyWith(error: e.toString()));
@@ -114,11 +114,11 @@ class AuthCubit extends HydratedCubit<AuthState> {
   String get biometricTitle {
     switch (state.biometricType) {
       case BiometricType.face:
-        return 'Face ID';
+        return "Face ID";
       case BiometricType.fingerprint:
-        return 'Touch ID';
+        return "Touch ID";
       default:
-        return 'Biometric';
+        return "Biometric";
     }
   }
 

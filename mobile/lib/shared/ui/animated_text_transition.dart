@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class AnimatedTextTransition extends StatefulWidget {
   const AnimatedTextTransition({
-    Key? key,
-    required this.texts,
-    required this.index,
+    required this.texts, required this.index, super.key,
     this.animationDuration = const Duration(milliseconds: 500),
-  }) : super(key: key);
+  });
   final List<Widget> texts;
   final int index;
   final Duration animationDuration;

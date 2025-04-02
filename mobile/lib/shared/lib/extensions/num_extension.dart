@@ -1,13 +1,13 @@
 extension NumExtension on num {
   String toCurrencyString({
     String? suffix,
-    String decimalSeparator = ',',
+    String decimalSeparator = ",",
   }) {
     String recursive(num num, bool pad) {
       if (num < 1000.0) {
         if (num is int) {
           if (pad) {
-            return num.toString().padLeft(3, '0');
+            return num.toString().padLeft(3, "0");
           } else {
             return num.toString();
           }
@@ -15,16 +15,16 @@ extension NumExtension on num {
 
         final fixed = num.toStringAsFixed(2);
         final whole = fixed.substring(0, fixed.length - 3);
-        if (fixed.endsWith('.0')) {
+        if (fixed.endsWith(".0")) {
           if (pad) {
-            return whole.padLeft(3, '0');
+            return whole.padLeft(3, "0");
           } else {
             return whole;
           }
         } else {
           final rest = fixed
               .substring(fixed.length - 2, fixed.length)
-              .replaceAll('.', decimalSeparator);
+              .replaceAll(".", decimalSeparator);
           if (pad) {
             return '${whole.padLeft(3, '0')}$rest';
           } else {
@@ -35,11 +35,11 @@ extension NumExtension on num {
 
       final left = num ~/ 1000;
       final right = num % 1000;
-      return '${recursive(left, false)} ${recursive(right, true)}';
+      return "${recursive(left, false)} ${recursive(right, true)}";
     }
 
     final rec = recursive(this, false);
     if (suffix == null) return rec;
-    return '$rec $suffix';
+    return "$rec $suffix";
   }
 }

@@ -1,15 +1,14 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class FadeBorder extends StatelessWidget {
   const FadeBorder({
-    super.key,
+    required this.child, super.key,
     this.gradient,
     this.blendMode = BlendMode.dstIn,
     this.disabled = false,
     this.bidirectional = false,
     this.stops,
     this.direction = Axis.vertical,
-    required this.child,
   });
 
   final Gradient? gradient;

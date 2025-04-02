@@ -1,4 +1,4 @@
-import 'package:package_info_plus/package_info_plus.dart';
+import "package:package_info_plus/package_info_plus.dart";
 
 /// https://pub.dev/packages/package_info#known-issue
 /// https://github.com/flutter/flutter/issues/20761#issuecomment-493434578

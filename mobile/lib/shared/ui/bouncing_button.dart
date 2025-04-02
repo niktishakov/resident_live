@@ -1,22 +1,20 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:flutter/material.dart';
-import 'package:synchronized/synchronized.dart';
-
-import 'package:resident_live/shared/lib/constants.dart';
-import 'package:resident_live/shared/lib/services/vibration_service.dart';
+import "package:flutter/material.dart";
+import "package:resident_live/shared/lib/constants.dart";
+import "package:resident_live/shared/lib/services/vibration_service.dart";
+import "package:synchronized/synchronized.dart";
 
 class BouncingButton extends StatefulWidget {
-  BouncingButton({
-    Key? key,
-    required this.child,
+  const BouncingButton({
+    required this.child, super.key,
     this.borderRadius,
     this.onPressed,
     this.vibrate = true,
     this.debounce = false,
     this.debounceDuration = const Duration(seconds: 3),
     this.behaviour,
-  }) : super(key: key);
+  });
   final Widget child;
   final BorderRadius? borderRadius;
   final Function(PointerEvent)? onPressed;

@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/cupertino.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/shared/shared.dart";
 
 class ReportBugButton extends StatefulWidget {
   const ReportBugButton({super.key});
@@ -25,7 +24,7 @@ class _ReportBugButtonState extends State<ReportBugButton> {
               setState(() => _isLoading = true);
 
               final logFile = AiLogger.logFile;
-              final logger = AiLogger('SettingsScreen');
+              final logger = AiLogger("SettingsScreen");
 
               if (await logFile.exists()) {
                 try {
@@ -34,13 +33,13 @@ class _ReportBugButtonState extends State<ReportBugButton> {
                   logger.error(e);
                   ToastService.instance.showToast(
                     context,
-                    message: 'Failed to send bug report: ${e.toString()}',
+                    message: "Failed to send bug report: ${e.toString()}",
                   );
                 }
               } else {
-                logger.error('Log file not found!');
+                logger.error("Log file not found!");
                 ToastService.instance
-                    .showToast(context, message: 'Log file not found!');
+                    .showToast(context, message: "Log file not found!");
               }
               setState(() => _isLoading = false);
             },
@@ -49,9 +48,9 @@ class _ReportBugButtonState extends State<ReportBugButton> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Report a Bug', style: theme.body18),
+            Text("Report a Bug", style: theme.body18),
             if (_isLoading) ...[
-              Gap(8),
+              const Gap(8),
               const CupertinoActivityIndicator(),
             ],
           ],

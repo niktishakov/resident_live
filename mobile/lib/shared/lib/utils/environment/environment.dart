@@ -4,9 +4,9 @@ extension EnvironmentExtention on Environment {
   String get asString {
     switch (this) {
       case Environment.prod:
-        return 'PROD';
+        return "PROD";
       case Environment.dev:
-        return 'DEV';
+        return "DEV";
     }
   }
 

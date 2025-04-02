@@ -1,8 +1,8 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:flutter/services.dart';
+import "package:flutter/services.dart";
 
-import 'environment/env_holder.dart';
+import "package:resident_live/shared/lib/utils/environment/env_holder.dart";
 
 /// Create the file secrets.json in the root directory of this app.
 /// Replace the mocked values with the actual values.
@@ -20,7 +20,7 @@ class Secrets {
   Secrets._(this._config);
 
   static Future<Secrets> create(EnvHolder envHolder) async {
-    final configAsString = await rootBundle.loadString('secrets.json');
+    final configAsString = await rootBundle.loadString("secrets.json");
     final config = json.decode(configAsString) as Map<String, dynamic>;
 
     return Secrets._(
@@ -30,5 +30,5 @@ class Secrets {
 
   final Map<String, dynamic> _config;
 
-  String get mixpanelToken => _config['mixpanel_token'] as String;
+  String get mixpanelToken => _config["mixpanel_token"] as String;
 }

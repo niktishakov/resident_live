@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/shared/shared.dart";
 
 class Here extends StatelessWidget {
   const Here({super.key, this.shorter = false});
@@ -9,7 +9,7 @@ class Here extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 25,
       // color: Colors.amber,
       child: Row(
@@ -19,7 +19,7 @@ class Here extends StatelessWidget {
             children: [
               if (!shorter)
                 Text(
-                  'Here',
+                  "Here",
                   style: GoogleFonts.poppins(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
@@ -27,8 +27,8 @@ class Here extends StatelessWidget {
                     height: 14 / 12,
                   ),
                 ),
-              SizedBox(width: 4),
-              Icon(
+              const SizedBox(width: 4),
+              const Icon(
                 CupertinoIcons.circle_filled,
                 color: Color(0xff90FFA2),
                 size: 14,

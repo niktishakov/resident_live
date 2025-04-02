@@ -1,21 +1,21 @@
-import 'dart:async';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:resident_live/shared/lib/ai.logger.dart';
-import 'package:resident_live/shared/lib/services/geolocator.service.dart';
+import "dart:async";
 
-import 'location_state.dart';
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:geocoding/geocoding.dart";
+import "package:geolocator/geolocator.dart";
+import "package:resident_live/features/location/model/location_state.dart";
+import "package:resident_live/shared/lib/ai.logger.dart";
+import "package:resident_live/shared/lib/services/geolocator.service.dart";
 
 class LocationCubit extends Cubit<LocationState> {
   LocationCubit(this._locationService)
       : super(LocationState(
-          position: Position.fromMap({'latitude': 0.0, 'longitude': 0.0}),
-          placemark: Placemark(),
+          position: Position.fromMap({"latitude": 0.0, "longitude": 0.0}),
+          placemark: const Placemark(),
         ),);
 
   final GeolocationService _locationService;
-  static final AiLogger _logger = AiLogger('LocationCubit');
+  static final AiLogger _logger = AiLogger("LocationCubit");
 
   Future<void> initialize() async {
     try {
@@ -39,11 +39,11 @@ class LocationCubit extends Cubit<LocationState> {
       if (position != null) {
         await _updatePosition(position);
       } else {
-        _logger.error('Failed to update location - current position is null');
-        emit(state.failure('Current position is null'));
+        _logger.error("Failed to update location - current position is null");
+        emit(state.failure("Current position is null"));
       }
     } catch (e) {
-      _logger.error('Error updating location: $e');
+      _logger.error("Error updating location: $e");
       emit(state.failure(e.toString()));
     }
   }

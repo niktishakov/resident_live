@@ -1,9 +1,9 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:geocoding/geocoding.dart";
+import "package:geolocator/geolocator.dart";
 
-part 'location_state.g.dart';
-part 'location_state.freezed.dart';
+part "location_state.g.dart";
+part "location_state.freezed.dart";
 
 @freezed
 class LocationState with _$LocationState {
@@ -13,7 +13,7 @@ class LocationState with _$LocationState {
     @JsonKey(includeFromJson: false, includeToJson: false)
     @Default(false)
     bool isInitialized,
-    @Default('') String error,
+    @Default("") String error,
   }) = _LocationState;
 
   factory LocationState.fromJson(Map<String, dynamic> json) =>

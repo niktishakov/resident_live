@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
-import 'rl.theme.dart';
+import "package:resident_live/shared/lib/theme/rl.theme.dart";
 
 /// Note this provider does not use the standard [BaseNotifier] found in the mobile package in order to minimise dependencies
 class RlThemeProvider extends ChangeNotifier {
@@ -56,8 +56,8 @@ extension AiThemeBuildContextExtension on BuildContext {
     }
 
     if (max == null) {
-      final _min = min!;
-      return textScaleFactor.clamp(_min, _min + textScaleFactor);
+      final min0 = min!;
+      return textScaleFactor.clamp(min0, min0 + textScaleFactor);
     }
 
     if (min == null) {

@@ -1,51 +1,52 @@
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:go_router/go_router.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
+import "package:resident_live/features/features.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/screens/residence_details/widgets/header.dart";
+import "package:resident_live/screens/residence_details/widgets/residency_rules_modal.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/widgets.dart";
 
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/screens/residence_details/widgets/header.dart';
-import 'package:resident_live/widgets/widgets.dart';
+Map<String, List<String>> getStatuses(BuildContext context) => {
+      "hr": [
+        S.of(context).detailsYouAreAResident,
+        S.of(context).detailsYouAreAResident,
+      ],
+      "h": [
+        S.of(context).statusesStatusUpdateIn,
+        S.of(context).statusesStatusWillUpdateAt,
+      ],
+      "r": [
+        S.of(context).statusesYouWillLoseYourStatusIn,
+        S.of(context).statusesStatusIsSafeUntil,
+      ],
+      "a": [
+        S.of(context).statusesMoveToThisCountryToReachStatusIn,
+        S.of(context).statusesStatusMayBeUpdatedAt,
+      ],
+    };
 
-import '../../features/features.dart';
-import '../../shared/shared.dart';
-import 'widgets/residency_rules_modal.dart';
-
-final _statuses = {
-  'hr': [
-    LocaleKeys.residency_details_youAreAResident.tr(),
-    LocaleKeys.residency_details_youAreAResident.tr(),
-  ],
-  'h': [
-    LocaleKeys.residency_details_statusUpdateIn.tr(),
-    LocaleKeys.residency_details_statusWillUpdateAt.tr(),
-  ],
-  'r': [
-    LocaleKeys.residency_details_youWillLoseYourStatusIn.tr(),
-    LocaleKeys.residency_details_statusIsSafeUntil.tr(),
-  ],
-  'a': [
-    LocaleKeys.residency_details_moveToThisCountryToReachStatusIn.tr(),
-    LocaleKeys.residency_details_statusMayBeUpdatedAt.tr(),
-  ],
-};
-
-List<String> getStatusMessage(bool isHere, bool isResident) =>
-    _statuses[isHere && isResident
-        ? 'hr'
+List<String> getStatusMessage(
+  BuildContext context, {
+  required bool isHere,
+  required bool isResident,
+}) =>
+    getStatuses(context)[isHere && isResident
+        ? "hr"
         : isHere
-            ? 'h'
+            ? "h"
             : isResident
-                ? 'r'
-                : 'a']!;
+                ? "r"
+                : "a"]!;
 
 class ResidenceDetailsScreen extends StatefulWidget {
-  const ResidenceDetailsScreen({super.key, required this.name});
+  const ResidenceDetailsScreen({required this.name, super.key});
   final String name;
 
   @override
@@ -66,8 +67,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
 
   @override
   void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300),);
     _scaleAnimation =
         Tween<double>(begin: 1.0, end: 0.75).animate(_animationController);
     _opacityAnimation =
@@ -125,7 +126,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
 
     final progress = country.isResident ? 1.0 : (country.daysSpent) / 183;
 
-    final statuses = getStatusMessage(isHere, isResident);
+    final statuses =
+        getStatusMessage(context, isHere: isHere, isResident: isResident);
     final statusText = statuses.first;
     final suggestionText = statuses.last;
 
@@ -133,7 +135,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
       key: screenKey,
       child: CupertinoScaffold(
         overlayStyle: getSystemOverlayStyle,
-        transitionBackgroundColor: Color(0xff121212),
+        transitionBackgroundColor: const Color(0xff121212),
         body: Builder(
           builder: (context) {
             return Material(
@@ -155,7 +157,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                   child: Builder(
                     builder: (context) {
                       return Hero(
-                        tag: 'residence_${country.name}',
+                        tag: "residence_${country.name}",
                         flightShuttleBuilder: (
                           flightContext,
                           animation,
@@ -186,9 +188,10 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                               child: Builder(
                                 builder: (context) {
                                   return ListView(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 8),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,),
                                     children: [
                                       Header(
                                         countryName: widget.name,
@@ -196,7 +199,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                         isHere: isHere,
                                         screenKey: screenKey,
                                       ),
-                                      Gap(48),
+                                      const Gap(48),
                                       Center(
                                         child: Material(
                                           color: Colors.transparent,
@@ -210,14 +213,14 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                               radius: 200,
                                               strokeWidth: 20,
                                               duration: 300.ms,
-                                              doneLabel: LocaleKeys
-                                                  .residency_details_youAreAResident
-                                                  .tr(),
-                                              label: LocaleKeys
-                                                  .residency_details_residencyProgress
-                                                  .tr(),
+                                              doneLabel: S
+                                                  .of(context)
+                                                  .detailsYouAreAResident,
+                                              label: S
+                                                  .of(context)
+                                                  .detailsResidencyProgress,
                                               backgroundColor:
-                                                  Color(0xff3C3C3C),
+                                                  const Color(0xff3C3C3C),
                                               valueColor: isResident && isHere
                                                   ? Colors.greenAccent
                                                   : context.theme.primaryColor,
@@ -225,7 +228,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                           ),
                                         ),
                                       ),
-                                      Gap(32),
+                                      const Gap(32),
                                       Text.rich(
                                         TextSpan(
                                           children: [
@@ -235,9 +238,10 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                             ),
                                             TextSpan(
                                               text:
-                                                  '\n${country.statusToggleIn} days',
+                                                  "\n${country.statusToggleIn} days",
                                               style: theme.body18M.copyWith(
-                                                  fontWeight: FontWeight.w700,),
+                                                fontWeight: FontWeight.w700,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -260,10 +264,10 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                 ),
                                                 TextSpan(
                                                   text:
-                                                      '\n${country.statusToggleAt.toMMMMDDYYYY()}',
+                                                      "\n${country.statusToggleAt.toMMMMDDYYYY()}",
                                                   style: theme.body18M.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w700,),
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -286,32 +290,35 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                 animationCurve: Curves
                                                     .fastEaseInToSlowEaseOut,
                                                 builder: (context) =>
-                                                    ResidencyJourneyScreen(),
+                                                    const ResidencyJourneyScreen(),
                                               );
                                             },
                                             child: DecoratedBox(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: Colors.white,),),
+                                                borderRadius:
+                                                    BorderRadius.circular(24),
+                                                border: Border.all(
+                                                  width: 1,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        horizontal: 16.0,),
+                                                  horizontal: 16.0,
+                                                ),
                                                 child: Row(
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       CupertinoIcons.calendar,
                                                       size: 18,
                                                       color: Colors.white,
                                                     ),
-                                                    Gap(4),
+                                                    const Gap(4),
                                                     Text(
-                                                      LocaleKeys
-                                                          .residency_details_calendar
-                                                          .tr(),
+                                                      S
+                                                          .of(context)
+                                                          .detailsCalendar,
                                                       style:
                                                           GoogleFonts.poppins(
                                                         fontSize: 14,
@@ -336,15 +343,14 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                               .fade(),
                                         ],
                                       ),
-                                      Gap(8),
+                                      const Gap(8),
                                       Row(
                                         children: [
                                           Expanded(
-                                              child: Text(
-                                            LocaleKeys
-                                                .residency_details_notifyMe
-                                                .tr(),
-                                          ),),
+                                            child: Text(
+                                              S.of(context).detailsNotifyMe,
+                                            ),
+                                          ),
                                           Switch(
                                             value: true,
                                             onChanged: (value) {
@@ -353,16 +359,19 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                           ),
                                         ],
                                       ).animate().fadeIn(delay: 600.ms),
-                                      Gap(24),
-                                      Divider(
+                                      const Gap(24),
+                                      const Divider(
                                         color: Color(0x88888888),
                                       ).animate().fadeIn(delay: 700.ms),
-                                      Gap(24),
+                                      const Gap(24),
                                       TweenAnimationBuilder(
-                                        duration: Duration(milliseconds: 250),
+                                        duration:
+                                            const Duration(milliseconds: 250),
                                         curve: Curves.easeInOut,
                                         tween: Tween<double>(
-                                            begin: 0, end: isFocused ? 0 : 1,),
+                                          begin: 0,
+                                          end: isFocused ? 0 : 1,
+                                        ),
                                         builder: (context, value, child) {
                                           return SizedBox(
                                             height: value * 40,
@@ -390,9 +399,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                   .setFocusedCountry(country);
                                             },
                                             child: Text(
-                                              LocaleKeys
-                                                  .residency_details_focusOnThisCountry
-                                                  .tr(),
+                                              S
+                                                  .of(context)
+                                                  .detailsFocusOnThisCountry,
                                               style: GoogleFonts.poppins(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500,
@@ -406,7 +415,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: TransparentButton(
-                                          leading: AppAssetImage(
+                                          leading: const AppAssetImage(
                                             AppAssets.bookPages,
                                             width: 24,
                                           ),
@@ -422,23 +431,22 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                   AnimationController(
                                                 vsync: Navigator.of(context),
                                                 duration: const Duration(
-                                                    milliseconds: 300,),
+                                                  milliseconds: 300,
+                                                ),
                                               ),
                                               builder: (_) =>
-                                                  ResidencyRulesModal(),
+                                                  const ResidencyRulesModal(),
                                             ).then((_) {
                                               // Fade out the blur effect when the modal is dismissed
                                               Future.delayed(
-                                                  Duration(milliseconds: 300),
-                                                  () {
+                                                  const Duration(
+                                                      milliseconds: 300,), () {
                                                 // Optionally, you can add any additional logic here
                                               });
                                             });
                                           },
                                           child: Text(
-                                            LocaleKeys
-                                                .residency_details_readRules
-                                                .tr(),
+                                            S.of(context).detailsReadRules,
                                             style: GoogleFonts.poppins(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
@@ -456,48 +464,55 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                               context: context,
                                               builder: (context) =>
                                                   CupertinoAlertDialog(
-                                                title: Text(LocaleKeys
-                                                    .residency_details_removeCountry
-                                                    .tr(),),
-                                                content: Text(LocaleKeys
-                                                    .residency_details_removeCountryConfirmation
-                                                    .tr(),),
+                                                title: Text(
+                                                  S
+                                                      .of(context)
+                                                      .detailsRemoveCountry,
+                                                ),
+                                                content: Text(
+                                                  S
+                                                      .of(context)
+                                                      .detailsRemoveCountryConfirmation,
+                                                ),
                                                 actions: [
                                                   CupertinoDialogAction(
-                                                    child: Text(LocaleKeys
-                                                        .common_cancel
-                                                        .tr(),),
+                                                    child: Text(
+                                                      S
+                                                          .of(context)
+                                                          .commonCancel,
+                                                    ),
                                                     onPressed: () =>
                                                         Navigator.pop(context),
                                                   ),
                                                   CupertinoDialogAction(
                                                     isDestructiveAction: true,
-                                                    child: Text(LocaleKeys
-                                                        .common_remove
-                                                        .tr(),),
+                                                    child: Text(
+                                                      S
+                                                          .of(context)
+                                                          .commonRemove,
+                                                    ),
                                                     onPressed: () {
                                                       context.pop();
                                                       context.pop();
                                                       find<CountriesCubit>(
-                                                              context,)
-                                                          .removeCountry(
-                                                              country.isoCode,);
+                                                        context,
+                                                      ).removeCountry(
+                                                        country.isoCode,
+                                                      );
                                                     },
                                                   ),
                                                 ],
                                               ),
                                             );
                                           },
-                                          leading: Icon(
+                                          leading: const Icon(
                                             CupertinoIcons
                                                 .rectangle_stack_badge_minus,
                                             color: Colors.redAccent,
                                             size: 24,
                                           ),
                                           child: Text(
-                                            LocaleKeys
-                                                .residency_details_removeCountry
-                                                .tr(),
+                                            S.of(context).detailsRemoveCountry,
                                             style: GoogleFonts.poppins(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,

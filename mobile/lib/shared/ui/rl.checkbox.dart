@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:resident_live/shared/shared.dart";
 
 class RlCheckbox extends StatefulWidget {
 
   const RlCheckbox({
-    Key? key,
-    required this.value,
-    required this.onToggle,
-  }) : super(key: key);
+    required this.value, required this.onToggle, super.key,
+  });
   final bool value;
   final ValueChanged<bool> onToggle;
 
@@ -81,7 +79,7 @@ class _RlCheckboxState extends State<RlCheckbox>
                   width: 1,
                   color: widget.value
                       ? context.theme.primaryColor
-                      : Color(0xff8E8E8E),
+                      : const Color(0xff8E8E8E),
                 ),
               ),
               child: Center(

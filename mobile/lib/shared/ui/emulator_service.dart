@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class EmulatorService {
   static Widget iPhoneSE2022({required Widget child}) {
@@ -6,7 +6,7 @@ class EmulatorService {
       size: const Size(375, 667),
       devicePixelRatio: 2.0,
       safeArea: const EdgeInsets.only(top: 20, bottom: 0),
-      deviceName: 'iPhone SE (2022)',
+      deviceName: "iPhone SE (2022)",
       child: child,
     );
   }
@@ -16,7 +16,7 @@ class EmulatorService {
       size: const Size(428, 926),
       devicePixelRatio: 3.0,
       safeArea: const EdgeInsets.only(top: 47, bottom: 34),
-      deviceName: 'iPhone 13 Pro Max',
+      deviceName: "iPhone 13 Pro Max",
       child: child,
     );
   }
@@ -26,7 +26,7 @@ class EmulatorService {
       size: const Size(375, 812), // Logical resolution (points)
       devicePixelRatio: 3.0,
       safeArea: const EdgeInsets.only(top: 44, bottom: 34),
-      deviceName: 'iPhone 12 mini',
+      deviceName: "iPhone 12 mini",
       child: child,
     );
   }
@@ -36,7 +36,7 @@ class EmulatorService {
       size: const Size(375, 667),
       devicePixelRatio: 2.0,
       safeArea: const EdgeInsets.only(top: 0, bottom: 0),
-      deviceName: 'iPhone 7',
+      deviceName: "iPhone 7",
       child: child,
     );
   }
@@ -46,7 +46,7 @@ class EmulatorService {
       size: const Size(414, 736),
       devicePixelRatio: 3.0,
       safeArea: const EdgeInsets.only(top: 20, bottom: 0),
-      deviceName: 'iPhone 8 Plus',
+      deviceName: "iPhone 8 Plus",
       child: child,
     );
   }
@@ -56,7 +56,7 @@ class EmulatorService {
       size: const Size(414, 896), // Logical resolution (points)
       devicePixelRatio: 2.0,
       safeArea: const EdgeInsets.only(top: 48, bottom: 34),
-      deviceName: 'iPhone XR',
+      deviceName: "iPhone XR",
       child: child,
     );
   }
@@ -66,7 +66,7 @@ class EmulatorService {
       size: const Size(375, 812), // Logical resolution (points)
       devicePixelRatio: 3.0,
       safeArea: const EdgeInsets.only(top: 44, bottom: 34),
-      deviceName: 'iPhone X',
+      deviceName: "iPhone X",
       child: child,
     );
   }
@@ -76,7 +76,7 @@ class EmulatorService {
       size: const Size(390, 844),
       devicePixelRatio: 3.0,
       safeArea: const EdgeInsets.only(top: 47, bottom: 34),
-      deviceName: 'iPhone 15',
+      deviceName: "iPhone 15",
       child: child,
     );
   }
@@ -86,7 +86,7 @@ class EmulatorService {
       size: const Size(834, 1194),
       devicePixelRatio: 2.0,
       safeArea: const EdgeInsets.only(top: 24, bottom: 20),
-      deviceName: 'iPad Pro 11-inch',
+      deviceName: "iPad Pro 11-inch",
       child: child,
     );
   }
@@ -96,7 +96,7 @@ class EmulatorService {
       size: const Size(1024, 1366),
       devicePixelRatio: 2.0,
       safeArea: const EdgeInsets.only(top: 24, bottom: 20),
-      deviceName: 'iPad Pro 12.9-inch',
+      deviceName: "iPad Pro 12.9-inch",
       child: child,
     );
   }
@@ -106,7 +106,7 @@ class EmulatorService {
       size: const Size(300, 500), // Logical resolution (points)
       devicePixelRatio: 3.0,
       safeArea: const EdgeInsets.only(top: 44, bottom: 34),
-      deviceName: 'Custom Device',
+      deviceName: "Custom Device",
       child: child,
     );
   }
@@ -115,13 +115,12 @@ class EmulatorService {
 class _DeviceEmulator extends StatelessWidget {
 
   const _DeviceEmulator({
-    Key? key,
     required this.size,
     required this.devicePixelRatio,
     required this.safeArea,
     required this.deviceName,
     required this.child,
-  }) : super(key: key);
+  });
   final Size size;
   final double devicePixelRatio;
   final EdgeInsets safeArea;
@@ -148,7 +147,7 @@ class _DeviceEmulator extends StatelessWidget {
                   padding: safeArea,
                   devicePixelRatio: devicePixelRatio,
                 ),
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 2),
                     borderRadius: BorderRadius.circular(50),
@@ -173,7 +172,7 @@ class _DeviceEmulator extends StatelessWidget {
                                 ),
                                 child: Text(
                                   deviceName,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,

@@ -1,7 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-part 'stay_period.g.dart';
-part 'stay_period.freezed.dart';
+part "stay_period.g.dart";
+part "stay_period.freezed.dart";
 
 @freezed
 class StayPeriod with _$StayPeriod {

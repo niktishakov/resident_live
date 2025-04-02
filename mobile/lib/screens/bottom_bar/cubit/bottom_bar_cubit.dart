@@ -1,8 +1,8 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:hydrated_bloc/hydrated_bloc.dart";
 
-part 'bottom_bar_cubit.freezed.dart';
-part 'bottom_bar_cubit.g.dart';
+part "bottom_bar_cubit.freezed.dart";
+part "bottom_bar_cubit.g.dart";
 
 class BottomBarCubit extends Cubit<BottomBarState> {
   BottomBarCubit() : super(BottomBarState.initial());

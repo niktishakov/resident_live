@@ -1,15 +1,14 @@
-import 'dart:ui';
+import "dart:ui";
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:go_router/go_router.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/shared/shared.dart";
 
 class AiSliverAppBar extends StatelessWidget {
   const AiSliverAppBar({
-    super.key,
-    required this.title,
+    required this.title, super.key,
     this.actions,
     this.trailing,
     this.leading,
@@ -58,7 +57,7 @@ class AiSliverHeader extends StatelessWidget {
     super.key,
     this.height = 44.0,
     this.child,
-    this.titleText = '',
+    this.titleText = "",
     this.actions = const [],
   });
   final double height;
@@ -76,7 +75,7 @@ class AiSliverHeader extends StatelessWidget {
       delegate: _SliverAppBarDelegate(
         minHeight: totalHeight,
         maxHeight: totalHeight,
-        child: Container(
+        child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -85,7 +84,7 @@ class AiSliverHeader extends StatelessWidget {
             child: Stack(
               children: [
                 if (context.canPop())
-                  Positioned(
+                  const Positioned(
                     left: 0,
                     top: 0,
                     bottom: 0,

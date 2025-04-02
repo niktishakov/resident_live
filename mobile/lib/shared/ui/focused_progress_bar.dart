@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 
 class FocusedProgressBar extends StatefulWidget {
-  FocusedProgressBar({required this.value});
+  const FocusedProgressBar({required this.value, super.key});
   final double value;
 
   @override
@@ -38,7 +38,7 @@ class _AnimatedProgressBarState extends State<FocusedProgressBar>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 300,
       height: 50,
       child: CustomPaint(

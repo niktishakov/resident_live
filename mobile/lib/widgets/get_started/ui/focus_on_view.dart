@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/domain/domain.dart';
-import 'package:resident_live/features/features.dart';
-import 'package:resident_live/screens/screens.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/domain/domain.dart";
+import "package:resident_live/features/features.dart";
+import "package:resident_live/screens/screens.dart";
+import "package:resident_live/shared/shared.dart";
 
 class FocusOnView extends StatelessWidget {
   const FocusOnView({super.key});
@@ -31,11 +31,11 @@ class FocusOnView extends StatelessWidget {
                     ),
                     TextSpan(
                       children: [
-                        TextSpan(
-                          text: 'Focus on one country to\n',
+                        const TextSpan(
+                          text: "Focus on one country to\n",
                         ),
                         TextSpan(
-                          text: 'effectively',
+                          text: "effectively",
                           style: GoogleFonts.poppins(
                             fontSize: 24,
                             height: 30 / 24,
@@ -43,14 +43,14 @@ class FocusOnView extends StatelessWidget {
                             color: context.theme.colorScheme.primary,
                           ),
                         ),
-                        TextSpan(
-                          text: ' track tax\nresidency',
+                        const TextSpan(
+                          text: " track tax\nresidency",
                         ),
                       ],
                     ),
                   ),
                 ),
-                Gap(32),
+                const Gap(32),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(24),
                   child: Column(
@@ -60,7 +60,7 @@ class FocusOnView extends StatelessWidget {
                         // This is a separator
                         return Container(
                           height: 1,
-                          color: Color(0xff8E8E8E),
+                          color: const Color(0xff8E8E8E),
                         );
                       }
                       // This is a country item
@@ -88,11 +88,8 @@ class FocusOnView extends StatelessWidget {
 
 class CountryProgressBar extends StatelessWidget {
   const CountryProgressBar({
-    Key? key,
-    required this.country,
-    required this.isSelected,
-    required this.onTap,
-  }) : super(key: key);
+    required this.country, required this.isSelected, required this.onTap, super.key,
+  });
 
   final CountryEntity country;
   final bool isSelected;
@@ -104,7 +101,7 @@ class CountryProgressBar extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 60,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xff1B1B1B), Color(0xff292929)],
             begin: Alignment.centerLeft,
@@ -128,11 +125,11 @@ class CountryProgressBar extends StatelessWidget {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Color.lerp(Color(0xffD9D9D9).withOpacity(0.2),
-                                  Color(0xff50B5FF), selectionValue,)!,
+                              Color.lerp(const Color(0xffD9D9D9).withOpacity(0.2),
+                                  const Color(0xff50B5FF), selectionValue,)!,
                               Color.lerp(
-                                  Color(0xff737373).withOpacity(0.1),
-                                  Color(0xff50B5FF).withOpacity(0.5),
+                                  const Color(0xff737373).withOpacity(0.1),
+                                  const Color(0xff50B5FF).withOpacity(0.5),
                                   selectionValue,)!,
                             ],
                             begin: Alignment.centerLeft,

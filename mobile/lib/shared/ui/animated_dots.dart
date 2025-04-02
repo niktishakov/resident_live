@@ -1,17 +1,15 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class AnimatedDots extends StatefulWidget {
   const AnimatedDots({
-    Key? key,
-    required this.value,
-    required this.maxValue,
+    required this.value, required this.maxValue, super.key,
     this.radius = 8.0,
     this.padding = 4.0,
     this.activeColor = Colors.black,
     this.inactiveColor = Colors.grey,
-  }) : super(key: key);
+  });
 
   final int value;
   final int maxValue;

@@ -1,9 +1,9 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-import '../../../domain/domain.dart';
+import "package:resident_live/domain/domain.dart";
 
-part 'user_state.freezed.dart';
-part 'user_state.g.dart';
+part "user_state.freezed.dart";
+part "user_state.g.dart";
 
 @freezed
 class UserState with _$UserState {
@@ -12,7 +12,7 @@ class UserState with _$UserState {
     required UserEntity focusedUser,
     @Default(false) bool isLoading,
     @Default(false) bool silent,
-    @Default('') String error,
+    @Default("") String error,
   }) = _UserState;
 
   factory UserState.fromJson(Map<String, dynamic> json) =>
@@ -22,17 +22,17 @@ class UserState with _$UserState {
         isLoading: false,
         users: [UserEntity.mock()],
         focusedUser: UserEntity.mock(),
-        error: '',
+        error: "",
       );
 
   const UserState._();
   bool get isSuccess => error.isEmpty && isLoading == false;
 
   UserState success(List<UserEntity> users) =>
-      copyWith(users: users, isLoading: false, silent: false, error: '');
+      copyWith(users: users, isLoading: false, silent: false, error: "");
 
   UserState loading({bool silent = false}) =>
-      copyWith(isLoading: !silent, silent: silent, error: '');
+      copyWith(isLoading: !silent, silent: silent, error: "");
 
   UserState failure(String error) =>
       copyWith(error: error, isLoading: false, silent: false);

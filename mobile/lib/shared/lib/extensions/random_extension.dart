@@ -1,4 +1,4 @@
-import 'dart:math';
+import "dart:math";
 
 extension RandomExtension on Random {
   static int randomSerialNumber() {

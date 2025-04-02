@@ -1,11 +1,11 @@
-import 'dart:async';
-import 'dart:io' show Platform;
-import 'dart:ui';
+import "dart:async";
+import "dart:io" show Platform;
+import "dart:ui";
 
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:device_info_plus/device_info_plus.dart";
+import "package:flutter/material.dart";
+import "package:package_info_plus/package_info_plus.dart";
+import "package:resident_live/shared/shared.dart";
 
 class DeviceInfoService {
   DeviceInfoService._(
@@ -18,7 +18,7 @@ class DeviceInfoService {
   final IosDeviceInfo? iosInfo;
   final AndroidDeviceInfo? androidInfo;
   final PackageInfo packageInfo;
-  final _logger = AiLogger('DeviceInfoService');
+  final _logger = AiLogger("DeviceInfoService");
 
   static Future<DeviceInfoService> create() async {
     final packageInfo = await PackageInfo.fromPlatform();
@@ -42,25 +42,25 @@ class DeviceInfoService {
 
   String get platform {
     if (Platform.isIOS) {
-      return 'iOS';
+      return "iOS";
     } else if (Platform.isAndroid) {
-      return 'Android';
+      return "Android";
     }
-    throw 'Invalid platform: ${Platform.operatingSystem}';
+    throw "Invalid platform: ${Platform.operatingSystem}";
   }
 
   String get deviceId {
     if (Platform.isAndroid) {
       return androidInfo!.id;
     } else if (Platform.isIOS) {
-      return iosInfo!.identifierForVendor ?? '';
+      return iosInfo!.identifierForVendor ?? "";
     }
-    throw 'Invalid platform: ${Platform.operatingSystem}';
+    throw "Invalid platform: ${Platform.operatingSystem}";
   }
 
   DeviceType get deviceType {
     if (Platform.isIOS) {
-      return iosInfo?.model.toLowerCase() == 'ipad'
+      return iosInfo?.model.toLowerCase() == "ipad"
           ? DeviceType.tablet
           : DeviceType.phone;
     } else {
@@ -88,6 +88,6 @@ extension DeviceTypeExtension on DeviceType {
       return tablet.call();
     }
 
-    throw 'Invalid DeviceType $this';
+    throw "Invalid DeviceType $this";
   }
 }

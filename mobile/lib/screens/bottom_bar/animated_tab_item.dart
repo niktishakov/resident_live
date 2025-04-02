@@ -1,18 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:google_fonts/google_fonts.dart";
 
-import '../../shared/shared.dart';
+import "package:resident_live/shared/shared.dart";
 
 class AnimatedTabItem extends StatefulWidget {
   const AnimatedTabItem({
-    super.key,
+    required this.label, required this.itemFill, required this.item, required this.isSelected, required this.onPressed, super.key,
     this.iconSize = 24,
-    required this.label,
-    required this.itemFill,
-    required this.item,
-    required this.isSelected,
-    required this.onPressed,
     this.animation,
   });
   final String label;
@@ -69,7 +64,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
         });
         widget.onPressed();
       },
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
           color: Colors.white.withValues(alpha: 0.0001),
@@ -112,7 +107,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
       child: SizedBox.square(
         dimension: iconSize,
         child: Container(
-          key: ValueKey('${item.path}_tab_icon'),
+          key: ValueKey("${item.path}_tab_icon"),
           child: widget.isSelected
               ? AppAssetImage(
                   itemFill,

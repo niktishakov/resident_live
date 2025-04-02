@@ -1,8 +1,8 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:local_auth/local_auth.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:local_auth/local_auth.dart";
 
-part 'auth.state.freezed.dart';
-part 'auth.state.g.dart';
+part "auth.state.freezed.dart";
+part "auth.state.g.dart";
 
 @freezed
 class AuthState with _$AuthState {

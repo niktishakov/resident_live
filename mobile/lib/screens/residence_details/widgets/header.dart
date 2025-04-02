@@ -1,23 +1,19 @@
-import 'dart:ui';
+import "dart:ui";
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/domain/domain.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:share_plus/share_plus.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:gap/gap.dart";
+import "package:go_router/go_router.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/domain/domain.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:share_plus/share_plus.dart";
 
 class Header extends StatelessWidget {
   const Header({
-    super.key,
-    required this.countryName,
-    required this.isFocused,
-    required this.isHere,
-    required this.screenKey,
+    required this.countryName, required this.isFocused, required this.isHere, required this.screenKey, super.key,
   });
 
   final String countryName;
@@ -56,9 +52,9 @@ class _HeaderContent extends StatelessWidget {
     final color = context.theme.colorScheme.secondary;
     return Row(
       children: [
-        SizedBox().animate(delay: 100.ms).swap(
+        const SizedBox().animate(delay: 100.ms).swap(
               builder: (context, _) => TweenAnimationBuilder(
-                duration: Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 250),
                 curve: Curves.easeInOut,
                 tween: Tween<double>(begin: 0, end: isFocused ? 1 : 0),
                 builder: (context, value, child) {
@@ -88,7 +84,7 @@ class _HeaderContent extends StatelessWidget {
                       height: 20,
                       color: color,
                     ),
-                    Gap(8),
+                    const Gap(8),
                   ],
                 ),
               ),
@@ -122,7 +118,7 @@ class _HeaderContent extends StatelessWidget {
             color: Colors.white.withOpacity(0.85),
           ),
         ),
-        Gap(16),
+        const Gap(16),
         BouncingButton(
           onPressed: (_) {
             VibrationService.instance.tap();
@@ -137,7 +133,7 @@ class _HeaderContent extends StatelessWidget {
 
   Future<void> _captureAndShareScreenshot() async {
     final boundary =
-        screenKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+        screenKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
     final image = await boundary.toImage(pixelRatio: 3.0);
     final byteData = await image.toByteData(format: ImageByteFormat.png);
     final bytes = byteData!.buffer.asUint8List();
@@ -146,12 +142,12 @@ class _HeaderContent extends StatelessWidget {
       [
         XFile.fromData(
           bytes,
-          name: 'residence_status.png',
-          mimeType: 'image/png',
+          name: "residence_status.png",
+          mimeType: "image/png",
         ),
       ],
       text:
-          'Track your global residency journey with Resident Live! Download now: $appStoreLink',
+          "Track your global residency journey with Resident Live! Download now: $appStoreLink",
     );
   }
 }

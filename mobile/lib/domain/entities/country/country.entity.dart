@@ -1,9 +1,9 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-import '../../domain.dart';
+import "package:resident_live/domain/domain.dart";
 
-part 'country.entity.g.dart';
-part 'country.entity.freezed.dart';
+part "country.entity.g.dart";
+part "country.entity.freezed.dart";
 
 @freezed
 class CountryEntity with _$CountryEntity {

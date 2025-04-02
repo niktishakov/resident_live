@@ -1,30 +1,37 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'dart:async';
+import "dart:async";
 
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/material.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/shared/shared.dart";
 
 class GreetingView extends StatefulWidget {
+  const GreetingView({super.key});
+
   @override
-  _GreetingViewState createState() => _GreetingViewState();
+  GreetingViewState createState() => GreetingViewState();
 }
 
-class _GreetingViewState extends State<GreetingView> {
-  String greeting = '';
+class GreetingViewState extends State<GreetingView> {
+  String greeting = "";
   AppAsset icon = AppAssets.sunHorizonFill;
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    _updateGreeting(); // Initial call
     _startTimer(); // Periodically check the time
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _updateGreeting(); // Move initial call here
+  }
+
   void _startTimer() {
-    timer = Timer.periodic(Duration(minutes: 1), (t) => _updateGreeting());
+    timer =
+        Timer.periodic(const Duration(minutes: 1), (t) => _updateGreeting());
   }
 
   void _updateGreeting() {
@@ -32,22 +39,22 @@ class _GreetingViewState extends State<GreetingView> {
 
     if (hour >= 5 && hour < 12) {
       setState(() {
-        greeting = LocaleKeys.focus_goodMorning.tr();
+        greeting = S.of(context).homeGoodMorning;
         icon = AppAssets.sunHorizonFill;
       });
     } else if (hour >= 12 && hour < 17) {
       setState(() {
-        greeting = LocaleKeys.focus_goodAfternoon.tr();
+        greeting = S.of(context).homeGoodAfternoon;
         icon = AppAssets.sunMaxFill;
       });
     } else if (hour >= 17 && hour < 20) {
       setState(() {
-        greeting = LocaleKeys.focus_goodEvening.tr();
+        greeting = S.of(context).homeGoodEvening;
         icon = AppAssets.sunHorizonFill;
       });
     } else {
       setState(() {
-        greeting = LocaleKeys.focus_goodNight.tr();
+        greeting = S.of(context).homeGoodNight;
         icon = AppAssets.moonFill;
       });
     }
@@ -76,7 +83,7 @@ class _GreetingViewState extends State<GreetingView> {
               ),
               children: [
                 TextSpan(
-                  text: greeting.split(' ')[0],
+                  text: greeting.split(" ")[0],
                 ),
                 WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
@@ -88,9 +95,12 @@ class _GreetingViewState extends State<GreetingView> {
                         boxShadow: [
                           BoxShadow(
                             color: context.theme.colorScheme.secondary
-                                .withOpacity(0.05),
+                                .withValues(alpha: 0.05),
                             blurRadius: 13,
-                            offset: Offset(0, 1), // changes position of shadow
+                            offset: const Offset(
+                              0,
+                              1,
+                            ), // changes position of shadow
                           ),
                         ],
                       ),
@@ -108,12 +118,12 @@ class _GreetingViewState extends State<GreetingView> {
             ),
           ),
           Text(
-            greeting.split(' ')[1], // "Morning", "Afternoon", etc.
+            greeting.split(" ")[1], // "Morning", "Afternoon", etc.
             style: GoogleFonts.poppins(
               fontSize: 24,
               fontWeight: FontWeight.w600,
               height: 30 / 24,
-              color: context.theme.colorScheme.secondary.withOpacity(0.5),
+              color: context.theme.colorScheme.secondary.withValues(alpha: 0.5),
             ),
           ),
         ],
@@ -122,4 +132,4 @@ class _GreetingViewState extends State<GreetingView> {
   }
 }
 
-void main() => runApp(MaterialApp(home: GreetingView()));
+void main() => runApp(const MaterialApp(home: GreetingView()));

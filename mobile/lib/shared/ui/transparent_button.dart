@@ -1,18 +1,16 @@
-import 'package:flutter/cupertino.dart';
-import 'package:gap/gap.dart';
+import "package:flutter/cupertino.dart";
+import "package:gap/gap.dart";
 
 class TransparentButton extends StatelessWidget {
   const TransparentButton({
-    Key? key,
-    required this.onPressed,
-    required this.child,
+    required this.onPressed, required this.child, super.key,
     this.padding,
     this.width,
     this.height,
     this.color,
     this.leading,
     this.alignment,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onPressed;
   final Widget child;
@@ -36,7 +34,7 @@ class TransparentButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (leading != null) ...[leading!, Gap(8)],
+              if (leading != null) ...[leading!, const Gap(8)],
               child,
             ],
           ),

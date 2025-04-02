@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/material.dart";
+import "package:resident_live/shared/shared.dart";
 
 class CountrySelector extends StatefulWidget {
-  const CountrySelector({
-    required this.countries,
-    required this.onCountrySelected,
+  const CountrySelector({required this.countries, required this.onCountrySelected, super.key,
     this.focusedCountry,
     this.colors,
   });
@@ -58,7 +56,7 @@ class _CountrySelectorState extends State<CountrySelector>
             widget.onCountrySelected(country, countryColors[country]!);
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: isSelected ? countryColors[country] : Colors.transparent,
               borderRadius: BorderRadius.circular(20),

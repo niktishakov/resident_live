@@ -158,7 +158,7 @@ class _$LocationStateImpl extends _LocationState {
       @JsonKey(includeFromJson: false, includeToJson: false) this.placemark,
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.isInitialized = false,
-      this.error = ""})
+      this.error = ''})
       : super._();
 
   factory _$LocationStateImpl.fromJson(Map<String, dynamic> json) =>

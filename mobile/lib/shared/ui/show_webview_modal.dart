@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:resident_live/screens/screens.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
+import "package:resident_live/screens/screens.dart";
 
 Future<T?> showWebViewModal<T>({
   required BuildContext context,

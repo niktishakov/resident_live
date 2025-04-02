@@ -1,15 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:async';
+import "dart:async";
 
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:resident_live/features/features.dart';
-import 'package:resident_live/shared/shared.dart';
-
-import '../../../screens/screens.dart';
+import "package:flutter/material.dart";
+import "package:gap/gap.dart";
+import "package:go_router/go_router.dart";
+import "package:hydrated_bloc/hydrated_bloc.dart";
+import "package:resident_live/features/features.dart";
+import "package:resident_live/screens/screens.dart";
+import "package:resident_live/shared/shared.dart";
 
 void showDebugActionsSheet(BuildContext context) {
   Widget buildActionRow({onTap, title, color = Colors.purple}) {
@@ -19,7 +18,7 @@ void showDebugActionsSheet(BuildContext context) {
         height: 44,
         child: BouncingButton(
           onPressed: (_) => onTap(),
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(16),
@@ -45,7 +44,7 @@ void showDebugActionsSheet(BuildContext context) {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       useRootNavigator: true,
-      routeSettings: const RouteSettings(name: 'prompt_examples'),
+      routeSettings: const RouteSettings(name: "prompt_examples"),
       builder: (context) {
         return MakeDismissible(
           child: DraggableScrollableSheet(
@@ -65,10 +64,10 @@ void showDebugActionsSheet(BuildContext context) {
                   child: ListView(
                     controller: controller,
                     children: [
-                      Grabber(color: Colors.white),
+                      const Grabber(color: Colors.white),
                       const Gap(16),
                       buildActionRow(
-                        title: 'Erase Data & Restart',
+                        title: "Erase Data & Restart",
                         color: Colors.red,
                         onTap: () {
                           find<LocationCubit>(context).reset();
@@ -78,27 +77,27 @@ void showDebugActionsSheet(BuildContext context) {
                         },
                       ),
                       buildActionRow(
-                        title: 'Go to /pre-splash',
+                        title: "Go to /pre-splash",
                         color: Colors.blue,
                         onTap: () async {
                           context.pop();
                           unawaited(Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (c) => PresplashScreen(),
+                              builder: (c) => const PresplashScreen(),
                             ),
                           ),);
                         },
                       ),
                       ...ScreenNames.all
                           .map((e) => buildActionRow(
-                                title: 'Go to $e',
+                                title: "Go to $e",
                                 color: Colors.blue,
                                 onTap: () {
                                   context.pop();
                                   context.pushReplacementNamed(e);
                                 },
                               ),)
-                          .toList(),
+                          ,
                     ],
                   ),
                 ),

@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/features/countries/model/countries_cubit.dart';
-import 'package:resident_live/screens/screens.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:go_router/go_router.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/features/countries/model/countries_cubit.dart";
+import "package:resident_live/screens/screens.dart";
+import "package:resident_live/shared/shared.dart";
 
 class GetStartedView extends StatelessWidget {
   const GetStartedView({super.key});
@@ -29,7 +29,7 @@ class GetStartedView extends StatelessWidget {
             );
           },
           child: !state.isGeoPermissionAllowed
-              ? SizedBox(key: const ValueKey<bool>(false))
+              ? const SizedBox(key: ValueKey<bool>(false))
               : Column(
                   key: const ValueKey<bool>(true),
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,12 +44,12 @@ class GetStartedView extends StatelessWidget {
                         ),
                         TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text:
-                                  'No server-side data\nstorage. Everything\nworks ',
+                                  "No server-side data\nstorage. Everything\nworks ",
                             ),
                             TextSpan(
-                              text: 'offline',
+                              text: "offline",
                               style: GoogleFonts.poppins(
                                 fontSize: 24,
                                 height: 30 / 24,
@@ -66,10 +66,10 @@ class GetStartedView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         PrimaryButton(
-                          label: 'Get Started',
+                          label: "Get Started",
                           gradient: LinearGradient(colors: [
                             context.theme.primaryColor,
-                            Color(0xff306D99),
+                            const Color(0xff306D99),
                           ],),
                           textStyle: GoogleFonts.poppins(
                             fontSize: 18,

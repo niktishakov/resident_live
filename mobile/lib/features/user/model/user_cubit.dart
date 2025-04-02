@@ -1,7 +1,7 @@
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import "package:hydrated_bloc/hydrated_bloc.dart";
 
-import '../../../domain/domain.dart';
-import 'user_state.dart';
+import "package:resident_live/domain/domain.dart";
+import "package:resident_live/features/user/model/user_state.dart";
 
 class UserCubit extends HydratedCubit<UserState> {
   UserCubit() : super(UserState.initial());

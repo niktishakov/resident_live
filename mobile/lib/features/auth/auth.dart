@@ -1,2 +1,2 @@
-export 'model/auth.cubit.dart';
-export 'model/auth.state.dart';
+export "model/auth.cubit.dart";
+export "model/auth.state.dart";

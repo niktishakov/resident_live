@@ -1,22 +1,24 @@
-import 'package:flutter/material.dart';
-import 'package:resident_live/shared/shared.dart';
-
-import '../domain/domain.dart';
+import "package:flutter/material.dart";
+import "package:resident_live/domain/domain.dart";
+import "package:resident_live/shared/shared.dart";
 
 class TimelinePainter extends CustomPainter {
-  TimelinePainter({
+  TimelinePainter(
+    this.context, {
     required this.segments,
     required this.startDate,
     required this.endDate,
     required this.onSegmentPressed,
     required this.countries,
   }) {
-    for (var country in countries) {
+    for (final country in countries) {
       countryColors[country] = Colors.primaries
           .firstWhere((color) => color.computeLuminance() > 0.5)
-          .withOpacity(0.5);
+          .withValues(alpha: 0.5);
     }
   }
+
+  final BuildContext context;
   final List<StayPeriod> segments;
   final DateTime startDate;
   final DateTime endDate;
@@ -33,47 +35,67 @@ class TimelinePainter extends CustomPainter {
     // Draw background timeline
     paint.color = Colors.grey[300]!;
     canvas.drawLine(
-        Offset(0, size.height / 2), Offset(size.width, size.height / 2), paint,);
+      Offset(0, size.height / 2),
+      Offset(size.width, size.height / 2),
+      paint,
+    );
 
     // Draw segments
-    for (var segment in segments) {
+    for (final segment in segments) {
       final startX = _getXPosition(segment.startDate, size);
       final endX = _getXPosition(segment.endDate, size);
 
       paint.color = countryColors[segment.country] ?? Colors.grey;
-      canvas.drawLine(Offset(startX, size.height / 2),
-          Offset(endX, size.height / 2), paint,);
+      canvas.drawLine(
+        Offset(startX, size.height / 2),
+        Offset(endX, size.height / 2),
+        paint,
+      );
 
       // Draw country code
-      _drawText(canvas, segment.country, (startX + endX) / 2,
-          size.height / 2 - 25, Colors.white,);
+      _drawText(
+        canvas,
+        segment.country,
+        (startX + endX) / 2,
+        size.height / 2 - 25,
+        Colors.white,
+      );
     }
 
     // Draw date labels
-    _drawDateLabels(canvas, size);
+    _drawDateLabels(canvas, size, context);
   }
 
-  void _drawDateLabels(Canvas canvas, Size size) {
+  void _drawDateLabels(Canvas canvas, Size size, BuildContext context) {
     final totalDays = endDate.difference(startDate).inDays;
     const labelCount = 12; // Number of labels to show
 
     for (var i = 0; i <= labelCount; i++) {
       final x = i * size.width / labelCount;
       final date = startDate.add(Duration(days: i * totalDays ~/ labelCount));
-      _drawText(canvas, _formatDate(date), x, size.height - 15, Colors.black);
+      _drawText(
+        canvas,
+        _formatDate(context, date),
+        x,
+        size.height - 15,
+        Colors.black,
+      );
     }
   }
 
-  String _formatDate(DateTime date) {
-    final months = kMonths;
-    return '${months[date.month - 1].substring(0, 3)}';
+  String _formatDate(BuildContext context, DateTime date) {
+    final months = getMonths(context);
+    return months[date.month - 1].substring(0, 3);
   }
 
   void _drawText(Canvas canvas, String text, double x, double y, Color color) {
     final textSpan = TextSpan(
       text: text,
-      style: TextStyle(
-          color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold,),
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+      ),
     );
     final textPainter = TextPainter(
       text: textSpan,

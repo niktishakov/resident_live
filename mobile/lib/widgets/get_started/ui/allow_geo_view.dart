@@ -1,18 +1,18 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/features/features.dart';
-import 'package:resident_live/screens/screens.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/features/features.dart";
+import "package:resident_live/screens/screens.dart";
+import "package:resident_live/shared/shared.dart";
 
 class AllowGeoView extends StatelessWidget {
   const AllowGeoView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final primaryGradient = [context.theme.primaryColor, Color(0xff306D99)];
+    final primaryGradient = [context.theme.primaryColor, const Color(0xff306D99)];
     final successGradient = kSuccessGradient.colors;
     return BlocListener<LocationCubit, LocationState>(
       listener: (context, state) {
@@ -35,8 +35,8 @@ class AllowGeoView extends StatelessWidget {
               );
             },
             child: state.focusedCountryIndex == -1
-                ? SizedBox(
-                    key: const ValueKey<bool>(false),
+                ? const SizedBox(
+                    key: ValueKey<bool>(false),
                     child: SizedBox(),
                   )
                 : Column(
@@ -53,8 +53,8 @@ class AllowGeoView extends StatelessWidget {
                           ),
                           TextSpan(
                             children: [
-                              TextSpan(
-                                text: 'Allow geolocation   ',
+                              const TextSpan(
+                                text: "Allow geolocation   ",
                               ),
                               WidgetSpan(
                                 child: Icon(
@@ -63,11 +63,11 @@ class AllowGeoView extends StatelessWidget {
                                   color: context.theme.colorScheme.secondary,
                                 ),
                               ),
-                              TextSpan(
-                                text: '\ntracking to make the\napp work ',
+                              const TextSpan(
+                                text: "\ntracking to make the\napp work ",
                               ),
                               TextSpan(
-                                text: 'automatically',
+                                text: "automatically",
                                 style: GoogleFonts.poppins(
                                   fontSize: 24,
                                   height: 30 / 24,
@@ -79,7 +79,7 @@ class AllowGeoView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Gap(32),
+                      const Gap(32),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -99,12 +99,12 @@ class AllowGeoView extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                             trailing: state.isGeoPermissionAllowed
-                                ? Icon(CupertinoIcons.checkmark_seal_fill,
+                                ? const Icon(CupertinoIcons.checkmark_seal_fill,
                                     size: 22,)
                                 : null,
                             label: state.isGeoPermissionAllowed
-                                ? 'Allowed'
-                                : 'Allow',
+                                ? "Allowed"
+                                : "Allow",
                           ).animate(onComplete: (controller) {
                             if (state.isGeoPermissionAllowed) {
                               controller.stop();
@@ -115,7 +115,7 @@ class AllowGeoView extends StatelessWidget {
                           },).shimmer(duration: 1.seconds, delay: 1.seconds),
                         ],
                       ),
-                      Gap(8),
+                      const Gap(8),
                     ],
                   ).animate().fade(duration: 500.ms),
           );

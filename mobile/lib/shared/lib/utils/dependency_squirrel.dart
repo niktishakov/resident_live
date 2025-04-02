@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 /// !!! It does not listen to any change !!!
 ///
@@ -14,7 +14,7 @@ T find<T>(BuildContext context) {
 /// Wrap a subtree in a Listen widget to rebuild the subtree any time the
 /// object of type T previously added to the widget tree changes.
 class Listen<T> extends StatelessWidget {
-  const Listen({super.key, required this.builder});
+  const Listen({required this.builder, super.key});
 
   final WidgetBuilder builder;
 

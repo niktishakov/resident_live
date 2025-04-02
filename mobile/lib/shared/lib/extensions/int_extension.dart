@@ -14,6 +14,6 @@ extension IntExtension on int {
   }
 
   String toTimeZoneOffset() {
-    return this >= 0 ? '+$this' : '-$this';
+    return this >= 0 ? "+$this" : "-$this";
   }
 }

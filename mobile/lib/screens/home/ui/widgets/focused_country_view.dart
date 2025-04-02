@@ -1,20 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/domain/domain.dart';
-import 'package:resident_live/features/features.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/domain/domain.dart";
+import "package:resident_live/features/features.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/shared/shared.dart";
 
 class FocusedCountryView extends StatefulWidget {
   const FocusedCountryView({
-    Key? key,
+    required this.onTap, super.key,
     this.focusedCountry,
-    required this.onTap,
-  }) : super(key: key);
+  });
   final CountryEntity? focusedCountry;
   final Function(CountryEntity) onTap;
 
@@ -54,7 +52,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
 
     final beginBorderRadius = BorderRadius.circular(24);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Material(
         borderRadius: beginBorderRadius,
         elevation: 0,
@@ -66,7 +64,8 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
           child: RlCard(
             gradient: kMainGradient,
             borderRadius: beginBorderRadius,
-            padding: EdgeInsets.only(left: 0, right: 0, top: 16, bottom: 8),
+            padding:
+                const EdgeInsets.only(left: 0, right: 0, top: 16, bottom: 8),
             child: SizedBox(
               height: 280,
               child: Column(
@@ -81,7 +80,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                         });
                       },
                       itemCount: countries.length,
-                      restorationId: 'FocusedCountryViewPageView',
+                      restorationId: "FocusedCountryViewPageView",
                       itemBuilder: (context, index) {
                         final country = countries[index];
                         final isHere =
@@ -89,7 +88,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                         final isFocused =
                             country.isoCode == widget.focusedCountry?.isoCode;
                         return Hero(
-                          tag: 'residence_${country.name}',
+                          tag: "residence_${country.name}",
                           flightShuttleBuilder: (
                             flightContext,
                             animation,
@@ -119,7 +118,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                       },
                     ),
                   ),
-                  Gap(8),
+                  const Gap(8),
                   AnimatedDots(
                     value: _currentPage,
                     maxValue: countries.length,
@@ -141,12 +140,8 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
 
 class FocusedCountryCard extends StatelessWidget {
   const FocusedCountryCard({
-    Key? key,
-    required this.country,
-    required this.isHere,
-    required this.isFocused,
-    required this.onTap,
-  }) : super(key: key);
+    required this.country, required this.isHere, required this.isFocused, required this.onTap, super.key,
+  });
 
   final CountryEntity country;
   final bool isHere;
@@ -171,7 +166,7 @@ class FocusedCountryCard extends StatelessWidget {
                       width: constraints.maxWidth * 0.5,
                       child: AnimatedCrossFade(
                         firstChild: Text(
-                          LocaleKeys.focus_yourFocus.tr(),
+                          S.of(context).homeYourFocus,
                           style: context.rlTheme.body14,
                         ),
                         secondChild: GestureDetector(
@@ -180,13 +175,13 @@ class FocusedCountryCard extends StatelessWidget {
                           behavior: HitTestBehavior.opaque,
                           child: PrimaryButton(
                             behavior: HitTestBehavior.opaque,
-                            label: LocaleKeys.focus_setFocus.tr(),
+                            label: S.of(context).homeSetFocus,
                             fontSize: 12,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 4,
                             ),
-                            leading: AppAssetImage(
+                            leading: const AppAssetImage(
                               AppAssets.target,
                               height: 14,
                             ),
@@ -200,8 +195,8 @@ class FocusedCountryCard extends StatelessWidget {
                         duration: const Duration(milliseconds: 300),
                       ),
                     ),
-                    Spacer(),
-                    if (isHere) Here(),
+                    const Spacer(),
+                    if (isHere) const Here(),
                   ],
                 );
               },
@@ -213,7 +208,7 @@ class FocusedCountryCard extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             _buildProgressIndicator(context, country),
           ],
         ),
@@ -236,16 +231,16 @@ class FocusedCountryCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${country.daysSpent}/183 ${LocaleKeys.focus_days.tr()}',
+              "${country.daysSpent}/183 ${S.of(context).homeDays}",
               style: GoogleFonts.poppins(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: context.theme.colorScheme.secondary.withOpacity(0.5),
               ),
             ),
-            Gap(2),
+            const Gap(2),
             Text(
-              '${(value / 183 * 100).round()}%',
+              "${(value / 183 * 100).round()}%",
               style: GoogleFonts.poppins(
                 fontSize: 64,
                 fontWeight: FontWeight.w500,
@@ -253,7 +248,7 @@ class FocusedCountryCard extends StatelessWidget {
                 height: 57 / 64,
               ),
             ),
-            Gap(16),
+            const Gap(16),
             Container(
               width: ctrx.maxWidth,
               height: 62,
@@ -268,7 +263,7 @@ class FocusedCountryCard extends StatelessWidget {
                 ),
               ),
             ),
-            Gap(8),
+            const Gap(8),
           ],
         );
       },

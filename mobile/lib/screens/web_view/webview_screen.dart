@@ -1,16 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
-import 'widgets/web_page_progress_indicator.dart';
+import "package:flutter/material.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/screens/web_view/widgets/web_page_progress_indicator.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:webview_flutter/webview_flutter.dart";
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
-    Key? key,
-    required this.url,
-    required this.title,
-  }) : super(key: key);
+    required this.url, required this.title, super.key,
+  });
 
   final String url;
   final String title;
@@ -52,11 +49,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Grabber(),
+            const Grabber(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Gap(48),
+                const Gap(48),
                 Flexible(
                   child: Text(
                     widget.url,
@@ -72,7 +69,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 ),
               ],
             ),
-            Gap(4),
+            const Gap(4),
             WebPageProgressIndicator(
               progress: _progress,
             ),

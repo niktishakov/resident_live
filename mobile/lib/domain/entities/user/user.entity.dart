@@ -1,9 +1,9 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import "package:freezed_annotation/freezed_annotation.dart";
 
-import '../entities.dart';
+import "package:resident_live/domain/entities/entities.dart";
 
-part 'user.entity.g.dart';
-part 'user.entity.freezed.dart';
+part "user.entity.g.dart";
+part "user.entity.freezed.dart";
 
 @freezed
 class UserEntity with _$UserEntity {
@@ -16,9 +16,9 @@ class UserEntity with _$UserEntity {
   }) = _UserEntity;
 
   factory UserEntity.mock() => UserEntity(
-        id: '-1',
-        name: '',
-        email: '',
+        id: "-1",
+        name: "",
+        email: "",
         createdAt: DateTime.now(),
         countryResidences: {},
       );

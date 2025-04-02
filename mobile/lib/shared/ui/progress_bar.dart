@@ -1,14 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
+import "package:flutter/material.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
 
-import '../shared.dart';
+import "package:resident_live/shared/shared.dart";
 
 enum ProgressDirection { up, down }
 
 class ProgressBar extends StatelessWidget {
-  ProgressBar({
+  const ProgressBar({
     required this.completionPercentage,
+    super.key,
     this.radius = 100.0,
     this.strokeWidth = 5.0,
     this.label,
@@ -31,8 +31,8 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = this.label ?? LocaleKeys.common_progress.tr();
-    final doneLabel = this.doneLabel ?? LocaleKeys.common_done.tr();
+    final label = this.label ?? S.of(context).commonProgress;
+    final doneLabel = this.doneLabel ?? S.of(context).commonDone;
     final beginValue =
         direction == ProgressDirection.up ? 0.0 : completionPercentage + 0.1;
     final _backgroundColor = backgroundColor ?? context.theme.primaryColor;
@@ -46,7 +46,7 @@ class ProgressBar extends StatelessWidget {
         Stack(
           alignment: Alignment.center,
           children: [
-            Container(
+            SizedBox(
               width: radius, // Adjust the size as needed
               height: radius, // Adjust the size as needed
               child: TweenAnimationBuilder<double>(
@@ -64,7 +64,7 @@ class ProgressBar extends StatelessWidget {
                     value: value,
                     strokeWidth: strokeWidth,
                     strokeCap: StrokeCap.round,
-                    backgroundColor: _backgroundColor,
+                    backgroundColor: backgroundColor,
                     valueColor: AlwaysStoppedAnimation<Color>(_valueColor),
                   );
                 },
@@ -77,8 +77,11 @@ class ProgressBar extends StatelessWidget {
               duration: duration, // Adjust the duration as needed
               builder: (context, value, child) {
                 return Text(
-                  '${(value * 100).toStringAsFixed(1)}%',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  "${(value * 100).toStringAsFixed(1)}%",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 );
               },
             ),
@@ -92,11 +95,17 @@ class ProgressBar extends StatelessWidget {
           builder: (context, value, child) {
             return AnimatedTextTransition(
               texts: [
-                Text(label,
-                    style: TextStyle(
-                        color: context.theme.colorScheme.secondary
-                            .withOpacity(0.6),),),
-                Text(doneLabel, style: TextStyle(fontWeight: FontWeight.w600)),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: context.theme.colorScheme.secondary
+                        .withValues(alpha: 0.6),
+                  ),
+                ),
+                Text(
+                  doneLabel,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
               ],
               index: value == 1.0 ? 1 : 0,
             );

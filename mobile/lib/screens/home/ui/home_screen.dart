@@ -1,23 +1,23 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:resident_live/app/main.dart';
-import 'package:resident_live/features/features.dart';
-import 'package:resident_live/screens/all_countries/ui/all_countries_screen.dart';
-import 'package:resident_live/screens/screens.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:resident_live/widgets/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'widgets/focused_country_view.dart';
-import 'widgets/greeting_view.dart';
-import 'widgets/tracking_residences.dart';
+import "package:flutter/foundation.dart";
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:go_router/go_router.dart";
+import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
+import "package:resident_live/app/main.dart";
+import "package:resident_live/features/features.dart";
+import "package:resident_live/screens/all_countries/ui/all_countries_screen.dart";
+import "package:resident_live/screens/home/ui/widgets/focused_country_view.dart";
+import "package:resident_live/screens/home/ui/widgets/greeting_view.dart";
+import "package:resident_live/screens/home/ui/widgets/tracking_residences.dart";
+import "package:resident_live/screens/screens.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/widgets.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   Future<void> _showLastStoredLocation(BuildContext context) async {
     final position = await GeolocationService.instance.getLastStoredPosition();
@@ -27,20 +27,20 @@ class HomeScreen extends StatelessWidget {
 
       final lastUpdateStr = lastUpdate != null
           ? DateTime.fromMillisecondsSinceEpoch(lastUpdate).toString()
-          : 'unknown';
+          : "unknown";
 
       ToastService.instance.showToast(
         context,
         message:
-            'Last stored location:\nLat: ${position.latitude.toStringAsFixed(4)}\n'
-            'Lng: ${position.longitude.toStringAsFixed(4)}\n'
-            'Time: $lastUpdateStr',
+            "Last stored location:\nLat: ${position.latitude.toStringAsFixed(4)}\n"
+            "Lng: ${position.longitude.toStringAsFixed(4)}\n"
+            "Time: $lastUpdateStr",
         status: ToastStatus.warning,
       );
     } else {
       ToastService.instance.showToast(
         context,
-        message: 'No stored location found',
+        message: "No stored location found",
         status: ToastStatus.warning,
       );
     }
@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
               overlayStyle: getSystemOverlayStyle,
               body: Material(
                 child: CustomScrollView(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   slivers: [
                     SliverPersistentHeader(
                       pinned: true,
@@ -83,9 +83,9 @@ class HomeScreen extends StatelessWidget {
                         expandedHeight: 90.0 + context.mediaQuery.padding.top,
                       ),
                     ),
-                    SliverToBoxAdapter(
+                    const SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        padding: EdgeInsets.symmetric(horizontal: 24.0),
                         child: WeekLineView(),
                       ),
                     ),
@@ -114,7 +114,7 @@ class HomeScreen extends StatelessWidget {
                           onTap: () =>
                               navigatorKey.currentContext?.navigator.push(
                             kDefaultFadeRouteBuilder(
-                              page: AllCountriesScreen(),
+                              page: const AllCountriesScreen(),
                             ),
                           ),
                         ),
@@ -162,14 +162,14 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     final dividerOpacity = 1 - proportion;
 
     return ClipRect(
-      child: Container(
+      child: ColoredBox(
         color: context.theme.scaffoldBackgroundColor,
         child: ColoredBox(
           color: context.theme.dialogBackgroundColor
               .withOpacity(dividerOpacity.clamp(0.0, 1.0)),
           child: Stack(
             children: [
-              Positioned(
+              const Positioned(
                 left: 24,
                 bottom: 12.0,
                 child: GreetingView(),
@@ -187,7 +187,7 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
                         context: context,
                         duration: 400.ms,
                         animationCurve: Curves.fastEaseInToSlowEaseOut,
-                        builder: (context) => VerticalTimeline(),
+                        builder: (context) => const VerticalTimeline(),
                       );
                     },
                     iconSize: 20,

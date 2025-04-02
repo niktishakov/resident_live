@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/material.dart";
+import "package:resident_live/shared/shared.dart";
 
 // Horizontal line of progress from 0 to 100
 class WebPageProgressIndicator extends StatefulWidget {
   const WebPageProgressIndicator({
-    super.key,
-    required this.progress,
+    required this.progress, super.key,
     this.backgroundColor = Colors.transparent,
     this.valueColor,
   });

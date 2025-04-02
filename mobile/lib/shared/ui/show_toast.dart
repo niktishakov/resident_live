@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:resident_live/app/main.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/material.dart";
+import "package:fluttertoast/fluttertoast.dart";
+import "package:resident_live/app/main.dart";
+import "package:resident_live/shared/shared.dart";
 
 void showToast(BuildContext context, String content) {
   final fToast = FToast();
@@ -17,7 +17,7 @@ void showToast(BuildContext context, String content) {
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(Icons.error_outline, color: context.theme.scaffoldBackgroundColor),
-        SizedBox(width: 12.0),
+        const SizedBox(width: 12.0),
         Text(content,
             style: TextStyle(color: context.theme.scaffoldBackgroundColor),),
       ],
@@ -33,7 +33,7 @@ void showToast(BuildContext context, String content) {
       child: child,
     ),
     // gravity: ToastGravity.BOTTOM,
-    toastDuration: Duration(seconds: 2),
-    fadeDuration: Duration(milliseconds: 200),
+    toastDuration: const Duration(seconds: 2),
+    fadeDuration: const Duration(milliseconds: 200),
   );
 }

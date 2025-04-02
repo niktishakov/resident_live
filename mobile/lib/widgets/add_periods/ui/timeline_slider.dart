@@ -1,27 +1,15 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gap/gap.dart';
-import 'package:collection/collection.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:collection/collection.dart";
 
-import '../../../domain/domain.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/domain/domain.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/shared/shared.dart";
 
 class TimelineSlider extends StatefulWidget {
-  TimelineSlider({
-    required this.min,
-    required this.max,
-    required this.initialStart,
-    required this.initialEnd,
-    required this.color,
-    required this.startDate,
-    required this.endDate,
-    this.height = 80.5,
-    required this.periods,
-    required this.onAddPeriodPressed,
-    required this.countryColors,
+  const TimelineSlider({required this.min, required this.max, required this.initialStart, required this.initialEnd, required this.color, required this.startDate, required this.endDate, required this.periods, required this.onAddPeriodPressed, required this.countryColors, super.key, this.height = 80.5,
   });
 
   final double min;
@@ -132,7 +120,7 @@ class _TimelineSliderState extends State<TimelineSlider>
   }
 
   String _formatDate(DateTime date) {
-    return '${kMonths[date.month - 1].substring(0, 2)}';
+    return getMonths(context)[date.month - 1].substring(0, 2);
   }
 
   List<String> _getMonthLabels() {
@@ -165,11 +153,11 @@ class _TimelineSliderState extends State<TimelineSlider>
             ),
           ),
           child: Text(
-            '${startDate.toMMMDDYYYY()}',
+            startDate.toMMMDDYYYY(),
             style: TextStyle(color: widget.color),
           ),
         ),
-        Gap(16),
+        const Gap(16),
         OutlinedButton(
           onPressed: () => _showDatePicker(context, false),
           style: OutlinedButton.styleFrom(
@@ -179,7 +167,7 @@ class _TimelineSliderState extends State<TimelineSlider>
             ),
           ),
           child: Text(
-            '${endDate.toMMMDDYYYY()}',
+            endDate.toMMMDDYYYY(),
             style: TextStyle(color: widget.color),
           ),
         ),
@@ -189,8 +177,8 @@ class _TimelineSliderState extends State<TimelineSlider>
 
   void _showDatePicker(BuildContext context, bool isStart) {
     final title = isStart
-        ? LocaleKeys.add_stay_period_periodFrom.tr()
-        : LocaleKeys.add_stay_period_periodTo.tr();
+        ? S.of(context).addStayPeriodPeriodFrom
+        : S.of(context).addStayPeriodPeriodTo;
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -200,7 +188,7 @@ class _TimelineSliderState extends State<TimelineSlider>
 
         return Container(
           height: 300,
-          padding: EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Column(
             children: [
               Row(
@@ -208,7 +196,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text(LocaleKeys.common_cancel.tr()),
+                    child: Text(S.of(context).commonCancel),
                   ),
                   Text(
                     title,
@@ -221,7 +209,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text(LocaleKeys.common_done.tr()),
+                    child: Text(S.of(context).commonDone),
                   ),
                 ],
               ),
@@ -261,7 +249,7 @@ class _TimelineSliderState extends State<TimelineSlider>
     final start = _getDateFromValue(values.start);
     final end = _getDateFromValue(values.end);
 
-    for (var segment in widget.periods) {
+    for (final segment in widget.periods) {
       // If start or end date of new segment lies within an existing segment, return false
       if (!(end.isBefore(segment.startDate) ||
           start.isAfter(segment.endDate))) {
@@ -273,20 +261,20 @@ class _TimelineSliderState extends State<TimelineSlider>
 
   void _updateDefaultRangeValues() {
     // Initialize to cover the entire period
-    var currentRange = RangeValues(0, 365);
+    var currentRange = const RangeValues(0, 365);
     final periods = widget.periods;
     final endDate = DateTime.now();
-    final startDate = endDate.subtract(Duration(days: 365));
+    final startDate = endDate.subtract(const Duration(days: 365));
 
     // Sort periods by startDate to make sure they are in chronological order
     periods.sort((a, b) => a.startDate.compareTo(b.startDate));
 
     for (var i = 0; i < periods.length - 1; i++) {
-      final gapStart = periods[i]
-          .endDate
-          .add(Duration(days: 1)); // the day after the current segment's end
+      final gapStart = periods[i].endDate.add(
+            const Duration(days: 1),
+          ); // the day after the current segment's end
       final gapEnd = periods[i + 1].startDate.subtract(
-            Duration(days: 1),
+            const Duration(days: 1),
           ); // the day before the next segment's start
 
       if (gapEnd.isAfter(gapStart)) {
@@ -325,7 +313,7 @@ class _TimelineSliderState extends State<TimelineSlider>
     if (periods.isNotEmpty &&
         currentRange.start == 0 &&
         currentRange.end == 365) {
-      currentRange = RangeValues(0, 1);
+      currentRange = const RangeValues(0, 1);
     }
 
     setState(() {
@@ -370,7 +358,7 @@ class _TimelineSliderState extends State<TimelineSlider>
   }
 
   void _onPanStart(DragStartDetails details) {
-    final renderBox = context.findRenderObject() as RenderBox;
+    final renderBox = context.findRenderObject()! as RenderBox;
     final position = renderBox.globalToLocal(details.globalPosition);
     final value =
         (position.dx / renderBox.size.width) * (widget.max - widget.min) +
@@ -409,7 +397,7 @@ class _TimelineSliderState extends State<TimelineSlider>
           onPanStart: _onPanStart,
           onPanEnd: _onPanEnd,
           onPanUpdate: (details) {
-            final renderBox = context.findRenderObject() as RenderBox;
+            final renderBox = context.findRenderObject()! as RenderBox;
             final position = renderBox.globalToLocal(details.globalPosition);
             final newValue = (position.dx / renderBox.size.width) *
                     (widget.max - widget.min) +
@@ -437,9 +425,9 @@ class _TimelineSliderState extends State<TimelineSlider>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildMonths(context, MediaQuery.of(context).size.width),
-                  Gap(10),
+                  const Gap(10),
                   Hero(
-                    tag: 'timeline',
+                    tag: "timeline",
                     transitionOnUserGestures: true,
                     flightShuttleBuilder: _flightShuttleBuilder,
                     createRectTween: (begin, end) {
@@ -473,23 +461,21 @@ class _TimelineSliderState extends State<TimelineSlider>
                       ),
                     ),
                   ),
-                  Gap(8),
+                  const Gap(8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ..._getMonthLabels()
-                          .mapIndexed(
-                            (index, e) => Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(e),
-                              ],
-                            ),
-                          )
-                          .toList(),
+                      ..._getMonthLabels().mapIndexed(
+                        (index, e) => Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(e),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                  Gap(16),
+                  const Gap(16),
                   PrimaryButton(
                     vibrate: false,
                     backgroundColor: color,
@@ -504,7 +490,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                       }
                     },
                     fontSize: 16,
-                    label: LocaleKeys.add_stay_period_addStayPeriod.tr(),
+                    label: S.of(context).addStayPeriodAddStayPeriod,
                   ).animate().fade(delay: 150.ms),
                 ],
               );
@@ -513,10 +499,6 @@ class _TimelineSliderState extends State<TimelineSlider>
         );
       },
     );
-  }
-
-  double _getPosition(double value, double min, double max, double width) {
-    return (value - min) / (max - min) * width;
   }
 
   DateTime _getDateFromValue(double value) {
@@ -565,7 +547,7 @@ class _SliderPainter extends CustomPainter {
     const widthOffset = 0.0;
 
     // Draw background track
-    paint.color = Color(0xff50B5FF);
+    paint.color = const Color(0xff50B5FF);
     canvas.drawLine(
       Offset(widthOffset, size.height / 2),
       Offset(size.width - widthOffset, size.height / 2),
@@ -643,8 +625,8 @@ class _SliderPainter extends CustomPainter {
         Offset(x, size.height / 2),
         handleWidth,
         Paint()
-          ..color = Colors.black.withOpacity(0.1)
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, 2),
+          ..color = Colors.black.withValues(alpha: 0.1)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2),
       );
 
       // Draw white border
@@ -688,12 +670,12 @@ class _SliderPainter extends CustomPainter {
         oldDelegate.isDragging != isDragging ||
         oldDelegate.leftHandleScale != leftHandleScale ||
         oldDelegate.rightHandleScale != rightHandleScale ||
-        !ListEquality().equals(oldDelegate.periods, periods);
+        !const ListEquality().equals(oldDelegate.periods, periods);
   }
 }
 
 extension DateTimeFormatting on DateTime {
-  String toMMDDString() {
-    return '${kMonths[month - 1].substring(0, 3)} ${day.toString().padLeft(2, '0')}';
+  String toMMDDString(BuildContext context) {
+    return '${getMonths(context)[month - 1].substring(0, 3)} ${day.toString().padLeft(2, '0')}';
   }
 }

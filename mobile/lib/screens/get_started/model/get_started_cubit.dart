@@ -35,20 +35,14 @@ class GetStartedState extends Equatable {
 
 // Define the cubit
 class GetStartedCubit extends Cubit<GetStartedState> {
-  GetStartedCubit(this._locationCubit) : super(GetStartedState());
-  final LocationCubit _locationCubit;
+  GetStartedCubit() : super(GetStartedState());
 
   void setFocusedCountry(int index) {
     emit(state.copyWith(focusedCountryIndex: index));
   }
 
-  Future<void> requestGeoPermission(BuildContext context) async {
-    await _locationCubit.initialize(context);
-    emit(
-      state.copyWith(
-        isGeoPermissionAllowed: _locationCubit.state.isInitialized,
-      ),
-    );
+  void triggerGeoPermission() {
+    emit(state.copyWith(isGeoPermissionAllowed: true));
   }
 
   void triggerGetStarted() {

@@ -48,7 +48,7 @@ void main() async {
   await VibrationService.init();
   await ShareService.init();
   await ToastService.init();
-  GeolocationService.instance.initialize();
+
   final deviceInfoService = await DeviceInfoService.create();
 
   await WorkmanagerService.initialize();

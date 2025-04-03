@@ -1,12 +1,38 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:resident_live/shared/lib/ai.logger.dart';
 import 'package:resident_live/shared/lib/services/geolocator.service.dart';
 import 'package:flutter/material.dart';
 
-import 'location_state.dart';
+part 'location_cubit.g.dart';
+part 'location_cubit.freezed.dart';
+
+@freezed
+class LocationState with _$LocationState {
+  const factory LocationState({
+    @JsonKey(includeFromJson: false, includeToJson: false) Position? position,
+    @JsonKey(includeFromJson: false, includeToJson: false) Placemark? placemark,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    @Default(false)
+    bool isInitialized,
+    @Default('') String error,
+  }) = _LocationState;
+
+  factory LocationState.fromJson(Map<String, dynamic> json) =>
+      _$LocationStateFromJson(json);
+
+  const LocationState._();
+
+  LocationState reset() => copyWith(position: null, placemark: null);
+  LocationState failure(String error) => copyWith(error: error);
+
+  bool isCurrentResidence(String isoCode) {
+    return placemark?.isoCountryCode == isoCode;
+  }
+}
 
 class LocationCubit extends Cubit<LocationState> {
   LocationCubit(this._locationService)
@@ -22,13 +48,11 @@ class LocationCubit extends Cubit<LocationState> {
 
   Future<void> initialize(BuildContext context) async {
     try {
-      await _locationService.checkAndRequestPermissionsOnLaunch(context);
-      final result = _locationService.initialize();
-      if (result == null) {
-        emit(state.copyWith(isInitialized: true));
-        _locationService.positionStream?.listen(_updatePosition);
+      final position = await _locationService.getCurrentLocation();
+      if (position != null) {
+        await _updatePosition(position);
       } else {
-        emit(state.failure(result));
+        emit(state.failure('Could not get location'));
       }
     } catch (e) {
       _logger.error(e);
@@ -38,12 +62,11 @@ class LocationCubit extends Cubit<LocationState> {
 
   Future<void> updateLocation() async {
     try {
-      final position = _locationService.currentPosition;
+      final position = await _locationService.getCurrentLocation();
       if (position != null) {
         await _updatePosition(position);
       } else {
-        _logger.error('Failed to update location - current position is null');
-        emit(state.failure('Current position is null'));
+        emit(state.failure('Could not get location'));
       }
     } catch (e) {
       _logger.error('Error updating location: $e');
@@ -60,7 +83,13 @@ class LocationCubit extends Cubit<LocationState> {
 
       if (addresses.isNotEmpty) {
         final placemark = addresses.first;
-        emit(state.copyWith(position: position, placemark: placemark));
+        emit(
+          state.copyWith(
+            position: position,
+            placemark: placemark,
+            isInitialized: true,
+          ),
+        );
       }
     } catch (e) {
       _logger.error(e);

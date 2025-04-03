@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'location_state.dart';
+part of 'location_cubit.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -8,7 +8,7 @@ part of 'location_state.dart';
 
 _$LocationStateImpl _$$LocationStateImplFromJson(Map<String, dynamic> json) =>
     _$LocationStateImpl(
-      error: json['error'] as String? ?? "",
+      error: json['error'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$LocationStateImplToJson(_$LocationStateImpl instance) =>

@@ -16,7 +16,16 @@ class AllowGeoView extends StatelessWidget {
     final successGradient = kSuccessGradient.colors;
     return BlocListener<LocationCubit, LocationState>(
       listener: (context, state) {
-        find<CountriesCubit>(context).syncCountriesByGeo(state.placemark);
+        if (state.isInitialized) {
+          find<GetStartedCubit>(context).triggerGeoPermission();
+          find<CountriesCubit>(context).syncCountriesByGeo(state.placemark);
+        } else if (state.error.isNotEmpty) {
+          ToastService.instance.showToast(
+            context,
+            message: state.error,
+            status: ToastStatus.failure,
+          );
+        }
       },
       child: BlocBuilder<GetStartedCubit, GetStartedState>(
         builder: (context, state) {
@@ -86,9 +95,8 @@ class AllowGeoView extends StatelessWidget {
                           PrimaryButton(
                             animationDuration: 500.ms,
                             onPressed: () => context
-                                .read<GetStartedCubit>()
-                                .requestGeoPermission(
-                                    context), // Передаем контекст
+                                .read<LocationCubit>()
+                                .initialize(context),
                             gradient: LinearGradient(
                               colors: state.isGeoPermissionAllowed
                                   ? successGradient

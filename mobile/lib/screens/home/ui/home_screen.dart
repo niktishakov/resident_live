@@ -35,34 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
     await PushNotificationService.instance.requestPermissions();
   }
 
-  Future<void> _showLastStoredLocation(BuildContext context) async {
-    final position = await GeolocationService.instance.getLastStoredPosition();
-    if (position != null) {
-      final lastUpdate = await SharedPreferences.getInstance().then(
-        (prefs) => prefs.getInt(GeolocationService.LAST_UPDATE_TIME_KEY),
-      );
-
-      final lastUpdateStr = lastUpdate != null
-          ? DateTime.fromMillisecondsSinceEpoch(lastUpdate).toString()
-          : 'unknown';
-
-      ToastService.instance.showToast(
-        context,
-        message:
-            'Last stored location:\nLat: ${position.latitude.toStringAsFixed(4)}\n'
-            'Lng: ${position.longitude.toStringAsFixed(4)}\n'
-            'Time: $lastUpdateStr',
-        status: ToastStatus.warning,
-      );
-    } else {
-      ToastService.instance.showToast(
-        context,
-        message: 'No stored location found',
-        status: ToastStatus.warning,
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CountriesCubit, CountriesState>(
@@ -82,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           },
           child: GestureDetector(
-            onTap: () => _showLastStoredLocation(context),
             onLongPress: () {
               if (kDebugMode) {
                 showDebugActionsSheet(context);

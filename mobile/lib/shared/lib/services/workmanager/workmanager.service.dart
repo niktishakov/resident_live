@@ -8,22 +8,17 @@ import 'workmanager.errors.dart';
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     try {
-      await LogUtils.writeToLog('Native called background task: $task');
-      await LogUtils.writeToLog('Task input data: $inputData');
-      await LogUtils.writeToLog(
-          'Initializing GeolocationService for background task');
+      LogUtils.debug('Native called background task: $task');
+      LogUtils.debug('Task input data: $inputData');
+      LogUtils.debug(
+        'Initializing GeolocationService for background task',
+      );
 
-      GeolocationService.instance.initialize();
-
-      await LogUtils.writeToLog('Updating background position');
-
-      await GeolocationService.instance.updateBackgroundPosition();
-
-      await LogUtils.writeToLog(
-          'Background location task completed successfully');
+      final position = await GeolocationService.instance.getCurrentLocation();
+      LogUtils.debug('Updating background position: ${position.toJson()}');
+      LogUtils.debug('Background location task completed successfully');
     } catch (e) {
-      await LogUtils.writeToLog('Background location task failed: $e', 'ERROR');
-
+      LogUtils.error('Background location task failed: $e');
       return Future.value(false);
     }
 

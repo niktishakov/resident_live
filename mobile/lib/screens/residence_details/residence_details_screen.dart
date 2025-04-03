@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,16 +21,16 @@ final _statuses = {
     LocaleKeys.residency_details_youAreAResident.tr(),
   ],
   'h': [
-    LocaleKeys.residency_details_statusUpdateIn.tr(),
-    LocaleKeys.residency_details_statusWillUpdateAt.tr(),
+    LocaleKeys.statuses_statusUpdateIn.tr(),
+    LocaleKeys.statuses_statusWillUpdateAt.tr(),
   ],
   'r': [
-    LocaleKeys.residency_details_youWillLoseYourStatusIn.tr(),
-    LocaleKeys.residency_details_statusIsSafeUntil.tr(),
+    LocaleKeys.statuses_youWillLoseYourStatusIn.tr(),
+    LocaleKeys.statuses_statusIsSafeUntil.tr(),
   ],
   'a': [
-    LocaleKeys.residency_details_moveToThisCountryToReachStatusIn.tr(),
-    LocaleKeys.residency_details_statusMayBeUpdatedAt.tr(),
+    LocaleKeys.statuses_moveToThisCountryToReachStatusIn.tr(),
+    LocaleKeys.statuses_statusMayBeUpdatedAt.tr(),
   ],
 };
 
@@ -237,7 +236,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                               text:
                                                   '\n${country.statusToggleIn} days',
                                               style: theme.body18M.copyWith(
-                                                  fontWeight: FontWeight.w700,),
+                                                fontWeight: FontWeight.w700,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -262,8 +262,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                   text:
                                                       '\n${country.statusToggleAt.toMMMMDDYYYY()}',
                                                   style: theme.body18M.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w700,),
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -291,15 +291,18 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                             },
                                             child: DecoratedBox(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: Colors.white,),),
+                                                borderRadius:
+                                                    BorderRadius.circular(24),
+                                                border: Border.all(
+                                                  width: 1,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        horizontal: 16.0,),
+                                                  horizontal: 16.0,
+                                                ),
                                                 child: Row(
                                                   children: [
                                                     Icon(
@@ -340,11 +343,12 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                       Row(
                                         children: [
                                           Expanded(
-                                              child: Text(
-                                            LocaleKeys
-                                                .residency_details_notifyMe
-                                                .tr(),
-                                          ),),
+                                            child: Text(
+                                              LocaleKeys
+                                                  .residency_details_notifyMe
+                                                  .tr(),
+                                            ),
+                                          ),
                                           Switch(
                                             value: true,
                                             onChanged: (value) {
@@ -362,7 +366,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                         duration: Duration(milliseconds: 250),
                                         curve: Curves.easeInOut,
                                         tween: Tween<double>(
-                                            begin: 0, end: isFocused ? 0 : 1,),
+                                          begin: 0,
+                                          end: isFocused ? 0 : 1,
+                                        ),
                                         builder: (context, value, child) {
                                           return SizedBox(
                                             height: value * 40,
@@ -422,7 +428,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                                   AnimationController(
                                                 vsync: Navigator.of(context),
                                                 duration: const Duration(
-                                                    milliseconds: 300,),
+                                                  milliseconds: 300,
+                                                ),
                                               ),
                                               builder: (_) =>
                                                   ResidencyRulesModal(),
@@ -456,32 +463,39 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                               context: context,
                                               builder: (context) =>
                                                   CupertinoAlertDialog(
-                                                title: Text(LocaleKeys
-                                                    .residency_details_removeCountry
-                                                    .tr(),),
-                                                content: Text(LocaleKeys
-                                                    .residency_details_removeCountryConfirmation
-                                                    .tr(),),
+                                                title: Text(
+                                                  LocaleKeys
+                                                      .residency_details_removeCountry
+                                                      .tr(),
+                                                ),
+                                                content: Text(
+                                                  LocaleKeys
+                                                      .residency_details_removeCountryConfirmation
+                                                      .tr(),
+                                                ),
                                                 actions: [
                                                   CupertinoDialogAction(
-                                                    child: Text(LocaleKeys
-                                                        .common_cancel
-                                                        .tr(),),
+                                                    child: Text(
+                                                      LocaleKeys.common_cancel
+                                                          .tr(),
+                                                    ),
                                                     onPressed: () =>
                                                         Navigator.pop(context),
                                                   ),
                                                   CupertinoDialogAction(
                                                     isDestructiveAction: true,
-                                                    child: Text(LocaleKeys
-                                                        .common_remove
-                                                        .tr(),),
+                                                    child: Text(
+                                                      LocaleKeys.common_remove
+                                                          .tr(),
+                                                    ),
                                                     onPressed: () {
                                                       context.pop();
                                                       context.pop();
                                                       find<CountriesCubit>(
-                                                              context,)
-                                                          .removeCountry(
-                                                              country.isoCode,);
+                                                        context,
+                                                      ).removeCountry(
+                                                        country.isoCode,
+                                                      );
                                                     },
                                                   ),
                                                 ],

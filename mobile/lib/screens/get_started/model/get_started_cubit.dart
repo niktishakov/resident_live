@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:resident_live/features/features.dart';
 
 // Define the state
@@ -34,7 +35,6 @@ class GetStartedState extends Equatable {
 
 // Define the cubit
 class GetStartedCubit extends Cubit<GetStartedState> {
-
   GetStartedCubit(this._locationCubit) : super(GetStartedState());
   final LocationCubit _locationCubit;
 
@@ -42,8 +42,8 @@ class GetStartedCubit extends Cubit<GetStartedState> {
     emit(state.copyWith(focusedCountryIndex: index));
   }
 
-  Future<void> requestGeoPermission() async {
-    await _locationCubit.initialize();
+  Future<void> requestGeoPermission(BuildContext context) async {
+    await _locationCubit.initialize(context);
     emit(
       state.copyWith(
         isGeoPermissionAllowed: _locationCubit.state.isInitialized,
@@ -56,10 +56,12 @@ class GetStartedCubit extends Cubit<GetStartedState> {
   }
 
   void reset() {
-    emit(state.copyWith(
-      isGeoPermissionAllowed: false,
-      isGetStartedTriggered: false,
-      focusedCountryIndex: -1,
-    ),);
+    emit(
+      state.copyWith(
+        isGeoPermissionAllowed: false,
+        isGetStartedTriggered: false,
+        focusedCountryIndex: -1,
+      ),
+    );
   }
 }

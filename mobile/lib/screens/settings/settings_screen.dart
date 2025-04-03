@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:resident_live/domain/domain.dart';
 import 'package:resident_live/features/features.dart';
 import 'package:resident_live/generated/codegen_loader.g.dart';
@@ -67,7 +68,8 @@ class SettingsScreen extends StatelessWidget {
                             },
                             trailing: CupertinoSwitch(
                               value: state.isEnabled,
-                              activeTrackColor: context.theme.colorScheme.primary,
+                              activeTrackColor:
+                                  context.theme.colorScheme.primary,
                               onChanged: (value) async {
                                 if (value) {
                                   await authCubit.authenticateAndToggle();
@@ -155,7 +157,8 @@ class SettingsScreen extends StatelessWidget {
                                       Gap(12),
                                       Text('${deviceInfo.appName}'),
                                       Text(
-                                          '${deviceInfo.appVersion} (${deviceInfo.buildNumber})',),
+                                        '${deviceInfo.appVersion} (${deviceInfo.buildNumber})',
+                                      ),
                                     ],
                                   ),
                                 );
@@ -201,11 +204,13 @@ class SettingsScreen extends StatelessWidget {
               SizedBox(
                 width: 30,
                 child: asset != null
-                    ? AppAssetImage(asset,
+                    ? AppAssetImage(
+                        asset,
                         color: Colors.white,
                         width: 30,
                         height: 24,
-                        fit: BoxFit.contain,)
+                        fit: BoxFit.contain,
+                      )
                     : icon != null
                         ? Icon(icon, color: Colors.white, size: 24)
                         : null,

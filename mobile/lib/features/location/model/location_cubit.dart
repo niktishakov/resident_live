@@ -4,22 +4,25 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:resident_live/shared/lib/ai.logger.dart';
 import 'package:resident_live/shared/lib/services/geolocator.service.dart';
+import 'package:flutter/material.dart';
 
 import 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
   LocationCubit(this._locationService)
-      : super(LocationState(
-          position: Position.fromMap({'latitude': 0.0, 'longitude': 0.0}),
-          placemark: Placemark(),
-        ),);
+      : super(
+          LocationState(
+            position: Position.fromMap({'latitude': 0.0, 'longitude': 0.0}),
+            placemark: Placemark(),
+          ),
+        );
 
   final GeolocationService _locationService;
   static final AiLogger _logger = AiLogger('LocationCubit');
 
-  Future<void> initialize() async {
+  Future<void> initialize(BuildContext context) async {
     try {
-      await _locationService.requestPermissions();
+      await _locationService.checkAndRequestPermissionsOnLaunch(context);
       final result = _locationService.initialize();
       if (result == null) {
         emit(state.copyWith(isInitialized: true));

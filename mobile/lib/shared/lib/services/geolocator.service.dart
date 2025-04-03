@@ -1,7 +1,9 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 
 class GeolocationService {
   // Private constructor
@@ -48,69 +50,117 @@ class GeolocationService {
     }
   }
 
-  // Method to request location permissions and get current position
-
-  Future<void> requestPermissions() async {
-    bool serviceEnabled;
-
-    LocationPermission permission;
-
-    // Check if location services are enabled
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      _logger.error('Location services are disabled.');
+  // Requesting permissions with dialog
+  Future<void> requestPermissions(BuildContext context) async {
+    if (!await Geolocator.isLocationServiceEnabled()) {
       return Future.error('Location services are disabled.');
     }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        _logger.error('Location permissions are denied');
-        return Future.error('Location permissions are denied');
+    var whenInUseStatus = await Permission.locationWhenInUse.status;
+    if (!whenInUseStatus.isGranted) {
+      whenInUseStatus = await Permission.locationWhenInUse.request();
+      if (!whenInUseStatus.isGranted) {
+        return Future.error('Location "When In Use" permission denied');
       }
     }
 
-    if (permission == LocationPermission.deniedForever) {
-      _logger.error('Location permissions are permanently denied');
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.',);
+    // If "When In Use" is granted, show dialog for "Always"
+    if (whenInUseStatus.isGranted) {
+      bool userAgreed = await showAlwaysPermissionDialog(context);
+      if (!userAgreed) {
+        return Future.error('User did not agree to "Always" permission');
+      }
     }
 
-    // When permissions are granted, get the current position
+    // Request "Always" permission
+    var alwaysStatus = await Permission.locationAlways.status;
+    if (!alwaysStatus.isGranted) {
+      alwaysStatus = await Permission.locationAlways.request();
+      if (!alwaysStatus.isGranted) {
+        return Future.error('Location "Always" permission denied');
+      }
+    }
+
+    // Save the permission choice to preferences
+    await _savePermissionChoice();
+
+    // Get current position after permissions are granted
     _currentPosition = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
-    _logger.info('Current position: $_currentPosition');
   }
 
-  // Getter for the current position
-  Position? get currentPosition => _currentPosition;
+  // Show dialog before requesting "Always" permission
+  Future<bool> showAlwaysPermissionDialog(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Включите 'Всегда'"),
+        content: Text(
+            "Чтобы отслеживать ваш статус налогового резидента, необходимо разрешить доступ к местоположению 'Всегда'.\n\nВы можете изменить этот параметр позже в настройках."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text("Не сейчас"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text("Разрешить"),
+          ),
+        ],
+      ),
+    );
+  }
 
-  // Getter for the position stream
-  Stream<Position>? get positionStream => _positionStream;
+  // Save permission choice
+  Future<void> _savePermissionChoice() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(
+        'location_allow_once', true); // Save 'Allow Once' choice
+  }
 
-  // Add method for background position update
-  Future<void> updateBackgroundPosition() async {
-    try {
-      final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
+  // Check and request permissions on app launch
+  Future<void> checkAndRequestPermissionsOnLaunch(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    bool wasAllowOnce = prefs.getBool('location_allow_once') ?? false;
 
-      _currentPosition = position;
-      _logger.info('Background position update: $position');
+    // If 'Allow Once' was not selected, request permissions
+    if (!wasAllowOnce) {
+      await requestPermissions(context);
+      return;
+    }
 
-      // Store position and timestamp in SharedPreferences
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(LAST_POSITION_KEY, position.toJson().toString());
-      await prefs.setInt(
-          LAST_UPDATE_TIME_KEY, DateTime.now().millisecondsSinceEpoch,);
-    } catch (e) {
-      _logger.error('Background position update failed: $e');
+    // If 'Always' permission is not granted, request it again
+    var alwaysStatus = await Permission.locationAlways.status;
+    if (!alwaysStatus.isGranted) {
+      await requestPermissions(context);
     }
   }
 
-  // Add method to retrieve last stored position
+  // Get current position
+  Position? get currentPosition => _currentPosition;
+
+  // Stream to get position updates
+  Stream<Position>? get positionStream => _positionStream;
+
+  // Update position in the background
+  Future<void> updateBackgroundPosition() async {
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
+    _currentPosition = position;
+    _logger.info('Background position update: $position');
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(LAST_POSITION_KEY, json.encode(position.toJson()));
+    await prefs.setInt(
+      LAST_UPDATE_TIME_KEY,
+      DateTime.now().millisecondsSinceEpoch,
+    );
+  }
+
+  // Get last stored position
   Future<Position?> getLastStoredPosition() async {
     try {
       final prefs = await SharedPreferences.getInstance();

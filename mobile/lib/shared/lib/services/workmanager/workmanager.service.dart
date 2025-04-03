@@ -1,7 +1,35 @@
+import 'package:resident_live/shared/lib/utils/log_utils.dart';
 import 'package:resident_live/shared/shared.dart';
 import 'package:workmanager/workmanager.dart';
 import 'constants.dart';
 import 'workmanager.errors.dart';
+
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    try {
+      await LogUtils.writeToLog('Native called background task: $task');
+      await LogUtils.writeToLog('Task input data: $inputData');
+      await LogUtils.writeToLog(
+          'Initializing GeolocationService for background task');
+
+      GeolocationService.instance.initialize();
+
+      await LogUtils.writeToLog('Updating background position');
+
+      await GeolocationService.instance.updateBackgroundPosition();
+
+      await LogUtils.writeToLog(
+          'Background location task completed successfully');
+    } catch (e) {
+      await LogUtils.writeToLog('Background location task failed: $e', 'ERROR');
+
+      return Future.value(false);
+    }
+
+    return Future.value(true);
+  });
+}
 
 class WorkmanagerService {
   WorkmanagerService._();
@@ -43,39 +71,18 @@ class WorkmanagerService {
         callbackDispatcher,
         isInDebugMode: true,
       );
+      await Workmanager().registerPeriodicTask(
+        WorkmanagerConstants.iOSBackgroundAppRefresh,
+        WorkmanagerConstants.iOSBackgroundAppRefresh,
+        initialDelay: const Duration(seconds: 10),
+        inputData: const <String, dynamic>{},
+      );
       isReady = true;
       _logger.info('Internal initialization completed successfully');
     } catch (e) {
       _logger.error('Workmanager initialization failed: $e');
       rethrow;
     }
-  }
-
-  @pragma('vm:entry-point')
-  static void callbackDispatcher() {
-    Workmanager().executeTask((task, inputData) async {
-      _logger.info('Native called background task: $task');
-      _logger.info('Task input data: $inputData');
-
-      if (task == WorkmanagerConstants.backgroundLocationTask) {
-        try {
-          _logger.info('Initializing GeolocationService for background task');
-          GeolocationService.instance.initialize();
-
-          _logger.info('Updating background position');
-          await GeolocationService.instance.updateBackgroundPosition();
-
-          _logger.info('Background location task completed successfully');
-          return true;
-        } catch (e) {
-          _logger.error('Background location task failed: $e');
-          return false;
-        }
-      }
-
-      _logger.info('Unknown task completed: $task');
-      return true;
-    });
   }
 
   Future<void> registerPeriodicTask() async {
@@ -87,7 +94,8 @@ class WorkmanagerService {
 
     try {
       _logger.info(
-          'Registering periodic task: ${WorkmanagerConstants.iOSBackgroundAppRefresh}',);
+        'Registering periodic task: ${WorkmanagerConstants.iOSBackgroundAppRefresh}',
+      );
       await Workmanager().registerPeriodicTask(
         WorkmanagerConstants.iOSBackgroundAppRefresh,
         WorkmanagerConstants.iOSBackgroundAppRefresh,

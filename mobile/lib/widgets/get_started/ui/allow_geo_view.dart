@@ -87,7 +87,8 @@ class AllowGeoView extends StatelessWidget {
                             animationDuration: 500.ms,
                             onPressed: () => context
                                 .read<GetStartedCubit>()
-                                .requestGeoPermission(),
+                                .requestGeoPermission(
+                                    context), // Передаем контекст
                             gradient: LinearGradient(
                               colors: state.isGeoPermissionAllowed
                                   ? successGradient
@@ -99,20 +100,24 @@ class AllowGeoView extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                             trailing: state.isGeoPermissionAllowed
-                                ? Icon(CupertinoIcons.checkmark_seal_fill,
-                                    size: 22,)
+                                ? Icon(
+                                    CupertinoIcons.checkmark_seal_fill,
+                                    size: 22,
+                                  )
                                 : null,
                             label: state.isGeoPermissionAllowed
                                 ? 'Allowed'
                                 : 'Allow',
-                          ).animate(onComplete: (controller) {
-                            if (state.isGeoPermissionAllowed) {
-                              controller.stop();
-                            } else {
-                              controller.reset();
-                              controller.forward();
-                            }
-                          },).shimmer(duration: 1.seconds, delay: 1.seconds),
+                          ).animate(
+                            onComplete: (controller) {
+                              if (state.isGeoPermissionAllowed) {
+                                controller.stop();
+                              } else {
+                                controller.reset();
+                                controller.forward();
+                              }
+                            },
+                          ).shimmer(duration: 1.seconds, delay: 1.seconds),
                         ],
                       ),
                       Gap(8),

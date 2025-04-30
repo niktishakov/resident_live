@@ -31,15 +31,18 @@ class _ReportBugButtonState extends State<ReportBugButton> {
                   await ShareService.instance.shareFile(logFile);
                 } catch (e) {
                   logger.error(e);
-                  ToastService.instance.showToast(
-                    context,
-                    message: "Failed to send bug report: ${e.toString()}",
-                  );
+                  if (context.mounted) {
+                    ToastService.instance.showToast(
+                      context,
+                      message: "Failed to send bug report: ${e.toString()}",
+                    );
+                  }
                 }
               } else {
                 logger.error("Log file not found!");
-                ToastService.instance
-                    .showToast(context, message: "Log file not found!");
+                if (context.mounted) {
+                  ToastService.instance.showToast(context, message: "Log file not found!");
+                }
               }
               setState(() => _isLoading = false);
             },

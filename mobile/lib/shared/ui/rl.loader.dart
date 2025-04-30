@@ -13,11 +13,10 @@ class RlLoader extends StatefulWidget {
   final double? height;
   final Duration? duration;
   @override
-  _RlLoaderState createState() => _RlLoaderState();
+  RlLoaderState createState() => RlLoaderState();
 }
 
-class _RlLoaderState extends State<RlLoader>
-    with SingleTickerProviderStateMixin {
+class RlLoaderState extends State<RlLoader> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override

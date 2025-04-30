@@ -72,7 +72,7 @@ class SettingsButton extends StatelessWidget {
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white.withOpacity(0.5),
+                          color: Colors.white.withValues(alpha: 0.5),
                         ),
                       ),
                   ],
@@ -81,7 +81,7 @@ class SettingsButton extends StatelessWidget {
               trailing ??
                   Icon(
                     CupertinoIcons.chevron_forward,
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                     size: 20,
                   ),
             ],

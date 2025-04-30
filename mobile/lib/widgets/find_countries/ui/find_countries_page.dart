@@ -15,10 +15,10 @@ class FindCountriesPage extends StatefulWidget {
   final VoidCallback onNextPage;
 
   @override
-  _FindCountriesPageState createState() => _FindCountriesPageState();
+  FindCountriesPageState createState() => FindCountriesPageState();
 }
 
-class _FindCountriesPageState extends State<FindCountriesPage> {
+class FindCountriesPageState extends State<FindCountriesPage> {
   String searchQuery = "";
   ScrollController controller = ScrollController();
   final TextEditingController _textController = TextEditingController();
@@ -41,16 +41,12 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedCountries =
-        context.watch<OnboardingCubit>().state.selectedCountries;
+    final selectedCountries = context.watch<OnboardingCubit>().state.selectedCountries;
     // Filter the countries to exclude the ones already selected
     final List filteredCountries = countriesEnglish
         .where(
           (country) =>
-              !selectedCountries.contains(country["name"]) &&
-              getCountryName(country["code"])
-                  .toLowerCase()
-                  .contains(searchQuery.toLowerCase()),
+              !selectedCountries.contains(country["name"]) && getCountryName(country["code"]).toLowerCase().contains(searchQuery.toLowerCase()),
         )
         .toList();
 
@@ -101,8 +97,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
             if (filteredCountries.isEmpty)
               Expanded(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Text(
                     S.of(context).whereHaveYouBeenNoResultsFound,
                     style: context.theme.textTheme.bodyLarge,
@@ -126,19 +121,14 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                     itemCount: filteredCountries.length,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemBuilder: (context, index) {
-                      final String originName =
-                          filteredCountries[index]["name"] ?? "Unknown";
-                      final originCode =
-                          filteredCountries[index]["code"] ?? "Unknown";
+                      final originCode = (filteredCountries as List<Map<String, dynamic>>)[index]["code"] ?? "Unknown";
                       final localizedName = getCountryName(originCode);
                       return SizedBox(
                         height: 44,
                         child: CupertinoButton(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           onPressed: () {
-                            context
-                                .read<OnboardingCubit>()
-                                .addCountry(originCode);
+                            context.read<OnboardingCubit>().addCountry(originCode);
                             _textController.text = "";
                             setState(() => searchQuery = "");
                             // Wait for the next frame to ensure the list is updated
@@ -187,9 +177,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            context
-                                .read<OnboardingCubit>()
-                                .removeCountry(country);
+                            context.read<OnboardingCubit>().removeCountry(country);
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 8),
@@ -203,8 +191,7 @@ class _FindCountriesPageState extends State<FindCountriesPage> {
                               children: [
                                 Text(
                                   localizedName,
-                                  style: context.theme.textTheme.bodyMedium!
-                                      .copyWith(
+                                  style: context.theme.textTheme.bodyMedium!.copyWith(
                                     color: context.theme.colorScheme.onTertiary,
                                   ),
                                 ),

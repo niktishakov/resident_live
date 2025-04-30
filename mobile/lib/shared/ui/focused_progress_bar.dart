@@ -1,16 +1,14 @@
 import "package:flutter/material.dart";
 
-
 class FocusedProgressBar extends StatefulWidget {
   const FocusedProgressBar({required this.value, super.key});
   final double value;
 
   @override
-  _AnimatedProgressBarState createState() => _AnimatedProgressBarState();
+  AnimatedProgressBarState createState() => AnimatedProgressBarState();
 }
 
-class _AnimatedProgressBarState extends State<FocusedProgressBar>
-    with SingleTickerProviderStateMixin {
+class AnimatedProgressBarState extends State<FocusedProgressBar> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -49,7 +47,6 @@ class _AnimatedProgressBarState extends State<FocusedProgressBar>
 }
 
 class ProgressBarPainter extends CustomPainter {
-
   ProgressBarPainter(this.progress);
   final double progress;
 

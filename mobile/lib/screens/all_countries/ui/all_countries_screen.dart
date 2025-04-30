@@ -18,8 +18,7 @@ class AllCountriesScreen extends StatefulWidget {
   State<AllCountriesScreen> createState() => _AllCountriesScreenState();
 }
 
-class _AllCountriesScreenState extends State<AllCountriesScreen>
-    with SingleTickerProviderStateMixin {
+class _AllCountriesScreenState extends State<AllCountriesScreen> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
@@ -36,13 +35,13 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
   @override
   void initState() {
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300),);
-    _scaleAnimation =
-        Tween<double>(begin: 1.0, end: 0.75).animate(_animationController);
-    _opacityAnimation =
-        Tween<double>(begin: 1.0, end: 0.5).animate(_animationController);
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.75).animate(_animationController);
+    _opacityAnimation = Tween<double>(begin: 1.0, end: 0.5).animate(_animationController);
     _borderAnimation = Tween<BorderRadius>(
-      begin: kLargeBorderRadius,
+      begin: BorderRadius.circular(kLargeBorderRadius),
       end: BorderRadius.circular(38),
     ).animate(_animationController);
 
@@ -76,8 +75,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    if (_animationController.value > 0.5 ||
-        details.velocity.pixelsPerSecond.dy > 700) {
+    if (_animationController.value > 0.5 || details.velocity.pixelsPerSecond.dy > 700) {
       _animationController.forward().then((_) {
         if (context.canPop()) {
           setState(() => _isPopping = true);
@@ -89,11 +87,11 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
     }
   }
 
-  void toggleSelection(CountryEntity residence, value) {
-    if (value) {
-      selected.add(residence.isoCode);
+  void toggleSelection({required CountryEntity country, required bool isSelected}) {
+    if (isSelected) {
+      selected.add(country.isoCode);
     } else {
-      selected.remove(residence.isoCode);
+      selected.remove(country.isoCode);
     }
     setState(() {});
   }
@@ -134,7 +132,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                       beginBorderRadius: BorderRadius.circular(38).topLeft.x,
                     ),
                     child: RlCard(
-                      borderRadius: _borderAnimation.value,
+                      borderRadius: _borderAnimation.value.topLeft.x,
                       gradient: vGradient,
                     ),
                   ),
@@ -143,14 +141,15 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(60),
                       child: RlCard(
-                        borderRadius: _borderAnimation.value,
+                        borderRadius: _borderAnimation.value.topLeft.x,
                         gradient: vGradient,
                         padding: EdgeInsets.zero,
                         child: CupertinoPageScaffold(
                           backgroundColor: Colors.transparent,
                           navigationBar: CupertinoNavigationBar(
                             padding: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 24,),
+                              horizontal: 24,
+                            ),
                             backgroundColor: Colors.transparent,
                             middle: Text(
                               S.of(context).homeTrackingResidences,
@@ -168,14 +167,10 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                 });
                               },
                               child: Text(
-                                isEditing
-                                    ? S.of(context).commonContinue
-                                    : S.of(context).commonEdit,
+                                isEditing ? S.of(context).commonContinue : S.of(context).commonEdit,
                                 style: TextStyle(
                                   fontSize: 17,
-                                  fontWeight: isEditing
-                                      ? FontWeight.w600
-                                      : FontWeight.w500,
+                                  fontWeight: isEditing ? FontWeight.w600 : FontWeight.w500,
                                 ),
                               ),
                             ),
@@ -187,23 +182,23 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                               child: Icon(
                                 CupertinoIcons.clear_circled_solid,
                                 size: 34,
-                                color: Colors.white.withOpacity(0.85),
+                                color: Colors.white.withValues(alpha: 0.85),
                               ),
                             ),
                           ),
                           child: SafeArea(
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 24.0),
                               child: Column(
                                 children: [
                                   const Gap(32),
                                   BlocBuilder<CountriesCubit, CountriesState>(
                                     builder: (c, s) {
                                       return RlCard(
-                                        borderRadius: BorderRadius.circular(24),
+                                        borderRadius: 24,
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 8,),
+                                          vertical: 8,
+                                        ),
                                         child: Stack(
                                           children: [
                                             // Normal ListView
@@ -212,26 +207,18 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                               child: IgnorePointer(
                                                 ignoring: isEditing,
                                                 child: ListView.builder(
-                                                  physics:
-                                                      const NeverScrollableScrollPhysics(),
+                                                  physics: const NeverScrollableScrollPhysics(),
                                                   shrinkWrap: true,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    final country = s
-                                                        .countries.values
-                                                        .toList()[index];
+                                                  itemBuilder: (context, index) {
+                                                    final country = s.countries.values.toList()[index];
                                                     return _CountryItem(
                                                       country: country,
-                                                      toggleSelection:
-                                                          toggleSelection,
+                                                      toggleSelection: toggleSelection,
                                                       isEditing: isEditing,
-                                                      isSelected:
-                                                          selected.contains(
+                                                      isSelected: selected.contains(
                                                         country.isoCode,
                                                       ),
-                                                      isLast: index ==
-                                                          s.countries.length -
-                                                              1,
+                                                      isLast: index == s.countries.length - 1,
                                                     );
                                                   },
                                                   itemCount: s.countries.length,
@@ -244,29 +231,20 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                               opacity: isEditing ? 1.0 : 0.0,
                                               child: IgnorePointer(
                                                 ignoring: !isEditing,
-                                                child:
-                                                    ReorderableListView.builder(
-                                                  physics:
-                                                      const NeverScrollableScrollPhysics(),
+                                                child: ReorderableListView.builder(
+                                                  physics: const NeverScrollableScrollPhysics(),
                                                   shrinkWrap: true,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    final country = s
-                                                        .countries.values
-                                                        .toList()[index];
+                                                  itemBuilder: (context, index) {
+                                                    final country = s.countries.values.toList()[index];
                                                     return _CountryItem(
                                                       key: Key(country.isoCode),
                                                       country: country,
-                                                      toggleSelection:
-                                                          toggleSelection,
+                                                      toggleSelection: toggleSelection,
                                                       isEditing: isEditing,
-                                                      isSelected:
-                                                          selected.contains(
+                                                      isSelected: selected.contains(
                                                         country.isoCode,
                                                       ),
-                                                      isLast: index ==
-                                                          s.countries.length -
-                                                              1,
+                                                      isLast: index == s.countries.length - 1,
                                                     );
                                                   },
                                                   itemCount: s.countries.length,
@@ -275,8 +253,8 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                                     newIndex,
                                                   ) {
                                                     find<CountriesCubit>(
-                                                            context,)
-                                                        .reorderCountry(
+                                                      context,
+                                                    ).reorderCountry(
                                                       oldIndex,
                                                       newIndex,
                                                     );
@@ -312,10 +290,8 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                         showCupertinoDialog(
                                           context: context,
                                           barrierDismissible: true,
-                                          builder: (context) =>
-                                              CupertinoAlertDialog(
-                                            title:
-                                                const Text("Delete Residences"),
+                                          builder: (context) => CupertinoAlertDialog(
+                                            title: const Text("Delete Residences"),
                                             content: const Text(
                                               "Are you sure you want to delete the selected residences?",
                                             ),
@@ -328,15 +304,13 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                                   );
 
                                                   context.pop();
-                                                  for (final isoCode
-                                                      in selected) {
+                                                  for (final isoCode in selected) {
                                                     find<CountriesCubit>(
                                                       context,
                                                     ).removeCountry(isoCode);
                                                   }
                                                   setState(selected.clear);
-                                                  VibrationService.instance
-                                                      .success();
+                                                  VibrationService.instance.success();
                                                 },
                                                 child: const Text("Delete"),
                                               ),
@@ -370,14 +344,19 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
 
 class _CountryItem extends StatelessWidget {
   const _CountryItem({
-    required this.country, required this.toggleSelection, required this.isEditing, required this.isSelected, required this.isLast, super.key,
+    required this.country,
+    required this.toggleSelection,
+    required this.isEditing,
+    required this.isSelected,
+    required this.isLast,
+    super.key,
   });
 
   final CountryEntity country;
   final bool isEditing;
   final bool isSelected;
   final bool isLast;
-  final Function(CountryEntity, bool) toggleSelection;
+  final Function({required CountryEntity country, required bool isSelected}) toggleSelection;
 
   @override
   Widget build(BuildContext context) {
@@ -390,7 +369,7 @@ class _CountryItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(24),
       child: GestureDetector(
         onTap: isEditing
-            ? () => toggleSelection(country, !isSelected)
+            ? () => toggleSelection(country: country, isSelected: !isSelected)
             : () {
                 context.pushNamed(
                   ScreenNames.residenceDetails2,
@@ -399,7 +378,7 @@ class _CountryItem extends StatelessWidget {
               },
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 1),
-          color: Colors.white.withOpacity(0.0001),
+          color: Colors.white.withValues(alpha: 0.0001),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -438,8 +417,7 @@ class _CountryItem extends StatelessWidget {
                           child: Center(
                             child: RlCheckbox(
                               value: isSelected,
-                              onToggle: (value) =>
-                                  toggleSelection(country, value),
+                              onToggle: (value) => toggleSelection(country: country, isSelected: value),
                             ),
                           ),
                         ),
@@ -457,8 +435,7 @@ class _CountryItem extends StatelessWidget {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     country.name,
@@ -473,9 +450,7 @@ class _CountryItem extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.poppins(
                                         fontSize: 12,
-                                        color: context
-                                            .theme.colorScheme.tertiary
-                                            .withOpacity(0.5),
+                                        color: context.theme.colorScheme.tertiary.withValues(alpha: 0.5),
                                       ),
                                       "${country.daysSpent} / 183 ${S.of(context).homeDays}",
                                     ),
@@ -496,8 +471,7 @@ class _CountryItem extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8),
                                     value: v,
                                     backgroundColor: backgroundColor,
-                                    valueColor:
-                                        const AlwaysStoppedAnimation(valueColor),
+                                    valueColor: const AlwaysStoppedAnimation(valueColor),
                                   ).animate().shimmer(
                                     duration: 1.seconds,
                                     delay: 1.seconds,

@@ -3,19 +3,19 @@ import "package:flutter_animate/flutter_animate.dart";
 import "package:resident_live/shared/shared.dart";
 
 class RlCheckbox extends StatefulWidget {
-
   const RlCheckbox({
-    required this.value, required this.onToggle, super.key,
+    required this.value,
+    required this.onToggle,
+    super.key,
   });
   final bool value;
   final ValueChanged<bool> onToggle;
 
   @override
-  _RlCheckboxState createState() => _RlCheckboxState();
+  RlCheckboxState createState() => RlCheckboxState();
 }
 
-class _RlCheckboxState extends State<RlCheckbox>
-    with SingleTickerProviderStateMixin {
+class RlCheckboxState extends State<RlCheckbox> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
 
@@ -77,15 +77,16 @@ class _RlCheckboxState extends State<RlCheckbox>
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   width: 1,
-                  color: widget.value
-                      ? context.theme.primaryColor
-                      : const Color(0xff8E8E8E),
+                  color: widget.value ? context.theme.primaryColor : const Color(0xff8E8E8E),
                 ),
               ),
               child: Center(
                 child: widget.value
-                    ? Icon(CupertinoIcons.check_mark,
-                        color: context.theme.colorScheme.surface, size: 18,)
+                    ? Icon(
+                        CupertinoIcons.check_mark,
+                        color: context.theme.colorScheme.surface,
+                        size: 18,
+                      )
                     : null,
               ),
             ),

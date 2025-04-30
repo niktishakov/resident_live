@@ -8,7 +8,8 @@ import "package:resident_live/shared/shared.dart";
 
 class AiSliverAppBar extends StatelessWidget {
   const AiSliverAppBar({
-    required this.title, super.key,
+    required this.title,
+    super.key,
     this.actions,
     this.trailing,
     this.leading,
@@ -119,7 +120,6 @@ class AiSliverHeader extends StatelessWidget {
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-
   _SliverAppBarDelegate({
     required this.minHeight,
     required this.maxHeight,
@@ -156,12 +156,10 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             child: Container(
               height: maxExtent,
               decoration: BoxDecoration(
-                color: context.theme.colorScheme.surface
-                    .withOpacity(borderOpacity * 0.8),
+                color: context.theme.colorScheme.surface.withValues(alpha: borderOpacity * 0.8),
                 border: Border(
                   bottom: BorderSide(
-                    color:
-                        context.theme.dividerColor.withOpacity(borderOpacity),
+                    color: context.theme.dividerColor.withValues(alpha: borderOpacity),
                     width: 0.5,
                   ),
                 ),
@@ -176,9 +174,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
+    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
   }
 }
 
@@ -199,29 +195,30 @@ class AiBackButton extends StatelessWidget {
     return ColoredBox(
       color: Colors.transparent,
       child: CupertinoButton(
-          padding: padding ?? const EdgeInsets.only(left: 12, right: 0),
-          minSize: 24,
-          onPressed: onPressed ?? () => context.pop(),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.arrow_back_ios_new_outlined,
-                color: context.theme.primaryColor,
-                size: 22,
-                weight: 4,
-              ),
-              if (title != null)
-                Text(
-                  title!,
-                  style: TextStyle(
-                    color: context.theme.primaryColor,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                  ),
+        padding: padding ?? const EdgeInsets.only(left: 12, right: 0),
+        minSize: 24,
+        onPressed: onPressed ?? () => context.pop(),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: context.theme.primaryColor,
+              size: 22,
+              weight: 4,
+            ),
+            if (title != null)
+              Text(
+                title!,
+                style: TextStyle(
+                  color: context.theme.primaryColor,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
                 ),
-            ],
-          ),),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

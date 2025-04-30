@@ -1,7 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:resident_live/features/features.dart';
+import "package:equatable/equatable.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 // Define the state
 class GetStartedState extends Equatable {
@@ -35,7 +33,7 @@ class GetStartedState extends Equatable {
 
 // Define the cubit
 class GetStartedCubit extends Cubit<GetStartedState> {
-  GetStartedCubit() : super(GetStartedState());
+  GetStartedCubit() : super(const GetStartedState());
 
   void setFocusedCountry(int index) {
     emit(state.copyWith(focusedCountryIndex: index));

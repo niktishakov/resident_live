@@ -54,8 +54,7 @@ class FocusOnView extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(24),
                   child: Column(
-                    children: List.generate(
-                        countriesState.countries.length * 2 - 1, (index) {
+                    children: List.generate(countriesState.countries.length * 2 - 1, (index) {
                       if (index.isOdd) {
                         // This is a separator
                         return Container(
@@ -66,13 +65,9 @@ class FocusOnView extends StatelessWidget {
                       // This is a country item
                       final countryIndex = index ~/ 2;
                       return CountryProgressBar(
-                        country: countriesState.countries.entries
-                            .elementAt(countryIndex)
-                            .value,
+                        country: countriesState.countries.entries.elementAt(countryIndex).value,
                         isSelected: countryIndex == state.focusedCountryIndex,
-                        onTap: () => context
-                            .read<GetStartedCubit>()
-                            .setFocusedCountry(countryIndex),
+                        onTap: () => context.read<GetStartedCubit>().setFocusedCountry(countryIndex),
                       );
                     }),
                   ),
@@ -88,7 +83,10 @@ class FocusOnView extends StatelessWidget {
 
 class CountryProgressBar extends StatelessWidget {
   const CountryProgressBar({
-    required this.country, required this.isSelected, required this.onTap, super.key,
+    required this.country,
+    required this.isSelected,
+    required this.onTap,
+    super.key,
   });
 
   final CountryEntity country;
@@ -125,12 +123,16 @@ class CountryProgressBar extends StatelessWidget {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Color.lerp(const Color(0xffD9D9D9).withOpacity(0.2),
-                                  const Color(0xff50B5FF), selectionValue,)!,
                               Color.lerp(
-                                  const Color(0xff737373).withOpacity(0.1),
-                                  const Color(0xff50B5FF).withOpacity(0.5),
-                                  selectionValue,)!,
+                                const Color(0xffD9D9D9).withValues(alpha: 0.2),
+                                const Color(0xff50B5FF),
+                                selectionValue,
+                              )!,
+                              Color.lerp(
+                                const Color(0xff737373).withValues(alpha: 0.1),
+                                const Color(0xff50B5FF).withValues(alpha: 0.5),
+                                selectionValue,
+                              )!,
                             ],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,

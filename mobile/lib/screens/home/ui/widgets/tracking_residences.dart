@@ -32,8 +32,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
 
   @override
   Widget build(BuildContext context) {
-    final residences =
-        widget.residences.sublist(0, min(widget.residences.length, 2));
+    final residences = widget.residences.sublist(0, min(widget.residences.length, 2));
     final beginBorderRadius = BorderRadius.circular(38);
     return residences.isEmpty
         ? const SizedBox()
@@ -50,8 +49,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                     style: GoogleFonts.poppins(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
-                      color:
-                          context.theme.colorScheme.secondary.withOpacity(0.87),
+                      color: context.theme.colorScheme.secondary.withValues(alpha: 0.87),
                     ),
                   ),
                 ),
@@ -76,16 +74,13 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                     ),
                     child: RlCard(
                       gradient: kMainGradient,
-                      borderRadius: beginBorderRadius,
+                      borderRadius: beginBorderRadius.topLeft.x,
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Column(
                           children: [
-                            ...residences
-                                .sublist(0, residences.length.clamp(0, 2))
-                                .map((e) => _buildItem(context, e))
-                                ,
+                            ...residences.sublist(0, residences.length.clamp(0, 2)).map((e) => _buildItem(context, e)),
                             const Gap(10),
                             const _SeeAll(),
                             const Gap(5),
@@ -125,8 +120,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                     maxLines: 2,
                     style: GoogleFonts.poppins(
                       fontSize: 12,
-                      color: context.theme.colorScheme.tertiary
-                          .withValues(alpha: 0.5),
+                      color: context.theme.colorScheme.tertiary.withValues(alpha: 0.5),
                     ),
                     "${residence.daysSpent} / 183 ${S.of(context).homeDays}",
                   ),
@@ -174,13 +168,13 @@ class _SeeAll extends StatelessWidget {
           style: GoogleFonts.poppins(
             fontSize: 11,
             fontWeight: FontWeight.w400,
-            color: context.theme.colorScheme.secondary.withOpacity(0.5),
+            color: context.theme.colorScheme.secondary.withValues(alpha: 0.5),
           ),
         ),
         AppAssetImage(
           AppAssets.chevronCompactDown,
           width: 21,
-          color: context.theme.colorScheme.secondary.withOpacity(0.5),
+          color: context.theme.colorScheme.secondary.withValues(alpha: 0.5),
         ),
       ],
     );

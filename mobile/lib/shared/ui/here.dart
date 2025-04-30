@@ -23,7 +23,7 @@ class Here extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: context.theme.colorScheme.secondary.withOpacity(0.5),
+                    color: context.theme.colorScheme.secondary.withValues(alpha: 0.5),
                     height: 14 / 12,
                   ),
                 ),

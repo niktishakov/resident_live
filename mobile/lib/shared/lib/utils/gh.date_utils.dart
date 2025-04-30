@@ -41,8 +41,7 @@ class GhNullableDateTimeConverter implements JsonConverter<DateTime?, String?> {
   }
 
   @override
-  String? toJson(DateTime? date) =>
-      date != null ? const GhDateTimeConverter().toJson(date) : null;
+  String? toJson(DateTime? date) => date != null ? const GhDateTimeConverter().toJson(date) : null;
 }
 
 extension DateHelpers on DateTime {
@@ -69,7 +68,7 @@ extension DateHelpers on DateTime {
   /// 'a' and 'b' represent two different days but since they are not at least 24hrs apart the result is incorrect.
   /// E.g.:   final a = DateTime.utc(2021, 2, 4, 9);
   ///         final b = DateTime.utc(2021, 2, 3, 23);
-  ///         print(a.difference(b).inDays); // 0
+  ///         debugPrint(a.difference(b).inDays); // 0
   bool get isToday {
     final now = nowUtc;
     return now.day == day && now.month == month && now.year == year;
@@ -78,17 +77,13 @@ extension DateHelpers on DateTime {
   /// See [isToday]
   bool get isYesterday {
     final yesterday = nowUtc.subtract(oneDay);
-    return yesterday.day == day &&
-        yesterday.month == month &&
-        yesterday.year == year;
+    return yesterday.day == day && yesterday.month == month && yesterday.year == year;
   }
 
   /// See [isToday]
   bool get isTomorrow {
     final tomorrow = nowUtc.add(oneDay);
-    return tomorrow.day == day &&
-        tomorrow.month == month &&
-        tomorrow.year == year;
+    return tomorrow.day == day && tomorrow.month == month && tomorrow.year == year;
   }
 
   bool get isAfterToday => dateOnly.isAfter(nowUtc.dateOnly);
@@ -113,13 +108,6 @@ extension DateHelpers on DateTime {
     return years;
   }
 
-  String get dobFormat {
-    final _month = "$month".padLeft(2, "0");
-    final _day = "$day".padLeft(2, "0");
-
-    return '$year$_month$_day';
-  }
-
   int get secondsSinceEpoch {
     return (millisecondsSinceEpoch / 1000).round();
   }
@@ -133,8 +121,7 @@ extension DateHelpers on DateTime {
     final start = end.subtract(Duration(days: days));
     final thisDateOnly = dateOnly;
 
-    return (thisDateOnly.isAtSameMomentAs(start) ||
-            thisDateOnly.isAfter(start)) &&
+    return (thisDateOnly.isAtSameMomentAs(start) || thisDateOnly.isAfter(start)) &&
         (thisDateOnly.isBefore(end) || thisDateOnly.isAtSameMomentAs(end));
   }
 

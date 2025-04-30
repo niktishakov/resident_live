@@ -108,14 +108,14 @@ class AllowGeoView extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                             trailing: state.isGeoPermissionAllowed
-                                ? Icon(
+                                ? const Icon(
                                     CupertinoIcons.checkmark_seal_fill,
                                     size: 22,
                                   )
                                 : null,
                             label: state.isGeoPermissionAllowed
-                                ? 'Allowed'
-                                : 'Allow',
+                                ? "Allowed"
+                                : "Allow",
                           ).animate(
                             onComplete: (controller) {
                               if (state.isGeoPermissionAllowed) {

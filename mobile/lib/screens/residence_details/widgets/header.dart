@@ -13,7 +13,11 @@ import "package:share_plus/share_plus.dart";
 
 class Header extends StatelessWidget {
   const Header({
-    required this.countryName, required this.isFocused, required this.isHere, required this.screenKey, super.key,
+    required this.countryName,
+    required this.isFocused,
+    required this.isHere,
+    required this.screenKey,
+    super.key,
   });
 
   final String countryName;
@@ -115,7 +119,7 @@ class _HeaderContent extends StatelessWidget {
           child: AppAssetImage(
             AppAssets.squareAndArrowUpCircle,
             width: 32,
-            color: Colors.white.withOpacity(0.85),
+            color: Colors.white.withValues(alpha: 0.85),
           ),
         ),
         const Gap(16),
@@ -124,16 +128,18 @@ class _HeaderContent extends StatelessWidget {
             VibrationService.instance.tap();
             context.pop();
           },
-          child: Icon(CupertinoIcons.clear_circled_solid,
-              size: 34, color: Colors.white.withOpacity(0.85),),
+          child: Icon(
+            CupertinoIcons.clear_circled_solid,
+            size: 34,
+            color: Colors.white.withValues(alpha: 0.85),
+          ),
         ),
       ],
     );
   }
 
   Future<void> _captureAndShareScreenshot() async {
-    final boundary =
-        screenKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    final boundary = screenKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
     final image = await boundary.toImage(pixelRatio: 3.0);
     final byteData = await image.toByteData(format: ImageByteFormat.png);
     final bytes = byteData!.buffer.asUint8List();
@@ -146,8 +152,7 @@ class _HeaderContent extends StatelessWidget {
           mimeType: "image/png",
         ),
       ],
-      text:
-          "Track your global residency journey with Resident Live! Download now: $appStoreLink",
+      text: "Track your global residency journey with Resident Live! Download now: $appStoreLink",
     );
   }
 }

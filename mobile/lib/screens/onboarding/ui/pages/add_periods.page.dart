@@ -10,18 +10,20 @@ import "package:resident_live/shared/shared.dart";
 import "package:resident_live/widgets/widgets.dart";
 
 class AddPeriodsPage extends StatefulWidget {
-  const AddPeriodsPage({required this.countries, required this.segments, super.key,
+  const AddPeriodsPage({
+    required this.countries,
+    required this.segments,
+    super.key,
   });
 
   final List<String> countries;
   final List<StayPeriod> segments;
 
   @override
-  _AddPeriodsPageState createState() => _AddPeriodsPageState();
+  AddPeriodsPageState createState() => AddPeriodsPageState();
 }
 
-class _AddPeriodsPageState extends State<AddPeriodsPage>
-    with WidgetsBindingObserver {
+class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObserver {
   List<StayPeriod> segments = [];
   String? focusedCountry;
   late DateTime startDate;
@@ -241,12 +243,13 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                           children: [
                             Text(
                               S.of(context).commonDelete,
-                              style: context.theme.textTheme.bodyMedium
-                                  ?.copyWith(color: Colors.white),
+                              style: context.theme.textTheme.bodyMedium?.copyWith(color: Colors.white),
                             ),
                             const Gap(8),
-                            const Icon(CupertinoIcons.delete,
-                                color: Colors.white,),
+                            const Icon(
+                              CupertinoIcons.delete,
+                              color: Colors.white,
+                            ),
                           ],
                         ),
                       ),
@@ -271,22 +274,19 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                               borderRadius: BorderRadius.circular(16),
                             ),
                             margin: const EdgeInsets.all(8),
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   segments[index].country,
-                                  style: context.theme.textTheme.bodyLarge
-                                      ?.copyWith(
+                                  style: context.theme.textTheme.bodyLarge?.copyWith(
                                     color: context.theme.colorScheme.secondary,
                                   ),
                                 ),
                                 Text(
                                   "${_formatDate(segments[index].startDate)} - ${_formatDate(segments[index].endDate)}",
-                                  style: context.theme.textTheme.bodyLarge
-                                      ?.copyWith(
+                                  style: context.theme.textTheme.bodyLarge?.copyWith(
                                     color: context.theme.colorScheme.secondary,
                                   ),
                                 ),
@@ -308,8 +308,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
               duration: 500.ms,
               curve: Curves.fastOutSlowIn,
               tween: Tween<double>(begin: 0, end: segments.isNotEmpty ? 1 : 0),
-              builder: (context, value, child) =>
-                  Opacity(opacity: value, child: child),
+              builder: (context, value, child) => Opacity(opacity: value, child: child),
               child: PrimaryButton(
                 enabled: _canApply,
                 onPressed: () {
@@ -318,8 +317,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                 label: S.of(context).commonApply,
               )
                   .animate(
-                    onPlay: (controller) =>
-                        _canApply ? controller.repeat() : null,
+                    onPlay: (controller) => _canApply ? controller.repeat() : null,
                   )
                   .shimmer(duration: 1.seconds, delay: 3.seconds),
             ),

@@ -11,7 +11,9 @@ import "package:resident_live/shared/shared.dart";
 
 class AiBottomBar extends StatelessWidget {
   const AiBottomBar({
-    required this.state, required this.child, super.key,
+    required this.state,
+    required this.child,
+    super.key,
   });
 
   final GoRouterState state;
@@ -30,11 +32,10 @@ class AiBottomBar extends StatelessWidget {
         iconFill: AppAssets.sliderHorizontal2Gobackward,
         label: "",
         path: ScreenNames.onboarding,
-        animation: (isSelected, child) => TweenAnimationBuilder<double>(
+        animation: ({child, isSelected = false}) => TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: 0.0, end: isSelected ? 1.0 : 0.0),
           duration: 200.ms,
-          builder: (_, value, c) =>
-              Transform.rotate(angle: -value * pi / 3, child: c),
+          builder: (_, value, c) => Transform.rotate(angle: -value * pi / 3, child: c),
           child: child,
         ),
       ),
@@ -43,11 +44,10 @@ class AiBottomBar extends StatelessWidget {
         iconFill: AppAssets.gearshapeFill,
         label: S.of(context).commonSettingsTab,
         path: ScreenNames.settings,
-        animation: (isSelected, child) => TweenAnimationBuilder<double>(
+        animation: ({child, isSelected = false}) => TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: 0.0, end: isSelected ? 1.0 : 0.0),
           duration: 200.ms,
-          builder: (_, value, c) =>
-              Transform.rotate(angle: value * pi / 3, child: c),
+          builder: (_, value, c) => Transform.rotate(angle: value * pi / 3, child: c),
           child: child,
         ),
       ),
@@ -85,7 +85,7 @@ class AiBottomBar extends StatelessWidget {
                       Expanded(
                         flex: item.label.isEmpty ? 1 : 2,
                         child: ColoredBox(
-                          color: Colors.amber.withOpacity(0.00001),
+                          color: Colors.amber.withValues(alpha: 0.00001),
                           child: _buildTabItem(context, item),
                         ),
                       ),
@@ -103,17 +103,11 @@ class AiBottomBar extends StatelessWidget {
     final isSelected = currentPath == item.path;
     final isMiddleButton = item.path == ScreenNames.onboarding;
     final iconSize = isMiddleButton ? 66.0 : 30.0;
-    final textColor = isMiddleButton
-        ? context.theme.primaryColor
-        : isSelected
-            ? Colors.black
-            : const Color(0xff868991);
 
     if (isMiddleButton) {
       if (item.animation != null) {
         return item.animation!(
-          isSelected,
-          LayoutBuilder(
+          child: LayoutBuilder(
             builder: (context, ctrx) {
               return GestureDetector(
                 onTap: () {
@@ -150,6 +144,7 @@ class AiBottomBar extends StatelessWidget {
               );
             },
           ),
+          isSelected: isSelected,
         );
       }
 
@@ -202,8 +197,7 @@ class AiBottomBar extends StatelessWidget {
           isSelected: isSelected,
           iconSize: iconSize,
           onPressed: () {
-            final isTheSameTab =
-                GoRouterState.of(context).fullPath == item.path;
+            final isTheSameTab = GoRouterState.of(context).fullPath == item.path;
             if (isTheSameTab && context.canPop()) {
               context.pop();
               return;
@@ -230,7 +224,7 @@ class AiBottomBarItem {
   final AppAsset icon;
   final AppAsset iconFill;
   final String label;
-  final TweenAnimationBuilder Function(bool, Widget)? animation;
+  final TweenAnimationBuilder Function({Widget? child, bool isSelected})? animation;
 }
 
 class BlurredBottomNavBar extends StatelessWidget {
@@ -245,11 +239,10 @@ class BlurredBottomNavBar extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0), // Blur effect
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.5), // Semi-transparent background
+            color: Colors.white.withValues(alpha: 0.5), // Semi-transparent background
           ),
           child: BottomNavigationBar(
-            backgroundColor:
-                Colors.transparent, // Background should be transparent
+            backgroundColor: Colors.transparent, // Background should be transparent
             elevation: 0, // Remove the shadow
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(

@@ -20,7 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await AiLogger.initialize();
-  runApp(MaterialApp(home: PresplashScreen()));
+  runApp(const MaterialApp(home: PresplashScreen()));
 
   final envHolder = EnvHolder(Environment.prod);
   final secrets = await Secrets.create(envHolder);

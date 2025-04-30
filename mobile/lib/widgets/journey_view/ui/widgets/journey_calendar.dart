@@ -29,8 +29,7 @@ class JourneyCalendar extends StatefulWidget {
   State<JourneyCalendar> createState() => _JourneyCalendarState();
 }
 
-class _JourneyCalendarState extends State<JourneyCalendar>
-    with SingleTickerProviderStateMixin {
+class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProviderStateMixin {
   late DateTime _displayedMonth;
   late DateTime _nextMonth;
   bool _isAnimating = false;
@@ -287,8 +286,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
                     child: Text(
                       _getWeekDayLabel(context, i).toUpperCase(),
                       textAlign: TextAlign.center,
-                      style:
-                          context.rlTheme.body12.copyWith(color: Colors.white),
+                      style: context.rlTheme.body12.copyWith(color: Colors.white),
                     ),
                   ),
               ],
@@ -334,7 +332,8 @@ class _JourneyCalendarState extends State<JourneyCalendar>
                             period.start.subtract(const Duration(days: 1)),
                           ) &&
                           date.isBefore(
-                              period.end.add(const Duration(days: 1)),)) {
+                            period.end.add(const Duration(days: 1)),
+                          )) {
                         todayColor = widget.countryColors[country];
                         break;
                       }
@@ -348,8 +347,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
                   decoration: isToday
                       ? BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: todayColor?.withOpacity(0.2) ??
-                              context.rlTheme.bgAccent.withOpacity(0.2),
+                          color: todayColor?.withValues(alpha: 0.2) ?? context.rlTheme.bgAccent.withValues(alpha: 0.2),
                         )
                       : null,
                   child: Center(
@@ -381,9 +379,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
   DateTime _getDateForIndex(int index, DateTime month) {
     final firstDayOfMonth = DateTime(month.year, month.month, 1);
     final firstDayOffset = firstDayOfMonth.weekday - 1;
-    return firstDayOfMonth
-        .subtract(Duration(days: firstDayOffset))
-        .add(Duration(days: index));
+    return firstDayOfMonth.subtract(Duration(days: firstDayOffset)).add(Duration(days: index));
   }
 
   bool _isCurrentMonth(DateTime date, DateTime month) {
@@ -453,7 +449,6 @@ class CalendarPainter extends CustomPainter {
     const circleRadius = 5.0;
 
     final firstVisibleDate = _getFirstVisibleDate();
-    final today = DateTime.now();
 
     for (final country in visibleCountries) {
       final periods = countryPeriods[country] ?? [];
@@ -469,7 +464,6 @@ class CalendarPainter extends CustomPainter {
         ..color = color
         ..style = PaintingStyle.fill;
 
-      print("Country: $country");
       for (final period in periods) {
         if (!_isDateRangeVisible(period, currentMonth)) continue;
 
@@ -487,7 +481,6 @@ class CalendarPainter extends CustomPainter {
           var rowStartX = _getXPositionForDate(startDate, cellWidth);
           var rowEndX = _getXPositionForDate(endDate, cellWidth);
 
-          print("row: $row, startRow: $startDate, endRow: $endDate");
           if (row != startRow) rowStartX = cellWidth / 2;
           if (row != endRow) rowEndX = size.width - cellWidth / 2;
 
@@ -544,12 +537,10 @@ class CalendarPainter extends CustomPainter {
 
   bool _isDateRangeVisible(DateTimeRange period, DateTime currentMonth) {
     final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
-    final lastDayOfMonth =
-        DateTime(currentMonth.year, currentMonth.month + 1, 0);
+    final lastDayOfMonth = DateTime(currentMonth.year, currentMonth.month + 1, 0);
 
     // Check if the period overlaps with the current month
-    return !(period.end.isBefore(firstDayOfMonth) ||
-        period.start.isAfter(lastDayOfMonth));
+    return !(period.end.isBefore(firstDayOfMonth) || period.start.isAfter(lastDayOfMonth));
   }
 
   @override

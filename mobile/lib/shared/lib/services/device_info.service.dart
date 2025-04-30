@@ -5,28 +5,26 @@ import "dart:ui";
 import "package:device_info_plus/device_info_plus.dart";
 import "package:flutter/material.dart";
 import "package:package_info_plus/package_info_plus.dart";
-import "package:resident_live/shared/shared.dart";
 
 class DeviceInfoService {
   DeviceInfoService._(
     this.iosInfo,
     this.androidInfo,
     this.packageInfo,
-  ) : assert((iosInfo != null && androidInfo == null) ||
-            (iosInfo == null && androidInfo != null),);
+  ) : assert(
+          (iosInfo != null && androidInfo == null) || (iosInfo == null && androidInfo != null),
+        );
 
   final IosDeviceInfo? iosInfo;
   final AndroidDeviceInfo? androidInfo;
   final PackageInfo packageInfo;
-  final _logger = AiLogger("DeviceInfoService");
 
   static Future<DeviceInfoService> create() async {
     final packageInfo = await PackageInfo.fromPlatform();
 
     final deviceInfo = DeviceInfoPlugin();
     final iosInfo = Platform.isIOS ? await deviceInfo.iosInfo : null;
-    final androidInfo =
-        Platform.isAndroid ? await deviceInfo.androidInfo : null;
+    final androidInfo = Platform.isAndroid ? await deviceInfo.androidInfo : null;
 
     return DeviceInfoService._(
       iosInfo,
@@ -46,7 +44,7 @@ class DeviceInfoService {
     } else if (Platform.isAndroid) {
       return "Android";
     }
-    throw "Invalid platform: ${Platform.operatingSystem}";
+    throw Exception("Invalid platform: ${Platform.operatingSystem}");
   }
 
   String get deviceId {
@@ -55,20 +53,16 @@ class DeviceInfoService {
     } else if (Platform.isIOS) {
       return iosInfo!.identifierForVendor ?? "";
     }
-    throw "Invalid platform: ${Platform.operatingSystem}";
+    throw Exception("Invalid platform: ${Platform.operatingSystem}");
   }
 
   DeviceType get deviceType {
     if (Platform.isIOS) {
-      return iosInfo?.model.toLowerCase() == "ipad"
-          ? DeviceType.tablet
-          : DeviceType.phone;
+      return iosInfo?.model.toLowerCase() == "ipad" ? DeviceType.tablet : DeviceType.phone;
     } else {
       // Solution taken from: https://stackoverflow.com/questions/49484549/can-we-check-the-device-to-be-smartphone-or-tablet-in-flutter
       final data = MediaQueryData.fromView(FlutterView as FlutterView);
-      return data.size.shortestSide > 550
-          ? DeviceType.tablet
-          : DeviceType.phone;
+      return data.size.shortestSide > 550 ? DeviceType.tablet : DeviceType.phone;
     }
   }
 }
@@ -88,6 +82,6 @@ extension DeviceTypeExtension on DeviceType {
       return tablet.call();
     }
 
-    throw "Invalid DeviceType $this";
+    throw Exception("Invalid DeviceType $this");
   }
 }

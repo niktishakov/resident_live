@@ -65,7 +65,7 @@ class LanguageCubit extends HydratedCubit<LanguageState> {
         emit(state.copyWith(
           localeKey: localeKey,
           status: LanguageStatus.success,
-        ));
+        ),);
       } else {
         throw UnsupportedError("Locale $newLocale is not supported");
       }
@@ -74,7 +74,7 @@ class LanguageCubit extends HydratedCubit<LanguageState> {
       emit(state.copyWith(
         status: LanguageStatus.error,
         errorMessage: e.toString(),
-      ));
+      ),);
     }
   }
 

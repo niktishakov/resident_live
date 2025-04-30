@@ -4,11 +4,10 @@ class RecordingAnimation extends StatefulWidget {
   const RecordingAnimation({super.key});
 
   @override
-  _RecordingAnimationState createState() => _RecordingAnimationState();
+  RecordingAnimationState createState() => RecordingAnimationState();
 }
 
-class _RecordingAnimationState extends State<RecordingAnimation>
-    with SingleTickerProviderStateMixin {
+class RecordingAnimationState extends State<RecordingAnimation> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   late Animation<double> _fadeAnimation;

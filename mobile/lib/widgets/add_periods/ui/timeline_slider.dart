@@ -9,7 +9,19 @@ import "package:resident_live/generated/l10n/l10n.dart";
 import "package:resident_live/shared/shared.dart";
 
 class TimelineSlider extends StatefulWidget {
-  const TimelineSlider({required this.min, required this.max, required this.initialStart, required this.initialEnd, required this.color, required this.startDate, required this.endDate, required this.periods, required this.onAddPeriodPressed, required this.countryColors, super.key, this.height = 80.5,
+  const TimelineSlider({
+    required this.min,
+    required this.max,
+    required this.initialStart,
+    required this.initialEnd,
+    required this.color,
+    required this.startDate,
+    required this.endDate,
+    required this.periods,
+    required this.onAddPeriodPressed,
+    required this.countryColors,
+    super.key,
+    this.height = 80.5,
   });
 
   final double min;
@@ -25,11 +37,10 @@ class TimelineSlider extends StatefulWidget {
   final Map<String, Color> countryColors;
 
   @override
-  _TimelineSliderState createState() => _TimelineSliderState();
+  TimelineSliderState createState() => TimelineSliderState();
 }
 
-class _TimelineSliderState extends State<TimelineSlider>
-    with TickerProviderStateMixin {
+class TimelineSliderState extends State<TimelineSlider> with TickerProviderStateMixin {
   late double _startValue;
   late double _endValue;
   late AnimationController _shimmerController;
@@ -129,8 +140,7 @@ class _TimelineSliderState extends State<TimelineSlider>
     final labels = <String>[];
 
     for (var i = 0; i <= labelCount; i++) {
-      final date =
-          widget.startDate.add(Duration(days: i * totalDays ~/ labelCount));
+      final date = widget.startDate.add(Duration(days: i * totalDays ~/ labelCount));
       labels.add(_formatDate(date));
     }
 
@@ -176,15 +186,11 @@ class _TimelineSliderState extends State<TimelineSlider>
   }
 
   void _showDatePicker(BuildContext context, bool isStart) {
-    final title = isStart
-        ? S.of(context).addStayPeriodPeriodFrom
-        : S.of(context).addStayPeriodPeriodTo;
+    final title = isStart ? S.of(context).addStayPeriodPeriodFrom : S.of(context).addStayPeriodPeriodTo;
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        final initialDate = isStart
-            ? _getDateFromValue(_startValue)
-            : _getDateFromValue(_endValue);
+        final initialDate = isStart ? _getDateFromValue(_startValue) : _getDateFromValue(_endValue);
 
         return Container(
           height: 300,
@@ -220,8 +226,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                   minimumDate: widget.startDate,
                   maximumDate: widget.endDate,
                   onDateTimeChanged: (newDate) {
-                    final days =
-                        widget.endDate.difference(newDate).inDays.toDouble();
+                    final days = widget.endDate.difference(newDate).inDays.toDouble();
                     final newValue = widget.max - days;
 
                     if (isStart) {
@@ -251,8 +256,7 @@ class _TimelineSliderState extends State<TimelineSlider>
 
     for (final segment in widget.periods) {
       // If start or end date of new segment lies within an existing segment, return false
-      if (!(end.isBefore(segment.startDate) ||
-          start.isAfter(segment.endDate))) {
+      if (!(end.isBefore(segment.startDate) || start.isAfter(segment.endDate))) {
         return false;
       }
     }
@@ -310,9 +314,7 @@ class _TimelineSliderState extends State<TimelineSlider>
     }
 
     // the last case is when there are no empty days left, set the zero range
-    if (periods.isNotEmpty &&
-        currentRange.start == 0 &&
-        currentRange.end == 365) {
+    if (periods.isNotEmpty && currentRange.start == 0 && currentRange.end == 365) {
       currentRange = const RangeValues(0, 1);
     }
 
@@ -333,10 +335,8 @@ class _TimelineSliderState extends State<TimelineSlider>
       animation: animation,
       builder: (context, child) {
         // Define separate animations for fading in and fading out
-        final fadeOutTween =
-            Tween<double>(begin: 1.0, end: 1.0).animate(animation);
-        final fadeInTween =
-            Tween<double>(begin: 0, end: 1.0).animate(animation);
+        final fadeOutTween = Tween<double>(begin: 1.0, end: 1.0).animate(animation);
+        final fadeInTween = Tween<double>(begin: 0, end: 1.0).animate(animation);
 
         // Stack both widgets to animate them in parallel
         return Stack(
@@ -360,9 +360,7 @@ class _TimelineSliderState extends State<TimelineSlider>
   void _onPanStart(DragStartDetails details) {
     final renderBox = context.findRenderObject()! as RenderBox;
     final position = renderBox.globalToLocal(details.globalPosition);
-    final value =
-        (position.dx / renderBox.size.width) * (widget.max - widget.min) +
-            widget.min;
+    final value = (position.dx / renderBox.size.width) * (widget.max - widget.min) + widget.min;
 
     if ((value - _startValue).abs() < 10) {
       _isDraggingLeft = true;
@@ -386,7 +384,6 @@ class _TimelineSliderState extends State<TimelineSlider>
 
   @override
   Widget build(BuildContext context) {
-    final periods = widget.periods;
     final color = widget.color;
     return AnimatedBuilder(
       animation: Listenable.merge(
@@ -399,9 +396,7 @@ class _TimelineSliderState extends State<TimelineSlider>
           onPanUpdate: (details) {
             final renderBox = context.findRenderObject()! as RenderBox;
             final position = renderBox.globalToLocal(details.globalPosition);
-            final newValue = (position.dx / renderBox.size.width) *
-                    (widget.max - widget.min) +
-                widget.min;
+            final newValue = (position.dx / renderBox.size.width) * (widget.max - widget.min) + widget.min;
 
             if (_isDraggingLeft) {
               final newStartValue = newValue.clamp(widget.min, _endValue - 1);
@@ -419,8 +414,6 @@ class _TimelineSliderState extends State<TimelineSlider>
           },
           child: LayoutBuilder(
             builder: (context, ctrx) {
-              const textOffset =
-                  10.0; // Adjust this value to move text closer or further from the edges
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -479,8 +472,7 @@ class _TimelineSliderState extends State<TimelineSlider>
                   PrimaryButton(
                     vibrate: false,
                     backgroundColor: color,
-                    enabled:
-                        isRangeAvailable(RangeValues(_startValue, _endValue)),
+                    enabled: isRangeAvailable(RangeValues(_startValue, _endValue)),
                     onPressed: () {
                       final result = widget.onAddPeriodPressed(
                         RangeValues(_startValue, _endValue),
@@ -503,8 +495,7 @@ class _TimelineSliderState extends State<TimelineSlider>
 
   DateTime _getDateFromValue(double value) {
     // Assuming `min` and `max` represent a range of days
-    return DateTime.now()
-        .subtract(Duration(days: (widget.max - value).toInt()));
+    return DateTime.now().subtract(Duration(days: (widget.max - value).toInt()));
   }
 }
 

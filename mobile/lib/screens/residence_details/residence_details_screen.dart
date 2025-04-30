@@ -1,44 +1,42 @@
-import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
-import "package:flutter_animate/flutter_animate.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:gap/gap.dart";
-import "package:go_router/go_router.dart";
-import "package:google_fonts/google_fonts.dart";
-import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
-import "package:resident_live/features/features.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
-import "package:resident_live/screens/residence_details/widgets/header.dart";
-import "package:resident_live/screens/residence_details/widgets/residency_rules_modal.dart";
-import "package:resident_live/shared/shared.dart";
-import "package:resident_live/widgets/widgets.dart";
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:resident_live/generated/codegen_loader.g.dart';
+import 'package:resident_live/screens/residence_details/widgets/header.dart';
+import 'package:resident_live/widgets/widgets.dart';
 
-Map<String, List<String>> getStatuses(BuildContext context) => {
-      "hr": [
-        S.of(context).detailsYouAreAResident,
-        S.of(context).detailsYouAreAResident,
-      ],
-      "h": [
-        S.of(context).statusesStatusUpdateIn,
-        S.of(context).statusesStatusWillUpdateAt,
-      ],
-      "r": [
-        S.of(context).statusesYouWillLoseYourStatusIn,
-        S.of(context).statusesStatusIsSafeUntil,
-      ],
-      "a": [
-        S.of(context).statusesMoveToThisCountryToReachStatusIn,
-        S.of(context).statusesStatusMayBeUpdatedAt,
-      ],
-    };
+import '../../features/features.dart';
+import '../../shared/shared.dart';
+import 'widgets/residency_rules_modal.dart';
 
-List<String> getStatusMessage(
-  BuildContext context, {
-  required bool isHere,
-  required bool isResident,
-}) =>
-    getStatuses(context)[isHere && isResident
-        ? "hr"
+final _statuses = {
+  'hr': [
+    LocaleKeys.residency_details_youAreAResident.tr(),
+    LocaleKeys.residency_details_youAreAResident.tr(),
+  ],
+  'h': [
+    LocaleKeys.statuses_statusUpdateIn.tr(),
+    LocaleKeys.statuses_statusWillUpdateAt.tr(),
+  ],
+  'r': [
+    LocaleKeys.statuses_youWillLoseYourStatusIn.tr(),
+    LocaleKeys.statuses_statusIsSafeUntil.tr(),
+  ],
+  'a': [
+    LocaleKeys.statuses_moveToThisCountryToReachStatusIn.tr(),
+    LocaleKeys.statuses_statusMayBeUpdatedAt.tr(),
+  ],
+};
+
+List<String> getStatusMessage(bool isHere, bool isResident) =>
+    _statuses[isHere && isResident
+        ? 'hr'
         : isHere
             ? "h"
             : isResident

@@ -10,7 +10,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/shared/shared.dart";
 
-part "record.animation.dart";
+part 'record.animation.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     _authCubit = context.read<AuthCubit>();
 
-    _checkAndAuthenticate();
+    _initializeApp();
   }
 
   Future<void> _initializeApp() async {
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     /// The main reason to go to Home is not empty countries list
     if (state.countries.isNotEmpty) {
-      // _navigateToHome();
+      await find<LocationCubit>(context).initialize(context);
     } else {
       context.goNamed(ScreenNames.onboarding);
     }
@@ -121,10 +121,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 alignment: Alignment.center,
                 children: [
                   Transform.translate(
-                    offset: const Offset(35, -35),
-                    child: const RecordingAnimation(),
+                    offset: Offset(35, -35),
+                    child: RecordingAnimation(),
                   ),
-                  const Center(child: Icon(CupertinoIcons.person_fill, size: 90)),
+                  Center(child: Icon(CupertinoIcons.person_fill, size: 90)),
                   Transform.translate(
                     offset: const Offset(0, 90),
                     child: Text(

@@ -53,8 +53,6 @@
 	<string>Why is my app authenticating using face id?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location when in the background for location tracking.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when in the background for location tracking.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open to track your position.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -84,5 +82,5 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Automatic</string>
-</dict>
+	</dict>
 </plist>

@@ -23,6 +23,7 @@ import workmanager
     // When this task is scheduled from dart it will run with minimum 20 minute frequency. The
     // frequency is not guaranteed rather iOS will schedule it as per user's App usage pattern.
     // If frequency is not provided it will default to 15 minutes
+     
       WorkmanagerPlugin.registerPeriodicTask(withIdentifier: "be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh", frequency: NSNumber(value: 15 * 60))
 
 
@@ -30,10 +31,9 @@ import workmanager
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  override func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification,
-        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-         completionHandler(.alert) // shows banner even if app is in foreground
-  }
+   override func userNotificationCenter(_ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification,
+    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+      completionHandler(.alert) // shows banner even if app is in foreground
+    }
 }

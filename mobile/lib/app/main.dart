@@ -5,7 +5,6 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/single_child_widget.dart';
-
 import 'package:provider/provider.dart';
 
 import '../features/features.dart';
@@ -15,17 +14,16 @@ import 'routes.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 final shellKey = GlobalKey<NavigatorState>();
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
+  await AiLogger.initialize();
   runApp(MaterialApp(home: PresplashScreen()));
 
   final envHolder = EnvHolder(Environment.prod);
   final secrets = await Secrets.create(envHolder);
 
-  AiLogger.initialize();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
@@ -50,11 +48,10 @@ void main() async {
   await VibrationService.init();
   await ShareService.init();
   await ToastService.init();
-  GeolocationService.instance.initialize();
+
   final deviceInfoService = await DeviceInfoService.create();
 
-  final workmanager = await WorkmanagerService.initialize();
-  await workmanager.registerPeriodicTask();
+  await WorkmanagerService.initialize();
 
   runApp(
     LocalizedApp(
@@ -62,7 +59,8 @@ void main() async {
         providers: [
           BlocProvider(create: (_) => OnboardingCubit()),
           BlocProvider(
-              create: (_) => LocationCubit(GeolocationService.instance),),
+            create: (_) => LocationCubit(GeolocationService.instance),
+          ),
           BlocProvider(create: (_) => CountriesCubit()),
           BlocProvider(create: (_) => UserCubit()),
           BlocProvider(create: (_) => AuthCubit()),

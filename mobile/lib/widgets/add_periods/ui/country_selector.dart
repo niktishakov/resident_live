@@ -2,7 +2,10 @@ import "package:flutter/material.dart";
 import "package:resident_live/shared/shared.dart";
 
 class CountrySelector extends StatefulWidget {
-  const CountrySelector({required this.countries, required this.onCountrySelected, super.key,
+  const CountrySelector({
+    required this.countries,
+    required this.onCountrySelected,
+    super.key,
     this.focusedCountry,
     this.colors,
   });
@@ -12,11 +15,10 @@ class CountrySelector extends StatefulWidget {
   final String? focusedCountry;
   final Map<String, Color>? colors;
   @override
-  _CountrySelectorState createState() => _CountrySelectorState();
+  CountrySelectorState createState() => CountrySelectorState();
 }
 
-class _CountrySelectorState extends State<CountrySelector>
-    with WidgetsBindingObserver {
+class CountrySelectorState extends State<CountrySelector> with WidgetsBindingObserver {
   late Map<String, Color> countryColors;
 
   @override
@@ -35,7 +37,9 @@ class _CountrySelectorState extends State<CountrySelector>
   void didChangePlatformBrightness() {
     setState(_updateCountryColors);
     widget.onCountrySelected(
-        widget.focusedCountry!, countryColors[widget.focusedCountry]!,);
+      widget.focusedCountry!,
+      countryColors[widget.focusedCountry]!,
+    );
   }
 
   @override
@@ -62,17 +66,13 @@ class _CountrySelectorState extends State<CountrySelector>
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 width: 0.6,
-                color: isSelected
-                    ? countryColors[country]!
-                    : context.theme.colorScheme.onSurface,
+                color: isSelected ? countryColors[country]! : context.theme.colorScheme.onSurface,
               ),
             ),
             child: Text(
               country,
               style: TextStyle(
-                color: isSelected
-                    ? context.theme.scaffoldBackgroundColor
-                    : context.theme.colorScheme.onSurface,
+                color: isSelected ? context.theme.scaffoldBackgroundColor : context.theme.colorScheme.onSurface,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
             ),

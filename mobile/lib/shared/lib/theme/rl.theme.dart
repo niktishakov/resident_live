@@ -140,25 +140,26 @@ class RlTheme {
 
   final data = ThemeData(
     primaryColor: const Color(0xff50B5FF),
-    disabledColor: Colors.white.withOpacity(0.38),
+    disabledColor: Colors.white.withValues(alpha: 0.38),
     switchTheme: SwitchThemeData(
       trackColor: const WidgetStatePropertyAll(Color(0xff50B5FF)),
-      thumbColor: WidgetStatePropertyAll(Colors.white.withOpacity(0.87)),
+      thumbColor: WidgetStatePropertyAll(Colors.white.withValues(alpha: 0.87)),
     ),
     colorScheme: ColorScheme.dark(
       primary: const Color(0xff50B5FF),
-      secondary: Colors.white.withOpacity(0.87),
+      secondary: Colors.white.withValues(alpha: 0.87),
       tertiary: Colors.grey[300],
       onTertiary: const Color(0xff121212),
       surface: const Color(0xff111111),
-      onSurface: Colors.white.withOpacity(0.87),
+      onSurface: Colors.white.withValues(alpha: 0.87),
     ),
     cardColor: const Color(0xff2b2b2b),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-        circularTrackColor: Color(0xffD9D9D9),
-        color: Color(
-          0xff8E8E8E,
-        ),),
+      circularTrackColor: Color(0xffD9D9D9),
+      color: Color(
+        0xff8E8E8E,
+      ),
+    ),
     scaffoldBackgroundColor: const Color(0xff121212),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.black,
@@ -171,7 +172,10 @@ class RlTheme {
       textTheme: CupertinoTextThemeData(
         primaryColor: Colors.white,
         navLargeTitleTextStyle: TextStyle(
-            color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold,),
+          color: Colors.black,
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+        ),
         navTitleTextStyle: TextStyle(color: Colors.black),
         navActionTextStyle: TextStyle(color: Colors.black),
       ),
@@ -189,12 +193,9 @@ class RlTheme {
       titleLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
       titleMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
       titleSmall: GoogleFonts.poppins().copyWith(color: Colors.white),
-      labelLarge: GoogleFonts.poppins()
-          .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-      labelMedium: GoogleFonts.poppins()
-          .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-      labelSmall: GoogleFonts.poppins()
-          .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+      labelLarge: GoogleFonts.poppins().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+      labelMedium: GoogleFonts.poppins().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+      labelSmall: GoogleFonts.poppins().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
     ),
     iconTheme: const IconThemeData(color: Colors.white),
     buttonTheme: const ButtonThemeData(
@@ -222,7 +223,7 @@ ThemeData lightTheme = ThemeData(
   disabledColor: Colors.grey[200],
   colorScheme: ColorScheme.light(
     primary: const Color(0xff50B5FF),
-    secondary: Colors.black.withOpacity(0.87),
+    secondary: Colors.black.withValues(alpha: 0.87),
     surface: Colors.white,
     onSurface: Colors.grey,
     tertiary: Colors.grey[200],
@@ -231,10 +232,11 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   cardColor: Colors.grey[100],
   progressIndicatorTheme: const ProgressIndicatorThemeData(
-      circularTrackColor: Color(0xffD9D9D9),
-      color: Color(
-        0xff8E8E8E,
-      ),),
+    circularTrackColor: Color(0xffD9D9D9),
+    color: Color(
+      0xff8E8E8E,
+    ),
+  ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
@@ -246,7 +248,10 @@ ThemeData lightTheme = ThemeData(
     textTheme: CupertinoTextThemeData(
       primaryColor: Colors.black,
       navLargeTitleTextStyle: TextStyle(
-          color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold,),
+        color: Colors.white,
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+      ),
       navTitleTextStyle: TextStyle(color: Colors.white),
       navActionTextStyle: TextStyle(color: Colors.white),
     ),
@@ -270,12 +275,9 @@ ThemeData lightTheme = ThemeData(
     titleLarge: GoogleFonts.poppins().copyWith(color: Colors.black),
     titleMedium: GoogleFonts.poppins().copyWith(color: Colors.black),
     titleSmall: GoogleFonts.poppins().copyWith(color: Colors.black),
-    labelLarge: GoogleFonts.poppins()
-        .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
-    labelMedium: GoogleFonts.poppins()
-        .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
-    labelSmall: GoogleFonts.poppins()
-        .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+    labelLarge: GoogleFonts.poppins().copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+    labelMedium: GoogleFonts.poppins().copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+    labelSmall: GoogleFonts.poppins().copyWith(color: Colors.black, fontWeight: FontWeight.w600),
   ),
   datePickerTheme: DatePickerThemeData(
     backgroundColor: Colors.white,
@@ -332,10 +334,8 @@ const kDarkOverlayStyle = SystemUiOverlayStyle(
   systemNavigationBarContrastEnforced: true,
 );
 
-void setBrightOverlayStyle() =>
-    SystemChrome.setSystemUIOverlayStyle(kBrightOverlayStyle);
-void setDarkOverlayStyle() =>
-    SystemChrome.setSystemUIOverlayStyle(kDarkOverlayStyle);
+void setBrightOverlayStyle() => SystemChrome.setSystemUIOverlayStyle(kBrightOverlayStyle);
+void setDarkOverlayStyle() => SystemChrome.setSystemUIOverlayStyle(kDarkOverlayStyle);
 
 void setSystemOverlayStyle() {
   final brightness = PlatformDispatcher.instance.platformBrightness;
@@ -347,6 +347,4 @@ void setSystemOverlayStyle() {
 }
 
 SystemUiOverlayStyle get getSystemOverlayStyle =>
-    PlatformDispatcher.instance.platformBrightness == Brightness.dark
-        ? kDarkOverlayStyle
-        : kBrightOverlayStyle;
+    PlatformDispatcher.instance.platformBrightness == Brightness.dark ? kDarkOverlayStyle : kBrightOverlayStyle;

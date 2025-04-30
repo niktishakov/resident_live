@@ -77,12 +77,10 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
                           focusedCountry: state.focusedCountry,
                           currentMonth: _currentMonth,
                           countryPeriods: countryPeriods,
-                          disabledCountries: countryNames
-                              .where((c) => !_visibleCountries.contains(c))
-                              .toList(),
-                          onCountrySelected: (country, isEnabled) {
+                          disabledCountries: countryNames.where((c) => !_visibleCountries.contains(c)).toList(),
+                          onCountrySelected: ({required country, required isDisabled}) {
                             setState(() {
-                              if (isEnabled) {
+                              if (!isDisabled) {
                                 _visibleCountries.add(country);
                               } else {
                                 _visibleCountries.remove(country);

@@ -2,7 +2,9 @@ import "package:flutter/material.dart";
 
 class AnimatedTextTransition extends StatefulWidget {
   const AnimatedTextTransition({
-    required this.texts, required this.index, super.key,
+    required this.texts,
+    required this.index,
+    super.key,
     this.animationDuration = const Duration(milliseconds: 500),
   });
   final List<Widget> texts;
@@ -10,11 +12,10 @@ class AnimatedTextTransition extends StatefulWidget {
   final Duration animationDuration;
 
   @override
-  _AnimatedTextTransitionState createState() => _AnimatedTextTransitionState();
+  AnimatedTextTransitionState createState() => AnimatedTextTransitionState();
 }
 
-class _AnimatedTextTransitionState extends State<AnimatedTextTransition>
-    with SingleTickerProviderStateMixin {
+class AnimatedTextTransitionState extends State<AnimatedTextTransition> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _positionAnimation;
   late Animation<double> _opacityAnimation;
@@ -34,18 +35,22 @@ class _AnimatedTextTransitionState extends State<AnimatedTextTransition>
     _positionAnimation = Tween<Offset>(
       begin: Offset.zero,
       end: const Offset(0, -1),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ),);
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _opacityAnimation = Tween<double>(
       begin: 1.0,
       end: 0.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutQuart,
-    ),);
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOutQuart,
+      ),
+    );
   }
 
   @override
@@ -85,12 +90,9 @@ class _AnimatedTextTransitionState extends State<AnimatedTextTransition>
       animation: _controller,
       builder: (context, child) {
         return FractionalTranslation(
-          translation: isNext
-              ? _positionAnimation.value + const Offset(0, 1)
-              : _positionAnimation.value,
+          translation: isNext ? _positionAnimation.value + const Offset(0, 1) : _positionAnimation.value,
           child: Opacity(
-            opacity:
-                isNext ? 1 - _opacityAnimation.value : _opacityAnimation.value,
+            opacity: isNext ? 1 - _opacityAnimation.value : _opacityAnimation.value,
             child: child,
           ),
         );

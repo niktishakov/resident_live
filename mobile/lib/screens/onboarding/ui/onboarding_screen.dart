@@ -1,5 +1,4 @@
 import "package:country_list_pick/country_list_pick.dart";
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:resident_live/screens/onboarding/ui/pages/stay_period.page.dart";
@@ -36,9 +35,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               case 0:
                 return FindCountriesPage(onNextPage);
               case 1:
-                return EnterStayDurationPage(onNextPage: () {
-                  context.pushNamed(ScreenNames.getStarted);
-                },);
+                return EnterStayDurationPage(
+                  onNextPage: () {
+                    context.pushNamed(ScreenNames.getStarted);
+                  },
+                );
 
               default:
                 return FindCountriesPage(onNextPage);
@@ -46,32 +47,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           },
         ),
       ),
-    );
-  }
-
-  Future _showDropdown() {
-    return showCupertinoModalPopup(
-      context: context,
-      builder: (context) {
-        return CupertinoActionSheet(
-          title: const Text("Select Item"),
-          actions: ["One", "Two", "Three"].map((item) {
-            return CupertinoActionSheetAction(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(item),
-            );
-          }).toList(),
-          cancelButton: CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            isDefaultAction: true,
-            child: const Text("Cancel"),
-          ),
-        );
-      },
     );
   }
 }

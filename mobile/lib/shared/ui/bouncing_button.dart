@@ -7,7 +7,8 @@ import "package:synchronized/synchronized.dart";
 
 class BouncingButton extends StatefulWidget {
   const BouncingButton({
-    required this.child, super.key,
+    required this.child,
+    super.key,
     this.borderRadius,
     this.onPressed,
     this.vibrate = true,
@@ -24,11 +25,10 @@ class BouncingButton extends StatefulWidget {
   final HitTestBehavior? behaviour;
 
   @override
-  _BouncingState createState() => _BouncingState();
+  BouncingState createState() => BouncingState();
 }
 
-class _BouncingState extends State<BouncingButton>
-    with SingleTickerProviderStateMixin {
+class BouncingState extends State<BouncingButton> with SingleTickerProviderStateMixin {
   late double _scale;
   late double _opacity;
   late Lock? _lock;
@@ -63,8 +63,7 @@ class _BouncingState extends State<BouncingButton>
   }
 
   bool checkPosition(PointerEvent event) {
-    return (event.localPosition.dx - _initPosition.dx).abs() > 5 ||
-        (event.localPosition.dy - _initPosition.dy).abs() > 5;
+    return (event.localPosition.dx - _initPosition.dx).abs() > 5 || (event.localPosition.dy - _initPosition.dy).abs() > 5;
   }
 
   Future<void> _callPressCallback(PointerEvent event) async {
@@ -75,7 +74,7 @@ class _BouncingState extends State<BouncingButton>
           widget.onPressed?.call(event);
           await Future.delayed(widget.debounceDuration);
         } catch (e) {
-          print(e);
+          debugPrint(e.toString());
         }
       });
     } else {
@@ -88,12 +87,12 @@ class _BouncingState extends State<BouncingButton>
     _scale = 1 - _controller.value;
     _opacity = _controller.value;
     final behaviour = widget.behaviour ?? HitTestBehavior.deferToChild;
-    final borderRadius = widget.borderRadius ?? kBorderRadius;
+    final borderRadius = widget.borderRadius ?? BorderRadius.circular(kBorderRadius);
 
     return Listener(
       behavior: behaviour,
       onPointerDown: (event) {
-        if (widget.debounce && _lock?.locked == true) {
+        if (widget.debounce && (_lock?.locked ?? false)) {
           return; // prevent multiple taps
         }
 
@@ -115,7 +114,7 @@ class _BouncingState extends State<BouncingButton>
         }
       },
       onPointerMove: (event) {
-        if (widget.debounce && _lock?.locked == true) {
+        if (widget.debounce && (_lock?.locked ?? false)) {
           return; // prevent multiple taps
         }
 
@@ -127,7 +126,7 @@ class _BouncingState extends State<BouncingButton>
         }
       },
       onPointerUp: (event) async {
-        if (widget.debounce && _lock?.locked == true) {
+        if (widget.debounce && (_lock?.locked ?? false)) {
           return; // prevent multiple taps
         }
 

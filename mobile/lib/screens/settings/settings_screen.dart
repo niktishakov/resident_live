@@ -1,27 +1,25 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:resident_live/domain/domain.dart';
-import 'package:resident_live/features/features.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:resident_live/shared/ui/rl.sliver_header.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:go_router/go_router.dart";
+import "package:local_auth/local_auth.dart";
+import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
+import "package:provider/provider.dart";
+import "package:resident_live/domain/domain.dart";
+import "package:resident_live/features/features.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/screens/settings/widgets/settings_button.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/shared/ui/rl.sliver_header.dart";
+import "package:url_launcher/url_launcher.dart";
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    print("SettingsScreen>> ${S.of(context).settingsNotifications}");
+    debugPrint("SettingsScreen>> ${S.of(context).settingsNotifications}");
     return CupertinoScaffold(
       overlayStyle: getSystemOverlayStyle,
       transitionBackgroundColor: const Color(0xff121212),
@@ -34,11 +32,9 @@ class SettingsScreen extends StatelessWidget {
                   titleText: S.of(context).settingsTitle,
                 ),
                 SliverPadding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
                   sliver: SliverList(
-                    delegate:
-                        SliverChildListDelegate(addRepaintBoundaries: false, [
+                    delegate: SliverChildListDelegate(addRepaintBoundaries: false, [
                       BlocConsumer<AuthCubit, AuthState>(
                         listener: (context, state) {
                           if (state.error != null) {
@@ -51,17 +47,13 @@ class SettingsScreen extends StatelessWidget {
                           final authCubit = context.read<AuthCubit>();
 
                           return SettingsButton(
-                            asset: state.biometricType == BiometricType.face
-                                ? AppAssets.faceid
-                                : AppAssets
-                                    .touchid, // Assuming you have a touchid asset
+                            asset:
+                                state.biometricType == BiometricType.face ? AppAssets.faceid : AppAssets.touchid, // Assuming you have a touchid asset
                             title: "${authCubit.biometricTitle} Access",
-                            subtitle: state.isEnabled
-                                ? S.of(context).commonOn
-                                : S.of(context).commonOff,
+                            subtitle: state.isEnabled ? S.of(context).commonOn : S.of(context).commonOff,
                             onTap: () async {
                               if (!state.isSupported && state.error != null) {
-                                print("Open App Settings");
+                                debugPrint("Open App Settings");
                               }
                               if (state.isEnabled) {
                                 await authCubit.toggleBiometricAuth();
@@ -71,8 +63,7 @@ class SettingsScreen extends StatelessWidget {
                             },
                             trailing: CupertinoSwitch(
                               value: state.isEnabled,
-                              activeTrackColor:
-                                  context.theme.colorScheme.primary,
+                              activeTrackColor: context.theme.colorScheme.primary,
                               onChanged: (value) async {
                                 if (value) {
                                   await authCubit.authenticateAndToggle();

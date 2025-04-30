@@ -16,15 +16,11 @@ Widget kFlightShuttleBuilder(
         children: [
           FadeTransition(
             opacity: animation,
-            child: flightDirection == HeroFlightDirection.push
-                ? fromHeroContext.widget
-                : toHeroContext.widget,
+            child: flightDirection == HeroFlightDirection.push ? fromHeroContext.widget : toHeroContext.widget,
           ),
           FadeTransition(
             opacity: animation,
-            child: flightDirection == HeroFlightDirection.push
-                ? toHeroContext.widget
-                : fromHeroContext.widget,
+            child: flightDirection == HeroFlightDirection.push ? toHeroContext.widget : fromHeroContext.widget,
           ),
         ],
       );
@@ -46,13 +42,11 @@ Widget toFirstHeroFlightShuttleBuilder({
     animation: animation,
     builder: (context, child) {
       // Define separate animations for fading in and fading out
-      final fadeOutTween =
-          Tween<double>(begin: 1.0, end: 0.0).animate(animation);
-      final fadeInTween =
-          Tween<double>(begin: 0.0, end: 1.0).animate(animation);
+      final fadeOutTween = Tween<double>(begin: 1.0, end: 0.0).animate(animation);
+      final fadeInTween = Tween<double>(begin: 0.0, end: 1.0).animate(animation);
       final borderRadiusTween = Tween<double>(
-        begin: beginBorderRadius ?? kBorderRadius.topLeft.x,
-        end: endBorderRadius ?? kLargeBorderRadius.bottomLeft.x,
+        begin: beginBorderRadius ?? kBorderRadius,
+        end: endBorderRadius ?? kLargeBorderRadius,
       ).animate(
         CurvedAnimation(parent: animation, curve: Curves.easeInOut),
       );
@@ -98,12 +92,9 @@ Widget toSecondHeroFlightShuttleBuilder({
     animation: animation,
     builder: (context, child) {
       // Define separate animations for fading in and fading out
-      final fadeOutTween =
-          Tween<double>(begin: 1.0, end: 1.0).animate(animation);
-      final fadeInTween = Tween<double>(begin: 1.0, end: 0).animate(animation);
       final borderRadiusTween = Tween<double>(
-        begin: beginBorderRadius ?? kBorderRadius.topLeft.x,
-        end: endBorderRadius ?? kLargeBorderRadius.bottomLeft.x,
+        begin: beginBorderRadius ?? kBorderRadius,
+        end: endBorderRadius ?? kLargeBorderRadius,
       ).animate(
         CurvedAnimation(parent: animation, curve: Curves.fastOutSlowIn),
       );

@@ -1,7 +1,6 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:resident_live/features/features.dart";
 import "package:resident_live/features/language/presentation/ui/language_screen.dart";
 import "package:resident_live/screens/all_countries/ui/all_countries_screen.dart";
 import "package:resident_live/screens/residence_details/residence_details_screen2.dart";

@@ -42,16 +42,13 @@ class AiLogger {
   static Future<void> initialize() async {
     await _initFile();
     String stringifyMessage(dynamic message) {
-      return message is Map || message is Iterable
-          ? jsonEncoder.convert(message)
-          : message.toString();
+      return message is Map || message is Iterable ? jsonEncoder.convert(message) : message.toString();
     }
 
     // Show expanded logs in dev mode
     Logger.root.level = Level.FINE;
     Logger.root.onRecord.listen((rec) async {
-      final entry =
-          "${rec.time.toIso8601String()} ${_levelEmoji[rec.level]} ${_levelName[rec.level]} - "
+      final entry = "${rec.time.toIso8601String()} ${_levelEmoji[rec.level]} ${_levelName[rec.level]} - "
           "[${rec.loggerName}] ${stringifyMessage(rec.message)}";
 
       // ignore: avoid_print

@@ -1,24 +1,24 @@
-import 'package:resident_live/shared/lib/utils/log_utils.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:workmanager/workmanager.dart';
-import 'constants.dart';
-import 'workmanager.errors.dart';
+import "package:resident_live/shared/lib/services/workmanager/constants.dart";
+import "package:resident_live/shared/lib/services/workmanager/workmanager.errors.dart";
+import "package:resident_live/shared/lib/utils/log_utils.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:workmanager/workmanager.dart";
 
-@pragma('vm:entry-point')
+@pragma("vm:entry-point")
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     try {
-      LogUtils.debug('Native called background task: $task');
-      LogUtils.debug('Task input data: $inputData');
+      LogUtils.debug("Native called background task: $task");
+      LogUtils.debug("Task input data: $inputData");
       LogUtils.debug(
-        'Initializing GeolocationService for background task',
+        "Initializing GeolocationService for background task",
       );
 
       final position = await GeolocationService.instance.getCurrentLocation();
-      LogUtils.debug('Updating background position: ${position.toJson()}');
-      LogUtils.debug('Background location task completed successfully');
+      LogUtils.debug("Updating background position: ${position.toJson()}");
+      LogUtils.debug("Background location task completed successfully");
     } catch (e) {
-      LogUtils.error('Background location task failed: $e');
+      LogUtils.error("Background location task failed: $e");
       return Future.value(false);
     }
 
@@ -89,7 +89,7 @@ class WorkmanagerService {
 
     try {
       _logger.info(
-        'Registering periodic task: ${WorkmanagerConstants.iOSBackgroundAppRefresh}',
+        "Registering periodic task: ${WorkmanagerConstants.iOSBackgroundAppRefresh}",
       );
       await Workmanager().registerPeriodicTask(
         WorkmanagerConstants.iOSBackgroundAppRefresh,

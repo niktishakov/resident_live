@@ -33,13 +33,7 @@ class ProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final label = this.label ?? S.of(context).commonProgress;
     final doneLabel = this.doneLabel ?? S.of(context).commonDone;
-    final beginValue =
-        direction == ProgressDirection.up ? 0.0 : completionPercentage + 0.1;
-    final _backgroundColor = backgroundColor ?? context.theme.primaryColor;
-    final _valueColor = valueColor ??
-        (direction == ProgressDirection.up
-            ? Colors.greenAccent
-            : Colors.redAccent);
+    final beginValue = direction == ProgressDirection.up ? 0.0 : completionPercentage + 0.1;
 
     return Column(
       children: [
@@ -56,8 +50,7 @@ class ProgressBar extends StatelessWidget {
                     VibrationService.instance.success(strong: true);
                   }
                 },
-                tween:
-                    Tween<double>(begin: beginValue, end: completionPercentage),
+                tween: Tween<double>(begin: beginValue, end: completionPercentage),
                 duration: duration, // Adjust the duration as needed
                 builder: (context, value, child) {
                   return CircularProgressIndicator(
@@ -65,15 +58,16 @@ class ProgressBar extends StatelessWidget {
                     strokeWidth: strokeWidth,
                     strokeCap: StrokeCap.round,
                     backgroundColor: backgroundColor,
-                    valueColor: AlwaysStoppedAnimation<Color>(_valueColor),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      valueColor ?? (direction == ProgressDirection.up ? Colors.greenAccent : Colors.redAccent),
+                    ),
                   );
                 },
               ),
             ),
             TweenAnimationBuilder<double>(
               curve: Curves.fastEaseInToSlowEaseOut,
-              tween:
-                  Tween<double>(begin: beginValue, end: completionPercentage),
+              tween: Tween<double>(begin: beginValue, end: completionPercentage),
               duration: duration, // Adjust the duration as needed
               builder: (context, value, child) {
                 return Text(
@@ -98,8 +92,7 @@ class ProgressBar extends StatelessWidget {
                 Text(
                   label,
                   style: TextStyle(
-                    color: context.theme.colorScheme.secondary
-                        .withValues(alpha: 0.6),
+                    color: context.theme.colorScheme.secondary.withValues(alpha: 0.6),
                   ),
                 ),
                 Text(

@@ -61,16 +61,12 @@ class _WeekLineViewState extends State<WeekLineView> {
               itemCount: 7,
               itemBuilder: (context, index) {
                 final day = daysOfWeek[index];
-                final isToday = day.day == _now.day &&
-                    day.month == _now.month &&
-                    day.year == _now.year;
+                final isToday = day.day == _now.day && day.month == _now.month && day.year == _now.year;
 
                 return Container(
                   width: itemWidth,
                   decoration: BoxDecoration(
-                    color: isToday
-                        ? context.theme.primaryColor.withOpacity(0.2)
-                        : null,
+                    color: isToday ? context.theme.primaryColor.withValues(alpha: 0.2) : null,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -81,10 +77,7 @@ class _WeekLineViewState extends State<WeekLineView> {
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
-                          color: isToday
-                              ? context.theme.primaryColor
-                              : context.theme.colorScheme.secondary
-                                  .withOpacity(0.5),
+                          color: isToday ? context.theme.primaryColor : context.theme.colorScheme.secondary.withValues(alpha: 0.5),
                         ),
                       ),
                       const SizedBox(height: 4),

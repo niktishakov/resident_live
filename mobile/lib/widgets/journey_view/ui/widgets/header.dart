@@ -33,7 +33,7 @@ class Header extends StatelessWidget {
           ),
         ),
         RlCloseButton(
-          color: context.theme.colorScheme.secondary.withOpacity(0.85),
+          color: context.theme.colorScheme.secondary.withValues(alpha: 0.85),
         ),
         const Gap(16),
       ],

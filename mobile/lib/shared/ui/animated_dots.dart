@@ -4,7 +4,9 @@ import "package:flutter/material.dart";
 
 class AnimatedDots extends StatefulWidget {
   const AnimatedDots({
-    required this.value, required this.maxValue, super.key,
+    required this.value,
+    required this.maxValue,
+    super.key,
     this.radius = 8.0,
     this.padding = 4.0,
     this.activeColor = Colors.black,
@@ -19,11 +21,10 @@ class AnimatedDots extends StatefulWidget {
   final Color inactiveColor;
 
   @override
-  _AnimatedDotsState createState() => _AnimatedDotsState();
+  AnimatedDotsState createState() => AnimatedDotsState();
 }
 
-class _AnimatedDotsState extends State<AnimatedDots>
-    with TickerProviderStateMixin {
+class AnimatedDotsState extends State<AnimatedDots> with TickerProviderStateMixin {
   late final AnimationController _controller;
   late final AnimationController _opacityController;
   Timer? _hideTimer;
@@ -87,9 +88,7 @@ class _AnimatedDotsState extends State<AnimatedDots>
               builder: (context, child) {
                 return CircleAvatar(
                   radius: widget.radius,
-                  backgroundColor: widget.value == index
-                      ? widget.activeColor
-                      : widget.inactiveColor,
+                  backgroundColor: widget.value == index ? widget.activeColor : widget.inactiveColor,
                   child: const SizedBox.shrink(),
                 );
               },

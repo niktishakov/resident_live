@@ -10,7 +10,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/shared/shared.dart";
 
-part 'record.animation.dart';
+part "record.animation.dart";
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -121,10 +121,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 alignment: Alignment.center,
                 children: [
                   Transform.translate(
-                    offset: Offset(35, -35),
-                    child: RecordingAnimation(),
+                    offset: const Offset(35, -35),
+                    child: const RecordingAnimation(),
                   ),
-                  Center(child: Icon(CupertinoIcons.person_fill, size: 90)),
+                  const Center(child: Icon(CupertinoIcons.person_fill, size: 90)),
                   Transform.translate(
                     offset: const Offset(0, 90),
                     child: Text(

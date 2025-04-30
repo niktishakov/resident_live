@@ -1,14 +1,15 @@
-import 'dart:async';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:resident_live/shared/lib/ai.logger.dart';
-import 'package:resident_live/shared/lib/services/geolocator.service.dart';
-import 'package:flutter/material.dart';
+import "dart:async";
 
-part 'location_cubit.g.dart';
-part 'location_cubit.freezed.dart';
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:geocoding/geocoding.dart";
+import "package:geolocator/geolocator.dart";
+import "package:resident_live/shared/lib/ai.logger.dart";
+import "package:resident_live/shared/lib/services/geolocator.service.dart";
+
+part "location_cubit.freezed.dart";
+part "location_cubit.g.dart";
 
 @freezed
 class LocationState with _$LocationState {
@@ -18,7 +19,7 @@ class LocationState with _$LocationState {
     @JsonKey(includeFromJson: false, includeToJson: false)
     @Default(false)
     bool isInitialized,
-    @Default('') String error,
+    @Default("") String error,
   }) = _LocationState;
 
   factory LocationState.fromJson(Map<String, dynamic> json) =>
@@ -38,8 +39,8 @@ class LocationCubit extends Cubit<LocationState> {
   LocationCubit(this._locationService)
       : super(
           LocationState(
-            position: Position.fromMap({'latitude': 0.0, 'longitude': 0.0}),
-            placemark: Placemark(),
+            position: Position.fromMap({"latitude": 0.0, "longitude": 0.0}),
+            placemark: const Placemark(),
           ),
         );
 
@@ -49,12 +50,8 @@ class LocationCubit extends Cubit<LocationState> {
   Future<void> initialize(BuildContext context) async {
     try {
       final position = await _locationService.getCurrentLocation();
-      if (position != null) {
-        await _updatePosition(position);
-      } else {
-        emit(state.failure('Could not get location'));
-      }
-    } catch (e) {
+      await _updatePosition(position);
+        } catch (e) {
       _logger.error(e);
       emit(state.failure(e.toString()));
     }
@@ -63,12 +60,8 @@ class LocationCubit extends Cubit<LocationState> {
   Future<void> updateLocation() async {
     try {
       final position = await _locationService.getCurrentLocation();
-      if (position != null) {
-        await _updatePosition(position);
-      } else {
-        emit(state.failure('Could not get location'));
-      }
-    } catch (e) {
+      await _updatePosition(position);
+        } catch (e) {
       _logger.error("Error updating location: $e");
       emit(state.failure(e.toString()));
     }

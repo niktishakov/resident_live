@@ -10,7 +10,8 @@ import "package:resident_live/shared/shared.dart";
 
 class FocusedCountryView extends StatefulWidget {
   const FocusedCountryView({
-    required this.onTap, super.key,
+    required this.onTap,
+    super.key,
     this.focusedCountry,
   });
   final CountryEntity? focusedCountry;
@@ -28,8 +29,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
   @override
   void initState() {
     super.initState();
-    final countries =
-        context.read<CountriesCubit>().state.countries.values.toList();
+    final countries = context.read<CountriesCubit>().state.countries.values.toList();
     _currentPageCountry = countries.firstWhere(
       (c) => c.isoCode == widget.focusedCountry?.isoCode,
       orElse: () => countries.first,
@@ -47,8 +47,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<LocationCubit>().state;
-    final countries =
-        context.watch<CountriesCubit>().state.countries.values.toList();
+    final countries = context.watch<CountriesCubit>().state.countries.values.toList();
 
     final beginBorderRadius = BorderRadius.circular(24);
     return Padding(
@@ -63,9 +62,8 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
           ),
           child: RlCard(
             gradient: kMainGradient,
-            borderRadius: beginBorderRadius,
-            padding:
-                const EdgeInsets.only(left: 0, right: 0, top: 16, bottom: 8),
+            borderRadius: beginBorderRadius.topLeft.x,
+            padding: const EdgeInsets.only(left: 0, right: 0, top: 16, bottom: 8),
             child: SizedBox(
               height: 280,
               child: Column(
@@ -83,10 +81,8 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                       restorationId: "FocusedCountryViewPageView",
                       itemBuilder: (context, index) {
                         final country = countries[index];
-                        final isHere =
-                            state.isCurrentResidence(country.isoCode);
-                        final isFocused =
-                            country.isoCode == widget.focusedCountry?.isoCode;
+                        final isHere = state.isCurrentResidence(country.isoCode);
+                        final isFocused = country.isoCode == widget.focusedCountry?.isoCode;
                         return Hero(
                           tag: "residence_${country.name}",
                           flightShuttleBuilder: (
@@ -103,7 +99,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                             fromHeroContext: fromHeroContext,
                             toHeroContext: toHeroContext,
                             beginBorderRadius: beginBorderRadius.topLeft.x,
-                            endBorderRadius: kLargeBorderRadius.topLeft.x,
+                            endBorderRadius: kLargeBorderRadius,
                           ),
                           child: Material(
                             color: Colors.transparent,
@@ -125,8 +121,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                     radius: 3,
                     padding: 3,
                     activeColor: context.theme.primaryColor,
-                    inactiveColor:
-                        context.theme.colorScheme.secondary.withOpacity(0.5),
+                    inactiveColor: context.theme.colorScheme.secondary.withValues(alpha: 0.5),
                   ),
                 ],
               ),
@@ -140,7 +135,11 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
 
 class FocusedCountryCard extends StatelessWidget {
   const FocusedCountryCard({
-    required this.country, required this.isHere, required this.isFocused, required this.onTap, super.key,
+    required this.country,
+    required this.isHere,
+    required this.isFocused,
+    required this.onTap,
+    super.key,
   });
 
   final CountryEntity country;
@@ -170,8 +169,7 @@ class FocusedCountryCard extends StatelessWidget {
                           style: context.rlTheme.body14,
                         ),
                         secondChild: GestureDetector(
-                          onTap: () => find<CountriesCubit>(context)
-                              .setFocusedCountry(country),
+                          onTap: () => find<CountriesCubit>(context).setFocusedCountry(country),
                           behavior: HitTestBehavior.opaque,
                           child: PrimaryButton(
                             behavior: HitTestBehavior.opaque,
@@ -185,13 +183,9 @@ class FocusedCountryCard extends StatelessWidget {
                               AppAssets.target,
                               height: 14,
                             ),
-                          )
-                              .animate()
-                              .shimmer(duration: 1.seconds, delay: 1.seconds),
+                          ).animate().shimmer(duration: 1.seconds, delay: 1.seconds),
                         ),
-                        crossFadeState: isFocused
-                            ? CrossFadeState.showFirst
-                            : CrossFadeState.showSecond,
+                        crossFadeState: isFocused ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                         duration: const Duration(milliseconds: 300),
                       ),
                     ),
@@ -217,10 +211,6 @@ class FocusedCountryCard extends StatelessWidget {
   }
 
   Widget _buildProgressIndicator(BuildContext context, CountryEntity country) {
-    final backgroundColor = country.isResident
-        ? context.theme.primaryColor
-        : context.theme.colorScheme.tertiary;
-    final color = context.theme.primaryColor;
     final value = country.isResident ? 183 : country.daysSpent;
     final progress = (value / 183).clamp(0, 1.0);
     // final progress = 1.0;
@@ -235,7 +225,7 @@ class FocusedCountryCard extends StatelessWidget {
               style: GoogleFonts.poppins(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: context.theme.colorScheme.secondary.withOpacity(0.5),
+                color: context.theme.colorScheme.secondary.withValues(alpha: 0.5),
               ),
             ),
             const Gap(2),

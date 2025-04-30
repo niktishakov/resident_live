@@ -9,10 +9,10 @@ class ManageCountriesScreen extends StatefulWidget {
   const ManageCountriesScreen({super.key});
 
   @override
-  _ManageCountriesScreenState createState() => _ManageCountriesScreenState();
+  ManageCountriesScreenState createState() => ManageCountriesScreenState();
 }
 
-class _ManageCountriesScreenState extends State<ManageCountriesScreen> {
+class ManageCountriesScreenState extends State<ManageCountriesScreen> {
   String? selectedCountry;
   List<DateTimeRange> activities = [];
   late PageController controller;

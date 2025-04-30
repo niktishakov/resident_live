@@ -13,6 +13,15 @@ import "package:resident_live/screens/onboarding/ui/pages/add_periods.page.dart"
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/widgets/activity_timeline.dart";
 
+class CountryStayInfo {
+  CountryStayInfo({
+    required this.totalDays,
+    required this.segments,
+  });
+  final int totalDays;
+  final List<StayPeriod> segments;
+}
+
 class EnterStayDurationPage extends StatefulWidget {
   const EnterStayDurationPage({
     required this.onNextPage,
@@ -25,17 +34,12 @@ class EnterStayDurationPage extends StatefulWidget {
 }
 
 class EnterStayDurationPageState extends State<EnterStayDurationPage> {
-  Map<String, dynamic> _totalDaysByCountry = {};
+  Map<String, CountryStayInfo> _totalDaysByCountry = {};
   late List<String> countries;
 
   @override
   void initState() {
-    countries = context
-        .read<OnboardingCubit>()
-        .state
-        .selectedCountries
-        .map(getCountryName)
-        .toList();
+    countries = context.read<OnboardingCubit>().state.selectedCountries.map(getCountryName).toList();
     super.initState();
   }
 
@@ -70,8 +74,7 @@ class EnterStayDurationPageState extends State<EnterStayDurationPage> {
             ActivityTimeline(
               countries: countries,
               addRanges: (p0) async {
-                final result =
-                    await Navigator.of(context).push<List<StayPeriod>>(
+                final result = await Navigator.of(context).push<List<StayPeriod>>(
                   CupertinoPageRoute(
                     builder: (_) => AddPeriodsPage(
                       countries: countries,
@@ -97,16 +100,13 @@ class EnterStayDurationPageState extends State<EnterStayDurationPage> {
 
   void _onContinue() {
     final residences = _totalDaysByCountry.map((key, value) {
-      final countryDetails = countriesEnglish
-          .firstWhere((e) => getCountryName(e["code"] as String) == key);
-
-      print(value);
+      final countryDetails = countriesEnglish.firstWhere((e) => getCountryName(e["code"] as String) == key);
 
       return MapEntry(
         countryDetails["code"] as String,
         CountryEntity(
           name: key,
-          periods: value["segments"] as List<StayPeriod>,
+          periods: value.segments,
           isoCode: countryDetails["code"] as String,
         ),
       );
@@ -130,8 +130,8 @@ class EnterStayDurationPageState extends State<EnterStayDurationPage> {
     ).animate().fade(delay: 1300.ms);
   }
 
-  Map<String, dynamic> _calcTotalDaysByCountry(List<StayPeriod> segments) {
-    final countryDays = <String, dynamic>{};
+  Map<String, CountryStayInfo> _calcTotalDaysByCountry(List<StayPeriod> segments) {
+    final countryDays = <String, CountryStayInfo>{};
 
     for (final period in segments) {
       final country = period.country;
@@ -139,18 +139,18 @@ class EnterStayDurationPageState extends State<EnterStayDurationPage> {
       final days = range.duration.inDays;
 
       if (countryDays.containsKey(country)) {
-        final existingSegments =
-            List<StayPeriod>.from(countryDays[country]!["segments"]);
-        existingSegments.add(period);
-        countryDays[country] = {
-          "value": countryDays[country]!["value"] + days,
-          "segments": existingSegments,
-        };
+        final existingInfo = countryDays[country]!;
+        final updatedSegments = List<StayPeriod>.from(existingInfo.segments)..add(period);
+
+        countryDays[country] = CountryStayInfo(
+          totalDays: existingInfo.totalDays + days,
+          segments: updatedSegments,
+        );
       } else {
-        countryDays[country] = {
-          "value": days,
-          "segments": [period],
-        };
+        countryDays[country] = CountryStayInfo(
+          totalDays: days,
+          segments: [period],
+        );
       }
     }
 

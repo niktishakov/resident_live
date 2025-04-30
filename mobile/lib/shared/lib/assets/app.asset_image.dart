@@ -29,7 +29,7 @@ class AppAssetImage extends StatelessWidget {
           asset.path,
           width: width,
           height: height,
-          color: color,
+          colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
           fit: fit,
           alignment: alignment,
         );
@@ -45,8 +45,6 @@ class AppAssetImage extends StatelessWidget {
             alignment: alignment,
           ),
         );
-      default:
-        return Container();
     }
   }
 }

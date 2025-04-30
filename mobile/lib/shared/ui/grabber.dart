@@ -21,8 +21,7 @@ class Grabber extends StatelessWidget {
           height: 5,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color:
-                  color ?? context.theme.colorScheme.secondary.withOpacity(0.3),
+              color: color ?? context.theme.colorScheme.secondary.withValues(alpha: 0.3),
               borderRadius: const BorderRadius.all(Radius.circular(3)),
             ),
           ),

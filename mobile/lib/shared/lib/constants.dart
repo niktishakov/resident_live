@@ -3,8 +3,8 @@ import "package:resident_live/generated/l10n/l10n.dart";
 
 const kDefaultScreenDelay = Duration(seconds: 2);
 const kDefaultDuration = Duration(milliseconds: 300);
-final kBorderRadius = BorderRadius.circular(24);
-final kLargeBorderRadius = BorderRadius.circular(56);
+const kBorderRadius = 24.0;
+const kLargeBorderRadius = 56.0;
 List<String> getMonths(BuildContext context) => [
       S.of(context).monthJanuary,
       S.of(context).monthFebruary,
@@ -48,9 +48,9 @@ const kSuccessGradient = LinearGradient(
 );
 
 final modeEmojis = {
-  'TRACE': '🔎',
-  'DEBUG': '💬',
-  'INFO': '💡',
-  'WARN': '⚠️',
-  'ERROR': '⛔',
+  "TRACE": "🔎",
+  "DEBUG": "💬",
+  "INFO": "💡",
+  "WARN": "⚠️",
+  "ERROR": "⛔",
 };

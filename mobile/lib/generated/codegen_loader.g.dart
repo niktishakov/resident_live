@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class LocaleKeys {
+abstract class  LocaleKeys {
   static const common_appName = 'common.appName';
   static const common_on = 'common.on';
   static const common_off = 'common.off';
@@ -13,12 +13,10 @@ abstract class LocaleKeys {
   static const common_progress = 'common.progress';
   static const common_ok = 'common.ok';
   static const common_apply = 'common.apply';
-
+  static const common = 'common';
   static const bottom_tabs_focus = 'bottom_tabs.focus';
   static const bottom_tabs_settings = 'bottom_tabs.settings';
-
-  static const home_title = 'home.title';
-
+  static const bottom_tabs = 'bottom_tabs';
   static const focus_goodNight = 'focus.goodNight';
   static const focus_goodMorning = 'focus.goodMorning';
   static const focus_goodAfternoon = 'focus.goodAfternoon';
@@ -29,7 +27,7 @@ abstract class LocaleKeys {
   static const focus_days = 'focus.days';
   static const focus_trackingResidences = 'focus.trackingResidences';
   static const focus_seeAll = 'focus.seeAll';
-
+  static const focus = 'focus';
   static const settings_title = 'settings.title';
   static const settings_biometricAuth = 'settings.biometricAuth';
   static const settings_faceIdAccess = 'settings.faceIdAccess';
@@ -42,78 +40,58 @@ abstract class LocaleKeys {
   static const settings_termsOfUse = 'settings.termsOfUse';
   static const settings_aboutApp = 'settings.aboutApp';
   static const settings_reportBug = 'settings.reportBug';
-
+  static const settings = 'settings';
   static const language_title = 'language.title';
   static const language_selectLanguage = 'language.selectLanguage';
-
-  static const residency_details_residencyProgress =
-      'residency_details.residencyProgress';
-  static const residency_details_youAreAResident =
-      'residency_details.youAreAResident';
+  static const language = 'language';
+  static const residency_details_residencyProgress = 'residency_details.residencyProgress';
+  static const residency_details_youAreAResident = 'residency_details.youAreAResident';
   static const residency_details_open = 'residency_details.open';
   static const residency_details_calendar = 'residency_details.calendar';
-  static const residency_details_moveToReachStatus =
-      'residency_details.moveToReachStatus';
+  static const residency_details_moveToReachStatus = 'residency_details.moveToReachStatus';
   static const residency_details_days = 'residency_details.days';
-  static const residency_details_statusMayBeUpdated =
-      'residency_details.statusMayBeUpdated';
-  static const residency_details_focusOnThisCountry =
-      'residency_details.focusOnThisCountry';
+  static const residency_details_statusMayBeUpdated = 'residency_details.statusMayBeUpdated';
+  static const residency_details_focusOnThisCountry = 'residency_details.focusOnThisCountry';
   static const residency_details_notifyMe = 'residency_details.notifyMe';
   static const residency_details_readRules = 'residency_details.readRules';
-  static const residency_details_removeCountry =
-      'residency_details.removeCountry';
-  static const residency_details_removeCountryConfirmation =
-      'residency_details.removeCountryConfirmation';
-  static const residency_details_residencyRulesResources =
-      'residency_details.residencyRulesResources';
+  static const residency_details_removeCountry = 'residency_details.removeCountry';
+  static const residency_details_removeCountryConfirmation = 'residency_details.removeCountryConfirmation';
+  static const residency_details_residencyRulesResources = 'residency_details.residencyRulesResources';
   static const residency_details_readOn = 'residency_details.readOn';
-
-  static const residency_details_statusUpdateIn = 'statuses.statusUpdateIn';
-  static const residency_details_statusWillUpdateAt =
-      'statuses.statusWillUpdateAt';
-  static const residency_details_youWillLoseYourStatusIn =
-      'statuses.youWillLoseYourStatusIn';
-  static const residency_details_statusIsSafeUntil =
-      'statuses.statusIsSafeUntil';
-  static const residency_details_moveToThisCountryToReachStatusIn =
-      'statuses.moveToThisCountryToReachStatusIn';
-  static const residency_details_statusMayBeUpdatedAt =
-      'statuses.statusMayBeUpdatedAt';
-
+  static const residency_details = 'residency_details';
+  static const statuses_freeToTravel = 'statuses.freeToTravel';
+  static const statuses_travelUntil = 'statuses.travelUntil';
+  static const statuses_statusUpdateIn = 'statuses.statusUpdateIn';
+  static const statuses_statusWillUpdateAt = 'statuses.statusWillUpdateAt';
+  static const statuses_youWillLoseYourStatusIn = 'statuses.youWillLoseYourStatusIn';
+  static const statuses_statusIsSafeUntil = 'statuses.statusIsSafeUntil';
+  static const statuses_moveToThisCountryToReachStatusIn = 'statuses.moveToThisCountryToReachStatusIn';
+  static const statuses_statusMayBeUpdatedAt = 'statuses.statusMayBeUpdatedAt';
+  static const statuses = 'statuses';
   static const calendar_yourJourney = 'calendar.yourJourney';
   static const calendar_last12Months = 'calendar.last12Months';
-
-  static const all_countries_allTrackingResidences =
-      'all_countries.allTrackingResidences';
+  static const calendar = 'calendar';
+  static const all_countries_allTrackingResidences = 'all_countries.allTrackingResidences';
   static const all_countries_of = 'all_countries.of';
   static const all_countries_days = 'all_countries.days';
-
+  static const all_countries = 'all_countries';
   static const where_have_you_been_title = 'where_have_you_been.title';
-  static const where_have_you_been_searchCountries =
-      'where_have_you_been.searchCountries';
-  static const where_have_you_been_noResultsFound =
-      'where_have_you_been.noResultsFound';
-  static const where_have_you_been_selectCountries =
-      'where_have_you_been.selectCountries';
-  static const where_have_you_been_manageYourResidences =
-      'where_have_you_been.manageYourResidences';
-
+  static const where_have_you_been_searchCountries = 'where_have_you_been.searchCountries';
+  static const where_have_you_been_noResultsFound = 'where_have_you_been.noResultsFound';
+  static const where_have_you_been_selectCountries = 'where_have_you_been.selectCountries';
+  static const where_have_you_been_manageYourResidences = 'where_have_you_been.manageYourResidences';
+  static const where_have_you_been = 'where_have_you_been';
   static const add_stay_period_title = 'add_stay_period.title';
   static const add_stay_period_description = 'add_stay_period.description';
-  static const add_stay_period_clickToGetStarted =
-      'add_stay_period.clickToGetStarted';
-  static const add_stay_period_howToAddStayPeriods =
-      'add_stay_period.howToAddStayPeriods';
+  static const add_stay_period_clickToGetStarted = 'add_stay_period.clickToGetStarted';
   static const add_stay_period_addStayPeriod = 'add_stay_period.addStayPeriod';
-  static const add_stay_period_addStayPeriods =
-      'add_stay_period.addStayPeriods';
+  static const add_stay_period_howToAddStayPeriods = 'add_stay_period.howToAddStayPeriods';
+  static const add_stay_period_addStayPeriods = 'add_stay_period.addStayPeriods';
   static const add_stay_period_points = 'add_stay_period.points';
-  static const add_stay_period_youCanAddMorePeriods =
-      'add_stay_period.youCanAddMorePeriods';
+  static const add_stay_period_youCanAddMorePeriods = 'add_stay_period.youCanAddMorePeriods';
   static const add_stay_period_periodFrom = 'add_stay_period.periodFrom';
   static const add_stay_period_periodTo = 'add_stay_period.periodTo';
-
+  static const add_stay_period = 'add_stay_period';
   static const weekdays_monday = 'weekdays.monday';
   static const weekdays_tuesday = 'weekdays.tuesday';
   static const weekdays_wednesday = 'weekdays.wednesday';
@@ -121,7 +99,7 @@ abstract class LocaleKeys {
   static const weekdays_friday = 'weekdays.friday';
   static const weekdays_saturday = 'weekdays.saturday';
   static const weekdays_sunday = 'weekdays.sunday';
-
+  static const weekdays = 'weekdays';
   static const months_january = 'months.january';
   static const months_february = 'months.february';
   static const months_march = 'months.march';
@@ -134,6 +112,249 @@ abstract class LocaleKeys {
   static const months_october = 'months.october';
   static const months_november = 'months.november';
   static const months_december = 'months.december';
-
+  static const months = 'months';
+  static const countries_AF = 'countries.AF';
+  static const countries_AX = 'countries.AX';
+  static const countries_AL = 'countries.AL';
+  static const countries_DZ = 'countries.DZ';
+  static const countries_AS = 'countries.AS';
+  static const countries_AD = 'countries.AD';
+  static const countries_AO = 'countries.AO';
+  static const countries_AI = 'countries.AI';
+  static const countries_AQ = 'countries.AQ';
+  static const countries_AG = 'countries.AG';
+  static const countries_AR = 'countries.AR';
+  static const countries_AM = 'countries.AM';
+  static const countries_AW = 'countries.AW';
+  static const countries_AU = 'countries.AU';
+  static const countries_AT = 'countries.AT';
+  static const countries_AZ = 'countries.AZ';
+  static const countries_BS = 'countries.BS';
+  static const countries_BH = 'countries.BH';
+  static const countries_BD = 'countries.BD';
+  static const countries_BB = 'countries.BB';
+  static const countries_BY = 'countries.BY';
+  static const countries_BE = 'countries.BE';
+  static const countries_BZ = 'countries.BZ';
+  static const countries_BJ = 'countries.BJ';
+  static const countries_BM = 'countries.BM';
+  static const countries_BT = 'countries.BT';
+  static const countries_BO = 'countries.BO';
+  static const countries_BA = 'countries.BA';
+  static const countries_BW = 'countries.BW';
+  static const countries_BR = 'countries.BR';
+  static const countries_IO = 'countries.IO';
+  static const countries_BN = 'countries.BN';
+  static const countries_BG = 'countries.BG';
+  static const countries_BF = 'countries.BF';
+  static const countries_BI = 'countries.BI';
+  static const countries_KH = 'countries.KH';
+  static const countries_CM = 'countries.CM';
+  static const countries_CA = 'countries.CA';
+  static const countries_CV = 'countries.CV';
+  static const countries_KY = 'countries.KY';
+  static const countries_CF = 'countries.CF';
+  static const countries_TD = 'countries.TD';
+  static const countries_CL = 'countries.CL';
+  static const countries_CN = 'countries.CN';
+  static const countries_CX = 'countries.CX';
+  static const countries_CC = 'countries.CC';
+  static const countries_CO = 'countries.CO';
+  static const countries_KM = 'countries.KM';
+  static const countries_CG = 'countries.CG';
+  static const countries_CD = 'countries.CD';
+  static const countries_CK = 'countries.CK';
+  static const countries_CR = 'countries.CR';
+  static const countries_CI = 'countries.CI';
+  static const countries_HR = 'countries.HR';
+  static const countries_CU = 'countries.CU';
+  static const countries_CY = 'countries.CY';
+  static const countries_CZ = 'countries.CZ';
+  static const countries_DK = 'countries.DK';
+  static const countries_DJ = 'countries.DJ';
+  static const countries_DM = 'countries.DM';
+  static const countries_DO = 'countries.DO';
+  static const countries_EC = 'countries.EC';
+  static const countries_EG = 'countries.EG';
+  static const countries_SV = 'countries.SV';
+  static const countries_GQ = 'countries.GQ';
+  static const countries_ER = 'countries.ER';
+  static const countries_EE = 'countries.EE';
+  static const countries_ET = 'countries.ET';
+  static const countries_FK = 'countries.FK';
+  static const countries_FO = 'countries.FO';
+  static const countries_FJ = 'countries.FJ';
+  static const countries_FI = 'countries.FI';
+  static const countries_FR = 'countries.FR';
+  static const countries_GF = 'countries.GF';
+  static const countries_PF = 'countries.PF';
+  static const countries_GA = 'countries.GA';
+  static const countries_GM = 'countries.GM';
+  static const countries_GE = 'countries.GE';
+  static const countries_DE = 'countries.DE';
+  static const countries_GH = 'countries.GH';
+  static const countries_GI = 'countries.GI';
+  static const countries_GR = 'countries.GR';
+  static const countries_GL = 'countries.GL';
+  static const countries_GD = 'countries.GD';
+  static const countries_GP = 'countries.GP';
+  static const countries_GU = 'countries.GU';
+  static const countries_GT = 'countries.GT';
+  static const countries_GG = 'countries.GG';
+  static const countries_GN = 'countries.GN';
+  static const countries_GW = 'countries.GW';
+  static const countries_GY = 'countries.GY';
+  static const countries_HT = 'countries.HT';
+  static const countries_VA = 'countries.VA';
+  static const countries_HN = 'countries.HN';
+  static const countries_HK = 'countries.HK';
+  static const countries_HU = 'countries.HU';
+  static const countries_IS = 'countries.IS';
+  static const countries_IN = 'countries.IN';
+  static const countries_ID = 'countries.ID';
+  static const countries_IR = 'countries.IR';
+  static const countries_IQ = 'countries.IQ';
+  static const countries_IE = 'countries.IE';
+  static const countries_IM = 'countries.IM';
+  static const countries_IL = 'countries.IL';
+  static const countries_IT = 'countries.IT';
+  static const countries_JM = 'countries.JM';
+  static const countries_JP = 'countries.JP';
+  static const countries_JE = 'countries.JE';
+  static const countries_JO = 'countries.JO';
+  static const countries_KZ = 'countries.KZ';
+  static const countries_KE = 'countries.KE';
+  static const countries_KI = 'countries.KI';
+  static const countries_KP = 'countries.KP';
+  static const countries_KR = 'countries.KR';
+  static const countries_KW = 'countries.KW';
+  static const countries_KG = 'countries.KG';
+  static const countries_LA = 'countries.LA';
+  static const countries_LV = 'countries.LV';
+  static const countries_LB = 'countries.LB';
+  static const countries_LS = 'countries.LS';
+  static const countries_LR = 'countries.LR';
+  static const countries_LY = 'countries.LY';
+  static const countries_LI = 'countries.LI';
+  static const countries_LT = 'countries.LT';
+  static const countries_LU = 'countries.LU';
+  static const countries_MO = 'countries.MO';
+  static const countries_MK = 'countries.MK';
+  static const countries_MG = 'countries.MG';
+  static const countries_MW = 'countries.MW';
+  static const countries_MY = 'countries.MY';
+  static const countries_MV = 'countries.MV';
+  static const countries_ML = 'countries.ML';
+  static const countries_MT = 'countries.MT';
+  static const countries_MH = 'countries.MH';
+  static const countries_MQ = 'countries.MQ';
+  static const countries_MR = 'countries.MR';
+  static const countries_MU = 'countries.MU';
+  static const countries_YT = 'countries.YT';
+  static const countries_MX = 'countries.MX';
+  static const countries_FM = 'countries.FM';
+  static const countries_MD = 'countries.MD';
+  static const countries_MC = 'countries.MC';
+  static const countries_MN = 'countries.MN';
+  static const countries_ME = 'countries.ME';
+  static const countries_MS = 'countries.MS';
+  static const countries_MA = 'countries.MA';
+  static const countries_MZ = 'countries.MZ';
+  static const countries_MM = 'countries.MM';
+  static const countries_NA = 'countries.NA';
+  static const countries_NR = 'countries.NR';
+  static const countries_NP = 'countries.NP';
+  static const countries_NL = 'countries.NL';
+  static const countries_AN = 'countries.AN';
+  static const countries_NC = 'countries.NC';
+  static const countries_NZ = 'countries.NZ';
+  static const countries_NI = 'countries.NI';
+  static const countries_NE = 'countries.NE';
+  static const countries_NG = 'countries.NG';
+  static const countries_NU = 'countries.NU';
+  static const countries_NF = 'countries.NF';
+  static const countries_MP = 'countries.MP';
+  static const countries_NO = 'countries.NO';
+  static const countries_OM = 'countries.OM';
+  static const countries_PK = 'countries.PK';
+  static const countries_PW = 'countries.PW';
+  static const countries_PS = 'countries.PS';
+  static const countries_PA = 'countries.PA';
+  static const countries_PG = 'countries.PG';
+  static const countries_PY = 'countries.PY';
+  static const countries_PE = 'countries.PE';
+  static const countries_PH = 'countries.PH';
+  static const countries_PN = 'countries.PN';
+  static const countries_PL = 'countries.PL';
+  static const countries_PT = 'countries.PT';
+  static const countries_PR = 'countries.PR';
+  static const countries_QA = 'countries.QA';
+  static const countries_RO = 'countries.RO';
+  static const countries_RU = 'countries.RU';
+  static const countries_RW = 'countries.RW';
+  static const countries_RE = 'countries.RE';
+  static const countries_BL = 'countries.BL';
+  static const countries_SH = 'countries.SH';
+  static const countries_KN = 'countries.KN';
+  static const countries_LC = 'countries.LC';
+  static const countries_MF = 'countries.MF';
+  static const countries_PM = 'countries.PM';
+  static const countries_VC = 'countries.VC';
+  static const countries_WS = 'countries.WS';
+  static const countries_SM = 'countries.SM';
+  static const countries_ST = 'countries.ST';
+  static const countries_SA = 'countries.SA';
+  static const countries_SN = 'countries.SN';
+  static const countries_RS = 'countries.RS';
+  static const countries_SC = 'countries.SC';
+  static const countries_SL = 'countries.SL';
+  static const countries_SG = 'countries.SG';
+  static const countries_SK = 'countries.SK';
+  static const countries_SI = 'countries.SI';
+  static const countries_SB = 'countries.SB';
+  static const countries_SO = 'countries.SO';
+  static const countries_ZA = 'countries.ZA';
+  static const countries_SS = 'countries.SS';
+  static const countries_GS = 'countries.GS';
+  static const countries_ES = 'countries.ES';
+  static const countries_LK = 'countries.LK';
+  static const countries_SD = 'countries.SD';
+  static const countries_SR = 'countries.SR';
+  static const countries_SJ = 'countries.SJ';
+  static const countries_SZ = 'countries.SZ';
+  static const countries_SE = 'countries.SE';
+  static const countries_CH = 'countries.CH';
+  static const countries_SY = 'countries.SY';
+  static const countries_TW = 'countries.TW';
+  static const countries_TJ = 'countries.TJ';
+  static const countries_TZ = 'countries.TZ';
+  static const countries_TH = 'countries.TH';
+  static const countries_TL = 'countries.TL';
+  static const countries_TG = 'countries.TG';
+  static const countries_TK = 'countries.TK';
+  static const countries_TO = 'countries.TO';
+  static const countries_TT = 'countries.TT';
+  static const countries_TN = 'countries.TN';
+  static const countries_TR = 'countries.TR';
+  static const countries_TM = 'countries.TM';
+  static const countries_TC = 'countries.TC';
+  static const countries_TV = 'countries.TV';
+  static const countries_UG = 'countries.UG';
+  static const countries_UA = 'countries.UA';
+  static const countries_AE = 'countries.AE';
+  static const countries_GB = 'countries.GB';
+  static const countries_US = 'countries.US';
+  static const countries_UY = 'countries.UY';
+  static const countries_UZ = 'countries.UZ';
+  static const countries_VU = 'countries.VU';
+  static const countries_VE = 'countries.VE';
+  static const countries_VN = 'countries.VN';
+  static const countries_VG = 'countries.VG';
+  static const countries_VI = 'countries.VI';
+  static const countries_WF = 'countries.WF';
+  static const countries_YE = 'countries.YE';
+  static const countries_ZM = 'countries.ZM';
+  static const countries_ZW = 'countries.ZW';
   static const countries = 'countries';
+
 }

@@ -16,16 +16,15 @@ import "package:resident_live/shared/shared.dart";
 
 final navigatorKey = GlobalKey<NavigatorState>();
 final shellKey = GlobalKey<NavigatorState>();
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MaterialApp(home: PresplashScreen()));
+  await AiLogger.initialize();
+  runApp(MaterialApp(home: PresplashScreen()));
 
   final envHolder = EnvHolder(Environment.prod);
   final secrets = await Secrets.create(envHolder);
 
-  AiLogger.initialize();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
@@ -50,11 +49,10 @@ void main() async {
   await VibrationService.init();
   await ShareService.init();
   await ToastService.init();
-  GeolocationService.instance.initialize();
+
   final deviceInfoService = await DeviceInfoService.create();
 
-  final workmanager = await WorkmanagerService.initialize();
-  await workmanager.registerPeriodicTask();
+  await WorkmanagerService.initialize();
 
   runApp(
     MyApp(

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'location_state.dart';
+part of 'location_cubit.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -68,7 +68,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(
           BlocProvider(
-            create: (context) => GetStartedCubit(find<LocationCubit>(context)),
+            create: (context) => GetStartedCubit(),
             child: const GetStartedScreen(),
           ),
           ScreenNames.getStarted,

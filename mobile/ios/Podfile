@@ -48,9 +48,11 @@ post_install do |installer|
       File.open(xcconfig_path, "w") { |file| file << xcconfig_mod }
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
         '$(inherited)',
+        'PERMISSION_LOCATION=1'
 
     
       ]
     end
   end
 end
+

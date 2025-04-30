@@ -1,49 +1,43 @@
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
-import "package:flutter_animate/flutter_animate.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:gap/gap.dart";
-import "package:go_router/go_router.dart";
-import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
-import "package:resident_live/app/main.dart";
-import "package:resident_live/features/features.dart";
-import "package:resident_live/screens/all_countries/ui/all_countries_screen.dart";
-import "package:resident_live/screens/home/ui/widgets/focused_country_view.dart";
-import "package:resident_live/screens/home/ui/widgets/greeting_view.dart";
-import "package:resident_live/screens/home/ui/widgets/tracking_residences.dart";
-import "package:resident_live/screens/screens.dart";
-import "package:resident_live/shared/shared.dart";
-import "package:resident_live/widgets/widgets.dart";
-import "package:shared_preferences/shared_preferences.dart";
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:resident_live/app/main.dart';
+import 'package:resident_live/features/features.dart';
+import 'package:resident_live/screens/all_countries/ui/all_countries_screen.dart';
+import 'package:resident_live/screens/screens.dart';
+import 'package:resident_live/shared/lib/services/pushNotification.service.dart';
+import 'package:resident_live/shared/shared.dart';
+import 'package:resident_live/widgets/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'widgets/focused_country_view.dart';
+import 'widgets/greeting_view.dart';
+import 'widgets/tracking_residences.dart';
 
   Future<void> _showLastStoredLocation(BuildContext context) async {
     final position = await GeolocationService.instance.getLastStoredPosition();
     if (position != null) {
       final lastUpdate = await SharedPreferences.getInstance().then(
           (prefs) => prefs.getInt(GeolocationService.LAST_UPDATE_TIME_KEY),);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
-      final lastUpdateStr = lastUpdate != null
-          ? DateTime.fromMillisecondsSinceEpoch(lastUpdate).toString()
-          : "unknown";
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-      ToastService.instance.showToast(
-        context,
-        message:
-            "Last stored location:\nLat: ${position.latitude.toStringAsFixed(4)}\n"
-            "Lng: ${position.longitude.toStringAsFixed(4)}\n"
-            "Time: $lastUpdateStr",
-        status: ToastStatus.warning,
-      );
-    } else {
-      ToastService.instance.showToast(
-        context,
-        message: "No stored location found",
-        status: ToastStatus.warning,
-      );
-    }
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _requestPushPermissions();
+  }
+
+  Future<void> _requestPushPermissions() async {
+    await PushNotificationService.instance.requestPermissions();
   }
 
   @override
@@ -65,7 +59,6 @@ class HomeScreen extends StatelessWidget {
             }
           },
           child: GestureDetector(
-            onTap: () => _showLastStoredLocation(context),
             onLongPress: () {
               if (kDebugMode) {
                 showDebugActionsSheet(context);
@@ -89,24 +82,26 @@ class HomeScreen extends StatelessWidget {
                         child: WeekLineView(),
                       ),
                     ),
-                    SliverToBoxAdapter(
-                      child: RepaintBoundary(
-                        child: SizedBox(
-                          height: 320,
-                          child: FocusedCountryView(
-                            focusedCountry: focusedCountry,
-                            onTap: (country) =>
-                                navigatorKey.currentContext?.navigator.push(
-                              kDefaultFadeRouteBuilder(
-                                page: ResidenceDetailsScreen(
-                                  name: country.name,
+                    if (focusedCountry != null) ...[
+                      SliverToBoxAdapter(
+                        child: RepaintBoundary(
+                          child: SizedBox(
+                            height: 320,
+                            child: FocusedCountryView(
+                              focusedCountry: focusedCountry,
+                              onTap: (country) =>
+                                  navigatorKey.currentContext?.navigator.push(
+                                kDefaultFadeRouteBuilder(
+                                  page: ResidenceDetailsScreen(
+                                    name: country.name,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                     if (otherResidences.isNotEmpty) ...[
                       SliverToBoxAdapter(
                         child: OtherResidencesView(
@@ -121,7 +116,8 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                     SliverToBoxAdapter(
-                        child: Gap(context.mediaQuery.padding.bottom + 64),),
+                      child: Gap(context.mediaQuery.padding.bottom + 64),
+                    ),
                   ],
                 ),
               ),
@@ -134,7 +130,6 @@ class HomeScreen extends StatelessWidget {
 }
 
 class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
-
   CustomSliverHeaderDelegate({required this.expandedHeight});
   final double expandedHeight;
 
@@ -146,7 +141,10 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent,) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final proportion = (expandedHeight - shrinkOffset) / expandedHeight;
     const largeSize = 32.0;
     const smallSize = 18.0;

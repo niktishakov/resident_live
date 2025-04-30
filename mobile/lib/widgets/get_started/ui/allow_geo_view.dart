@@ -16,7 +16,16 @@ class AllowGeoView extends StatelessWidget {
     final successGradient = kSuccessGradient.colors;
     return BlocListener<LocationCubit, LocationState>(
       listener: (context, state) {
-        find<CountriesCubit>(context).syncCountriesByGeo(state.placemark);
+        if (state.isInitialized) {
+          find<GetStartedCubit>(context).triggerGeoPermission();
+          find<CountriesCubit>(context).syncCountriesByGeo(state.placemark);
+        } else if (state.error.isNotEmpty) {
+          ToastService.instance.showToast(
+            context,
+            message: state.error,
+            status: ToastStatus.failure,
+          );
+        }
       },
       child: BlocBuilder<GetStartedCubit, GetStartedState>(
         builder: (context, state) {
@@ -86,8 +95,8 @@ class AllowGeoView extends StatelessWidget {
                           PrimaryButton(
                             animationDuration: 500.ms,
                             onPressed: () => context
-                                .read<GetStartedCubit>()
-                                .requestGeoPermission(),
+                                .read<LocationCubit>()
+                                .initialize(context),
                             gradient: LinearGradient(
                               colors: state.isGeoPermissionAllowed
                                   ? successGradient
@@ -99,20 +108,24 @@ class AllowGeoView extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                             trailing: state.isGeoPermissionAllowed
-                                ? const Icon(CupertinoIcons.checkmark_seal_fill,
-                                    size: 22,)
+                                ? Icon(
+                                    CupertinoIcons.checkmark_seal_fill,
+                                    size: 22,
+                                  )
                                 : null,
                             label: state.isGeoPermissionAllowed
-                                ? "Allowed"
-                                : "Allow",
-                          ).animate(onComplete: (controller) {
-                            if (state.isGeoPermissionAllowed) {
-                              controller.stop();
-                            } else {
-                              controller.reset();
-                              controller.forward();
-                            }
-                          },).shimmer(duration: 1.seconds, delay: 1.seconds),
+                                ? 'Allowed'
+                                : 'Allow',
+                          ).animate(
+                            onComplete: (controller) {
+                              if (state.isGeoPermissionAllowed) {
+                                controller.stop();
+                              } else {
+                                controller.reset();
+                                controller.forward();
+                              }
+                            },
+                          ).shimmer(duration: 1.seconds, delay: 1.seconds),
                         ],
                       ),
                       const Gap(8),

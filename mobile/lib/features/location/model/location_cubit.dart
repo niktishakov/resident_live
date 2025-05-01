@@ -1,28 +1,26 @@
-import 'dart:async';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:resident_live/shared/lib/ai.logger.dart';
-import 'package:resident_live/shared/lib/services/geolocator.service.dart';
-import 'package:flutter/material.dart';
+import "dart:async";
 
-part 'location_cubit.g.dart';
-part 'location_cubit.freezed.dart';
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:geocoding/geocoding.dart";
+import "package:geolocator/geolocator.dart";
+import "package:resident_live/shared/lib/ai.logger.dart";
+import "package:resident_live/shared/lib/services/geolocator.service.dart";
+
+part "location_cubit.freezed.dart";
+part "location_cubit.g.dart";
 
 @freezed
 class LocationState with _$LocationState {
   const factory LocationState({
     @JsonKey(includeFromJson: false, includeToJson: false) Position? position,
     @JsonKey(includeFromJson: false, includeToJson: false) Placemark? placemark,
-    @JsonKey(includeFromJson: false, includeToJson: false)
-    @Default(false)
-    bool isInitialized,
-    @Default('') String error,
+    @JsonKey(includeFromJson: false, includeToJson: false) @Default(false) bool isInitialized,
+    @Default("") String error,
   }) = _LocationState;
 
-  factory LocationState.fromJson(Map<String, dynamic> json) =>
-      _$LocationStateFromJson(json);
+  factory LocationState.fromJson(Map<String, dynamic> json) => _$LocationStateFromJson(json);
 
   const LocationState._();
 
@@ -38,22 +36,18 @@ class LocationCubit extends Cubit<LocationState> {
   LocationCubit(this._locationService)
       : super(
           LocationState(
-            position: Position.fromMap({'latitude': 0.0, 'longitude': 0.0}),
-            placemark: Placemark(),
+            position: Position.fromMap({"latitude": 0.0, "longitude": 0.0}),
+            placemark: const Placemark(),
           ),
         );
 
   final GeolocationService _locationService;
-  static final AiLogger _logger = AiLogger('LocationCubit');
+  static final AiLogger _logger = AiLogger("LocationCubit");
 
   Future<void> initialize(BuildContext context) async {
     try {
       final position = await _locationService.getCurrentLocation();
-      if (position != null) {
-        await _updatePosition(position);
-      } else {
-        emit(state.failure('Could not get location'));
-      }
+      await _updatePosition(position);
     } catch (e) {
       _logger.error(e);
       emit(state.failure(e.toString()));
@@ -63,21 +57,16 @@ class LocationCubit extends Cubit<LocationState> {
   Future<void> updateLocation() async {
     try {
       final position = await _locationService.getCurrentLocation();
-      if (position != null) {
-        await _updatePosition(position);
-      } else {
-        emit(state.failure('Could not get location'));
-      }
+      await _updatePosition(position);
     } catch (e) {
-      _logger.error('Error updating location: $e');
+      _logger.error("Error updating location: $e");
       emit(state.failure(e.toString()));
     }
   }
 
   Future<void> _updatePosition(Position position) async {
     try {
-      final coordinates = await GeocodingPlatform.instance
-          ?.placemarkFromCoordinates(position.latitude, position.longitude);
+      final coordinates = await GeocodingPlatform.instance?.placemarkFromCoordinates(position.latitude, position.longitude);
 
       final addresses = coordinates ?? [];
 

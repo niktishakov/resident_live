@@ -1,4 +1,4 @@
-import 'package:flutter_vibrate/flutter_vibrate.dart';
+import "package:flutter_vibrate/flutter_vibrate.dart";
 
 class VibrationService {
   VibrationService._({required this.canVibrate});
@@ -17,7 +17,7 @@ class VibrationService {
 
   static VibrationService get instance {
     assert(_instance != null,
-        'Remember to initialise VibrationService by calling its init method',);
+        "Remember to initialise VibrationService by calling its init method",);
     return _instance!;
   }
 

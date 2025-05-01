@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import '../../router/screen_names.dart';
-import 'overlay_styles.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:resident_live/shared/lib/observers/overlay_styles.dart";
+import "package:resident_live/shared/router/screen_names.dart";
 
 class OverlayStyleObserver extends RouteObserver<PageRoute<dynamic>> {
   final Map<String, SystemUiOverlayStyle> _screenOverlayStyles = {

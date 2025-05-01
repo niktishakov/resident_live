@@ -1,18 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:google_fonts/google_fonts.dart";
 
-import '../../shared/shared.dart';
+import "package:resident_live/shared/shared.dart";
 
 class AnimatedTabItem extends StatefulWidget {
   const AnimatedTabItem({
-    super.key,
-    this.iconSize = 24,
     required this.label,
     required this.itemFill,
     required this.item,
     required this.isSelected,
     required this.onPressed,
+    super.key,
+    this.iconSize = 24,
     this.animation,
   });
   final String label;
@@ -21,15 +21,13 @@ class AnimatedTabItem extends StatefulWidget {
   final AppAsset item;
   final bool isSelected;
   final VoidCallback onPressed;
-  final TweenAnimationBuilder<Object?> Function(bool isSelected, Widget child)?
-      animation;
+  final TweenAnimationBuilder<Object?> Function({bool isSelected, Widget? child})? animation;
 
   @override
   State<AnimatedTabItem> createState() => _AnimatedTabItemState();
 }
 
-class _AnimatedTabItemState extends State<AnimatedTabItem>
-    with SingleTickerProviderStateMixin {
+class _AnimatedTabItemState extends State<AnimatedTabItem> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
@@ -58,9 +56,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
     final item = widget.item;
     final itemFill = widget.itemFill;
     final isSelected = widget.isSelected;
-    final textColor = isSelected
-        ? context.theme.colorScheme.secondary
-        : context.theme.colorScheme.secondary.withValues(alpha: 0.5);
+    final textColor = isSelected ? context.theme.colorScheme.secondary : context.theme.colorScheme.secondary.withValues(alpha: 0.5);
 
     return GestureDetector(
       onTap: () {
@@ -69,7 +65,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
         });
         widget.onPressed();
       },
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
           color: Colors.white.withValues(alpha: 0.0001),
@@ -79,8 +75,8 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
           children: [
             if (widget.animation != null)
               widget.animation!(
-                isSelected,
-                buildItem(context, iconSize, item, itemFill),
+                isSelected: isSelected,
+                child: buildItem(context, iconSize, item, itemFill),
               )
             else
               buildItem(context, iconSize, item, itemFill),
@@ -112,7 +108,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem>
       child: SizedBox.square(
         dimension: iconSize,
         child: Container(
-          key: ValueKey('${item.path}_tab_icon'),
+          key: ValueKey("${item.hashCode}_tab_icon"),
           child: widget.isSelected
               ? AppAssetImage(
                   itemFill,

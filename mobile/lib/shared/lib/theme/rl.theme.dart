@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/foundation.dart";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:google_fonts/google_fonts.dart";
 
-part 'text_styles.dart';
+part "text_styles.dart";
 
 class RlTheme {
   RlTheme()
@@ -139,44 +139,48 @@ class RlTheme {
   final Color shadowAccent;
 
   final data = ThemeData(
-    primaryColor: Color(0xff50B5FF),
-    disabledColor: Colors.white.withOpacity(0.38),
+    primaryColor: const Color(0xff50B5FF),
+    disabledColor: Colors.white.withValues(alpha: 0.38),
     switchTheme: SwitchThemeData(
-      trackColor: WidgetStatePropertyAll(Color(0xff50B5FF)),
-      thumbColor: WidgetStatePropertyAll(Colors.white.withOpacity(0.87)),
+      trackColor: const WidgetStatePropertyAll(Color(0xff50B5FF)),
+      thumbColor: WidgetStatePropertyAll(Colors.white.withValues(alpha: 0.87)),
     ),
     colorScheme: ColorScheme.dark(
-      primary: Color(0xff50B5FF),
-      secondary: Colors.white.withOpacity(0.87),
+      primary: const Color(0xff50B5FF),
+      secondary: Colors.white.withValues(alpha: 0.87),
       tertiary: Colors.grey[300],
-      onTertiary: Color(0xff121212),
-      surface: Color(0xff111111),
-      onSurface: Colors.white.withOpacity(0.87),
+      onTertiary: const Color(0xff121212),
+      surface: const Color(0xff111111),
+      onSurface: Colors.white.withValues(alpha: 0.87),
     ),
-    cardColor: Color(0xff2b2b2b),
-    progressIndicatorTheme: ProgressIndicatorThemeData(
-        circularTrackColor: Color(0xffD9D9D9),
-        color: Color(
-          0xff8E8E8E,
-        ),),
-    scaffoldBackgroundColor: Color(0xff121212),
-    appBarTheme: AppBarTheme(
+    cardColor: const Color(0xff2b2b2b),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      circularTrackColor: Color(0xffD9D9D9),
+      color: Color(
+        0xff8E8E8E,
+      ),
+    ),
+    scaffoldBackgroundColor: const Color(0xff121212),
+    appBarTheme: const AppBarTheme(
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
       elevation: 0,
     ),
-    cupertinoOverrideTheme: CupertinoThemeData(
+    cupertinoOverrideTheme: const CupertinoThemeData(
       scaffoldBackgroundColor: Color(0xff121212),
       barBackgroundColor: Colors.white,
       textTheme: CupertinoTextThemeData(
         primaryColor: Colors.white,
         navLargeTitleTextStyle: TextStyle(
-            color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold,),
+          color: Colors.black,
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+        ),
         navTitleTextStyle: TextStyle(color: Colors.black),
         navActionTextStyle: TextStyle(color: Colors.black),
       ),
     ),
-    navigationBarTheme: NavigationBarThemeData(
+    navigationBarTheme: const NavigationBarThemeData(
       labelTextStyle: WidgetStatePropertyAll(TextStyle(color: Colors.white)),
     ),
     textTheme: TextTheme(
@@ -189,15 +193,12 @@ class RlTheme {
       titleLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
       titleMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
       titleSmall: GoogleFonts.poppins().copyWith(color: Colors.white),
-      labelLarge: GoogleFonts.poppins()
-          .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-      labelMedium: GoogleFonts.poppins()
-          .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-      labelSmall: GoogleFonts.poppins()
-          .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+      labelLarge: GoogleFonts.poppins().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+      labelMedium: GoogleFonts.poppins().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+      labelSmall: GoogleFonts.poppins().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
     ),
-    iconTheme: IconThemeData(color: Colors.white),
-    buttonTheme: ButtonThemeData(
+    iconTheme: const IconThemeData(color: Colors.white),
+    buttonTheme: const ButtonThemeData(
       buttonColor: Colors.blue,
       textTheme: ButtonTextTheme.primary,
     ),
@@ -213,16 +214,16 @@ class RlTheme {
     dialogTheme: DialogTheme(
       backgroundColor: Colors.grey[850],
     ),
-    dividerColor: Color(0xff343434),
+    dividerColor: const Color(0xff343434),
     useMaterial3: true,
   );
 }
 
 ThemeData lightTheme = ThemeData(
-  disabledColor: Colors.grey[200]!,
+  disabledColor: Colors.grey[200],
   colorScheme: ColorScheme.light(
-    primary: Color(0xff50B5FF),
-    secondary: Colors.black.withOpacity(0.87),
+    primary: const Color(0xff50B5FF),
+    secondary: Colors.black.withValues(alpha: 0.87),
     surface: Colors.white,
     onSurface: Colors.grey,
     tertiary: Colors.grey[200],
@@ -230,31 +231,35 @@ ThemeData lightTheme = ThemeData(
   ),
   scaffoldBackgroundColor: Colors.white,
   cardColor: Colors.grey[100],
-  progressIndicatorTheme: ProgressIndicatorThemeData(
-      circularTrackColor: Color(0xffD9D9D9),
-      color: Color(
-        0xff8E8E8E,
-      ),),
-  appBarTheme: AppBarTheme(
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    circularTrackColor: Color(0xffD9D9D9),
+    color: Color(
+      0xff8E8E8E,
+    ),
+  ),
+  appBarTheme: const AppBarTheme(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
     elevation: 0,
   ),
-  cupertinoOverrideTheme: CupertinoThemeData(
+  cupertinoOverrideTheme: const CupertinoThemeData(
     scaffoldBackgroundColor: Colors.white,
     barBackgroundColor: Colors.black,
     textTheme: CupertinoTextThemeData(
       primaryColor: Colors.black,
       navLargeTitleTextStyle: TextStyle(
-          color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold,),
+        color: Colors.white,
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+      ),
       navTitleTextStyle: TextStyle(color: Colors.white),
       navActionTextStyle: TextStyle(color: Colors.white),
     ),
   ),
-  navigationBarTheme: NavigationBarThemeData(
+  navigationBarTheme: const NavigationBarThemeData(
     labelTextStyle: WidgetStatePropertyAll(TextStyle(color: Colors.black)),
   ),
-  listTileTheme: ListTileThemeData(
+  listTileTheme: const ListTileThemeData(
     iconColor: Colors.black,
     textColor: Colors.black,
     selectedColor: Colors.blue,
@@ -270,28 +275,25 @@ ThemeData lightTheme = ThemeData(
     titleLarge: GoogleFonts.poppins().copyWith(color: Colors.black),
     titleMedium: GoogleFonts.poppins().copyWith(color: Colors.black),
     titleSmall: GoogleFonts.poppins().copyWith(color: Colors.black),
-    labelLarge: GoogleFonts.poppins()
-        .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
-    labelMedium: GoogleFonts.poppins()
-        .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
-    labelSmall: GoogleFonts.poppins()
-        .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+    labelLarge: GoogleFonts.poppins().copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+    labelMedium: GoogleFonts.poppins().copyWith(color: Colors.black, fontWeight: FontWeight.w600),
+    labelSmall: GoogleFonts.poppins().copyWith(color: Colors.black, fontWeight: FontWeight.w600),
   ),
   datePickerTheme: DatePickerThemeData(
     backgroundColor: Colors.white,
     rangePickerBackgroundColor: Colors.white,
-    rangeSelectionBackgroundColor: Color(0xff50B5FF),
+    rangeSelectionBackgroundColor: const Color(0xff50B5FF),
     headerHeadlineStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
     headerHelpStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
     dayStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
     weekdayStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
-    yearStyle: TextStyle(
+    yearStyle: const TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.black,
     ),
   ),
-  iconTheme: IconThemeData(color: Colors.black),
-  buttonTheme: ButtonThemeData(
+  iconTheme: const IconThemeData(color: Colors.black),
+  buttonTheme: const ButtonThemeData(
     buttonColor: Colors.blue,
     textTheme: ButtonTextTheme.primary,
   ),
@@ -301,10 +303,10 @@ ThemeData lightTheme = ThemeData(
       backgroundColor: Colors.blue,
     ),
   ),
-  cardTheme: CardTheme(
+  cardTheme: const CardTheme(
     color: Color(0xFFE5E5E5),
   ),
-  dialogTheme: DialogTheme(
+  dialogTheme: const DialogTheme(
     backgroundColor: Color(0xFFE5E5E5),
     elevation: 0,
   ),
@@ -332,10 +334,8 @@ const kDarkOverlayStyle = SystemUiOverlayStyle(
   systemNavigationBarContrastEnforced: true,
 );
 
-void setBrightOverlayStyle() =>
-    SystemChrome.setSystemUIOverlayStyle(kBrightOverlayStyle);
-void setDarkOverlayStyle() =>
-    SystemChrome.setSystemUIOverlayStyle(kDarkOverlayStyle);
+void setBrightOverlayStyle() => SystemChrome.setSystemUIOverlayStyle(kBrightOverlayStyle);
+void setDarkOverlayStyle() => SystemChrome.setSystemUIOverlayStyle(kDarkOverlayStyle);
 
 void setSystemOverlayStyle() {
   final brightness = PlatformDispatcher.instance.platformBrightness;
@@ -347,6 +347,4 @@ void setSystemOverlayStyle() {
 }
 
 SystemUiOverlayStyle get getSystemOverlayStyle =>
-    PlatformDispatcher.instance.platformBrightness == Brightness.dark
-        ? kDarkOverlayStyle
-        : kBrightOverlayStyle;
+    PlatformDispatcher.instance.platformBrightness == Brightness.dark ? kDarkOverlayStyle : kBrightOverlayStyle;

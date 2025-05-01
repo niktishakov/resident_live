@@ -1,18 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import "package:flutter/material.dart";
+import "package:flutter_svg/flutter_svg.dart";
 
-import 'app.asset.dart';
+import "package:resident_live/shared/lib/assets/app.asset.dart";
 
 class AppAssetImage extends StatelessWidget {
   const AppAssetImage(
     this.asset, {
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.color,
     this.fit = BoxFit.contain,
     this.alignment = Alignment.center,
-  }) : super(key: key);
+  });
 
   final AppAsset asset;
   final double? width;
@@ -29,7 +29,7 @@ class AppAssetImage extends StatelessWidget {
           asset.path,
           width: width,
           height: height,
-          color: color,
+          colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
           fit: fit,
           alignment: alignment,
         );
@@ -45,8 +45,6 @@ class AppAssetImage extends StatelessWidget {
             alignment: alignment,
           ),
         );
-      default:
-        return Container();
     }
   }
 }

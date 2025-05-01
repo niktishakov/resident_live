@@ -1,26 +1,24 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/domain/domain.dart';
-import 'package:resident_live/features/countries/model/countries_cubit.dart';
-import 'package:resident_live/features/countries/model/countries_state.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:domain/domain.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:go_router/go_router.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/features/countries/model/countries_cubit.dart";
+import "package:resident_live/features/countries/model/countries_state.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/shared/shared.dart";
 
 class AllCountriesScreen extends StatefulWidget {
-  const AllCountriesScreen({Key? key}) : super(key: key);
+  const AllCountriesScreen({super.key});
 
   @override
   State<AllCountriesScreen> createState() => _AllCountriesScreenState();
 }
 
-class _AllCountriesScreenState extends State<AllCountriesScreen>
-    with SingleTickerProviderStateMixin {
+class _AllCountriesScreenState extends State<AllCountriesScreen> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
@@ -36,15 +34,16 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
 
   @override
   void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    _scaleAnimation =
-        Tween<double>(begin: 1.0, end: 0.75).animate(_animationController);
-    _opacityAnimation =
-        Tween<double>(begin: 1.0, end: 0.5).animate(_animationController);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.75).animate(_animationController);
+    _opacityAnimation = Tween<double>(begin: 1.0, end: 0.5).animate(_animationController);
     _borderAnimation = Tween<BorderRadius>(
-            begin: kLargeBorderRadius, end: BorderRadius.circular(38),)
-        .animate(_animationController);
+      begin: BorderRadius.circular(kLargeBorderRadius),
+      end: BorderRadius.circular(38),
+    ).animate(_animationController);
 
     super.initState();
   }
@@ -76,8 +75,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    if (_animationController.value > 0.5 ||
-        details.velocity.pixelsPerSecond.dy > 700) {
+    if (_animationController.value > 0.5 || details.velocity.pixelsPerSecond.dy > 700) {
       _animationController.forward().then((_) {
         if (context.canPop()) {
           setState(() => _isPopping = true);
@@ -89,11 +87,11 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
     }
   }
 
-  void toggleSelection(CountryEntity residence, value) {
-    if (value) {
-      selected.add(residence.isoCode);
+  void toggleSelection({required CountryEntity country, required bool isSelected}) {
+    if (isSelected) {
+      selected.add(country.isoCode);
     } else {
-      selected.remove(residence.isoCode);
+      selected.remove(country.isoCode);
     }
     setState(() {});
   }
@@ -117,7 +115,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                 fit: StackFit.expand,
                 children: [
                   Hero(
-                    tag: 'tracking_residences',
+                    tag: "tracking_residences",
                     flightShuttleBuilder: (
                       flightContext,
                       animation,
@@ -134,7 +132,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                       beginBorderRadius: BorderRadius.circular(38).topLeft.x,
                     ),
                     child: RlCard(
-                      borderRadius: _borderAnimation.value,
+                      borderRadius: _borderAnimation.value.topLeft.x,
                       gradient: vGradient,
                     ),
                   ),
@@ -143,21 +141,21 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(60),
                       child: RlCard(
-                        borderRadius: _borderAnimation.value,
+                        borderRadius: _borderAnimation.value.topLeft.x,
                         gradient: vGradient,
                         padding: EdgeInsets.zero,
                         child: CupertinoPageScaffold(
                           backgroundColor: Colors.transparent,
                           navigationBar: CupertinoNavigationBar(
-                            padding:
-                                EdgeInsetsDirectional.symmetric(horizontal: 24),
+                            padding: const EdgeInsetsDirectional.symmetric(
+                              horizontal: 24,
+                            ),
                             backgroundColor: Colors.transparent,
                             middle: Text(
-                              LocaleKeys.all_countries_allTrackingResidences
-                                  .tr(),
+                              S.of(context).homeTrackingResidences,
                               style: theme.title16Semi.copyWith(
                                 color: theme.textPrimaryOnColor,
-                                fontFamily: 'SFPro',
+                                fontFamily: "SFPro",
                               ),
                             ),
                             leading: TransparentButton(
@@ -169,14 +167,10 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                 });
                               },
                               child: Text(
-                                isEditing
-                                    ? LocaleKeys.common_done.tr()
-                                    : LocaleKeys.common_edit.tr(),
+                                isEditing ? S.of(context).commonContinue : S.of(context).commonEdit,
                                 style: TextStyle(
                                   fontSize: 17,
-                                  fontWeight: isEditing
-                                      ? FontWeight.w600
-                                      : FontWeight.w500,
+                                  fontWeight: isEditing ? FontWeight.w600 : FontWeight.w500,
                                 ),
                               ),
                             ),
@@ -185,105 +179,102 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                 VibrationService.instance.tap();
                                 context.pop();
                               },
-                              child: Icon(CupertinoIcons.clear_circled_solid,
-                                  size: 34,
-                                  color: Colors.white.withOpacity(0.85),),
+                              child: Icon(
+                                CupertinoIcons.clear_circled_solid,
+                                size: 34,
+                                color: Colors.white.withValues(alpha: 0.85),
+                              ),
                             ),
                           ),
                           child: SafeArea(
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 24.0),
                               child: Column(
                                 children: [
-                                  Gap(32),
+                                  const Gap(32),
                                   BlocBuilder<CountriesCubit, CountriesState>(
-                                      builder: (c, s) {
-                                    return RlCard(
-                                      borderRadius: BorderRadius.circular(24),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 8),
-                                      child: Stack(
-                                        children: [
-                                          // Normal ListView
-                                          Opacity(
-                                            opacity: isEditing ? 0.0 : 1.0,
-                                            child: IgnorePointer(
-                                              ignoring: isEditing,
-                                              child: ListView.builder(
-                                                physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                shrinkWrap: true,
-                                                itemBuilder: (context, index) {
-                                                  final country = s
-                                                      .countries.values
-                                                      .toList()[index];
-                                                  return _CountryItem(
-                                                    country: country,
-                                                    toggleSelection:
-                                                        toggleSelection,
-                                                    isEditing: isEditing,
-                                                    isSelected:
-                                                        selected.contains(
-                                                            country.isoCode,),
-                                                    isLast: index ==
-                                                        s.countries.length - 1,
-                                                  );
-                                                },
-                                                itemCount: s.countries.length,
+                                    builder: (c, s) {
+                                      return RlCard(
+                                        borderRadius: 24,
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 8,
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            // Normal ListView
+                                            Opacity(
+                                              opacity: isEditing ? 0.0 : 1.0,
+                                              child: IgnorePointer(
+                                                ignoring: isEditing,
+                                                child: ListView.builder(
+                                                  physics: const NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  itemBuilder: (context, index) {
+                                                    final country = s.countries.values.toList()[index];
+                                                    return _CountryItem(
+                                                      country: country,
+                                                      toggleSelection: toggleSelection,
+                                                      isEditing: isEditing,
+                                                      isSelected: selected.contains(
+                                                        country.isoCode,
+                                                      ),
+                                                      isLast: index == s.countries.length - 1,
+                                                    );
+                                                  },
+                                                  itemCount: s.countries.length,
+                                                ),
                                               ),
                                             ),
-                                          ),
 
-                                          // Reorderable ListView
-                                          Opacity(
-                                            opacity: isEditing ? 1.0 : 0.0,
-                                            child: IgnorePointer(
-                                              ignoring: !isEditing,
-                                              child:
-                                                  ReorderableListView.builder(
-                                                physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                shrinkWrap: true,
-                                                itemBuilder: (context, index) {
-                                                  final country = s
-                                                      .countries.values
-                                                      .toList()[index];
-                                                  return _CountryItem(
-                                                    key: Key(country.isoCode),
-                                                    country: country,
-                                                    toggleSelection:
-                                                        toggleSelection,
-                                                    isEditing: isEditing,
-                                                    isSelected:
-                                                        selected.contains(
-                                                            country.isoCode,),
-                                                    isLast: index ==
-                                                        s.countries.length - 1,
-                                                  );
-                                                },
-                                                itemCount: s.countries.length,
-                                                onReorder: (oldIndex,
-                                                    newIndex,) {
-                                                  find<CountriesCubit>(context)
-                                                      .reorderCountry(
+                                            // Reorderable ListView
+                                            Opacity(
+                                              opacity: isEditing ? 1.0 : 0.0,
+                                              child: IgnorePointer(
+                                                ignoring: !isEditing,
+                                                child: ReorderableListView.builder(
+                                                  physics: const NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  itemBuilder: (context, index) {
+                                                    final country = s.countries.values.toList()[index];
+                                                    return _CountryItem(
+                                                      key: Key(country.isoCode),
+                                                      country: country,
+                                                      toggleSelection: toggleSelection,
+                                                      isEditing: isEditing,
+                                                      isSelected: selected.contains(
+                                                        country.isoCode,
+                                                      ),
+                                                      isLast: index == s.countries.length - 1,
+                                                    );
+                                                  },
+                                                  itemCount: s.countries.length,
+                                                  onReorder: (
                                                     oldIndex,
                                                     newIndex,
-                                                  );
-                                                },
+                                                  ) {
+                                                    find<CountriesCubit>(
+                                                      context,
+                                                    ).reorderCountry(
+                                                      oldIndex,
+                                                      newIndex,
+                                                    );
+                                                  },
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },),
-                                  Spacer(),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const Spacer(),
                                   TweenAnimationBuilder(
                                     duration: 500.ms,
                                     curve: Curves.fastOutSlowIn,
                                     tween: Tween<double>(
-                                        begin: 1.0, end: isEditing ? 0.0 : 1.0,),
+                                      begin: 1.0,
+                                      end: isEditing ? 0.0 : 1.0,
+                                    ),
                                     builder: (context, value, child) {
                                       return Transform.translate(
                                         offset: Offset(0, value * 300),
@@ -291,7 +282,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                       );
                                     },
                                     child: PrimaryButton(
-                                      label: 'Delete',
+                                      label: "Delete",
                                       backgroundColor: Colors.redAccent,
                                       enabled: selected.isNotEmpty,
                                       onPressed: () {
@@ -299,33 +290,32 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
                                         showCupertinoDialog(
                                           context: context,
                                           barrierDismissible: true,
-                                          builder: (context) =>
-                                              CupertinoAlertDialog(
-                                            title: Text('Delete Residences'),
-                                            content: Text(
-                                                'Are you sure you want to delete the selected residences?',),
+                                          builder: (context) => CupertinoAlertDialog(
+                                            title: const Text("Delete Residences"),
+                                            content: const Text(
+                                              "Are you sure you want to delete the selected residences?",
+                                            ),
                                             actions: [
                                               CupertinoDialogAction(
                                                 isDestructiveAction: true,
                                                 onPressed: () async {
                                                   setState(
-                                                      () => _isPopping = true,);
+                                                    () => _isPopping = true,
+                                                  );
 
                                                   context.pop();
-                                                  for (final isoCode
-                                                      in selected) {
+                                                  for (final isoCode in selected) {
                                                     find<CountriesCubit>(
-                                                            context,)
-                                                        .removeCountry(isoCode);
+                                                      context,
+                                                    ).removeCountry(isoCode);
                                                   }
                                                   setState(selected.clear);
-                                                  VibrationService.instance
-                                                      .success();
+                                                  VibrationService.instance.success();
                                                 },
-                                                child: Text('Delete'),
+                                                child: const Text("Delete"),
                                               ),
                                               CupertinoDialogAction(
-                                                child: Text('Cancel'),
+                                                child: const Text("Cancel"),
                                                 onPressed: () => context.pop(),
                                               ),
                                             ],
@@ -354,24 +344,24 @@ class _AllCountriesScreenState extends State<AllCountriesScreen>
 
 class _CountryItem extends StatelessWidget {
   const _CountryItem({
-    Key? key,
     required this.country,
     required this.toggleSelection,
     required this.isEditing,
     required this.isSelected,
     required this.isLast,
-  }) : super(key: key);
+    super.key,
+  });
 
   final CountryEntity country;
   final bool isEditing;
   final bool isSelected;
   final bool isLast;
-  final Function(CountryEntity, bool) toggleSelection;
+  final Function({required CountryEntity country, required bool isSelected}) toggleSelection;
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = Color(0xff3C3C3C);
-    final valueColor = Color(0xff8E8E8E);
+    const backgroundColor = Color(0xff3C3C3C);
+    const valueColor = Color(0xff8E8E8E);
     final theme = context.rlTheme;
     final daysSpent = country.daysSpent;
 
@@ -379,7 +369,7 @@ class _CountryItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(24),
       child: GestureDetector(
         onTap: isEditing
-            ? () => toggleSelection(country, !isSelected)
+            ? () => toggleSelection(country: country, isSelected: !isSelected)
             : () {
                 context.pushNamed(
                   ScreenNames.residenceDetails2,
@@ -387,18 +377,18 @@ class _CountryItem extends StatelessWidget {
                 );
               },
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 1),
-          color: Colors.white.withOpacity(0.0001),
+          margin: const EdgeInsets.symmetric(vertical: 1),
+          color: Colors.white.withValues(alpha: 0.0001),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Gap(8),
+              const Gap(8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Row(
                   children: [
                     TweenAnimationBuilder(
-                      duration: Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 250),
                       curve: Curves.easeInOut,
                       tween: Tween<double>(begin: 0, end: isEditing ? 1 : 0),
                       builder: (context, value, child) {
@@ -427,15 +417,14 @@ class _CountryItem extends StatelessWidget {
                           child: Center(
                             child: RlCheckbox(
                               value: isSelected,
-                              onToggle: (value) =>
-                                  toggleSelection(country, value),
+                              onToggle: (value) => toggleSelection(country: country, isSelected: value),
                             ),
                           ),
                         ),
                       ),
                     ),
                     TweenAnimationBuilder(
-                      duration: Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 250),
                       curve: Curves.easeInOut,
                       tween: Tween<double>(
                         begin: 0,
@@ -446,27 +435,29 @@ class _CountryItem extends StatelessWidget {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(country.name,
-                                      style: theme.body12M.copyWith(
-                                          color: theme.textPrimaryOnColor,),),
-                                  Gap(4),
+                                  Text(
+                                    country.name,
+                                    style: theme.body12M.copyWith(
+                                      color: theme.textPrimaryOnColor,
+                                    ),
+                                  ),
+                                  const Gap(4),
                                   Flexible(
                                     child: Text(
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            color: context
-                                                .theme.colorScheme.tertiary
-                                                .withOpacity(0.5),),
-                                        '${country.daysSpent} ${LocaleKeys.all_countries_of.tr()} 183 ${LocaleKeys.all_countries_days.tr()}',),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        color: context.theme.colorScheme.tertiary.withValues(alpha: 0.5),
+                                      ),
+                                      "${country.daysSpent} / 183 ${S.of(context).homeDays}",
+                                    ),
                                   ),
                                 ],
                               ),
-                              Gap(6),
+                              const Gap(6),
                               TweenAnimationBuilder(
                                 duration: 2.seconds,
                                 tween: Tween<double>(
@@ -480,8 +471,7 @@ class _CountryItem extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8),
                                     value: v,
                                     backgroundColor: backgroundColor,
-                                    valueColor:
-                                        AlwaysStoppedAnimation(valueColor),
+                                    valueColor: const AlwaysStoppedAnimation(valueColor),
                                   ).animate().shimmer(
                                     duration: 1.seconds,
                                     delay: 1.seconds,
@@ -495,7 +485,7 @@ class _CountryItem extends StatelessWidget {
                       },
                     ),
                     TweenAnimationBuilder(
-                      duration: Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 250),
                       curve: Curves.easeInOut,
                       tween: Tween<double>(begin: 0, end: isEditing ? 1 : 0),
                       builder: (context, value, child) {
@@ -517,8 +507,8 @@ class _CountryItem extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12.0),
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 12.0),
                         child: SizedBox.square(
                           dimension: 45,
                           child: Center(
@@ -534,7 +524,7 @@ class _CountryItem extends StatelessWidget {
                   ],
                 ),
               ),
-              Gap(16),
+              const Gap(16),
               if (!isLast)
                 Divider(
                   color: context.theme.colorScheme.surface,

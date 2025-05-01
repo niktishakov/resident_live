@@ -1,3 +1,3 @@
-export 'router/router.dart';
-export 'lib/export.dart';
-export 'ui/export.dart';
+export "lib/export.dart";
+export "router/router.dart";
+export "widget/export.dart";

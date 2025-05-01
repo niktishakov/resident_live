@@ -7,9 +7,9 @@ version: 1.0.0+1
 environment:
   sdk: ">=3.3.2 <4.0.0"
 
-scripts:
-  gen: flutter pub run build_runner watch
-  gen_locales: dart run easy_localization:generate -S assets/translations -f keys
+scripts: 
+  gen: dart run build_runner watch
+  gen_locales: dart run intl_utils:generate
   run: flutter run -t lib/app/main.dart
   run-release: flutter run -t lib/app/main.dart --release
   deploy: cd ios && fastlane beta
@@ -18,7 +18,12 @@ scripts:
     flutter pub get
 
 dependencies:
+  domain:
+    path: ../domain
+    
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
   intl: ^0.19.0
   flutter_local_notifications: ^16.3.0
@@ -48,10 +53,9 @@ dependencies:
   modal_bottom_sheet: ^3.0.0
   flutter_heatmap_calendar: ^1.0.5
   fl_chart: ^0.69.0
-  freezed_annotation: ^2.4.4
+  freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
   local_auth: ^2.3.0
-  easy_localization: ^3.0.7 # Use the latest version
   url_launcher: ^6.3.1
   webview_flutter: ^4.10.0
   app_settings: ^5.1.1
@@ -59,6 +63,7 @@ dependencies:
   permission_handler: ^11.3.1
   device_info_plus: ^11.2.0
   package_info_plus: ^8.1.2
+  provider: ^6.1.5
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +73,7 @@ dev_dependencies:
 
   pedantic: ^1.11.0
   hive_generator: ^2.0.1
-  freezed: ^2.5.7
+  freezed: ^2.4.6
   json_serializable: ^6.8.0
   flutter_lints: ^3.0.1
   flutter_launcher_icons: ^0.13.1
@@ -82,13 +87,21 @@ flutter_launcher_icons:
   image_path: "assets/imgs/logo.png"
   remove_alpha_ios: true
 
+
+flutter_intl:
+  enabled: true
+  class_name: S
+  arb_dir: lib/l10n
+  output_dir: lib/generated/l10n
+
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/svgs/
     - assets/imgs/
-    - assets/translations/
     - secrets.json
+
 
   fonts:
     - family: SFPro

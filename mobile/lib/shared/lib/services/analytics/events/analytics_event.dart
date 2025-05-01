@@ -42,11 +42,11 @@ abstract class AnalyticsEvent {
 
   @override
   String toString() {
-    final buffer = StringBuffer('\n');
+    final buffer = StringBuffer("\n");
     for (final service in AnalyticsService.values) {
       final name = getName(service: service);
       final params = getParams(service: service);
-      buffer.writeln('$service event - $name: $params');
+      buffer.writeln("$service event - $name: $params");
     }
 
     return buffer.toString();

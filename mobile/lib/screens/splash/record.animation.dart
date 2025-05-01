@@ -1,12 +1,13 @@
-part of 'splash_screen.dart';
+part of "splash_screen.dart";
 
 class RecordingAnimation extends StatefulWidget {
+  const RecordingAnimation({super.key});
+
   @override
-  _RecordingAnimationState createState() => _RecordingAnimationState();
+  RecordingAnimationState createState() => RecordingAnimationState();
 }
 
-class _RecordingAnimationState extends State<RecordingAnimation>
-    with SingleTickerProviderStateMixin {
+class RecordingAnimationState extends State<RecordingAnimation> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   late Animation<double> _fadeAnimation;
@@ -50,7 +51,7 @@ class _RecordingAnimationState extends State<RecordingAnimation>
           child: Container(
             width: size,
             height: size,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.greenAccent,
             ),

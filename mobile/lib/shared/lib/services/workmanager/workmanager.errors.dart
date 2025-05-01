@@ -9,14 +9,14 @@ class WorkmanagerServiceError extends Error {
 
 class WorkmanagerNotInitializedError extends WorkmanagerServiceError {
   WorkmanagerNotInitializedError()
-      : super('WorkmanagerService must be initialized first');
+      : super("WorkmanagerService must be initialized first");
 }
 
 class WorkmanagerNotReadyError extends WorkmanagerServiceError {
   WorkmanagerNotReadyError()
-      : super('Workmanager is not ready. Call initialize() first');
+      : super("Workmanager is not ready. Call initialize() first");
 }
 
 class WorkmanagerInstanceError extends WorkmanagerServiceError {
-  WorkmanagerInstanceError() : super('Instance was set to null after check');
+  WorkmanagerInstanceError() : super("Instance was set to null after check");
 }

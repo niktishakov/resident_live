@@ -1,41 +1,41 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:resident_live/domain/domain.dart';
-import 'package:resident_live/features/features.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:resident_live/shared/ui/rl.sliver_header.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:provider/provider.dart';
+import "package:domain/domain.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:go_router/go_router.dart";
+import "package:local_auth/local_auth.dart";
+import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
+import "package:provider/provider.dart";
+import "package:resident_live/features/features.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/screens/settings/widgets/report_bug_button.dart";
+import "package:resident_live/screens/settings/widgets/settings_button.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/shared/widget/rl.sliver_header.dart";
+import "package:url_launcher/url_launcher.dart";
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("SettingsScreen>> ${S.of(context).settingsNotifications}");
     return CupertinoScaffold(
       overlayStyle: getSystemOverlayStyle,
-      transitionBackgroundColor: Color(0xff121212),
+      transitionBackgroundColor: const Color(0xff121212),
       body: Builder(
         builder: (context) {
           return Material(
             child: CustomScrollView(
               slivers: [
                 AiSliverHeader(
-                  titleText: LocaleKeys.settings_title.tr(),
+                  titleText: S.of(context).settingsTitle,
                 ),
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
                   sliver: SliverList(
-                    delegate: SliverChildListDelegate([
+                    delegate: SliverChildListDelegate(addRepaintBoundaries: false, [
                       BlocConsumer<AuthCubit, AuthState>(
                         listener: (context, state) {
                           if (state.error != null) {
@@ -46,19 +46,15 @@ class SettingsScreen extends StatelessWidget {
                         },
                         builder: (context, state) {
                           final authCubit = context.read<AuthCubit>();
-                          print(state);
-                          return _buildSettingButton(
-                            asset: state.biometricType == BiometricType.face
-                                ? AppAssets.faceid
-                                : AppAssets
-                                    .touchid, // Assuming you have a touchid asset
-                            title: '${authCubit.biometricTitle} Access',
-                            subtitle: state.isEnabled
-                                ? LocaleKeys.common_on.tr()
-                                : LocaleKeys.common_off.tr(),
+
+                          return SettingsButton(
+                            asset:
+                                state.biometricType == BiometricType.face ? AppAssets.faceid : AppAssets.touchid, // Assuming you have a touchid asset
+                            title: "${authCubit.biometricTitle} Access",
+                            subtitle: state.isEnabled ? S.of(context).commonOn : S.of(context).commonOff,
                             onTap: () async {
                               if (!state.isSupported && state.error != null) {
-                                print('Open App Settings');
+                                debugPrint("Open App Settings");
                               }
                               if (state.isEnabled) {
                                 await authCubit.toggleBiometricAuth();
@@ -68,8 +64,7 @@ class SettingsScreen extends StatelessWidget {
                             },
                             trailing: CupertinoSwitch(
                               value: state.isEnabled,
-                              activeTrackColor:
-                                  context.theme.colorScheme.primary,
+                              activeTrackColor: context.theme.colorScheme.primary,
                               onChanged: (value) async {
                                 if (value) {
                                   await authCubit.authenticateAndToggle();
@@ -81,68 +76,68 @@ class SettingsScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      Gap(12),
-                      _buildSettingButton(
+                      const Gap(12),
+                      SettingsButton(
                         icon: Icons.language,
-                        title: LocaleKeys.settings_language.tr(),
+                        title: S.of(context).settingsLanguage,
                         onTap: () {
                           context.pushNamed(ScreenNames.language);
                         },
                       ),
-                      Gap(12),
-                      _buildSettingButton(
+                      const Gap(12),
+                      SettingsButton(
                         icon: CupertinoIcons.bell,
-                        title: LocaleKeys.settings_notifications.tr(),
+                        title: S.of(context).settingsNotifications,
                         onTap: () {
                           // Handle Notifications settings
                         },
                       ),
-                      Gap(32),
-                      _buildSettingButton(
+                      const Gap(32),
+                      SettingsButton(
                         asset: AppAssets.person2Wave2,
-                        title: LocaleKeys.settings_shareWithFriends.tr(),
-                        trailing: SizedBox(),
+                        title: S.of(context).settingsShareWithFriends,
+                        trailing: const SizedBox(),
                         onTap: () {
                           ShareService.instance.shareText(appStoreLink);
                         },
                       ),
-                      Gap(12),
-                      _buildSettingButton(
+                      const Gap(12),
+                      SettingsButton(
                         icon: CupertinoIcons.star,
-                        title: LocaleKeys.settings_rateUs.tr(),
+                        title: S.of(context).settingsRateUs,
                         onTap: () {
                           launchUrl(Uri.parse(appStoreLink));
                         },
                       ),
-                      Gap(32),
-                      _buildSettingButton(
+                      const Gap(32),
+                      SettingsButton(
                         icon: CupertinoIcons.checkmark_shield,
-                        title: LocaleKeys.settings_privacyPolicy.tr(),
+                        title: S.of(context).settingsPrivacyPolicy,
                         onTap: () async {
                           await showWebViewModal(
                             context: context,
                             url: privacyPolicyUrl,
-                            title: LocaleKeys.settings_privacyPolicy.tr(),
+                            title: S.of(context).settingsPrivacyPolicy,
                           );
                         },
                       ),
-                      Gap(12),
-                      _buildSettingButton(
+                      const Gap(12),
+                      SettingsButton(
                         asset: AppAssets.terms,
-                        title: LocaleKeys.settings_termsOfUse.tr(),
+                        title: S.of(context).settingsTermsOfUse,
                         onTap: () async {
                           await showWebViewModal(
                             context: context,
                             url: termsOfUseUrl,
-                            title: LocaleKeys.settings_termsOfUse.tr(),
+                            title: S.of(context).settingsTermsOfUse,
                           );
                         },
                       ),
-                      Gap(12),
-                      _buildSettingButton(
+                      const Gap(12),
+                      SettingsButton(
                         asset: AppAssets.info,
-                        title: LocaleKeys.settings_aboutApp.tr(),
-                        trailing: SizedBox(),
+                        title: S.of(context).settingsAboutApp,
+                        trailing: const SizedBox(),
                         onTap: () async {
                           await showCupertinoDialog(
                             context: context,
@@ -150,14 +145,13 @@ class SettingsScreen extends StatelessWidget {
                             builder: (context) => Consumer<DeviceInfoService>(
                               builder: (context, deviceInfo, child) {
                                 return CupertinoAlertDialog(
-                                  title:
-                                      Text(LocaleKeys.settings_aboutApp.tr()),
+                                  title: Text(S.of(context).settingsAboutApp),
                                   content: Column(
                                     children: [
-                                      Gap(12),
-                                      Text('${deviceInfo.appName}'),
+                                      const Gap(12),
+                                      Text(deviceInfo.appName),
                                       Text(
-                                        '${deviceInfo.appVersion} (${deviceInfo.buildNumber})',
+                                        "${deviceInfo.appVersion} (${deviceInfo.buildNumber})",
                                       ),
                                     ],
                                   ),
@@ -167,8 +161,8 @@ class SettingsScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      ReportBugButton(),
-                      Gap(12),
+                      const ReportBugButton(),
+                      const Gap(12),
                     ]),
                   ),
                 ),
@@ -176,80 +170,6 @@ class SettingsScreen extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildSettingButton({
-    AppAsset? asset,
-    IconData? icon,
-    required String title,
-    String? subtitle,
-    required VoidCallback onTap,
-    Widget? trailing,
-  }) {
-    return BouncingButton(
-      onPressed: (_) => onTap(),
-      borderRadius: BorderRadius.circular(24),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFF1B1B1B),
-          borderRadius: BorderRadius.circular(24),
-        ),
-        height: 54,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 30,
-                child: asset != null
-                    ? AppAssetImage(
-                        asset,
-                        color: Colors.white,
-                        width: 30,
-                        height: 24,
-                        fit: BoxFit.contain,
-                      )
-                    : icon != null
-                        ? Icon(icon, color: Colors.white, size: 24)
-                        : null,
-              ),
-              SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
-                    if (subtitle != null)
-                      Text(
-                        subtitle,
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white.withOpacity(0.5),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              trailing ??
-                  Icon(
-                    CupertinoIcons.chevron_forward,
-                    color: Colors.white.withOpacity(0.5),
-                    size: 20,
-                  ),
-            ],
-          ),
-        ),
       ),
     );
   }

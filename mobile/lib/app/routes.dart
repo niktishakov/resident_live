@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:resident_live/features/features.dart';
-import 'package:resident_live/screens/all_countries/ui/all_countries_screen.dart';
-import 'package:resident_live/screens/residence_details/residence_details_screen2.dart';
-import 'package:resident_live/shared/shared.dart';
-
-import '../screens/screens.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:go_router/go_router.dart";
+import "package:resident_live/screens/all_countries/ui/all_countries_screen.dart";
+import "package:resident_live/screens/language/language_screen.dart";
+import "package:resident_live/screens/residence_details/residence_details_screen2.dart";
+import "package:resident_live/screens/screens.dart";
+import "package:resident_live/shared/shared.dart";
 
 List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
   return [
@@ -15,7 +14,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       name: ScreenNames.splash,
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(
-          SplashScreen(),
+          const SplashScreen(),
           ScreenNames.splash,
         );
       },
@@ -80,7 +79,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       name: ScreenNames.manageCountries,
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(
-          ManageCountriesScreen(),
+          const ManageCountriesScreen(),
           ScreenNames.manageCountries,
         );
       },
@@ -89,7 +88,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       path: ScreenNames.residenceDetails,
       name: ScreenNames.residenceDetails,
       pageBuilder: (ctx, state) {
-        final extra = state.extra as String;
+        final extra = state.extra! as String;
 
         return kRootCupertinoPage(
           ResidenceDetailsScreen(name: extra),
@@ -101,7 +100,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       path: ScreenNames.residenceDetails2,
       name: ScreenNames.residenceDetails2,
       pageBuilder: (ctx, state) {
-        final extra = state.extra as String;
+        final extra = state.extra! as String;
 
         return kRootCupertinoPage(
           ResidenceDetailsScreen2(name: extra),
@@ -114,7 +113,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       name: ScreenNames.allTrackingCountries,
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(
-          AllCountriesScreen(),
+          const AllCountriesScreen(),
           ScreenNames.allTrackingCountries,
         );
       },
@@ -135,8 +134,8 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       pageBuilder: (ctx, state) {
         return kSlideTransitionPage(
           WebViewScreen(
-            url: state.extra as String,
-            title: state.extra as String,
+            url: state.extra! as String,
+            title: state.extra! as String,
           ),
           ScreenNames.webView,
         );

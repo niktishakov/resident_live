@@ -1,21 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
-import 'package:resident_live/domain/domain.dart';
-
-import '../../../features/features.dart';
-import '../../../shared/shared.dart';
-import 'widgets/country_disabler.dart';
-import 'widgets/header.dart';
-import 'widgets/journey_calendar.dart';
+import "package:domain/domain.dart";
+import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/features/features.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/journey_view/ui/widgets/country_disabler.dart";
+import "package:resident_live/widgets/journey_view/ui/widgets/header.dart";
+import "package:resident_live/widgets/journey_view/ui/widgets/journey_calendar.dart";
 
 class ResidencyJourneyScreen extends StatefulWidget {
+  const ResidencyJourneyScreen({super.key});
+
   @override
   State<ResidencyJourneyScreen> createState() => _ResidencyJourneyScreenState();
 }
 
 class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
-  // Add state for current month
   late DateTime _currentMonth;
   Set<String> _visibleCountries = {};
 
@@ -43,9 +43,9 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
             children: [
               const Grabber(),
               const Gap(16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: const Header(),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Header(),
               ),
               const Gap(8),
               Expanded(
@@ -76,12 +76,10 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
                           focusedCountry: state.focusedCountry,
                           currentMonth: _currentMonth,
                           countryPeriods: countryPeriods,
-                          disabledCountries: countryNames
-                              .where((c) => !_visibleCountries.contains(c))
-                              .toList(),
-                          onCountrySelected: (country, isEnabled) {
+                          disabledCountries: countryNames.where((c) => !_visibleCountries.contains(c)).toList(),
+                          onCountrySelected: ({required country, required isDisabled}) {
                             setState(() {
-                              if (isEnabled) {
+                              if (!isDisabled) {
                                 _visibleCountries.add(country);
                               } else {
                                 _visibleCountries.remove(country);
@@ -102,14 +100,17 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
   }
 
   Map<String, List<DateTimeRange>> _convertToCalendarPeriods(
-      Map<String, CountryEntity> countries,) {
+    Map<String, CountryEntity> countries,
+  ) {
     return Map.fromEntries(
       countries.values.map((country) {
         final periods = country.periods
-            .map((period) => DateTimeRange(
-                  start: period.startDate,
-                  end: period.endDate,
-                ),)
+            .map(
+              (period) => DateTimeRange(
+                start: period.startDate,
+                end: period.endDate,
+              ),
+            )
             .toList();
 
         return MapEntry(country.name, periods);

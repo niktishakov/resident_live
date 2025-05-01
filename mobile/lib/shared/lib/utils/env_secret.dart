@@ -1,4 +1,4 @@
-import 'environment/export.dart';
+import "package:resident_live/shared/lib/utils/environment/export.dart";
 
 /// Used for secrets that have different values depending on the environment
 class EnvSecret {
@@ -9,8 +9,8 @@ class EnvSecret {
 
   String get value {
     if (_envHolder.value.isProd) {
-      return _config['prod'] as String;
+      return _config["prod"] as String;
     }
-    return _config['dev'] as String;
+    return _config["dev"] as String;
   }
 }

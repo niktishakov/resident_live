@@ -1,19 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/shared/shared.dart";
 
 class JourneyCalendar extends StatefulWidget {
-
   const JourneyCalendar({
-    super.key,
     required this.currentMonth,
     required this.countryPeriods,
     required this.visibleCountries,
     required this.countryColors,
     required this.onMonthChanged,
+    super.key,
   });
   static Set<String> visitedMonths = {};
 
@@ -31,8 +29,7 @@ class JourneyCalendar extends StatefulWidget {
   State<JourneyCalendar> createState() => _JourneyCalendarState();
 }
 
-class _JourneyCalendarState extends State<JourneyCalendar>
-    with SingleTickerProviderStateMixin {
+class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProviderStateMixin {
   late DateTime _displayedMonth;
   late DateTime _nextMonth;
   bool _isAnimating = false;
@@ -48,7 +45,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
     _displayedMonth = widget.currentMonth;
     _nextMonth = widget.currentMonth;
 
-    final monthKey = '${_displayedMonth.year}-${_displayedMonth.month}';
+    final monthKey = "${_displayedMonth.year}-${_displayedMonth.month}";
 
     _lineAnimationController = AnimationController(
       vsync: this,
@@ -73,7 +70,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
       _displayedMonth.month + monthDelta,
       1,
     );
-    final monthKey = '${nextMonthDate.year}-${nextMonthDate.month}';
+    final monthKey = "${nextMonthDate.year}-${nextMonthDate.month}";
 
     setState(() {
       _isAnimating = true;
@@ -99,12 +96,12 @@ class _JourneyCalendarState extends State<JourneyCalendar>
       padding: EdgeInsets.zero,
       child: Column(
         children: [
-          Gap(16),
+          const Gap(16),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
             child: _buildHeader(context),
           ),
-          Divider(color: Color(0xff121212), thickness: 2),
+          const Divider(color: Color(0xff121212), thickness: 2),
           ClipRect(
             child: GestureDetector(
               onHorizontalDragStart: (details) {
@@ -137,7 +134,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
         CupertinoButton(
           padding: EdgeInsets.zero,
           onPressed: _isAnimating ? null : () => _navigateMonth(-1),
-          child: Icon(
+          child: const Icon(
             CupertinoIcons.chevron_left,
             color: Colors.white,
             size: 24,
@@ -148,7 +145,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
             children: [
               // Current month sliding out
               TweenAnimationBuilder<double>(
-                key: ValueKey('out_${_displayedMonth.toString()}'),
+                key: ValueKey("out_${_displayedMonth.toString()}"),
                 tween: Tween(
                   begin: 0.0,
                   end: _isAnimating ? (_slideDirection > 0 ? -1.0 : 1.0) : 0.0,
@@ -173,7 +170,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
               // New month sliding in
               if (_isAnimating)
                 TweenAnimationBuilder<double>(
-                  key: ValueKey('in_${_nextMonth.toString()}'),
+                  key: ValueKey("in_${_nextMonth.toString()}"),
                   tween: Tween(
                     begin: _slideDirection > 0 ? 1.0 : -1.0,
                     end: 0.0,
@@ -208,7 +205,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
         CupertinoButton(
           padding: EdgeInsets.zero,
           onPressed: _isAnimating ? null : () => _navigateMonth(1),
-          child: Icon(
+          child: const Icon(
             CupertinoIcons.chevron_right,
             color: Colors.white,
           ),
@@ -222,7 +219,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
       children: [
         // Current month sliding out
         TweenAnimationBuilder<double>(
-          key: ValueKey('out_${_displayedMonth.toString()}'),
+          key: ValueKey("out_${_displayedMonth.toString()}"),
           tween: Tween(
             begin: 0.0,
             end: _isAnimating ? (_slideDirection > 0 ? -1.0 : 1.0) : 0.0,
@@ -242,7 +239,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
         // New month sliding in
         if (_isAnimating)
           TweenAnimationBuilder<double>(
-            key: ValueKey('in_${_nextMonth.toString()}'),
+            key: ValueKey("in_${_nextMonth.toString()}"),
             tween: Tween(
               begin: _slideDirection > 0 ? 1.0 : -1.0,
               end: 0.0,
@@ -273,7 +270,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
   // Extract calendar content to avoid duplication
   Widget _buildCalendarContent(DateTime month) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -287,10 +284,9 @@ class _JourneyCalendarState extends State<JourneyCalendar>
                   SizedBox(
                     width: 40,
                     child: Text(
-                      _getWeekDayLabel(i).toUpperCase(),
+                      _getWeekDayLabel(context, i).toUpperCase(),
                       textAlign: TextAlign.center,
-                      style:
-                          context.rlTheme.body12.copyWith(color: Colors.white),
+                      style: context.rlTheme.body12.copyWith(color: Colors.white),
                     ),
                   ),
               ],
@@ -314,8 +310,8 @@ class _JourneyCalendarState extends State<JourneyCalendar>
             child: GridView.builder(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisSpacing: 0,
                 crossAxisSpacing: 0,
                 crossAxisCount: 7,
@@ -333,8 +329,11 @@ class _JourneyCalendarState extends State<JourneyCalendar>
                     final periods = widget.countryPeriods[country] ?? [];
                     for (final period in periods) {
                       if (date.isAfter(
-                              period.start.subtract(Duration(days: 1)),) &&
-                          date.isBefore(period.end.add(Duration(days: 1)))) {
+                            period.start.subtract(const Duration(days: 1)),
+                          ) &&
+                          date.isBefore(
+                            period.end.add(const Duration(days: 1)),
+                          )) {
                         todayColor = widget.countryColors[country];
                         break;
                       }
@@ -344,17 +343,16 @@ class _JourneyCalendarState extends State<JourneyCalendar>
                 }
 
                 return Container(
-                  margin: EdgeInsets.all(4),
+                  margin: const EdgeInsets.all(4),
                   decoration: isToday
                       ? BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: todayColor?.withOpacity(0.2) ??
-                              context.rlTheme.bgAccent.withOpacity(0.2),
+                          color: todayColor?.withValues(alpha: 0.2) ?? context.rlTheme.bgAccent.withValues(alpha: 0.2),
                         )
                       : null,
                   child: Center(
                     child: Text(
-                      '${date.day}',
+                      "${date.day}",
                       style: TextStyle(
                         fontSize: 18,
                         height: 22 / 18,
@@ -371,7 +369,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
               },
             ),
           ),
-          Gap(24),
+          const Gap(24),
         ],
       ),
     );
@@ -381,9 +379,7 @@ class _JourneyCalendarState extends State<JourneyCalendar>
   DateTime _getDateForIndex(int index, DateTime month) {
     final firstDayOfMonth = DateTime(month.year, month.month, 1);
     final firstDayOffset = firstDayOfMonth.weekday - 1;
-    return firstDayOfMonth
-        .subtract(Duration(days: firstDayOffset))
-        .add(Duration(days: index));
+    return firstDayOfMonth.subtract(Duration(days: firstDayOffset)).add(Duration(days: index));
   }
 
   bool _isCurrentMonth(DateTime date, DateTime month) {
@@ -391,24 +387,24 @@ class _JourneyCalendarState extends State<JourneyCalendar>
   }
 
   // Add this helper method to get weekday labels
-  String _getWeekDayLabel(int weekday) {
+  String _getWeekDayLabel(BuildContext context, int weekday) {
     switch (weekday) {
       case 1:
-        return LocaleKeys.weekdays_monday.tr();
+        return S.of(context).weekdayMonday;
       case 2:
-        return LocaleKeys.weekdays_tuesday.tr();
+        return S.of(context).weekdayTuesday;
       case 3:
-        return LocaleKeys.weekdays_wednesday.tr();
+        return S.of(context).weekdayWednesday;
       case 4:
-        return LocaleKeys.weekdays_thursday.tr();
+        return S.of(context).weekdayThursday;
       case 5:
-        return LocaleKeys.weekdays_friday.tr();
+        return S.of(context).weekdayFriday;
       case 6:
-        return LocaleKeys.weekdays_saturday.tr();
+        return S.of(context).weekdaySaturday;
       case 7:
-        return LocaleKeys.weekdays_sunday.tr();
+        return S.of(context).weekdaySunday;
       default:
-        return '';
+        return "";
     }
   }
 
@@ -453,7 +449,6 @@ class CalendarPainter extends CustomPainter {
     const circleRadius = 5.0;
 
     final firstVisibleDate = _getFirstVisibleDate();
-    final today = DateTime.now();
 
     for (final country in visibleCountries) {
       final periods = countryPeriods[country] ?? [];
@@ -469,12 +464,11 @@ class CalendarPainter extends CustomPainter {
         ..color = color
         ..style = PaintingStyle.fill;
 
-      print('Country: $country');
       for (final period in periods) {
         if (!_isDateRangeVisible(period, currentMonth)) continue;
 
-        final startDate = period.start.subtract(Duration(days: 1));
-        final endDate = period.end.subtract(Duration(days: 1));
+        final startDate = period.start.subtract(const Duration(days: 1));
+        final endDate = period.end.subtract(const Duration(days: 1));
 
         final startRow = _getRowForDate(startDate, firstVisibleDate);
         final endRow = _getRowForDate(endDate, firstVisibleDate);
@@ -487,7 +481,6 @@ class CalendarPainter extends CustomPainter {
           var rowStartX = _getXPositionForDate(startDate, cellWidth);
           var rowEndX = _getXPositionForDate(endDate, cellWidth);
 
-          print('row: $row, startRow: $startDate, endRow: $endDate');
           if (row != startRow) rowStartX = cellWidth / 2;
           if (row != endRow) rowEndX = size.width - cellWidth / 2;
 
@@ -497,7 +490,10 @@ class CalendarPainter extends CustomPainter {
           if (rowStartX == rowEndX) {
             if (progress > 0) {
               canvas.drawCircle(
-                  Offset(rowStartX, y), circleRadius, circlePaint,);
+                Offset(rowStartX, y),
+                circleRadius,
+                circlePaint,
+              );
             }
           } else {
             final path = Path();
@@ -508,7 +504,10 @@ class CalendarPainter extends CustomPainter {
             canvas.drawCircle(Offset(rowStartX, y), circleRadius, circlePaint);
             if (progress > 0) {
               canvas.drawCircle(
-                  Offset(animatedEndX, y), circleRadius, circlePaint,);
+                Offset(animatedEndX, y),
+                circleRadius,
+                circlePaint,
+              );
             }
           }
         }
@@ -538,12 +537,10 @@ class CalendarPainter extends CustomPainter {
 
   bool _isDateRangeVisible(DateTimeRange period, DateTime currentMonth) {
     final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
-    final lastDayOfMonth =
-        DateTime(currentMonth.year, currentMonth.month + 1, 0);
+    final lastDayOfMonth = DateTime(currentMonth.year, currentMonth.month + 1, 0);
 
     // Check if the period overlaps with the current month
-    return !(period.end.isBefore(firstDayOfMonth) ||
-        period.start.isAfter(lastDayOfMonth));
+    return !(period.end.isBefore(firstDayOfMonth) || period.start.isAfter(lastDayOfMonth));
   }
 
   @override

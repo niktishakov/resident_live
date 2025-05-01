@@ -1,10 +1,9 @@
 import "package:collection/collection.dart";
-
+import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/domain/domain.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -32,7 +31,7 @@ class TimelineSlider extends StatefulWidget {
   final DateTime startDate;
   final DateTime endDate;
   final double height;
-  final List<StayPeriod> periods;
+  final List<StayPeriodValueObject> periods;
   final bool Function(RangeValues) onAddPeriodPressed;
   final Map<String, Color> countryColors;
 
@@ -111,7 +110,7 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
     super.dispose();
   }
 
-  bool comparePeriods(List<StayPeriod> periods, List<StayPeriod> other) {
+  bool comparePeriods(List<StayPeriodValueObject> periods, List<StayPeriodValueObject> other) {
     if (periods.length != other.length) return false;
 
     for (var i = 0; i < periods.length; i++) {
@@ -521,7 +520,7 @@ class _SliderPainter extends CustomPainter {
   final double start;
   final double end;
   final Color color;
-  final List<StayPeriod> periods;
+  final List<StayPeriodValueObject> periods;
   final Map<String, Color> countryColors;
   final double strokeWidth;
   final double shimmerValue;

@@ -2,7 +2,7 @@ import "dart:async";
 
 import "package:hydrated_bloc/hydrated_bloc.dart";
 import "package:local_auth/local_auth.dart";
-import "package:resident_live/features/auth/model/auth.state.dart";
+import "package:resident_live/features/auth/cubit/auth.state.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class AuthCubit extends HydratedCubit<AuthState> {

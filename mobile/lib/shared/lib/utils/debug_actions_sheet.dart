@@ -76,7 +76,6 @@ void showDebugActionsSheet(BuildContext context) {
                       onTap: () {
                         find<LocationCubit>(context).reset();
                         find<CountriesCubit>(context).reset();
-                        find<UserCubit>(context).reset();
                         HydratedBloc.storage.clear();
                       },
                     ),

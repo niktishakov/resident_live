@@ -1,7 +1,7 @@
 import "dart:io";
 
+import "package:domain/domain.dart";
 import "package:flutter/foundation.dart";
-import "package:resident_live/domain/entities/entities.dart";
 import "package:resident_live/shared/lib/extensions/datetime_extension.dart";
 import "package:share_plus/share_plus.dart";
 

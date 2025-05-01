@@ -1,6 +1,5 @@
+import "package:domain/src/entity/country.entity.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
-
-import "package:resident_live/domain/entities/entities.dart";
 
 part "user.entity.g.dart";
 part "user.entity.freezed.dart";
@@ -15,14 +14,7 @@ class UserEntity with _$UserEntity {
     required Map<String, CountryEntity> countryResidences,
   }) = _UserEntity;
 
-  factory UserEntity.mock() => UserEntity(
-        id: "-1",
-        name: "",
-        email: "",
-        createdAt: DateTime.now(),
-        countryResidences: {},
-      );
+  factory UserEntity.mock() => UserEntity(id: "-1", name: "", email: "", createdAt: DateTime.now(), countryResidences: {});
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$UserEntityFromJson(json);
+  factory UserEntity.fromJson(Map<String, dynamic> json) => _$UserEntityFromJson(json);
 }

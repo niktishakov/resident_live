@@ -1,7 +1,7 @@
+import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/domain/entities/country/country.entity.dart";
 import "package:resident_live/shared/shared.dart";
 
 class CountryDisabler extends StatefulWidget {

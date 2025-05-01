@@ -1,10 +1,10 @@
+import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:resident_live/features/language/domain/constants.dart";
-import "package:resident_live/features/language/presentation/cubit/language_cubit.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/screens/language/language_cubit.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/shared/ui/rl.sliver_header.dart";
+import "package:resident_live/shared/widget/rl.sliver_header.dart";
 
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({super.key});
@@ -15,21 +15,18 @@ class LanguageScreen extends StatelessWidget {
       body: BlocConsumer<LanguageCubit, LanguageState>(
         listener: (context, state) async {
           if (state.status == LanguageStatus.success) {
-            ToastService.instance
-                .showToast(context, message: S.of(context).languageUpdated);
+            ToastService.instance.showToast(context, message: S.of(context).languageUpdated);
 
             await Future.delayed(const Duration(milliseconds: 100));
 
             // Перезагружаем S.delegate чтобы обновить переводы
             await S.delegate.load(state.locale);
           } else if (state.status == LanguageStatus.error) {
-            ToastService.instance
-                .showToast(context, message: state.errorMessage);
+            ToastService.instance.showToast(context, message: state.errorMessage);
           }
         },
         builder: (context, state) {
-          final supportedLocales =
-              find<LanguageCubit>(context).supportedLocales;
+          final supportedLocales = find<LanguageCubit>(context).supportedLocales;
 
           return CustomScrollView(
             slivers: [

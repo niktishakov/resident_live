@@ -16,14 +16,11 @@ class LocationState with _$LocationState {
   const factory LocationState({
     @JsonKey(includeFromJson: false, includeToJson: false) Position? position,
     @JsonKey(includeFromJson: false, includeToJson: false) Placemark? placemark,
-    @JsonKey(includeFromJson: false, includeToJson: false)
-    @Default(false)
-    bool isInitialized,
+    @JsonKey(includeFromJson: false, includeToJson: false) @Default(false) bool isInitialized,
     @Default("") String error,
   }) = _LocationState;
 
-  factory LocationState.fromJson(Map<String, dynamic> json) =>
-      _$LocationStateFromJson(json);
+  factory LocationState.fromJson(Map<String, dynamic> json) => _$LocationStateFromJson(json);
 
   const LocationState._();
 
@@ -51,7 +48,7 @@ class LocationCubit extends Cubit<LocationState> {
     try {
       final position = await _locationService.getCurrentLocation();
       await _updatePosition(position);
-        } catch (e) {
+    } catch (e) {
       _logger.error(e);
       emit(state.failure(e.toString()));
     }
@@ -61,7 +58,7 @@ class LocationCubit extends Cubit<LocationState> {
     try {
       final position = await _locationService.getCurrentLocation();
       await _updatePosition(position);
-        } catch (e) {
+    } catch (e) {
       _logger.error("Error updating location: $e");
       emit(state.failure(e.toString()));
     }
@@ -69,8 +66,7 @@ class LocationCubit extends Cubit<LocationState> {
 
   Future<void> _updatePosition(Position position) async {
     try {
-      final coordinates = await GeocodingPlatform.instance
-          ?.placemarkFromCoordinates(position.latitude, position.longitude);
+      final coordinates = await GeocodingPlatform.instance?.placemarkFromCoordinates(position.latitude, position.longitude);
 
       final addresses = coordinates ?? [];
 

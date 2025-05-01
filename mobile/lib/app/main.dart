@@ -1,3 +1,4 @@
+import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
@@ -8,9 +9,8 @@ import "package:provider/provider.dart";
 import "package:provider/single_child_widget.dart";
 import "package:resident_live/app/routes.dart";
 import "package:resident_live/features/features.dart";
-import "package:resident_live/features/language/domain/constants.dart";
-import "package:resident_live/features/language/presentation/cubit/language_cubit.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/screens/language/language_cubit.dart";
 import "package:resident_live/screens/screens.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -62,7 +62,6 @@ void main() async {
           create: (_) => LocationCubit(GeolocationService.instance),
         ),
         BlocProvider(create: (_) => CountriesCubit()),
-        BlocProvider(create: (_) => UserCubit()),
         BlocProvider(create: (_) => AuthCubit()),
         BlocProvider(
           create: (_) => LanguageCubit(
@@ -123,8 +122,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                         localeResolutionCallback: (locale, supportedLocales) {
                           if (locale != null) {
                             for (final supportedLocale in supportedLocales) {
-                              if (supportedLocale.languageCode ==
-                                  locale.languageCode) {
+                              if (supportedLocale.languageCode == locale.languageCode) {
                                 return supportedLocale;
                               }
                             }

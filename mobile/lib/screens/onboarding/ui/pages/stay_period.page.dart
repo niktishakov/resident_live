@@ -1,11 +1,10 @@
 import "package:country_list_pick/support/code_countries_en.dart";
-
+import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/domain/domain.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
 import "package:resident_live/screens/onboarding/model/onboarding_cubit.dart";
@@ -19,7 +18,7 @@ class CountryStayInfo {
     required this.segments,
   });
   final int totalDays;
-  final List<StayPeriod> segments;
+  final List<StayPeriodValueObject> segments;
 }
 
 class EnterStayDurationPage extends StatefulWidget {
@@ -74,7 +73,7 @@ class EnterStayDurationPageState extends State<EnterStayDurationPage> {
             ActivityTimeline(
               countries: countries,
               addRanges: (p0) async {
-                final result = await Navigator.of(context).push<List<StayPeriod>>(
+                final result = await Navigator.of(context).push<List<StayPeriodValueObject>>(
                   CupertinoPageRoute(
                     builder: (_) => AddPeriodsPage(
                       countries: countries,
@@ -130,7 +129,7 @@ class EnterStayDurationPageState extends State<EnterStayDurationPage> {
     ).animate().fade(delay: 1300.ms);
   }
 
-  Map<String, CountryStayInfo> _calcTotalDaysByCountry(List<StayPeriod> segments) {
+  Map<String, CountryStayInfo> _calcTotalDaysByCountry(List<StayPeriodValueObject> segments) {
     final countryDays = <String, CountryStayInfo>{};
 
     for (final period in segments) {
@@ -140,7 +139,7 @@ class EnterStayDurationPageState extends State<EnterStayDurationPage> {
 
       if (countryDays.containsKey(country)) {
         final existingInfo = countryDays[country]!;
-        final updatedSegments = List<StayPeriod>.from(existingInfo.segments)..add(period);
+        final updatedSegments = List<StayPeriodValueObject>.from(existingInfo.segments)..add(period);
 
         countryDays[country] = CountryStayInfo(
           totalDays: existingInfo.totalDays + days,

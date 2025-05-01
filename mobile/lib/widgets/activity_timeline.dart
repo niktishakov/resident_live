@@ -1,10 +1,10 @@
 import "dart:math";
 
 import "package:collection/collection.dart";
+import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/domain/domain.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -16,8 +16,8 @@ class ActivityTimeline extends StatefulWidget {
     super.key,
   });
 
-  final Function(List<StayPeriod>) onSegmentsChanged;
-  final Future<List<StayPeriod>> Function(List<StayPeriod>) addRanges;
+  final Function(List<StayPeriodValueObject>) onSegmentsChanged;
+  final Future<List<StayPeriodValueObject>> Function(List<StayPeriodValueObject>) addRanges;
   final List<String> countries;
 
   @override
@@ -25,7 +25,7 @@ class ActivityTimeline extends StatefulWidget {
 }
 
 class ActivityTimelineState extends State<ActivityTimeline> {
-  List<StayPeriod> segments = [];
+  List<StayPeriodValueObject> segments = [];
   late DateTime startDate;
   late DateTime endDate;
 
@@ -101,7 +101,10 @@ class ActivityTimelineState extends State<ActivityTimeline> {
                           children: [
                             _buildTimeline(context, timelineWidth),
                             ..._buildSegments(
-                                context, timelineWidth, totalDays,),
+                              context,
+                              timelineWidth,
+                              totalDays,
+                            ),
                           ],
                         ),
                       ),
@@ -124,7 +127,7 @@ class ActivityTimelineState extends State<ActivityTimeline> {
     );
   }
 
-  int calculateTotalDays(List<StayPeriod> segments) {
+  int calculateTotalDays(List<StayPeriodValueObject> segments) {
     var totalDays = 0;
     for (final segment in segments) {
       totalDays += segment.getDays();
@@ -132,7 +135,7 @@ class ActivityTimelineState extends State<ActivityTimeline> {
     return totalDays;
   }
 
-  double calculateCompletionPercentage(List<StayPeriod> segments) {
+  double calculateCompletionPercentage(List<StayPeriodValueObject> segments) {
     final totalDays = calculateTotalDays(segments);
     const maxDays = 365; // Assuming non-leap year, adjust if needed
     return totalDays / maxDays;
@@ -162,10 +165,8 @@ class ActivityTimelineState extends State<ActivityTimeline> {
       animation: animation,
       builder: (context, child) {
         // Define separate animations for fading in and fading out
-        final fadeOutTween =
-            Tween<double>(begin: 1.0, end: 0.5).animate(animation);
-        final fadeInTween =
-            Tween<double>(begin: 0.0, end: 1.0).animate(animation);
+        final fadeOutTween = Tween<double>(begin: 1.0, end: 0.5).animate(animation);
+        final fadeInTween = Tween<double>(begin: 0.0, end: 1.0).animate(animation);
 
         // Stack both widgets to animate them in parallel
         return Stack(
@@ -213,20 +214,18 @@ class ActivityTimelineState extends State<ActivityTimeline> {
   Widget _buildMonths(BuildContext context, double timelineWidth) {
     return Row(
       children: [
-        ..._getMonthLabels()
-            .mapIndexed(
-              (index, e) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                width: 40,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(e),
-                  ],
-                ),
-              ),
-            )
-            ,
+        ..._getMonthLabels().mapIndexed(
+          (index, e) => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 2.0),
+            width: 40,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(e),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -238,14 +237,8 @@ class ActivityTimelineState extends State<ActivityTimeline> {
   ) {
     return segments.isNotEmpty
         ? segments.map((e) {
-            final leftPosition =
-                e.startDate.difference(startDate).inDays.toDouble() /
-                    totalDays *
-                    timelineWidth;
-            final segmentWidth =
-                e.endDate.difference(e.startDate).inDays.toDouble() /
-                    totalDays *
-                    timelineWidth;
+            final leftPosition = e.startDate.difference(startDate).inDays.toDouble() / totalDays * timelineWidth;
+            final segmentWidth = e.endDate.difference(e.startDate).inDays.toDouble() / totalDays * timelineWidth;
 
             return Positioned(
               top: 0.5,
@@ -256,12 +249,8 @@ class ActivityTimelineState extends State<ActivityTimeline> {
                 decoration: BoxDecoration(
                   color: Colors.greenAccent,
                   borderRadius: BorderRadius.horizontal(
-                    left: leftPosition == 0
-                        ? const Radius.circular(40)
-                        : Radius.zero,
-                    right: leftPosition + segmentWidth == timelineWidth
-                        ? const Radius.circular(40)
-                        : Radius.zero,
+                    left: leftPosition == 0 ? const Radius.circular(40) : Radius.zero,
+                    right: leftPosition + segmentWidth == timelineWidth ? const Radius.circular(40) : Radius.zero,
                   ),
                 ),
                 alignment: Alignment.center,
@@ -304,8 +293,7 @@ class CountrySelectionDialog extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   countries[index],
-                  style: context.theme.textTheme.bodyLarge
-                      ?.copyWith(color: context.theme.primaryColor),
+                  style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.primaryColor),
                 ),
               ),
               onPressed: (_) {

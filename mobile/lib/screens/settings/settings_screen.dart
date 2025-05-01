@@ -1,3 +1,4 @@
+import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -6,12 +7,12 @@ import "package:go_router/go_router.dart";
 import "package:local_auth/local_auth.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:provider/provider.dart";
-import "package:resident_live/domain/domain.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/screens/settings/widgets/report_bug_button.dart";
 import "package:resident_live/screens/settings/widgets/settings_button.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/shared/ui/rl.sliver_header.dart";
+import "package:resident_live/shared/widget/rl.sliver_header.dart";
 import "package:url_launcher/url_launcher.dart";
 
 class SettingsScreen extends StatelessWidget {

@@ -1,10 +1,10 @@
 import "dart:math";
 
+import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/domain/domain.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
 import "package:resident_live/shared/shared.dart";
 

@@ -1,5 +1,6 @@
 import "dart:ui";
 
+import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
@@ -9,11 +10,10 @@ import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
-import "package:resident_live/domain/domain.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/screens/residence_details/widgets/residency_rules_modal.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/shared/ui/rl.sliver_header.dart";
+import "package:resident_live/shared/widget/rl.sliver_header.dart";
 import "package:resident_live/widgets/widgets.dart";
 import "package:share_plus/share_plus.dart";
 

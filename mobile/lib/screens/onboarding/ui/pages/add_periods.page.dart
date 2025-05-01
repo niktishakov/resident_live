@@ -1,13 +1,14 @@
+import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:intl/intl.dart";
-import "package:resident_live/domain/domain.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/widgets/widgets.dart";
+import "package:resident_live/widgets/add_periods/ui/country_selector.dart";
+import "package:resident_live/widgets/add_periods/ui/timeline_slider.dart";
 
 class AddPeriodsPage extends StatefulWidget {
   const AddPeriodsPage({
@@ -17,20 +18,20 @@ class AddPeriodsPage extends StatefulWidget {
   });
 
   final List<String> countries;
-  final List<StayPeriod> segments;
+  final List<StayPeriodValueObject> segments;
 
   @override
   AddPeriodsPageState createState() => AddPeriodsPageState();
 }
 
 class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObserver {
-  List<StayPeriod> segments = [];
+  List<StayPeriodValueObject> segments = [];
   String? focusedCountry;
   late DateTime startDate;
   late DateTime endDate;
   late Color sliderColor = Colors.grey;
   late ScrollController _controller;
-  late List<StayPeriod> initialSegments;
+  late List<StayPeriodValueObject> initialSegments;
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
     focusedCountry = widget.countries.first;
     sliderColor = getCountryColors(widget.countries).entries.first.value;
 
-    initialSegments = List<StayPeriod>.from(widget.segments);
+    initialSegments = List<StayPeriodValueObject>.from(widget.segments);
     endDate = DateTime.now();
     startDate = endDate.subtract(const Duration(days: 365));
     _controller = ScrollController();
@@ -78,7 +79,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
       // Reset selection
       setState(() {
         segments.add(
-          StayPeriod(
+          StayPeriodValueObject(
             startDate: segmentStart,
             endDate: segmentEnd,
             country: focusedCountry!,

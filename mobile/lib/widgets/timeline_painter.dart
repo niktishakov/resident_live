@@ -1,5 +1,5 @@
+import "package:domain/domain.dart";
 import "package:flutter/material.dart";
-import "package:resident_live/domain/domain.dart";
 import "package:resident_live/shared/shared.dart";
 
 class TimelinePainter extends CustomPainter {
@@ -12,14 +12,12 @@ class TimelinePainter extends CustomPainter {
     required this.countries,
   }) {
     for (final country in countries) {
-      countryColors[country] = Colors.primaries
-          .firstWhere((color) => color.computeLuminance() > 0.5)
-          .withValues(alpha: 0.5);
+      countryColors[country] = Colors.primaries.firstWhere((color) => color.computeLuminance() > 0.5).withValues(alpha: 0.5);
     }
   }
 
   final BuildContext context;
-  final List<StayPeriod> segments;
+  final List<StayPeriodValueObject> segments;
   final DateTime startDate;
   final DateTime endDate;
   final VoidCallback onSegmentPressed;

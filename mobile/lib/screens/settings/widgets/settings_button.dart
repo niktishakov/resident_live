@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/shared/lib/assets/app.asset.dart";
 import "package:resident_live/shared/lib/assets/app.asset_image.dart";
-import "package:resident_live/shared/ui/bouncing_button.dart";
+import "package:resident_live/shared/widget/bouncing_button.dart";
 
 class SettingsButton extends StatelessWidget {
   const SettingsButton({

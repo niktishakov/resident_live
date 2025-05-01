@@ -1,8 +1,8 @@
+import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/domain/domain.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/screens/screens.dart";
 import "package:resident_live/shared/shared.dart";

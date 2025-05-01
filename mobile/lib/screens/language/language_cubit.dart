@@ -30,8 +30,7 @@ class LanguageState with _$LanguageState {
 
   const LanguageState._();
 
-  factory LanguageState.fromJson(Map<String, dynamic> json) =>
-      _$LanguageStateFromJson(json);
+  factory LanguageState.fromJson(Map<String, dynamic> json) => _$LanguageStateFromJson(json);
 
   Locale get locale => keyToLocale(localeKey);
 }
@@ -48,9 +47,7 @@ class LanguageCubit extends HydratedCubit<LanguageState> {
   static final _logger = AiLogger("LanguageCubit");
 
   static String _localeToKey(Locale locale) {
-    return locale.countryCode != null
-        ? "${locale.languageCode}_${locale.countryCode}"
-        : locale.languageCode;
+    return locale.countryCode != null ? "${locale.languageCode}_${locale.countryCode}" : locale.languageCode;
   }
 
   Future<void> setLanguage(String languageCode, String? countryCode) async {
@@ -62,19 +59,23 @@ class LanguageCubit extends HydratedCubit<LanguageState> {
       _logger.info("Setting language to $localeKey");
 
       if (supportedLocales.contains(newLocale)) {
-        emit(state.copyWith(
-          localeKey: localeKey,
-          status: LanguageStatus.success,
-        ),);
+        emit(
+          state.copyWith(
+            localeKey: localeKey,
+            status: LanguageStatus.success,
+          ),
+        );
       } else {
         throw UnsupportedError("Locale $newLocale is not supported");
       }
     } catch (e) {
       _logger.error("Error setting language: $e");
-      emit(state.copyWith(
-        status: LanguageStatus.error,
-        errorMessage: e.toString(),
-      ),);
+      emit(
+        state.copyWith(
+          status: LanguageStatus.error,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 

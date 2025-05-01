@@ -1,7 +1,7 @@
 import "package:collection/collection.dart";
+import "package:domain/domain.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:geocoding/geocoding.dart";
-import "package:resident_live/domain/domain.dart";
 
 part "countries_state.freezed.dart";
 part "countries_state.g.dart";
@@ -15,25 +15,24 @@ class CountriesState with _$CountriesState {
 
   const CountriesState._();
 
-  factory CountriesState.fromJson(Map<String, dynamic> json) =>
-      _$CountriesStateFromJson(json);
+  factory CountriesState.fromJson(Map<String, dynamic> json) => _$CountriesStateFromJson(json);
 
-  factory CountriesState.initial() =>
-      const CountriesState(countries: {}, focusedCountryId: null);
+  factory CountriesState.initial() => const CountriesState(countries: {}, focusedCountryId: null);
 
   CountryEntity? get focusedCountry => countries[focusedCountryId];
 
   CountryEntity getCountryByName(String name) {
     return _getCountry(
-        countries.values.firstWhereOrNull((e) => e.name == name), name,);
+      countries.values.firstWhereOrNull((e) => e.name == name),
+      name,
+    );
   }
 
   CountryEntity findLastVisitedCountry() {
     var lastVisitedCountry = countries.values.first;
     final countriesValues = countries.values;
     for (final country in countriesValues) {
-      if (country.periods.last.endDate
-          .isAfter(lastVisitedCountry.periods.last.endDate)) {
+      if (country.periods.last.endDate.isAfter(lastVisitedCountry.periods.last.endDate)) {
         lastVisitedCountry = country;
       }
     }

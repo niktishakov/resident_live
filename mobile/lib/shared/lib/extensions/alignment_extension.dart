@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 extension AlignmentExt on Alignment {
   /// Transpose interpolation values by transition: [0, 1] -> [-1, 1]

@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
-import 'package:resident_live/screens/screens.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:resident_live/widgets/widgets.dart';
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/screens/screens.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/widgets.dart";
 
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({super.key});
@@ -41,8 +41,8 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
       },
       child: Scaffold(
         body: FadeBorder(
-          stops: [0, 0.1],
-          child: Container(
+          stops: const [0, 0.1],
+          child: SizedBox(
             height: context.mediaQuery.size.height,
             child: ListView(
               controller: _controller,
@@ -51,12 +51,12 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                 vertical: context.mediaQuery.padding.top,
               ),
               children: [
-                Gap(32),
-                FocusOnView(),
-                Gap(32),
-                AllowGeoView(),
-                Gap(32),
-                GetStartedView(),
+                const Gap(32),
+                const FocusOnView(),
+                const Gap(32),
+                const AllowGeoView(),
+                const Gap(32),
+                const GetStartedView(),
                 Gap(context.mediaQuery.padding.bottom),
               ],
             ),

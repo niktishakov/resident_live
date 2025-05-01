@@ -1,5 +1,5 @@
-import 'package:flutter/widgets.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:flutter/widgets.dart";
+import "package:resident_live/shared/shared.dart";
 
 
 /// Adapted from firebase_analytics package v.6.0.2
@@ -11,7 +11,7 @@ import 'package:resident_live/shared/shared.dart';
 class AiAnalyticsObserver extends NavigatorObserver {
   AiAnalyticsObserver(this._aiAnalytics);
   final AiAnalytics _aiAnalytics;
-  final _logger = AiLogger('AiAnalyticsObserver');
+  final _logger = AiLogger("AiAnalyticsObserver");
 
   final _excludedRoutes = [
     ScreenNames.bottomBarShell,
@@ -21,7 +21,7 @@ class AiAnalyticsObserver extends NavigatorObserver {
     final screenName = route.settings.name;
     final args = route.settings.arguments;
 
-    _logger.debug('_sendScreenView: $screenName');
+    _logger.debug("_sendScreenView: $screenName");
 
     // prevent sending a not relevant router events
     if (_excludedRoutes.contains(screenName)) return;

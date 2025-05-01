@@ -1,20 +1,19 @@
-import 'dart:math';
+import "dart:math";
 
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:resident_live/domain/domain.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
+import "package:domain/domain.dart";
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:gap/gap.dart";
+import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/shared/shared.dart";
 
 class OtherResidencesView extends StatefulWidget {
   const OtherResidencesView({
-    Key? key,
     required this.residences,
     required this.onTap,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<CountryEntity> residences;
   final Future? Function() onTap;
@@ -33,33 +32,31 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
 
   @override
   Widget build(BuildContext context) {
-    final residences =
-        widget.residences.sublist(0, min(widget.residences.length, 2));
+    final residences = widget.residences.sublist(0, min(widget.residences.length, 2));
     final beginBorderRadius = BorderRadius.circular(38);
     return residences.isEmpty
-        ? SizedBox()
+        ? const SizedBox()
         : Container(
             key: _listKey,
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 24.0, bottom: 13),
                   child: Text(
-                    LocaleKeys.focus_trackingResidences.tr(),
+                    S.of(context).homeTrackingResidences,
                     style: GoogleFonts.poppins(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
-                      color:
-                          context.theme.colorScheme.secondary.withOpacity(0.87),
+                      color: context.theme.colorScheme.secondary.withValues(alpha: 0.87),
                     ),
                   ),
                 ),
                 GestureDetector(
                   onTap: widget.onTap,
                   child: Hero(
-                    tag: 'tracking_residences',
+                    tag: "tracking_residences",
                     flightShuttleBuilder: (
                       flightContext,
                       animation,
@@ -77,19 +74,16 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                     ),
                     child: RlCard(
                       gradient: kMainGradient,
-                      borderRadius: beginBorderRadius,
-                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      borderRadius: beginBorderRadius.topLeft.x,
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Column(
                           children: [
-                            ...residences
-                                .sublist(0, residences.length.clamp(0, 2))
-                                .map((e) => _buildItem(context, e))
-                                .toList(),
-                            Gap(10),
-                            _SeeAll(),
-                            Gap(5),
+                            ...residences.sublist(0, residences.length.clamp(0, 2)).map((e) => _buildItem(context, e)),
+                            const Gap(10),
+                            const _SeeAll(),
+                            const Gap(5),
                           ],
                         ),
                       ),
@@ -102,36 +96,39 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
   }
 
   Widget _buildItem(BuildContext context, CountryEntity residence) {
-    final backgroundColor = Color(0xff3C3C3C);
-    final valueColor = Color(0xff8E8E8E);
+    const backgroundColor = Color(0xff3C3C3C);
+    const valueColor = Color(0xff8E8E8E);
     final value = residence.daysSpent;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       child: Column(
         children: [
           Row(
             children: [
-              Text(residence.name,
-                  style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),),
-              Spacer(),
+              Text(
+                residence.name,
+                style: GoogleFonts.poppins(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const Spacer(),
               Column(
                 children: [
                   Text(
-                      maxLines: 2,
-                      style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: context.theme.colorScheme.tertiary
-                              .withValues(alpha: 0.5),),
-                      '${residence.daysSpent} ${LocaleKeys.focus_of.tr()} 183 ${LocaleKeys.focus_days.tr()}',),
+                    maxLines: 2,
+                    style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      color: context.theme.colorScheme.tertiary.withValues(alpha: 0.5),
+                    ),
+                    "${residence.daysSpent} / 183 ${S.of(context).homeDays}",
+                  ),
                 ],
               ),
             ],
           ),
-          Gap(6),
+          const Gap(6),
           TweenAnimationBuilder(
             duration: 2.seconds,
             tween: Tween<double>(
@@ -145,7 +142,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                 borderRadius: BorderRadius.circular(8),
                 value: v,
                 backgroundColor: backgroundColor,
-                valueColor: AlwaysStoppedAnimation(valueColor),
+                valueColor: const AlwaysStoppedAnimation(valueColor),
               ).animate().shimmer(
                 duration: 1.seconds,
                 delay: 1.seconds,
@@ -167,17 +164,17 @@ class _SeeAll extends StatelessWidget {
     return Column(
       children: [
         Text(
-          LocaleKeys.focus_seeAll.tr(),
+          S.of(context).homeSeeAll,
           style: GoogleFonts.poppins(
             fontSize: 11,
             fontWeight: FontWeight.w400,
-            color: context.theme.colorScheme.secondary.withOpacity(0.5),
+            color: context.theme.colorScheme.secondary.withValues(alpha: 0.5),
           ),
         ),
         AppAssetImage(
           AppAssets.chevronCompactDown,
           width: 21,
-          color: context.theme.colorScheme.secondary.withOpacity(0.5),
+          color: context.theme.colorScheme.secondary.withValues(alpha: 0.5),
         ),
       ],
     );

@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import '../ai.logger.dart';
+import "package:resident_live/shared/lib/ai.logger.dart";
 
 class CoreRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   List<Route<dynamic>> routeStack = [];
 
-  static final _logger = AiLogger('CoreRouteObserver');
+  static final _logger = AiLogger("CoreRouteObserver");
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {

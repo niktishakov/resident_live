@@ -19,7 +19,7 @@ class AppAsset {
 
   @override
   String toString() {
-    return 'AppAsset{path: $path, type: $type}';
+    return "AppAsset{path: $path, type: $type}";
   }
 }
 

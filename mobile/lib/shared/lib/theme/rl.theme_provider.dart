@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
-import 'rl.theme.dart';
+import "package:resident_live/shared/lib/theme/rl.theme.dart";
 
 /// Note this provider does not use the standard [BaseNotifier] found in the mobile package in order to minimise dependencies
 class RlThemeProvider extends ChangeNotifier {
@@ -43,28 +43,6 @@ extension AiThemeBuildContextExtension on BuildContext {
       rlThemeProvider._rlTheme = value;
       rlThemeProvider.notifyListeners();
     }
-  }
-
-  /// skip any of the [min] and [max] params to avoid clamping
-  ///
-  /// context.textScaleFactorClamped() will result in MediaQuery.of(context).textScaleFactor
-  double textScaleFactorClamped({double? min, double? max}) {
-    final textScaleFactor = MediaQuery.of(this).textScaleFactor;
-
-    if (min == null && max == null) {
-      return textScaleFactor;
-    }
-
-    if (max == null) {
-      final _min = min!;
-      return textScaleFactor.clamp(_min, _min + textScaleFactor);
-    }
-
-    if (min == null) {
-      return textScaleFactor.clamp(0, max) as double;
-    }
-
-    return textScaleFactor.clamp(min, max);
   }
 
   double get size40 => 40;
@@ -144,22 +122,16 @@ extension AiThemeBuildContextExtension on BuildContext {
 
   EdgeInsetsGeometry get allPadding24 => const EdgeInsets.all(24);
 
-  EdgeInsetsGeometry get paddingEdges8 =>
-      const EdgeInsets.symmetric(horizontal: 8);
+  EdgeInsetsGeometry get paddingEdges8 => const EdgeInsets.symmetric(horizontal: 8);
 
-  EdgeInsetsGeometry get paddingEdges12 =>
-      const EdgeInsets.symmetric(horizontal: 12);
+  EdgeInsetsGeometry get paddingEdges12 => const EdgeInsets.symmetric(horizontal: 12);
 
-  EdgeInsetsGeometry get paddingEdges16 =>
-      const EdgeInsets.symmetric(horizontal: 16);
+  EdgeInsetsGeometry get paddingEdges16 => const EdgeInsets.symmetric(horizontal: 16);
 
-  EdgeInsetsGeometry get paddingEdges20 =>
-      const EdgeInsets.symmetric(horizontal: 20);
+  EdgeInsetsGeometry get paddingEdges20 => const EdgeInsets.symmetric(horizontal: 20);
 
-  EdgeInsetsGeometry get paddingEdges24 =>
-      const EdgeInsets.symmetric(horizontal: 24);
-  EdgeInsetsGeometry get paddingEdges30 =>
-      const EdgeInsets.symmetric(horizontal: 30);
+  EdgeInsetsGeometry get paddingEdges24 => const EdgeInsets.symmetric(horizontal: 24);
+  EdgeInsetsGeometry get paddingEdges30 => const EdgeInsets.symmetric(horizontal: 30);
 
   EdgeInsetsGeometry get paddingLeft8 => const EdgeInsets.only(left: 8);
 
@@ -173,23 +145,17 @@ extension AiThemeBuildContextExtension on BuildContext {
 
   EdgeInsetsGeometry get paddingRight24 => const EdgeInsets.only(right: 24);
 
-  EdgeInsetsGeometry get paddingVertical8 =>
-      const EdgeInsets.symmetric(vertical: 8);
+  EdgeInsetsGeometry get paddingVertical8 => const EdgeInsets.symmetric(vertical: 8);
 
-  EdgeInsetsGeometry get paddingVertical16 =>
-      const EdgeInsets.symmetric(vertical: 16);
+  EdgeInsetsGeometry get paddingVertical16 => const EdgeInsets.symmetric(vertical: 16);
 
-  EdgeInsetsGeometry get paddingVertical24 =>
-      const EdgeInsets.symmetric(vertical: 24);
+  EdgeInsetsGeometry get paddingVertical24 => const EdgeInsets.symmetric(vertical: 24);
 
-  EdgeInsetsGeometry get paddingVertical30 =>
-      const EdgeInsets.symmetric(vertical: 30);
+  EdgeInsetsGeometry get paddingVertical30 => const EdgeInsets.symmetric(vertical: 30);
 
-  EdgeInsetsGeometry get tabPaddingEdges =>
-      const EdgeInsets.symmetric(horizontal: 4);
+  EdgeInsetsGeometry get tabPaddingEdges => const EdgeInsets.symmetric(horizontal: 4);
 
-  EdgeInsetsGeometry get textFieldContentPadding =>
-      const EdgeInsets.only(bottom: 8);
+  EdgeInsetsGeometry get textFieldContentPadding => const EdgeInsets.only(bottom: 8);
 
   double get edge12 => 12;
 

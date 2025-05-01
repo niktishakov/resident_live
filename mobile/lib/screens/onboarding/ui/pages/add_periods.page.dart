@@ -1,36 +1,37 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:resident_live/domain/domain.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:resident_live/widgets/widgets.dart';
+import "package:domain/domain.dart";
+import "package:flutter/cupertino.dart";
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:gap/gap.dart";
+import "package:go_router/go_router.dart";
+import "package:intl/intl.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/add_periods/ui/country_selector.dart";
+import "package:resident_live/widgets/add_periods/ui/timeline_slider.dart";
 
 class AddPeriodsPage extends StatefulWidget {
-  AddPeriodsPage({
+  const AddPeriodsPage({
     required this.countries,
     required this.segments,
+    super.key,
   });
 
   final List<String> countries;
-  final List<StayPeriod> segments;
+  final List<StayPeriodValueObject> segments;
 
   @override
-  _AddPeriodsPageState createState() => _AddPeriodsPageState();
+  AddPeriodsPageState createState() => AddPeriodsPageState();
 }
 
-class _AddPeriodsPageState extends State<AddPeriodsPage>
-    with WidgetsBindingObserver {
-  List<StayPeriod> segments = [];
+class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObserver {
+  List<StayPeriodValueObject> segments = [];
   String? focusedCountry;
   late DateTime startDate;
   late DateTime endDate;
   late Color sliderColor = Colors.grey;
   late ScrollController _controller;
-  late List<StayPeriod> initialSegments;
+  late List<StayPeriodValueObject> initialSegments;
 
   @override
   void initState() {
@@ -38,9 +39,9 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
     focusedCountry = widget.countries.first;
     sliderColor = getCountryColors(widget.countries).entries.first.value;
 
-    initialSegments = List<StayPeriod>.from(widget.segments);
+    initialSegments = List<StayPeriodValueObject>.from(widget.segments);
     endDate = DateTime.now();
-    startDate = endDate.subtract(Duration(days: 365));
+    startDate = endDate.subtract(const Duration(days: 365));
     _controller = ScrollController();
 
     super.initState();
@@ -56,7 +57,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
   }
 
   String _formatDate(DateTime date) {
-    return DateFormat('MMM d, yyyy').format(date);
+    return DateFormat("MMM d, yyyy").format(date);
   }
 
   DateTime _getDateFromValue(double value) {
@@ -78,7 +79,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
       // Reset selection
       setState(() {
         segments.add(
-          StayPeriod(
+          StayPeriodValueObject(
             startDate: segmentStart,
             endDate: segmentEnd,
             country: focusedCountry!,
@@ -96,7 +97,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
       });
       return true;
     } else {
-      showToast(context, 'Please select a country');
+      showToast(context, "Please select a country");
       return false;
     }
   }
@@ -121,70 +122,69 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
   @override
   Widget build(BuildContext context) {
     final endDate = DateTime.now();
-    final startDate = endDate.subtract(Duration(days: 365));
+    final startDate = endDate.subtract(const Duration(days: 365));
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: RlCupertinoNavBar(
-          title: LocaleKeys.add_stay_period_addStayPeriods.tr(),
+          title: S.of(context).addStayPeriodAddStayPeriods,
           actions: [
             CupertinoButton(
-                padding: EdgeInsets.only(right: 16),
-                onPressed: () {
-                  showCupertinoDialog(
-                      context: context,
-                      builder: (context) => CupertinoAlertDialog(
-                            title: Text(
-                              LocaleKeys.add_stay_period_howToAddStayPeriods
-                                  .tr(),
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600,
+              padding: const EdgeInsets.only(right: 16),
+              onPressed: () {
+                showCupertinoDialog(
+                  context: context,
+                  builder: (context) => CupertinoAlertDialog(
+                    title: Text(
+                      S.of(context).addStayPeriodHowToAddStayPeriods,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              S.of(context).addStayPeriodPoints,
+                              style: const TextStyle(
+                                height: 1.8,
+                                fontSize: 15,
                               ),
                             ),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(height: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      LocaleKeys.add_stay_period_points.tr(),
-                                      style: TextStyle(
-                                        height: 1.8,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                    SizedBox(height: 16),
-                                    Text(
-                                      LocaleKeys
-                                          .add_stay_period_youCanAddMorePeriods
-                                          .tr(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        letterSpacing: 0.2,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            actions: [
-                              CupertinoDialogAction(
-                                child: Text(LocaleKeys.common_ok.tr()),
-                                onPressed: () => Navigator.pop(context),
+                            const SizedBox(height: 16),
+                            Text(
+                              S.of(context).addStayPeriodYouCanAddMorePeriods,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                letterSpacing: 0.2,
                               ),
-                            ],
-                          ),);
-                },
-                child: Icon(
-                  CupertinoIcons.info,
-                  color: context.theme.colorScheme.secondary,
-                  size: 28,
-                ),),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      CupertinoDialogAction(
+                        child: Text(S.of(context).commonOk),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              child: Icon(
+                CupertinoIcons.info,
+                color: context.theme.colorScheme.secondary,
+                size: 28,
+              ),
+            ),
           ],
         ),
       ),
@@ -201,7 +201,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
-                  Gap(6),
+                  const Gap(6),
                   SizedBox(
                     width: context.mediaQuery.size.width,
                     child: TimelineSlider(
@@ -225,7 +225,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                 bidirectional: true,
                 child: ListView.builder(
                   controller: _controller,
-                  padding: EdgeInsets.symmetric(vertical: 32),
+                  padding: const EdgeInsets.symmetric(vertical: 32),
                   shrinkWrap: true,
                   itemCount: segments.length,
                   itemBuilder: (context, index) {
@@ -237,16 +237,20 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                       direction: DismissDirection.endToStart,
                       background: Container(
                         color: Colors.red,
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         alignment: Alignment.centerRight,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text(LocaleKeys.common_delete.tr(),
-                                style: context.theme.textTheme.bodyMedium
-                                    ?.copyWith(color: Colors.white),),
-                            Gap(8),
-                            Icon(CupertinoIcons.delete, color: Colors.white),
+                            Text(
+                              S.of(context).commonDelete,
+                              style: context.theme.textTheme.bodyMedium?.copyWith(color: Colors.white),
+                            ),
+                            const Gap(8),
+                            const Icon(
+                              CupertinoIcons.delete,
+                              color: Colors.white,
+                            ),
                           ],
                         ),
                       ),
@@ -259,7 +263,7 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                               setState(() => segments.removeAt(index));
                               context.pop();
                             },
-                            child: Text(LocaleKeys.common_delete.tr()),
+                            child: Text(S.of(context).commonDelete),
                           ),
                         ],
                         child: Material(
@@ -270,22 +274,20 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            margin: EdgeInsets.all(8),
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            margin: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   segments[index].country,
-                                  style: context.theme.textTheme.bodyLarge
-                                      ?.copyWith(
+                                  style: context.theme.textTheme.bodyLarge?.copyWith(
                                     color: context.theme.colorScheme.secondary,
                                   ),
                                 ),
                                 Text(
-                                  '${_formatDate(segments[index].startDate)} - ${_formatDate(segments[index].endDate)}',
-                                  style: context.theme.textTheme.bodyLarge
-                                      ?.copyWith(
+                                  "${_formatDate(segments[index].startDate)} - ${_formatDate(segments[index].endDate)}",
+                                  style: context.theme.textTheme.bodyLarge?.copyWith(
                                     color: context.theme.colorScheme.secondary,
                                   ),
                                 ),
@@ -304,25 +306,23 @@ class _AddPeriodsPageState extends State<AddPeriodsPage>
               ),
             ).animate().fade(delay: 400.ms),
             TweenAnimationBuilder<double>(
-                duration: 500.ms,
-                curve: Curves.fastOutSlowIn,
-                tween:
-                    Tween<double>(begin: 0, end: segments.isNotEmpty ? 1 : 0),
-                builder: (context, value, child) =>
-                    Opacity(opacity: value, child: child),
-                child: PrimaryButton(
-                  enabled: _canApply,
-                  onPressed: () {
-                    Navigator.pop(context, segments);
-                  },
-                  label: LocaleKeys.common_apply.tr(),
-                )
-                    .animate(
-                      onPlay: (controller) =>
-                          _canApply ? controller.repeat() : null,
-                    )
-                    .shimmer(duration: 1.seconds, delay: 3.seconds),),
-            Gap(8),
+              duration: 500.ms,
+              curve: Curves.fastOutSlowIn,
+              tween: Tween<double>(begin: 0, end: segments.isNotEmpty ? 1 : 0),
+              builder: (context, value, child) => Opacity(opacity: value, child: child),
+              child: PrimaryButton(
+                enabled: _canApply,
+                onPressed: () {
+                  Navigator.pop(context, segments);
+                },
+                label: S.of(context).commonApply,
+              )
+                  .animate(
+                    onPlay: (controller) => _canApply ? controller.repeat() : null,
+                  )
+                  .shimmer(duration: 1.seconds, delay: 3.seconds),
+            ),
+            const Gap(8),
           ],
         ),
       ),

@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
+import "package:flutter/cupertino.dart";
+import "package:go_router/go_router.dart";
 
 class RouterService {
   RouterService._(
@@ -15,7 +15,7 @@ class RouterService {
   static RouterService? _instance;
   static RouterService get instance {
     assert(_instance != null,
-        'Remember to initialise RouterService by calling its init method',);
+        "Remember to initialise RouterService by calling its init method",);
     return _instance!;
   }
 

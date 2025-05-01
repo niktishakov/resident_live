@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class CustomBottomNavBarPainter extends CustomPainter {
   CustomBottomNavBarPainter({this.borderRadius = 45.0});
@@ -6,7 +6,7 @@ class CustomBottomNavBarPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = Color(0xff2B2B2B);
+    final paint = Paint()..color = const Color(0xff2B2B2B);
     final path = Path();
 
     final centerX = size.width / 2;

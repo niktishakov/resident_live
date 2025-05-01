@@ -6,8 +6,6 @@
 	<array>
 		<string>be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh</string>
 	</array>
-
-
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -46,15 +44,14 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<!-- Analytics, ATT etc. -->
-	<key>NSUserTrackingUsageDescription</key>
-	<string>This identifier will be used to track user events for analytics purposes.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Why is my app authenticating using face id?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location when in the background for location tracking.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open to track your position.</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier will be used to track user events for analytics purposes.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -82,5 +79,5 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Automatic</string>
-	</dict>
+</dict>
 </plist>

@@ -1,18 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
-
-import '../../widgets/find_countries/ui/find_countries_page.dart';
-import '../onboarding/ui/pages/stay_period.page.dart';
+import "package:flutter/material.dart";
+import "package:go_router/go_router.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/screens/onboarding/ui/pages/stay_period.page.dart";
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/find_countries/ui/find_countries_page.dart";
 
 class ManageCountriesScreen extends StatefulWidget {
+  const ManageCountriesScreen({super.key});
+
   @override
-  _ManageCountriesScreenState createState() => _ManageCountriesScreenState();
+  ManageCountriesScreenState createState() => ManageCountriesScreenState();
 }
 
-class _ManageCountriesScreenState extends State<ManageCountriesScreen> {
+class ManageCountriesScreenState extends State<ManageCountriesScreen> {
   String? selectedCountry;
   List<DateTimeRange> activities = [];
   late PageController controller;
@@ -34,7 +34,7 @@ class _ManageCountriesScreenState extends State<ManageCountriesScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56),
         child: RlCupertinoNavBar(
-          title: LocaleKeys.where_have_you_been_manageYourResidences.tr(),
+          title: S.of(context).homeTrackingResidences,
         ),
       ),
       body: SafeArea(
@@ -48,9 +48,11 @@ class _ManageCountriesScreenState extends State<ManageCountriesScreen> {
                 case 0:
                   return FindCountriesPage(onNextPage);
                 case 1:
-                  return EnterStayDurationPage(onNextPage: () {
-                    context.goNamed(ScreenNames.home);
-                  },);
+                  return EnterStayDurationPage(
+                    onNextPage: () {
+                      context.goNamed(ScreenNames.home);
+                    },
+                  );
                 default:
                   return FindCountriesPage(onNextPage);
               }

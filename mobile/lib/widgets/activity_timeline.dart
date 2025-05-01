@@ -1,31 +1,31 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:gap/gap.dart';
-import 'dart:math';
-import 'package:collection/collection.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
-import '../domain/domain.dart';
+import "dart:math";
+
+import "package:collection/collection.dart";
+import "package:domain/domain.dart";
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/shared/shared.dart";
 
 class ActivityTimeline extends StatefulWidget {
   const ActivityTimeline({
-    Key? key,
     required this.onSegmentsChanged,
     required this.addRanges,
     required this.countries,
-  }) : super(key: key);
+    super.key,
+  });
 
-  final Function(List<StayPeriod>) onSegmentsChanged;
-  final Future<List<StayPeriod>> Function(List<StayPeriod>) addRanges;
+  final Function(List<StayPeriodValueObject>) onSegmentsChanged;
+  final Future<List<StayPeriodValueObject>> Function(List<StayPeriodValueObject>) addRanges;
   final List<String> countries;
 
   @override
-  _ActivityTimelineState createState() => _ActivityTimelineState();
+  ActivityTimelineState createState() => ActivityTimelineState();
 }
 
-class _ActivityTimelineState extends State<ActivityTimeline> {
-  List<StayPeriod> segments = [];
+class ActivityTimelineState extends State<ActivityTimeline> {
+  List<StayPeriodValueObject> segments = [];
   late DateTime startDate;
   late DateTime endDate;
 
@@ -44,7 +44,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
 
     var usedDays = 0;
 
-    for (var segment in segments) {
+    for (final segment in segments) {
       usedDays += segment.startDate.difference(segment.endDate).inDays;
     }
 
@@ -52,7 +52,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
   }
 
   String _formatDate(DateTime date) {
-    return '${kMonths[date.month - 1].substring(0, 3)}';
+    return getMonths(context)[date.month - 1].substring(0, 3);
   }
 
   List<String> _getMonthLabels() {
@@ -77,7 +77,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
     return Column(
       children: [
         SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           scrollDirection: Axis.horizontal,
           controller: _scrollController,
           child: GestureDetector(
@@ -87,7 +87,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
               children: [
                 Hero(
                   transitionOnUserGestures: true,
-                  tag: 'timeline',
+                  tag: "timeline",
                   flightShuttleBuilder: _flightShuttleBuilder,
                   createRectTween: (begin, end) {
                     return RectTween(begin: begin, end: end);
@@ -100,20 +100,24 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
                         child: Stack(
                           children: [
                             _buildTimeline(context, timelineWidth),
-                            ..._buildSegments(context, timelineWidth, totalDays),
+                            ..._buildSegments(
+                              context,
+                              timelineWidth,
+                              totalDays,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                Gap(8),
+                const Gap(8),
                 _buildMonths(context, timelineWidth),
               ],
             ),
           ),
         ),
-        Gap(32),
+        const Gap(32),
         ProgressBar(
           completionPercentage: min(completionPercentage, 1.0),
           radius: 200,
@@ -123,15 +127,15 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
     );
   }
 
-  int calculateTotalDays(List<StayPeriod> segments) {
+  int calculateTotalDays(List<StayPeriodValueObject> segments) {
     var totalDays = 0;
-    for (var segment in segments) {
+    for (final segment in segments) {
       totalDays += segment.getDays();
     }
     return totalDays;
   }
 
-  double calculateCompletionPercentage(List<StayPeriod> segments) {
+  double calculateCompletionPercentage(List<StayPeriodValueObject> segments) {
     final totalDays = calculateTotalDays(segments);
     const maxDays = 365; // Assuming non-leap year, adjust if needed
     return totalDays / maxDays;
@@ -161,10 +165,8 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
       animation: animation,
       builder: (context, child) {
         // Define separate animations for fading in and fading out
-        final fadeOutTween =
-            Tween<double>(begin: 1.0, end: 0.5).animate(animation);
-        final fadeInTween =
-            Tween<double>(begin: 0.0, end: 1.0).animate(animation);
+        final fadeOutTween = Tween<double>(begin: 1.0, end: 0.5).animate(animation);
+        final fadeInTween = Tween<double>(begin: 0.0, end: 1.0).animate(animation);
 
         // Stack both widgets to animate them in parallel
         return Stack(
@@ -196,7 +198,7 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
       alignment: Alignment.center,
       child: segments.isEmpty
           ? Text(
-              LocaleKeys.add_stay_period_clickToGetStarted.tr(),
+              S.of(context).addStayPeriodClickToGetStarted,
               style: context.theme.textTheme.headlineSmall?.copyWith(
                 color: context.theme.scaffoldBackgroundColor,
               ),
@@ -212,18 +214,18 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
   Widget _buildMonths(BuildContext context, double timelineWidth) {
     return Row(
       children: [
-        ..._getMonthLabels()
-            .mapIndexed((index, e) => Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                  width: 40,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(e),
-                    ],
-                  ),
-                ),)
-            .toList(),
+        ..._getMonthLabels().mapIndexed(
+          (index, e) => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 2.0),
+            width: 40,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(e),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -235,14 +237,8 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
   ) {
     return segments.isNotEmpty
         ? segments.map((e) {
-            final leftPosition =
-                e.startDate.difference(startDate).inDays.toDouble() /
-                    totalDays *
-                    timelineWidth;
-            final segmentWidth =
-                e.endDate.difference(e.startDate).inDays.toDouble() /
-                    totalDays *
-                    timelineWidth;
+            final leftPosition = e.startDate.difference(startDate).inDays.toDouble() / totalDays * timelineWidth;
+            final segmentWidth = e.endDate.difference(e.startDate).inDays.toDouble() / totalDays * timelineWidth;
 
             return Positioned(
               top: 0.5,
@@ -253,10 +249,8 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
                 decoration: BoxDecoration(
                   color: Colors.greenAccent,
                   borderRadius: BorderRadius.horizontal(
-                    left: leftPosition == 0 ? Radius.circular(40) : Radius.zero,
-                    right: leftPosition + segmentWidth == timelineWidth
-                        ? Radius.circular(40)
-                        : Radius.zero,
+                    left: leftPosition == 0 ? const Radius.circular(40) : Radius.zero,
+                    right: leftPosition + segmentWidth == timelineWidth ? const Radius.circular(40) : Radius.zero,
                   ),
                 ),
                 alignment: Alignment.center,
@@ -275,10 +269,11 @@ class _ActivityTimelineState extends State<ActivityTimeline> {
 }
 
 class CountrySelectionDialog extends StatelessWidget {
-
-  const CountrySelectionDialog(
-      {Key? key, required this.countries, required this.onSelect,})
-      : super(key: key);
+  const CountrySelectionDialog({
+    required this.countries,
+    required this.onSelect,
+    super.key,
+  });
   final List<String> countries;
   final Function(String) onSelect;
 
@@ -286,8 +281,8 @@ class CountrySelectionDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
-      title: Text('Select a Country'),
-      content: Container(
+      title: const Text("Select a Country"),
+      content: SizedBox(
         width: double.maxFinite,
         child: ListView.builder(
           shrinkWrap: true,
@@ -296,9 +291,10 @@ class CountrySelectionDialog extends StatelessWidget {
             return BouncingButton(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(countries[index],
-                    style: context.theme.textTheme.bodyLarge
-                        ?.copyWith(color: context.theme.primaryColor),),
+                child: Text(
+                  countries[index],
+                  style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.primaryColor),
+                ),
               ),
               onPressed: (_) {
                 onSelect(countries[index]);

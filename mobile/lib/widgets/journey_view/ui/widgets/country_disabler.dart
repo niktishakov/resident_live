@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:resident_live/domain/entities/country/country.entity.dart';
-import 'package:resident_live/shared/shared.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import "package:domain/domain.dart";
+import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/shared/shared.dart";
 
 class CountryDisabler extends StatefulWidget {
   const CountryDisabler({
@@ -10,13 +10,14 @@ class CountryDisabler extends StatefulWidget {
     required this.onCountrySelected,
     required this.currentMonth,
     required this.countryPeriods,
+    super.key,
     this.disabledCountries = const [],
     this.colors,
     this.focusedCountry,
   });
 
   final List<String> countries;
-  final Function(String, bool) onCountrySelected;
+  final Function({required String country, required bool isDisabled}) onCountrySelected;
   final List<String> disabledCountries;
   final Map<String, Color>? colors;
   final CountryEntity? focusedCountry;
@@ -24,11 +25,10 @@ class CountryDisabler extends StatefulWidget {
   final Map<String, List<DateTimeRange>> countryPeriods;
 
   @override
-  _CountryDisablerState createState() => _CountryDisablerState();
+  CountryDisablerState createState() => CountryDisablerState();
 }
 
-class _CountryDisablerState extends State<CountryDisabler>
-    with WidgetsBindingObserver {
+class CountryDisablerState extends State<CountryDisabler> with WidgetsBindingObserver {
   late Map<String, Color> countryColors;
   List<String> _visibleCountries = [];
 
@@ -51,18 +51,15 @@ class _CountryDisablerState extends State<CountryDisabler>
   void _updateVisibleCountries() {
     _visibleCountries = widget.countries.where((country) {
       final periods = widget.countryPeriods[country] ?? [];
-      return periods
-          .any((period) => _isDateRangeVisible(period, widget.currentMonth));
+      return periods.any((period) => _isDateRangeVisible(period, widget.currentMonth));
     }).toList();
   }
 
   bool _isDateRangeVisible(DateTimeRange period, DateTime currentMonth) {
     final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
-    final lastDayOfMonth =
-        DateTime(currentMonth.year, currentMonth.month + 1, 0);
+    final lastDayOfMonth = DateTime(currentMonth.year, currentMonth.month + 1, 0);
 
-    return !(period.end.isBefore(firstDayOfMonth) ||
-        period.start.isAfter(lastDayOfMonth));
+    return !(period.end.isBefore(firstDayOfMonth) || period.start.isAfter(lastDayOfMonth));
   }
 
   void _updateCountryColors() {
@@ -83,9 +80,7 @@ class _CountryDisablerState extends State<CountryDisabler>
   @override
   Widget build(BuildContext context) {
     // Filter countries first
-    final visibleItems = widget.countries
-        .where((country) => _visibleCountries.contains(country))
-        .toList();
+    final visibleItems = widget.countries.where((country) => _visibleCountries.contains(country)).toList();
 
     return Wrap(
       spacing: 8.0,
@@ -96,13 +91,12 @@ class _CountryDisablerState extends State<CountryDisabler>
         return GestureDetector(
           key: ValueKey(country),
           onTap: () {
-            widget.onCountrySelected(country, isDisabled);
+            widget.onCountrySelected(country: country, isDisabled: isDisabled);
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color:
-                  countryColors[country]?.withOpacity(isDisabled ? 0.5 : 1.0),
+              color: countryColors[country]?.withValues(alpha: isDisabled ? 0.5 : 1.0),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
@@ -120,7 +114,7 @@ class _CountryDisablerState extends State<CountryDisabler>
                   country,
                   style: TextStyle(
                     fontSize: 14,
-                    fontFamily: 'Poppins',
+                    fontFamily: "Poppins",
                     color: context.theme.colorScheme.surface,
                     fontWeight: FontWeight.w500,
                   ),

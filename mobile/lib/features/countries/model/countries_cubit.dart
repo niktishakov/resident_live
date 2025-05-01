@@ -1,15 +1,14 @@
-import 'package:geocoding/geocoding.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:resident_live/shared/lib/ai.logger.dart';
-import 'package:resident_live/shared/shared.dart';
-
-import '../../../domain/domain.dart';
-import 'countries_state.dart';
+import "package:domain/domain.dart";
+import "package:geocoding/geocoding.dart";
+import "package:hydrated_bloc/hydrated_bloc.dart";
+import "package:resident_live/features/countries/model/countries_state.dart";
+import "package:resident_live/shared/lib/ai.logger.dart";
+import "package:resident_live/shared/shared.dart";
 
 class CountriesCubit extends HydratedCubit<CountriesState> {
   CountriesCubit() : super(CountriesState.initial());
 
-  static final AiLogger _logger = AiLogger('CountriesCubit');
+  static final AiLogger _logger = AiLogger("CountriesCubit");
 
   Future<void> syncCountriesByGeo(Placemark? placemark) async {
     if (placemark != null) {
@@ -17,29 +16,31 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
       final countryName = placemark.country;
 
       if (countryCode == null || countryName == null) {
-        _logger.error('Invalid placemark data - missing country code or name');
+        _logger.error("Invalid placemark data - missing country code or name");
         return;
       }
       final lastVisitedCountry = state.findLastVisitedCountry();
 
       // Same country case
       if (lastVisitedCountry.isoCode == countryCode) {
-        final periods = List<StayPeriod>.from(lastVisitedCountry.periods);
-        final updatedPeriod =
-            periods.removeLast().copyWith(endDate: DateTime.now());
+        final periods = List<StayPeriodValueObject>.from(lastVisitedCountry.periods);
+        final updatedPeriod = periods.removeLast().copyWith(endDate: DateTime.now());
         final updatedPeriods = [...periods, updatedPeriod];
 
-        _logger.info('Still in $countryName - updating stay period end date');
+        _logger.info("Still in $countryName - updating stay period end date");
 
-        emit(state.copyWith(countries: {
-          ...state.countries,
-          lastVisitedCountry.isoCode:
-              lastVisitedCountry.copyWith(periods: updatedPeriods),
-        },),);
+        emit(
+          state.copyWith(
+            countries: {
+              ...state.countries,
+              lastVisitedCountry.isoCode: lastVisitedCountry.copyWith(periods: updatedPeriods),
+            },
+          ),
+        );
       }
       // New country case
       else {
-        final newPeriod = StayPeriod(
+        final newPeriod = StayPeriodValueObject(
           startDate: DateTime.now(),
           endDate: DateTime.now(),
           country: countryCode,
@@ -55,7 +56,7 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
         final updatedPeriods = [...currentCountry.periods, newPeriod];
         final updatedCountry = currentCountry.copyWith(periods: updatedPeriods);
 
-        _logger.info('Moved to new country: $countryName');
+        _logger.info("Moved to new country: $countryName");
 
         emit(
           state.copyWith(
@@ -67,43 +68,46 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
         );
       }
     } else {
-      _logger.info('No location data - extending current stay period');
+      _logger.info("No location data - extending current stay period");
 
       final lastVisitedCountry = state.findLastVisitedCountry();
-      final periods = List<StayPeriod>.from(lastVisitedCountry.periods);
-      final updatedPeriod =
-          periods.removeLast().copyWith(endDate: DateTime.now());
+      final periods = List<StayPeriodValueObject>.from(lastVisitedCountry.periods);
+      final updatedPeriod = periods.removeLast().copyWith(endDate: DateTime.now());
       final updatedPeriods = [...periods, updatedPeriod];
-      emit(state.copyWith(countries: {
-        ...state.countries,
-        lastVisitedCountry.isoCode:
-            lastVisitedCountry.copyWith(periods: updatedPeriods),
-      },),);
+      emit(
+        state.copyWith(
+          countries: {
+            ...state.countries,
+            lastVisitedCountry.isoCode: lastVisitedCountry.copyWith(periods: updatedPeriods),
+          },
+        ),
+      );
     }
   }
 
   void reorderCountry(int oldIndex, int newIndex) {
-    final countries =
-        List<MapEntry<String, CountryEntity>>.from(state.countries.entries);
+    final countries = List<MapEntry<String, CountryEntity>>.from(state.countries.entries);
 
     final movedCountry = countries.removeAt(oldIndex);
 
     countries.insert(newIndex, movedCountry);
 
-    emit(state.copyWith(
-      countries: countries
-          .asMap()
-          .map((index, country) => MapEntry(country.key, country.value)),
-    ),);
+    emit(
+      state.copyWith(
+        countries: countries.asMap().map((index, country) => MapEntry(country.key, country.value)),
+      ),
+    );
   }
 
   void addCountry(CountryEntity countryResidence) {
-    emit(state.copyWith(
-      countries: {
-        ...state.countries,
-        countryResidence.isoCode: countryResidence,
-      },
-    ),);
+    emit(
+      state.copyWith(
+        countries: {
+          ...state.countries,
+          countryResidence.isoCode: countryResidence,
+        },
+      ),
+    );
   }
 
   void removeCountry(String isoCode) {
@@ -112,13 +116,15 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
     emit(state.copyWith(countries: countries));
 
     if (removedCountry == null) {
-      _logger
-          .error('Tried to remove non existing country with isoCode: $isoCode');
+      _logger.error("Tried to remove non existing country with isoCode: $isoCode");
     }
 
     if (removedCountry?.isoCode == state.focusedCountry?.isoCode) {
-      emit(state.copyWith(
-          focusedCountryId: countries.values.firstOrNull?.isoCode,),);
+      emit(
+        state.copyWith(
+          focusedCountryId: countries.values.firstOrNull?.isoCode,
+        ),
+      );
     }
   }
 
@@ -135,11 +141,12 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
   void setFocusedCountryByIsoCode(String isoCode) {
     if (state.focusedCountry?.isoCode == isoCode) {
       emit(
-          state.copyWith(focusedCountryId: null),); // Unfocus if already focused
+        state.copyWith(focusedCountryId: null),
+      ); // Unfocus if already focused
     } else {
       final focusedCountry = state.countries[isoCode];
       if (focusedCountry == null) {
-        _logger.error('Cannot focus on country: $isoCode');
+        _logger.error("Cannot focus on country: $isoCode");
         return;
       }
 
@@ -158,7 +165,7 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
     try {
       return CountriesState.fromJson(json);
     } catch (e) {
-      _logger.error('Error deserializing CountriesState: $e');
+      _logger.error("Error deserializing CountriesState: $e");
       return null;
     }
   }
@@ -168,7 +175,7 @@ class CountriesCubit extends HydratedCubit<CountriesState> {
     try {
       return state.toJson();
     } catch (e) {
-      _logger.error('Error serializing CountriesState: $e');
+      _logger.error("Error serializing CountriesState: $e");
       return null;
     }
   }

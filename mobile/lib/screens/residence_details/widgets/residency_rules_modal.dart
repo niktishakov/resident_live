@@ -1,10 +1,10 @@
-import 'dart:ui';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:resident_live/domain/domain.dart';
-import 'package:resident_live/generated/codegen_loader.g.dart';
-import 'package:resident_live/shared/shared.dart';
+import "dart:ui";
+
+import "package:domain/domain.dart";
+import "package:flutter/material.dart";
+import "package:gap/gap.dart";
+import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/shared/shared.dart";
 
 class ResidencyRulesModal extends StatelessWidget {
   const ResidencyRulesModal({super.key});
@@ -39,7 +39,7 @@ class ResidencyRulesModal extends StatelessWidget {
                   const Grabber(),
                   const Gap(12),
                   Text(
-                    LocaleKeys.residency_details_residencyRulesResources.tr(),
+                    S.of(context).detailsResidencyRulesResources,
                     style: theme.body18.copyWith(
                       fontWeight: FontWeight.w300,
                       color: theme.textPrimaryOnColor,
@@ -60,48 +60,51 @@ class ResidencyRulesModal extends StatelessWidget {
                               showWebViewModal(
                                 context: context,
                                 url: kpmgUrl,
-                                title: 'KPMG',
+                                title: "KPMG",
                               );
                             },
-                            leading: AppAssetImage(
+                            leading: const AppAssetImage(
                               AppAssets.redirect,
                               width: 22,
                             ),
                             child: Text(
-                                '${LocaleKeys.residency_details_readOn.tr()} KPMG',
-                                style: textStyle,),
+                              "${S.of(context).detailsReadOn} KPMG",
+                              style: textStyle,
+                            ),
                           ),
                           TransparentButton(
                             onPressed: () {
                               showWebViewModal(
                                 context: context,
                                 url: deloitteUrl,
-                                title: 'Deloitte',
+                                title: "Deloitte",
                               );
                             },
-                            leading: AppAssetImage(
+                            leading: const AppAssetImage(
                               AppAssets.redirect,
                               width: 22,
                             ),
                             child: Text(
-                                '${LocaleKeys.residency_details_readOn.tr()} Deloitte',
-                                style: textStyle,),
+                              "${S.of(context).detailsReadOn} Deloitte",
+                              style: textStyle,
+                            ),
                           ),
                           TransparentButton(
                             onPressed: () {
                               showWebViewModal(
                                 context: context,
                                 url: pwcUrl,
-                                title: 'PWC',
+                                title: "PWC",
                               );
                             },
-                            leading: AppAssetImage(
+                            leading: const AppAssetImage(
                               AppAssets.redirect,
                               width: 22,
                             ),
                             child: Text(
-                                '${LocaleKeys.residency_details_readOn.tr()} PWC',
-                                style: textStyle,),
+                              "${S.of(context).detailsReadOn} PWC",
+                              style: textStyle,
+                            ),
                           ),
                         ],
                       ),

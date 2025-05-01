@@ -1,41 +1,42 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import "package:flutter/material.dart";
+import "package:gap/gap.dart";
 
-import '../shared/shared.dart';
-import 'month_range.dart';
+import "package:resident_live/shared/shared.dart";
+import "package:resident_live/widgets/month_range.dart";
 
 class VerticalTimeline extends StatefulWidget {
+  const VerticalTimeline({super.key});
+
   @override
-  _VerticalTimelineState createState() => _VerticalTimelineState();
+  VerticalTimelineState createState() => VerticalTimelineState();
 }
 
-class _VerticalTimelineState extends State<VerticalTimeline> {
-  final double _currentValue = 170;
-  final double _minValue = 150;
-  final double _maxValue = 190;
-
+class VerticalTimelineState extends State<VerticalTimeline> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          Grabber(),
+          const Grabber(),
           Row(
             children: [
-              Spacer(),
+              const Spacer(),
               RlCloseButton(
-                  color: context.theme.colorScheme.secondary.withOpacity(0.5),),
-              Gap(16),
+                color: context.theme.colorScheme.secondary.withValues(alpha: 0.5),
+              ),
+              const Gap(16),
             ],
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text('Your activity for the last 12 months',
-                style: context.theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),),
+            child: Text(
+              "Your activity for the last 12 months",
+              style: context.theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-          Expanded(
+          const Expanded(
             child: DateScalePicker(),
           ),
         ],
@@ -45,7 +46,6 @@ class _VerticalTimelineState extends State<VerticalTimeline> {
 }
 
 class ScalePainter extends CustomPainter {
-
   ScalePainter(this.minValue, this.maxValue, this.currentValue);
   final double minValue;
   final double maxValue;
@@ -63,26 +63,35 @@ class ScalePainter extends CustomPainter {
     );
 
     for (var i = minValue.round(); i <= maxValue.round(); i += 10) {
-      final y =
-          size.height - (i - minValue) / (maxValue - minValue) * size.height;
+      final y = size.height - (i - minValue) / (maxValue - minValue) * size.height;
 
       if (i % 10 == 0) {
         canvas.drawLine(
-            Offset(size.width - 20, y), Offset(size.width, y), paint,);
+          Offset(size.width - 20, y),
+          Offset(size.width, y),
+          paint,
+        );
         textPainter.text = TextSpan(
-          text: '$i',
+          text: "$i",
           style: TextStyle(
-              color: i == currentValue.round() ? Colors.black : Colors.grey,
-              fontSize: 14,),
+            color: i == currentValue.round() ? Colors.black : Colors.grey,
+            fontSize: 14,
+          ),
         );
         textPainter.layout();
         textPainter.paint(
-            canvas,
-            Offset(size.width - 25 - textPainter.width,
-                y - textPainter.height / 2,),);
+          canvas,
+          Offset(
+            size.width - 25 - textPainter.width,
+            y - textPainter.height / 2,
+          ),
+        );
       } else {
         canvas.drawLine(
-            Offset(size.width - 10, y), Offset(size.width, y), paint,);
+          Offset(size.width - 10, y),
+          Offset(size.width, y),
+          paint,
+        );
       }
     }
   }

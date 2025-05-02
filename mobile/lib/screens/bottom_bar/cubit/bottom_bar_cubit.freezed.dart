@@ -22,12 +22,8 @@ BottomBarState _$BottomBarStateFromJson(Map<String, dynamic> json) {
 mixin _$BottomBarState {
   bool get showBadge => throw _privateConstructorUsedError;
 
-  /// Serializes this BottomBarState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of BottomBarState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $BottomBarStateCopyWith<BottomBarState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,8 +47,6 @@ class _$BottomBarStateCopyWithImpl<$Res, $Val extends BottomBarState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of BottomBarState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,8 +80,6 @@ class __$$BottomBarStateImplCopyWithImpl<$Res>
       _$BottomBarStateImpl _value, $Res Function(_$BottomBarStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BottomBarState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,13 +119,11 @@ class _$BottomBarStateImpl implements _BottomBarState {
                 other.showBadge == showBadge));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, showBadge);
 
-  /// Create a copy of BottomBarState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BottomBarStateImplCopyWith<_$BottomBarStateImpl> get copyWith =>
@@ -157,11 +147,8 @@ abstract class _BottomBarState implements BottomBarState {
 
   @override
   bool get showBadge;
-
-  /// Create a copy of BottomBarState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BottomBarStateImplCopyWith<_$BottomBarStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,4 +1,9 @@
 {
     "openctx.enable": true,
-    "editor.maxTokenizationLineLength": 300,
+    "editor.maxTokenizationLineLength": 150,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
 }

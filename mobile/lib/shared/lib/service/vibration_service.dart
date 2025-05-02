@@ -16,8 +16,7 @@ class VibrationService {
   static VibrationService? _instance;
 
   static VibrationService get instance {
-    assert(_instance != null,
-        "Remember to initialise VibrationService by calling its init method",);
+    assert(_instance != null, "Remember to initialise VibrationService by calling its init method");
     return _instance!;
   }
 

@@ -24,12 +24,8 @@ mixin _$CountriesState {
       throw _privateConstructorUsedError;
   String? get focusedCountryId => throw _privateConstructorUsedError;
 
-  /// Serializes this CountriesState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of CountriesState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CountriesStateCopyWith<CountriesState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,8 +49,6 @@ class _$CountriesStateCopyWithImpl<$Res, $Val extends CountriesState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CountriesState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,8 +87,6 @@ class __$$CountriesStateImplCopyWithImpl<$Res>
       _$CountriesStateImpl _value, $Res Function(_$CountriesStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CountriesState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -153,14 +145,12 @@ class _$CountriesStateImpl extends _CountriesState {
                 other.focusedCountryId == focusedCountryId));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_countries), focusedCountryId);
 
-  /// Create a copy of CountriesState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CountriesStateImplCopyWith<_$CountriesStateImpl> get copyWith =>
@@ -188,11 +178,8 @@ abstract class _CountriesState extends CountriesState {
   Map<String, CountryEntity> get countries;
   @override
   String? get focusedCountryId;
-
-  /// Create a copy of CountriesState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$CountriesStateImplCopyWith<_$CountriesStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

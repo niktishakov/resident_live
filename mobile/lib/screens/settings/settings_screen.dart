@@ -1,3 +1,4 @@
+import "package:data/data.dart";
 import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -7,6 +8,7 @@ import "package:go_router/go_router.dart";
 import "package:local_auth/local_auth.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:provider/provider.dart";
+import "package:resident_live/app/injection.config.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
 import "package:resident_live/screens/settings/widgets/report_bug_button.dart";
@@ -48,8 +50,9 @@ class SettingsScreen extends StatelessWidget {
                           final authCubit = context.read<AuthCubit>();
 
                           return SettingsButton(
-                            asset:
-                                state.biometricType == BiometricType.face ? AppAssets.faceid : AppAssets.touchid, // Assuming you have a touchid asset
+                            asset: state.biometricType == BiometricType.face
+                                ? AppAssets.faceid
+                                : AppAssets.touchid, // Assuming you have a touchid asset
                             title: "${authCubit.biometricTitle} Access",
                             subtitle: state.isEnabled ? S.of(context).commonOn : S.of(context).commonOff,
                             onTap: () async {
@@ -98,7 +101,7 @@ class SettingsScreen extends StatelessWidget {
                         title: S.of(context).settingsShareWithFriends,
                         trailing: const SizedBox(),
                         onTap: () {
-                          ShareService.instance.shareText(appStoreLink);
+                          getIt<ShareService>().shareText(appStoreLink);
                         },
                       ),
                       const Gap(12),

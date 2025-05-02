@@ -8,11 +8,11 @@ import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:resident_live/app/main.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/screens/all_countries/ui/all_countries_screen.dart";
-import "package:resident_live/screens/home/ui/widgets/focused_country_view.dart";
-import "package:resident_live/screens/home/ui/widgets/greeting_view.dart";
-import "package:resident_live/screens/home/ui/widgets/tracking_residences.dart";
+import "package:resident_live/screens/home/cubit/home_cubit.dart";
+import "package:resident_live/screens/home/widgets/focused_country_view.dart";
+import "package:resident_live/screens/home/widgets/greeting_view.dart";
+import "package:resident_live/screens/home/widgets/tracking_residences.dart";
 import "package:resident_live/screens/screens.dart";
-import "package:resident_live/shared/lib/services/pushNotification.service.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/widgets/widgets.dart";
 
@@ -27,11 +27,7 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _requestPushPermissions();
-  }
-
-  Future<void> _requestPushPermissions() async {
-    await PushNotificationService.instance.requestPermissions();
+    find<HomeCubit>(context).requestPushPermissions();
   }
 
   @override

@@ -1,11 +1,10 @@
 import "package:geolocator/geolocator.dart";
 import "package:permission_handler/permission_handler.dart";
+import 'package:injectable/injectable.dart';
 
+@injectable
 class GeolocationService {
-  GeolocationService._();
-
-  static final GeolocationService _instance = GeolocationService._();
-  static GeolocationService get instance => _instance;
+  GeolocationService();
 
   Future<Position> getCurrentLocation() async {
     if (!await Geolocator.isLocationServiceEnabled()) {
@@ -17,8 +16,6 @@ class GeolocationService {
       throw Exception("Location permission denied");
     }
 
-    return Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
+    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 }

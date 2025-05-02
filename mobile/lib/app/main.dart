@@ -1,4 +1,6 @@
+import "package:data/data.dart";
 import "package:domain/domain.dart";
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
@@ -7,11 +9,15 @@ import "package:hydrated_bloc/hydrated_bloc.dart";
 import "package:path_provider/path_provider.dart";
 import "package:provider/provider.dart";
 import "package:provider/single_child_widget.dart";
+import "package:resident_live/app/injection.config.dart";
 import "package:resident_live/app/routes.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
 import "package:resident_live/screens/language/language_cubit.dart";
 import "package:resident_live/screens/screens.dart";
+import "package:resident_live/shared/lib/observers/analytics_observer.dart";
+import "package:resident_live/shared/lib/service/toast.service.dart";
+import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/shared.dart";
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -31,7 +37,8 @@ void main() async {
 
   AiAnalytics.init(
     mixpanel: MixpanelService(secrets.mixpanelToken),
-    environment: envHolder.value,
+    environment: envHolder.value.name,
+    isRelease: kReleaseMode,
   );
 
   await RouterService.init(
@@ -47,7 +54,6 @@ void main() async {
   final rlThemeProvider = RlThemeProvider(RlTheme());
 
   await VibrationService.init();
-  await ShareService.init();
   await ToastService.init();
 
   final deviceInfoService = await DeviceInfoService.create();
@@ -59,7 +65,7 @@ void main() async {
       providers: [
         BlocProvider(create: (_) => OnboardingCubit()),
         BlocProvider(
-          create: (_) => LocationCubit(GeolocationService.instance),
+          create: (_) => LocationCubit(getIt<GeolocationService>()),
         ),
         BlocProvider(create: (_) => CountriesCubit()),
         BlocProvider(create: (_) => AuthCubit()),

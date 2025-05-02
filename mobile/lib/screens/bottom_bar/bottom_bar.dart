@@ -7,6 +7,7 @@ import "package:go_router/go_router.dart";
 import "package:resident_live/generated/l10n/l10n.dart";
 import "package:resident_live/screens/bottom_bar/animated_tab_item.dart";
 import "package:resident_live/screens/bottom_bar/background_painter.dart";
+import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/shared.dart";
 
 class AiBottomBar extends StatelessWidget {

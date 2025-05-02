@@ -2,7 +2,6 @@ import "dart:async";
 
 import "package:flutter/material.dart";
 import "package:resident_live/shared/lib/constants.dart";
-import "package:resident_live/shared/lib/services/vibration_service.dart";
 import "package:synchronized/synchronized.dart";
 
 class BouncingButton extends StatefulWidget {
@@ -63,7 +62,8 @@ class BouncingState extends State<BouncingButton> with SingleTickerProviderState
   }
 
   bool checkPosition(PointerEvent event) {
-    return (event.localPosition.dx - _initPosition.dx).abs() > 5 || (event.localPosition.dy - _initPosition.dy).abs() > 5;
+    return (event.localPosition.dx - _initPosition.dx).abs() > 5 ||
+        (event.localPosition.dy - _initPosition.dy).abs() > 5;
   }
 
   Future<void> _callPressCallback(PointerEvent event) async {

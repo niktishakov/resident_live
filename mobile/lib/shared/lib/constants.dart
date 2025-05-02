@@ -46,11 +46,3 @@ const kSuccessGradient = LinearGradient(
   begin: Alignment.centerLeft,
   end: Alignment.centerRight,
 );
-
-final modeEmojis = {
-  "TRACE": "🔎",
-  "DEBUG": "💬",
-  "INFO": "💡",
-  "WARN": "⚠️",
-  "ERROR": "⛔",
-};

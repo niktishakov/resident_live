@@ -1,5 +1,5 @@
+import "package:data/src/service/logger.service.dart";
 import "package:mixpanel_flutter/mixpanel_flutter.dart";
-import "package:resident_live/shared/shared.dart";
 
 class MixpanelService {
   MixpanelService(String projectToken) {
@@ -8,15 +8,11 @@ class MixpanelService {
 
   late Mixpanel _mixpanel;
   bool isReady = false;
-  final _logger = AiLogger("MixpanelService");
+  final _logger = LoggerService("MixpanelService");
 
   Future<void> _init(String projectToken) async {
     try {
-      _mixpanel = await Mixpanel.init(
-        projectToken,
-        optOutTrackingDefault: false,
-        trackAutomaticEvents: true,
-      );
+      _mixpanel = await Mixpanel.init(projectToken, optOutTrackingDefault: false, trackAutomaticEvents: true);
       isReady = true;
     } catch (e) {
       _logger.error("Error initializing Mixpanel: $e");

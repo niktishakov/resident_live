@@ -12,6 +12,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/screens/residence_details/widgets/residency_rules_modal.dart";
+import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/rl.sliver_header.dart";
 import "package:resident_live/widgets/widgets.dart";

@@ -1,6 +1,6 @@
-import "package:flutter/widgets.dart";
-import "package:resident_live/shared/shared.dart";
-
+import "package:data/data.dart";
+import "package:flutter/cupertino.dart";
+import "package:resident_live/shared/router/screen_names.dart";
 
 /// Adapted from firebase_analytics package v.6.0.2
 
@@ -11,7 +11,7 @@ import "package:resident_live/shared/shared.dart";
 class AiAnalyticsObserver extends NavigatorObserver {
   AiAnalyticsObserver(this._aiAnalytics);
   final AiAnalytics _aiAnalytics;
-  final _logger = AiLogger("AiAnalyticsObserver");
+  final _logger = LoggerService("AiAnalyticsObserver");
 
   final _excludedRoutes = [
     ScreenNames.bottomBarShell,

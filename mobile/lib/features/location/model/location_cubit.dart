@@ -1,12 +1,12 @@
 import "dart:async";
 
+import "package:data/data.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:geocoding/geocoding.dart";
 import "package:geolocator/geolocator.dart";
 import "package:resident_live/shared/lib/ai.logger.dart";
-import "package:resident_live/shared/lib/services/geolocator.service.dart";
 
 part "location_cubit.freezed.dart";
 part "location_cubit.g.dart";
@@ -66,7 +66,8 @@ class LocationCubit extends Cubit<LocationState> {
 
   Future<void> _updatePosition(Position position) async {
     try {
-      final coordinates = await GeocodingPlatform.instance?.placemarkFromCoordinates(position.latitude, position.longitude);
+      final coordinates =
+          await GeocodingPlatform.instance?.placemarkFromCoordinates(position.latitude, position.longitude);
 
       final addresses = coordinates ?? [];
 

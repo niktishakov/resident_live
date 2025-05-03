@@ -1,6 +1,5 @@
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
-import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
@@ -12,9 +11,10 @@ import "package:resident_live/screens/home/cubit/home_cubit.dart";
 import "package:resident_live/screens/home/widgets/focused_country_view.dart";
 import "package:resident_live/screens/home/widgets/greeting_view.dart";
 import "package:resident_live/screens/home/widgets/tracking_residences.dart";
-import "package:resident_live/screens/screens.dart";
+import "package:resident_live/screens/home/widgets/week_line_view.dart";
+import "package:resident_live/screens/residence_details/residence_details_screen.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/widgets/widgets.dart";
+import "package:resident_live/shared/widget/today_button.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -153,14 +153,7 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
               child: Opacity(
                 opacity: dividerOpacity > 0.4 ? (3.5 * dividerOpacity - 1.0).clamp(0.0, 1.0) : 0.0,
                 child: TodayButton(
-                  onTap: () {
-                    CupertinoScaffold.showCupertinoModalBottomSheet(
-                      context: context,
-                      duration: 400.ms,
-                      animationCurve: Curves.fastEaseInToSlowEaseOut,
-                      builder: (context) => const VerticalTimeline(),
-                    );
-                  },
+                  onTap: () {},
                   iconSize: 20,
                   style: TextStyle(
                     fontSize: 16,

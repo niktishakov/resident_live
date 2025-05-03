@@ -16,6 +16,6 @@ class GeolocationService {
       throw Exception("Location permission denied");
     }
 
-    return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return Geolocator.getCurrentPosition(locationSettings: LocationSettings(accuracy: LocationAccuracy.high));
   }
 }

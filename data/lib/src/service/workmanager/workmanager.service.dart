@@ -1,8 +1,8 @@
 import "package:data/data.dart";
-import "package:data/src/service/logger.service.dart";
 import "package:data/src/service/workmanager/background_loggger.dart";
 import "package:data/src/service/workmanager/constants.dart";
 import "package:data/src/service/workmanager/workmanager.errors.dart";
+import "package:injectable/injectable.dart";
 import "package:workmanager/workmanager.dart";
 
 @pragma("vm:entry-point")
@@ -30,48 +30,17 @@ void callbackDispatcher() {
   });
 }
 
+@injectable
 class WorkmanagerService {
-  WorkmanagerService._();
-  static WorkmanagerService? _instance;
-  static WorkmanagerService get instance {
-    if (_instance == null) {
-      throw WorkmanagerNotInitializedError();
-    }
-    return _instance ?? (throw WorkmanagerInstanceError());
-  }
-
-  static Future<WorkmanagerService> initialize() async {
-    _logger.info("Initializing WorkmanagerService");
-    if (_instance != null) {
-      _logger.info("Instance already exists, returning existing instance");
-      return _instance ?? (throw WorkmanagerInstanceError());
-    }
-
-    _logger.info("Creating new WorkmanagerService instance");
-    instance.geolocationService = GeolocationService();
-    await instance._initialize();
-    _instance = instance;
-
-    _logger.info("WorkmanagerService initialization completed");
-    return instance;
-  }
-
-  late final GeolocationService geolocationService;
-
-  static final _logger = LoggerService("WorkmanagerService");
-
+  WorkmanagerService(this._logger);
+  final LoggerService _logger;
   bool isReady = false;
 
-  Future<void> _initialize() async {
+  Future<void> initialize() async {
     _logger.info("Starting internal initialization");
     try {
       await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
-      await Workmanager().registerPeriodicTask(
-        WorkmanagerConstants.iOSBackgroundAppRefresh,
-        WorkmanagerConstants.iOSBackgroundAppRefresh,
-        initialDelay: const Duration(seconds: 10),
-        inputData: const <String, dynamic>{},
-      );
+      await Workmanager().registerPeriodicTask(WorkmanagerConstants.iOSBackgroundAppRefresh, WorkmanagerConstants.iOSBackgroundAppRefresh, initialDelay: const Duration(seconds: 10), inputData: const <String, dynamic>{});
       isReady = true;
       _logger.info("Internal initialization completed successfully");
     } catch (e) {
@@ -89,12 +58,7 @@ class WorkmanagerService {
 
     try {
       _logger.info("Registering periodic task: ${WorkmanagerConstants.iOSBackgroundAppRefresh}");
-      await Workmanager().registerPeriodicTask(
-        WorkmanagerConstants.iOSBackgroundAppRefresh,
-        WorkmanagerConstants.iOSBackgroundAppRefresh,
-        initialDelay: const Duration(seconds: 10),
-        inputData: const <String, dynamic>{},
-      );
+      await Workmanager().registerPeriodicTask(WorkmanagerConstants.iOSBackgroundAppRefresh, WorkmanagerConstants.iOSBackgroundAppRefresh, initialDelay: const Duration(seconds: 10), inputData: const <String, dynamic>{});
       _logger.info("Periodic task registered successfully");
     } catch (e) {
       _logger.error("Failed to register periodic task: $e");

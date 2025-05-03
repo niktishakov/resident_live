@@ -10,7 +10,7 @@ import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:provider/provider.dart";
 import "package:resident_live/app/injection.config.dart";
 import "package:resident_live/features/features.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/settings/widgets/report_bug_button.dart";
 import "package:resident_live/screens/settings/widgets/settings_button.dart";
 import "package:resident_live/shared/shared.dart";
@@ -50,9 +50,7 @@ class SettingsScreen extends StatelessWidget {
                           final authCubit = context.read<AuthCubit>();
 
                           return SettingsButton(
-                            asset: state.biometricType == BiometricType.face
-                                ? AppAssets.faceid
-                                : AppAssets.touchid, // Assuming you have a touchid asset
+                            asset: state.biometricType == BiometricType.face ? AppAssets.faceid : AppAssets.touchid, // Assuming you have a touchid asset
                             title: "${authCubit.biometricTitle} Access",
                             subtitle: state.isEnabled ? S.of(context).commonOn : S.of(context).commonOff,
                             onTap: () async {

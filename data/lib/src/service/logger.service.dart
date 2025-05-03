@@ -7,23 +7,11 @@ import "package:path_provider/path_provider.dart";
 
 @singleton
 class LoggerService {
-  LoggerService(String className) : _logger = Logger(className);
+  LoggerService() : _logger = Logger("LoggerService");
 
-  static final _levelEmoji = <Level, String>{
-    Level.FINE: "🔎",
-    Level.CONFIG: "💬",
-    Level.INFO: "💡",
-    Level.WARNING: "⚠️",
-    Level.SEVERE: "⛔",
-  };
+  static final _levelEmoji = <Level, String>{Level.FINE: "🔎", Level.CONFIG: "💬", Level.INFO: "💡", Level.WARNING: "⚠️", Level.SEVERE: "⛔"};
 
-  static final _levelName = <Level, String>{
-    Level.FINE: "TRACE",
-    Level.CONFIG: "DEBUG",
-    Level.INFO: "INFO",
-    Level.WARNING: "WARN",
-    Level.SEVERE: "ERROR",
-  };
+  static final _levelName = <Level, String>{Level.FINE: "TRACE", Level.CONFIG: "DEBUG", Level.INFO: "INFO", Level.WARNING: "WARN", Level.SEVERE: "ERROR"};
 
   static const JsonEncoder jsonEncoder = JsonEncoder.withIndent("  ");
 

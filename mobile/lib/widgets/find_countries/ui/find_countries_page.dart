@@ -6,8 +6,8 @@ import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:resident_live/features/features.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
-import "package:resident_live/screens/onboarding/model/onboarding_cubit.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/shared/shared.dart";
 
 class FindCountriesPage extends StatefulWidget {

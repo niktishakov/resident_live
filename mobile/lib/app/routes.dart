@@ -2,10 +2,19 @@ import "package:flutter/cupertino.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:resident_live/screens/all_countries/ui/all_countries_screen.dart";
+import "package:resident_live/screens/bottom_bar/bottom_bar.dart";
+import "package:resident_live/screens/home/home_screen.dart";
 import "package:resident_live/screens/language/language_screen.dart";
+import "package:resident_live/screens/manage_countries/manage_countries_screen.dart";
+import "package:resident_live/screens/onboarding/onboarding_screen.dart";
+import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart";
+import "package:resident_live/screens/onboarding/pages/get_started/get_started_screen.dart";
+import "package:resident_live/screens/residence_details/residence_details_screen.dart";
 import "package:resident_live/screens/residence_details/residence_details_screen2.dart";
-import "package:resident_live/screens/screens.dart";
+import "package:resident_live/screens/settings/settings_screen.dart";
+import "package:resident_live/screens/splash/splash_screen.dart";
 import "package:resident_live/shared/shared.dart";
+import "package:resident_live/shared/widget/webview/webview_page.dart";
 
 List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
   return [
@@ -133,7 +142,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       name: ScreenNames.webView,
       pageBuilder: (ctx, state) {
         return kSlideTransitionPage(
-          WebViewScreen(
+          WebviewPage(
             url: state.extra! as String,
             title: state.extra! as String,
           ),

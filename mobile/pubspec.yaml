@@ -9,7 +9,7 @@ environment:
 
 scripts: 
   gen: dart run build_runner watch
-  gen_locales: dart run intl_utils:generate
+  intl: dart run intl_utils:generate
   run: flutter run -t lib/app/main.dart
   run-release: flutter run -t lib/app/main.dart --release
   deploy: cd ios && fastlane beta
@@ -91,8 +91,8 @@ flutter_launcher_icons:
 flutter_intl:
   enabled: true
   class_name: S
-  arb_dir: lib/l10n
-  output_dir: lib/generated/l10n
+  arb_dir: lib/localization
+  output_dir: lib/localization/generated/l10n
 
 flutter:
   generate: true

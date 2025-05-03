@@ -4,13 +4,14 @@ import "package:data/src/service/analytics/analytics_parameters.dart";
 import "package:data/src/service/analytics/events/analytics_event.dart";
 import "package:data/src/service/analytics/services/mixpanel.service.dart";
 import "package:data/src/service/logger.service.dart";
+import "package:get_it/get_it.dart";
 
 class AiAnalytics {
   AiAnalytics._(this._mixpanel, this._getCustomParams);
   final MixpanelService? _mixpanel;
   final Map<String, dynamic> Function() _getCustomParams;
 
-  final LoggerService _logger = LoggerService("AiAnalytics");
+  final LoggerService _logger = GetIt.I<LoggerService>();
   final Map<String, dynamic> _defaults = <String, dynamic>{};
 
   static AiAnalytics? _instance;
@@ -19,12 +20,7 @@ class AiAnalytics {
     return _instance!;
   }
 
-  static void init({
-    MixpanelService? mixpanel,
-    bool isRelease = false,
-    String? environment,
-    Map<String, dynamic> Function()? getCustomParams,
-  }) {
+  static void init({MixpanelService? mixpanel, bool isRelease = false, String? environment, Map<String, dynamic> Function()? getCustomParams}) {
     if (_instance == null) {
       _instance = AiAnalytics._(mixpanel, getCustomParams ?? (() => {}));
       _instance!._defaults.addAll(<String, dynamic>{
@@ -39,11 +35,7 @@ class AiAnalytics {
     if (Platform.isAndroid) return;
 
     try {
-      final parameters = <String, dynamic>{
-        ..._defaults,
-        ..._getCustomParams(),
-        if (event.hasParams) ...event.getParams(),
-      };
+      final parameters = <String, dynamic>{..._defaults, ..._getCustomParams(), if (event.hasParams) ...event.getParams()};
 
       _mixpanel?.logEvent(event.getName(), parameters);
 

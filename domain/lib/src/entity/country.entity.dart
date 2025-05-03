@@ -6,10 +6,18 @@ part "country.entity.freezed.dart";
 
 @freezed
 class CountryEntity with _$CountryEntity {
-  const factory CountryEntity({required String isoCode, required String name, required List<StayPeriodValueObject> periods}) = _CountryEntity;
+  const factory CountryEntity({
+    required String isoCode,
+    required String name,
+    required List<StayPeriodValueObject> periods,
+  }) = _CountryEntity;
   const CountryEntity._();
 
-  factory CountryEntity.initial(String isoCode, String name) => _CountryEntity(isoCode: isoCode, name: name, periods: []);
+  factory CountryEntity.initial(String isoCode, String name) => _CountryEntity(
+        isoCode: isoCode,
+        name: name,
+        periods: [],
+      );
 
   factory CountryEntity.fromJson(Map<String, dynamic> json) => _$CountryEntityFromJson(json);
 

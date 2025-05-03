@@ -1,9 +1,7 @@
 {
     "openctx.enable": true,
     "editor.maxTokenizationLineLength": 150,
-    "editor.tabSize": 2,
-    "editor.insertSpaces": true,
+    "dart.maxLogLineLength": 150,
+    "dart.lineLength": 150,
     "editor.formatOnSave": true,
-    "editor.formatOnPaste": true,
-    "editor.formatOnType": true,
 }

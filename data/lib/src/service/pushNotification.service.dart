@@ -4,7 +4,8 @@ import "package:injectable/injectable.dart";
 
 @Singleton()
 class PushNotificationService {
-  final _logger = LoggerService("PushNotificationService");
+  PushNotificationService(this._logger);
+  final LoggerService _logger;
 
   final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -14,11 +15,7 @@ class PushNotificationService {
 
       const androidSettings = AndroidInitializationSettings("@mipmap/ic_launcher");
 
-      const iosSettings = DarwinInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: true,
-      );
+      const iosSettings = DarwinInitializationSettings(requestAlertPermission: true, requestBadgePermission: true, requestSoundPermission: true);
 
       const settings = InitializationSettings(android: androidSettings, iOS: iosSettings);
 
@@ -32,9 +29,7 @@ class PushNotificationService {
 
   Future<void> requestPermissions() async {
     try {
-      final granted = await _notificationsPlugin
-          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(alert: true, badge: true, sound: true);
+      final granted = await _notificationsPlugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(alert: true, badge: true, sound: true);
 
       if (granted != null && granted == true) {
         _logger.info("Local push notification permission granted");

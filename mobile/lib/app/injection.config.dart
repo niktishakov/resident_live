@@ -1,13 +1,13 @@
-import "package:data/injection.config.module.dart";
+import "package:data/data.dart";
 import "package:get_it/get_it.dart";
 import "package:injectable/injectable.dart";
+import "package:resident_live/app/injection.config.config.dart";
 
 final getIt = GetIt.instance;
 
 @InjectableInit(
-  preferRelativeImports: true,
   externalPackageModulesBefore: [
-    ExternalModule(DataPackageModule, scope: "data"),
+    ExternalModule(DataPackageModule),
   ],
 )
-void configureDependencies() => getIt.init();
+Future<void> configureDependencies() => getIt.init();

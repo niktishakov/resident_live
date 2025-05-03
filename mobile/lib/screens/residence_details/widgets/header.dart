@@ -145,15 +145,17 @@ class _HeaderContent extends StatelessWidget {
     final byteData = await image.toByteData(format: ImageByteFormat.png);
     final bytes = byteData!.buffer.asUint8List();
 
-    await Share.shareXFiles(
-      [
-        XFile.fromData(
-          bytes,
-          name: "residence_status.png",
-          mimeType: "image/png",
-        ),
-      ],
-      text: "Track your global residency journey with Resident Live! Download now: $appStoreLink",
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [
+          XFile.fromData(
+            bytes,
+            name: "residence_status.png",
+            mimeType: "image/png",
+          ),
+        ],
+        text: "Track your global residency journey with Resident Live! Download now: $appStoreLink",
+      ),
     );
   }
 }

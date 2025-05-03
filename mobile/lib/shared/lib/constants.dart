@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
 
 const kDefaultScreenDelay = Duration(seconds: 2);
 const kDefaultDuration = Duration(milliseconds: 300);

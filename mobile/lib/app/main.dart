@@ -12,9 +12,10 @@ import "package:provider/single_child_widget.dart";
 import "package:resident_live/app/injection.config.dart";
 import "package:resident_live/app/routes.dart";
 import "package:resident_live/features/features.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/language/language_cubit.dart";
-import "package:resident_live/screens/screens.dart";
+import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
+import "package:resident_live/screens/splash/presplash_screen.dart";
 import "package:resident_live/shared/lib/observers/analytics_observer.dart";
 import "package:resident_live/shared/lib/service/toast.service.dart";
 import "package:resident_live/shared/lib/service/vibration_service.dart";
@@ -27,6 +28,7 @@ void main() async {
 
   await AiLogger.initialize();
   runApp(const MaterialApp(home: PresplashScreen()));
+  await configureDependencies();
 
   final envHolder = EnvHolder(Environment.prod);
   final secrets = await Secrets.create(envHolder);
@@ -57,8 +59,8 @@ void main() async {
   await ToastService.init();
 
   final deviceInfoService = await DeviceInfoService.create();
-
-  await WorkmanagerService.initialize();
+  final workmanagerService = WorkmanagerService(getIt<LoggerService>());
+  workmanagerService.initialize();
 
   runApp(
     MyApp(

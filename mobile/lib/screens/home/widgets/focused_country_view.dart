@@ -5,7 +5,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/features/features.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/shared/shared.dart";
 
 class FocusedCountryView extends StatefulWidget {

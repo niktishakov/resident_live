@@ -1,4 +1,5 @@
 import "package:data/src/service/logger.service.dart";
+import "package:get_it/get_it.dart";
 import "package:mixpanel_flutter/mixpanel_flutter.dart";
 
 class MixpanelService {
@@ -8,7 +9,7 @@ class MixpanelService {
 
   late Mixpanel _mixpanel;
   bool isReady = false;
-  final _logger = LoggerService("MixpanelService");
+  final _logger = GetIt.I<LoggerService>();
 
   Future<void> _init(String projectToken) async {
     try {

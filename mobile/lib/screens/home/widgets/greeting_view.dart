@@ -2,7 +2,7 @@ import "dart:async";
 
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/shared/shared.dart";
 
 class GreetingView extends StatefulWidget {
@@ -30,8 +30,7 @@ class GreetingViewState extends State<GreetingView> {
   }
 
   void _startTimer() {
-    timer =
-        Timer.periodic(const Duration(minutes: 1), (t) => _updateGreeting());
+    timer = Timer.periodic(const Duration(minutes: 1), (t) => _updateGreeting());
   }
 
   void _updateGreeting() {
@@ -94,8 +93,7 @@ class GreetingViewState extends State<GreetingView> {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: context.theme.colorScheme.secondary
-                                .withValues(alpha: 0.05),
+                            color: context.theme.colorScheme.secondary.withValues(alpha: 0.05),
                             blurRadius: 13,
                             offset: const Offset(
                               0,

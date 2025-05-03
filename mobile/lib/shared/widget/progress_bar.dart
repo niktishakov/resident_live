@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/shared/lib/service/vibration_service.dart";
 
 import "package:resident_live/shared/shared.dart";
 

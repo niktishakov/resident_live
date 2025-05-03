@@ -31,7 +31,9 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     _authCubit = context.read<AuthCubit>();
 
-    _initializeApp();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _initializeApp();
+    });
   }
 
   Future<void> _initializeApp() async {

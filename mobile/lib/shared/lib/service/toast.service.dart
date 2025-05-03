@@ -68,8 +68,12 @@ class ToastService {
 
     fToast.showToast(
       child: toast,
-      positionedToastBuilder: (context, child) =>
-          Positioned(top: context.mediaQuery.padding.top, left: 0, right: 0, child: child),
+      positionedToastBuilder: (context, child, gravity) => Positioned(
+        top: context.mediaQuery.padding.top,
+        left: 0,
+        right: 0,
+        child: child,
+      ),
       toastDuration: const Duration(seconds: 2),
       fadeDuration: const Duration(milliseconds: 200),
     );

@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
-import "package:resident_live/screens/onboarding/ui/pages/stay_period.page.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/screens/onboarding/pages/stay_period/stay_period.page.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/widgets/find_countries/ui/find_countries_page.dart";
 

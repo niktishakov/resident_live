@@ -7,11 +7,12 @@ import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:resident_live/features/features.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/residence_details/widgets/header.dart";
 import "package:resident_live/screens/residence_details/widgets/residency_rules_modal.dart";
+import "package:resident_live/screens/your_journey/journey_page.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/widgets/widgets.dart";
+import "package:resident_live/shared/widget/transparent_button.dart";
 
 // final _statuses = {
 //   "hr": [

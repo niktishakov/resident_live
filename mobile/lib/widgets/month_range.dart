@@ -5,6 +5,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
 
 import "package:resident_live/features/features.dart";
+import "package:resident_live/shared/lib/utils/colors_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
 class DateScalePicker extends StatefulWidget {

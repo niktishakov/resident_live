@@ -2,12 +2,12 @@ import "package:data/data.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(this._pushNotificationService) : super(const HomeState());
+  HomeCubit(this._service) : super(const HomeState());
 
-  final PushNotificationService _pushNotificationService;
+  final LocalNotificationService _service;
 
   Future<void> requestPushPermissions() async {
-    await _pushNotificationService.requestPermissions();
+    await _service.requestPermissions();
   }
 }
 

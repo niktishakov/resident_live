@@ -1,4 +1,4 @@
-import "package:data/src/service/logger.service.dart";
+import "package:data/src/service/logger/logger.service.dart";
 import "package:get_it/get_it.dart";
 import "package:mixpanel_flutter/mixpanel_flutter.dart";
 

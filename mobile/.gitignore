@@ -12,7 +12,6 @@
 .swiftpm/
 migrate_working_dir/
 *.env
-*/secrets.json
 */service_account.json
 
 # IntelliJ related

@@ -14,6 +14,7 @@ import "package:resident_live/features/features.dart";
 import "package:resident_live/screens/residence_details/widgets/residency_rules_modal.dart";
 import "package:resident_live/screens/your_journey/journey_page.dart";
 import "package:resident_live/shared/lib/service/vibration_service.dart";
+import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/rl.sliver_header.dart";
 import "package:resident_live/shared/widget/transparent_button.dart";

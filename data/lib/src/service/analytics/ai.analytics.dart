@@ -3,7 +3,7 @@ import "dart:io";
 import "package:data/src/service/analytics/analytics_parameters.dart";
 import "package:data/src/service/analytics/events/analytics_event.dart";
 import "package:data/src/service/analytics/services/mixpanel.service.dart";
-import "package:data/src/service/logger.service.dart";
+import "package:data/src/service/logger/logger.service.dart";
 import "package:get_it/get_it.dart";
 
 class AiAnalytics {

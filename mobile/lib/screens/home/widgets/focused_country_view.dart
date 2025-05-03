@@ -6,6 +6,8 @@ import "package:gap/gap.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
+import "package:resident_live/shared/lib/utils/hero_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
 class FocusedCountryView extends StatefulWidget {

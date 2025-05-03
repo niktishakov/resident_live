@@ -11,6 +11,8 @@ import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/residence_details/widgets/header.dart";
 import "package:resident_live/screens/residence_details/widgets/residency_rules_modal.dart";
 import "package:resident_live/screens/your_journey/journey_page.dart";
+import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
+import "package:resident_live/shared/lib/utils/hero_utils.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/transparent_button.dart";
 

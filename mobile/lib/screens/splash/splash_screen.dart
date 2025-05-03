@@ -9,6 +9,7 @@ import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/shared/lib/service/toast.service.dart";
+import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
 import "package:resident_live/shared/shared.dart";
 
 part "record.animation.dart";

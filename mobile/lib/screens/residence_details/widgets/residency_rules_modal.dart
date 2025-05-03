@@ -3,8 +3,9 @@ import "dart:ui";
 import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/generated/l10n/l10n.dart";
+import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/shared/shared.dart";
+import "package:resident_live/shared/widget/transparent_button.dart";
 
 class ResidencyRulesModal extends StatelessWidget {
   const ResidencyRulesModal({super.key});

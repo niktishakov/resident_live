@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:fluttertoast/fluttertoast.dart";
 import "package:resident_live/app/main.dart";
+import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/shared.dart";
 
 void showToast(BuildContext context, String content) {
@@ -18,15 +19,17 @@ void showToast(BuildContext context, String content) {
       children: [
         Icon(Icons.error_outline, color: context.theme.scaffoldBackgroundColor),
         const SizedBox(width: 12.0),
-        Text(content,
-            style: TextStyle(color: context.theme.scaffoldBackgroundColor),),
+        Text(
+          content,
+          style: TextStyle(color: context.theme.scaffoldBackgroundColor),
+        ),
       ],
     ),
   );
   VibrationService.instance.warning();
   fToast.showToast(
     child: toast,
-    positionedToastBuilder: (context, child) => Positioned(
+    positionedToastBuilder: (context, child, gravity) => Positioned(
       top: context.mediaQuery.padding.top,
       left: 0,
       right: 0,

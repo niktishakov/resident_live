@@ -1,5 +1,8 @@
+import "package:data/data.dart";
 import "package:flutter/cupertino.dart";
 import "package:gap/gap.dart";
+import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/shared/lib/service/toast.service.dart";
 import "package:resident_live/shared/shared.dart";
 
 class ReportBugButton extends StatefulWidget {
@@ -28,7 +31,7 @@ class _ReportBugButtonState extends State<ReportBugButton> {
 
               if (await logFile.exists()) {
                 try {
-                  await ShareService.instance.shareFile(logFile);
+                  await getIt<ShareService>().shareFile(logFile);
                 } catch (e) {
                   logger.error(e);
                   if (context.mounted) {

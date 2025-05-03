@@ -2,7 +2,7 @@ import "dart:async";
 
 import "package:flutter/material.dart";
 import "package:resident_live/shared/lib/constants.dart";
-import "package:resident_live/shared/lib/services/vibration_service.dart";
+import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:synchronized/synchronized.dart";
 
 class BouncingButton extends StatefulWidget {

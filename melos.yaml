@@ -1,0 +1,61 @@
+name: bridgy
+
+packages:
+ - "mobile"
+ - "data"
+ - "domain"
+
+command:
+  bootstrap:
+    runPubGetInParallel: false
+
+scripts:
+  generate:app:
+    run: |
+      dart run build_runner build --delete-conflicting-outputs
+    description: "Generate code."
+
+  gen:domain:
+    run: |
+      cd domain
+      dart run build_runner build -d
+    description: "Generate domain."
+
+  gen:data:
+    run: |
+      cd data
+      dart run build_runner build -d
+    description: "Generate data."
+  
+  gen:mobile:
+    run: |
+      cd mobile
+      dart run build_runner build -d
+    description: "Generate mobile."
+
+  gen:all:
+    steps:
+      - melos run gen:domain
+      - melos run gen:data
+      - melos run gen:mobile
+    description: "Generate code"
+
+  clean:
+    run: |
+      melos exec -- flutter clean
+    description: "Clean the build directories."
+
+  get:
+    run: |
+      melos exec -- flutter pub get
+    description: "Clean the build directories."
+
+  analyze:
+    run: |
+      melos exec -- flutter analyze
+    description: "Analyze Dart code."
+
+  test:
+    run: |
+      melos exec -- flutter test --coverage
+    description: "Run unit tests."

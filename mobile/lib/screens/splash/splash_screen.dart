@@ -8,6 +8,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/features/features.dart";
+import "package:resident_live/shared/lib/service/toast.service.dart";
 import "package:resident_live/shared/shared.dart";
 
 part "record.animation.dart";
@@ -30,7 +31,9 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     _authCubit = context.read<AuthCubit>();
 
-    _initializeApp();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _initializeApp();
+    });
   }
 
   Future<void> _initializeApp() async {

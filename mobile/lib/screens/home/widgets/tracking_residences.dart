@@ -6,6 +6,7 @@ import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/shared/lib/utils/hero_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
 class OtherResidencesView extends StatefulWidget {

@@ -6,6 +6,7 @@ import "package:resident_live/features/features.dart";
 import "package:resident_live/screens/your_journey/widgets/country_disabler.dart";
 import "package:resident_live/screens/your_journey/widgets/header.dart";
 import "package:resident_live/screens/your_journey/widgets/journey_calendar.dart";
+import "package:resident_live/shared/lib/utils/colors_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
 class ResidencyJourneyScreen extends StatefulWidget {

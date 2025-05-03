@@ -8,6 +8,7 @@ import "package:intl/intl.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/onboarding/pages/add_periods/widgets/country_selector.dart";
 import "package:resident_live/screens/onboarding/pages/add_periods/widgets/timeline_slider.dart";
+import "package:resident_live/shared/lib/utils/colors_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
 class AddPeriodsPage extends StatefulWidget {

@@ -6,6 +6,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/features/countries/model/countries_cubit.dart";
 import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart";
+import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
 import "package:resident_live/shared/shared.dart";
 
 class GetStartedView extends StatelessWidget {

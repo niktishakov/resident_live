@@ -4,7 +4,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
-import "package:resident_live/app/main.dart";
+import "package:resident_live/app/app.dart";
 import "package:resident_live/features/features.dart";
 import "package:resident_live/screens/all_countries/ui/all_countries_screen.dart";
 import "package:resident_live/screens/home/cubit/home_cubit.dart";
@@ -13,6 +13,9 @@ import "package:resident_live/screens/home/widgets/greeting_view.dart";
 import "package:resident_live/screens/home/widgets/tracking_residences.dart";
 import "package:resident_live/screens/home/widgets/week_line_view.dart";
 import "package:resident_live/screens/residence_details/residence_details_screen.dart";
+import "package:resident_live/shared/lib/utils/debug_actions_sheet.dart";
+import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
+import "package:resident_live/shared/lib/utils/route_utils.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/today_button.dart";
 

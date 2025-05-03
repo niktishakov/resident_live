@@ -1,10 +1,10 @@
-import "package:data/src/service/logger.service.dart";
+import "package:data/src/service/logger/logger.service.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import "package:injectable/injectable.dart";
 
 @Singleton()
-class PushNotificationService {
-  PushNotificationService(this._logger);
+class LocalNotificationService {
+  LocalNotificationService(this._logger);
   final LoggerService _logger;
 
   final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -29,7 +29,9 @@ class PushNotificationService {
 
   Future<void> requestPermissions() async {
     try {
-      final granted = await _notificationsPlugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(alert: true, badge: true, sound: true);
+      final granted = await _notificationsPlugin
+          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
 
       if (granted != null && granted == true) {
         _logger.info("Local push notification permission granted");

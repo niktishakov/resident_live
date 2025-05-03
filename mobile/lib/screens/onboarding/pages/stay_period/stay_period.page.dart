@@ -10,6 +10,7 @@ import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/add_periods/add_periods.page.dart";
 import "package:resident_live/screens/onboarding/pages/stay_period/widgets/activity_timeline.dart";
+import "package:resident_live/shared/lib/utils/get_country_name.dart";
 import "package:resident_live/shared/shared.dart";
 
 class CountryStayInfo {

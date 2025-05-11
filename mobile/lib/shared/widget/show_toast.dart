@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:fluttertoast/fluttertoast.dart";
-import "package:resident_live/app/app.dart";
+import "package:resident_live/app/init_app.dart";
 import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/shared.dart";
 

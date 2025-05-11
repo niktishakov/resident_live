@@ -1,7 +1,7 @@
 {
     "openctx.enable": true,
-    "editor.maxTokenizationLineLength": 150,
-    "dart.maxLogLineLength": 150,
-    "dart.lineLength": 150,
+    "editor.maxTokenizationLineLength": 180,
+    "dart.maxLogLineLength": 180,
+    "dart.lineLength": 180,
     "editor.formatOnSave": true,
 }

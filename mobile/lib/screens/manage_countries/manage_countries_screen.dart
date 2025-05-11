@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
-import "package:resident_live/screens/onboarding/pages/stay_period/stay_period.page.dart";
+import "package:resident_live/screens/onboarding/pages/add_stay_periods/add_stay_periods_page.dart";
+import "package:resident_live/screens/onboarding/pages/find_countries/find_countries_page.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/widgets/find_countries/ui/find_countries_page.dart";
 
 class ManageCountriesScreen extends StatefulWidget {
   const ManageCountriesScreen({super.key});
@@ -48,7 +48,7 @@ class ManageCountriesScreenState extends State<ManageCountriesScreen> {
                 case 0:
                   return FindCountriesPage(onNextPage);
                 case 1:
-                  return EnterStayDurationPage(
+                  return AddStayPeriodsPage(
                     onNextPage: () {
                       context.goNamed(ScreenNames.home);
                     },

@@ -1,7 +1,9 @@
+import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:resident_live/screens/all_countries/ui/all_countries_screen.dart";
+import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/screens/all_countries/all_countries_screen.dart";
 import "package:resident_live/screens/bottom_bar/bottom_bar.dart";
 import "package:resident_live/screens/home/home_screen.dart";
 import "package:resident_live/screens/language/language_screen.dart";
@@ -76,7 +78,11 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(
           BlocProvider(
-            create: (context) => GetStartedCubit(),
+            create: (context) => GetStartedCubit(
+              getIt<GetCoordinatesUsecase>(),
+              getIt<GetPlacemarkUsecase>(),
+              getIt<SyncCountriesFromGeoUseCase>(),
+            ),
             child: const GetStartedScreen(),
           ),
           ScreenNames.getStarted,
@@ -100,7 +106,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
         final extra = state.extra! as String;
 
         return kRootCupertinoPage(
-          ResidenceDetailsScreen(name: extra),
+          ResidenceDetailsScreen(countryCode: extra),
           ScreenNames.residenceDetails,
         );
       },
@@ -112,7 +118,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
         final extra = state.extra! as String;
 
         return kRootCupertinoPage(
-          ResidenceDetailsScreen2(name: extra),
+          ResidenceDetailsScreen2(countryCode: extra),
           ScreenNames.residenceDetails2,
         );
       },

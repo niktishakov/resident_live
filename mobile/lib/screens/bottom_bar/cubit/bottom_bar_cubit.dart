@@ -23,6 +23,5 @@ class BottomBarState with _$BottomBarState {
         showBadge: false,
       );
 
-  factory BottomBarState.fromJson(Map<String, dynamic> json) =>
-      _$BottomBarStateFromJson(json);
+  factory BottomBarState.fromJson(Map<String, dynamic> json) => _$BottomBarStateFromJson(json);
 }

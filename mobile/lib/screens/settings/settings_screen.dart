@@ -5,14 +5,20 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
-import "package:local_auth/local_auth.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:provider/provider.dart";
 import "package:resident_live/app/injection.config.dart";
-import "package:resident_live/features/features.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/screens/settings/cubit/auth_by_biometrics_cubit.dart";
+import "package:resident_live/screens/settings/cubit/is_biometrics_supported_cubit.dart";
+import "package:resident_live/screens/settings/cubit/stop_auth_cubit.dart";
+import "package:resident_live/screens/settings/cubit/toggle_biometrics_cubit.dart";
 import "package:resident_live/screens/settings/widgets/report_bug_button.dart";
 import "package:resident_live/screens/settings/widgets/settings_button.dart";
+import "package:resident_live/screens/splash/cubit/create_user_cubit.dart";
+import "package:resident_live/shared/lib/resource_cubit/bloc_consumer.dart";
+import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
+import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/rl.sliver_header.dart";
 import "package:url_launcher/url_launcher.dart";
@@ -23,155 +29,200 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPrint("SettingsScreen>> ${S.of(context).settingsNotifications}");
-    return CupertinoScaffold(
-      overlayStyle: getSystemOverlayStyle,
-      transitionBackgroundColor: const Color(0xff121212),
-      body: Builder(
-        builder: (context) {
-          return Material(
-            child: CustomScrollView(
-              slivers: [
-                AiSliverHeader(
-                  titleText: S.of(context).settingsTitle,
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(addRepaintBoundaries: false, [
-                      BlocConsumer<AuthCubit, AuthState>(
-                        listener: (context, state) {
-                          if (state.error != null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.error!)),
-                            );
-                          }
-                        },
-                        builder: (context, state) {
-                          final authCubit = context.read<AuthCubit>();
+    final isEnabled = context.watch<CreateUserCubit>().state.maybeMap(
+          orElse: () => false,
+          data: (state) => state.data.isBiometricsEnabled,
+        );
 
-                          return SettingsButton(
-                            asset: state.biometricType == BiometricType.face ? AppAssets.faceid : AppAssets.touchid, // Assuming you have a touchid asset
-                            title: "${authCubit.biometricTitle} Access",
-                            subtitle: state.isEnabled ? S.of(context).commonOn : S.of(context).commonOff,
-                            onTap: () async {
-                              if (!state.isSupported && state.error != null) {
-                                debugPrint("Open App Settings");
-                              }
-                              if (state.isEnabled) {
-                                await authCubit.toggleBiometricAuth();
-                              } else {
-                                await authCubit.authenticateAndToggle();
-                              }
-                            },
-                            trailing: CupertinoSwitch(
-                              value: state.isEnabled,
-                              activeTrackColor: context.theme.colorScheme.primary,
-                              onChanged: (value) async {
-                                if (value) {
-                                  await authCubit.authenticateAndToggle();
-                                } else {
-                                  await authCubit.toggleBiometricAuth();
-                                }
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      const Gap(12),
-                      SettingsButton(
-                        icon: Icons.language,
-                        title: S.of(context).settingsLanguage,
-                        onTap: () {
-                          context.pushNamed(ScreenNames.language);
-                        },
-                      ),
-                      const Gap(12),
-                      SettingsButton(
-                        icon: CupertinoIcons.bell,
-                        title: S.of(context).settingsNotifications,
-                        onTap: () {
-                          // Handle Notifications settings
-                        },
-                      ),
-                      const Gap(32),
-                      SettingsButton(
-                        asset: AppAssets.person2Wave2,
-                        title: S.of(context).settingsShareWithFriends,
-                        trailing: const SizedBox(),
-                        onTap: () {
-                          getIt<ShareService>().shareText(appStoreLink);
-                        },
-                      ),
-                      const Gap(12),
-                      SettingsButton(
-                        icon: CupertinoIcons.star,
-                        title: S.of(context).settingsRateUs,
-                        onTap: () {
-                          launchUrl(Uri.parse(appStoreLink));
-                        },
-                      ),
-                      const Gap(32),
-                      SettingsButton(
-                        icon: CupertinoIcons.checkmark_shield,
-                        title: S.of(context).settingsPrivacyPolicy,
-                        onTap: () async {
-                          await showWebViewModal(
-                            context: context,
-                            url: privacyPolicyUrl,
-                            title: S.of(context).settingsPrivacyPolicy,
-                          );
-                        },
-                      ),
-                      const Gap(12),
-                      SettingsButton(
-                        asset: AppAssets.terms,
-                        title: S.of(context).settingsTermsOfUse,
-                        onTap: () async {
-                          await showWebViewModal(
-                            context: context,
-                            url: termsOfUseUrl,
-                            title: S.of(context).settingsTermsOfUse,
-                          );
-                        },
-                      ),
-                      const Gap(12),
-                      SettingsButton(
-                        asset: AppAssets.info,
-                        title: S.of(context).settingsAboutApp,
-                        trailing: const SizedBox(),
-                        onTap: () async {
-                          await showCupertinoDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (context) => Consumer<DeviceInfoService>(
-                              builder: (context, deviceInfo, child) {
-                                return CupertinoAlertDialog(
-                                  title: Text(S.of(context).settingsAboutApp),
-                                  content: Column(
-                                    children: [
-                                      const Gap(12),
-                                      Text(deviceInfo.appName),
-                                      Text(
-                                        "${deviceInfo.appVersion} (${deviceInfo.buildNumber})",
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthByBiometricsCubit(getIt<AuthByBiometricsUsecase>())),
+        BlocProvider(
+          create: (context) => ToggleBiometricsCubit(
+            enabled: isEnabled,
+            toggleBiometrics: getIt<ToggleBiometricsUsecase>(),
+            authByBiometrics: getIt<AuthByBiometricsUsecase>(),
+            isBiometricsSupported: getIt<IsBiometricsSupportedUsecase>(),
+            stopAuthentication: getIt<StopAuthenticationUsecase>(),
+            isBiometricsEnabled: getIt<IsBiometricsEnabledUsecase>(),
+          ),
+        ),
+        BlocProvider(create: (context) => IsBiometricsSupportedCubit(getIt<IsBiometricsSupportedUsecase>())),
+      ],
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<ToggleBiometricsCubit, bool>(
+            listener: _onToggleBiometricsListen,
+          ),
+          ResourceBlocListener<AuthByBiometricsCubit, bool>(
+            listener: _onAuthByBiometricsListen,
+          ),
+        ],
+        child: CupertinoScaffold(
+          overlayStyle: getSystemOverlayStyle,
+          transitionBackgroundColor: const Color(0xff121212),
+          body: Builder(
+            builder: (context) {
+              return Material(
+                child: CustomScrollView(
+                  slivers: [
+                    AiSliverHeader(
+                      titleText: S.of(context).settingsTitle,
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate(
+                          addRepaintBoundaries: false,
+                          [
+                            Builder(
+                              builder: (context) {
+                                final isEnabled = context.select<ToggleBiometricsCubit, bool>((cubit) => cubit.state);
+                                final isSupported = context.watch<IsBiometricsSupportedCubit>().state.maybeMap(
+                                      orElse: () => false,
+                                      data: (state) => state.data,
+                                    );
+
+                                return AbsorbPointer(
+                                  absorbing: !isSupported,
+                                  child: AnimatedOpacity(
+                                    opacity: isSupported ? 1 : 0,
+                                    duration: const Duration(milliseconds: 200),
+                                    child: SettingsButton(
+                                      asset: isSupported ? AppAssets.faceid : AppAssets.touchid,
+                                      title: "Biometric Access",
+                                      subtitle: isEnabled ? S.of(context).commonOn : S.of(context).commonOff,
+                                      onTap: () async {
+                                        final userId = find<CreateUserCubit>(context).state.maybeMap(
+                                              orElse: () => "",
+                                              data: (state) => state.data.id,
+                                            );
+
+                                        if (userId.isEmpty) {
+                                          context.goNamed(ScreenNames.splash);
+                                          return;
+                                        }
+
+                                        find<ToggleBiometricsCubit>(context).action(userId);
+                                      },
+                                      trailing: CupertinoSwitch(
+                                        value: isEnabled,
+                                        activeTrackColor: context.theme.colorScheme.primary,
+                                        onChanged: (value) {}, // TODO: the same as above
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 );
                               },
                             ),
-                          );
-                        },
+                          ],
+                        ),
                       ),
-                      const ReportBugButton(),
-                      const Gap(12),
-                    ]),
-                  ),
+                    ),
+                    const Gap(12),
+                    SettingsButton(
+                      icon: Icons.language,
+                      title: S.of(context).settingsLanguage,
+                      onTap: () {
+                        context.pushNamed(ScreenNames.language);
+                      },
+                    ),
+                    const Gap(12),
+                    SettingsButton(
+                      icon: CupertinoIcons.bell,
+                      title: S.of(context).settingsNotifications,
+                      onTap: () {
+                        // Handle Notifications settings
+                      },
+                    ),
+                    const Gap(32),
+                    SettingsButton(
+                      asset: AppAssets.person2Wave2,
+                      title: S.of(context).settingsShareWithFriends,
+                      trailing: const SizedBox(),
+                      onTap: () {
+                        getIt<ShareService>().shareText(appStoreLink);
+                      },
+                    ),
+                    const Gap(12),
+                    SettingsButton(
+                      icon: CupertinoIcons.star,
+                      title: S.of(context).settingsRateUs,
+                      onTap: () {
+                        launchUrl(Uri.parse(appStoreLink));
+                      },
+                    ),
+                    const Gap(32),
+                    SettingsButton(
+                      icon: CupertinoIcons.checkmark_shield,
+                      title: S.of(context).settingsPrivacyPolicy,
+                      onTap: () async {
+                        await showWebViewModal(
+                          context: context,
+                          url: privacyPolicyUrl,
+                          title: S.of(context).settingsPrivacyPolicy,
+                        );
+                      },
+                    ),
+                    const Gap(12),
+                    SettingsButton(
+                      asset: AppAssets.terms,
+                      title: S.of(context).settingsTermsOfUse,
+                      onTap: () async {
+                        await showWebViewModal(
+                          context: context,
+                          url: termsOfUseUrl,
+                          title: S.of(context).settingsTermsOfUse,
+                        );
+                      },
+                    ),
+                    const Gap(12),
+                    SettingsButton(
+                      asset: AppAssets.info,
+                      title: S.of(context).settingsAboutApp,
+                      trailing: const SizedBox(),
+                      onTap: () async {
+                        await showCupertinoDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (context) => Consumer<DeviceInfoService>(
+                            builder: (context, deviceInfo, child) {
+                              return CupertinoAlertDialog(
+                                title: Text(S.of(context).settingsAboutApp),
+                                content: Column(
+                                  children: [
+                                    const Gap(12),
+                                    Text(deviceInfo.appName),
+                                    Text(
+                                      "${deviceInfo.appVersion} (${deviceInfo.buildNumber})",
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    const ReportBugButton(),
+                    const Gap(12),
+                  ],
                 ),
-              ],
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }
+
+  void _onToggleBiometricsListen(BuildContext context, bool enabled) {
+    if (enabled) {
+      find<AuthByBiometricsCubit>(context).loadResource();
+    } else {
+      find<StopAuthCubit>(context).loadResource();
+    }
+  }
+
+  void _onAuthByBiometricsListen(BuildContext context, ResourceState<bool> state) {}
 }

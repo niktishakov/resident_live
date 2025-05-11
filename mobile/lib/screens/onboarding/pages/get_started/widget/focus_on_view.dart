@@ -3,8 +3,10 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/features/features.dart";
+import "package:resident_live/app/injection.config.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart";
+import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
+import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/shared.dart";
 
 class FocusOnView extends StatelessWidget {
@@ -12,10 +14,20 @@ class FocusOnView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CountriesCubit, CountriesState>(
-      builder: (context, countriesState) {
-        return BlocBuilder<GetStartedCubit, GetStartedState>(
-          builder: (context, state) {
+    return BlocBuilder<GetStartedCubit, GetStartedState>(
+      bloc: getIt<GetStartedCubit>(),
+      builder: (context, state) {
+        final focusedCountryIndex = state.focusedCountryIndex;
+
+        return BlocBuilder<GetUserCubit, ResourceState<UserEntity>>(
+          bloc: getIt<GetUserCubit>(),
+          builder: (context, user) {
+            if (!user.isSuccess) {
+              return const SizedBox();
+            }
+
+            final countries = user.data?.countries.entries.toList() ?? [];
+
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -54,19 +66,18 @@ class FocusOnView extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(24),
                   child: Column(
-                    children: List.generate(countriesState.countries.length * 2 - 1, (index) {
+                    children: List.generate(countries.length * 2 - 1, (index) {
                       if (index.isOdd) {
-                        // This is a separator
-                        return Container(
-                          height: 1,
-                          color: const Color(0xff8E8E8E),
-                        );
+                        return Container(height: 1, color: const Color(0xff8E8E8E));
                       }
-                      // This is a country item
+
                       final countryIndex = index ~/ 2;
+                      final countryName = countries[countryIndex].key;
+                      final daysSpent = user.data?.daysSpentIn(countries[countryIndex].key) ?? 0;
                       return CountryProgressBar(
-                        country: countriesState.countries.entries.elementAt(countryIndex).value,
-                        isSelected: countryIndex == state.focusedCountryIndex,
+                        countryName: countryName,
+                        daysSpent: daysSpent,
+                        isSelected: countryIndex == focusedCountryIndex,
                         onTap: () => context.read<GetStartedCubit>().setFocusedCountry(countryIndex),
                       );
                     }),
@@ -83,13 +94,15 @@ class FocusOnView extends StatelessWidget {
 
 class CountryProgressBar extends StatelessWidget {
   const CountryProgressBar({
-    required this.country,
+    required this.countryName,
+    required this.daysSpent,
     required this.isSelected,
     required this.onTap,
     super.key,
   });
 
-  final CountryEntity country;
+  final String countryName;
+  final int daysSpent;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -109,7 +122,7 @@ class CountryProgressBar extends StatelessWidget {
         child: Stack(
           children: [
             TweenAnimationBuilder<double>(
-              tween: Tween<double>(begin: 0, end: country.daysSpent / 183),
+              tween: Tween<double>(begin: 0, end: daysSpent / 183),
               duration: const Duration(milliseconds: 1300),
               curve: Curves.fastOutSlowIn,
               builder: (context, value, child) {
@@ -149,7 +162,7 @@ class CountryProgressBar extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  country.name,
+                  countryName,
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,

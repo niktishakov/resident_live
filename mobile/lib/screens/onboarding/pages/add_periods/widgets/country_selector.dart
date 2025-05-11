@@ -1,17 +1,18 @@
+import "package:country_code_picker/country_code_picker.dart";
 import "package:flutter/material.dart";
 import "package:resident_live/shared/lib/utils/colors_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
 class CountrySelector extends StatefulWidget {
   const CountrySelector({
-    required this.countries,
+    required this.countryCodes,
     required this.onCountrySelected,
     super.key,
     this.focusedCountry,
     this.colors,
   });
 
-  final List<String> countries;
+  final List<String> countryCodes;
   final Function(String, Color) onCountrySelected;
   final String? focusedCountry;
   final Map<String, Color>? colors;
@@ -31,7 +32,7 @@ class CountrySelectorState extends State<CountrySelector> with WidgetsBindingObs
   }
 
   void _updateCountryColors() {
-    countryColors = widget.colors ?? getCountryColors(widget.countries);
+    countryColors = widget.colors ?? getCountryColors(widget.countryCodes);
   }
 
   @override
@@ -54,24 +55,26 @@ class CountrySelectorState extends State<CountrySelector> with WidgetsBindingObs
     return Wrap(
       spacing: 8.0, // Adjusts the space between items
       runSpacing: 8.0, // Adjusts the space between lines
-      children: widget.countries.map((country) {
-        final isSelected = widget.focusedCountry == country;
+      children: widget.countryCodes.map((countryCode) {
+        final isSelected = widget.focusedCountry == countryCode;
+        final country = CountryCode.fromCountryCode(countryCode);
+
         return GestureDetector(
           onTap: () {
-            widget.onCountrySelected(country, countryColors[country]!);
+            widget.onCountrySelected(countryCode, countryColors[countryCode]!);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: isSelected ? countryColors[country] : Colors.transparent,
+              color: isSelected ? countryColors[countryCode] : Colors.transparent,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 width: 0.6,
-                color: isSelected ? countryColors[country]! : context.theme.colorScheme.onSurface,
+                color: isSelected ? countryColors[countryCode]! : context.theme.colorScheme.onSurface,
               ),
             ),
             child: Text(
-              country,
+              country.name ?? "",
               style: TextStyle(
                 color: isSelected ? context.theme.scaffoldBackgroundColor : context.theme.colorScheme.onSurface,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,

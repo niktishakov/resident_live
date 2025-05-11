@@ -6,6 +6,7 @@ import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_sta
 import "package:resident_live/screens/onboarding/pages/get_started/widget/allow_geo_view.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/widget/focus_on_view.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/widget/get_started_view.dart";
+import "package:resident_live/shared/lib/service/toast.service.dart";
 import "package:resident_live/shared/shared.dart";
 
 class GetStartedScreen extends StatefulWidget {
@@ -39,6 +40,22 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
               ),
             );
           });
+        }
+
+        if (state.focusedCountryError.isNotEmpty) {
+          ToastService.instance.showToast(
+            context,
+            message: state.focusedCountryError,
+            status: ToastStatus.failure,
+          );
+        }
+
+        if (state.getPlacemarkError.isNotEmpty) {
+          ToastService.instance.showToast(
+            context,
+            message: state.getPlacemarkError,
+            status: ToastStatus.failure,
+          );
         }
       },
       child: Scaffold(

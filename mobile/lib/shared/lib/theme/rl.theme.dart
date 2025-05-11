@@ -11,6 +11,7 @@ class RlTheme {
       : title80Semi = _title80Semi,
         title68Semi = _title68Semi,
         title32Semi = _title32Semi,
+        title26 = _title26,
         title20 = _title20,
         title20Semi = _title20Semi,
         title16 = _title16,
@@ -44,13 +45,13 @@ class RlTheme {
         bgWarning = const Color(0xFFFFB625),
         bgModal = const Color(0xff1f1f1f),
         bgPrimaryInverse = const Color(0xFF08091C),
-        textPrimary = const Color(0xFF1E1E1E),
+        textPrimary = const Color(0xFFFFFFFF),
         textSecondary = const Color(0xFF878999),
         textTertiary = const Color(0xFFBBBCC6),
         textAccent = const Color(0xff50B5FF),
         textDanger = const Color(0xFFFF6643),
         textSuccess = const Color(0xFF8FC754),
-        textPrimaryOnColor = const Color(0xFFFFFFFF),
+        textPrimaryOnColor = const Color(0xFF1E1E1E),
         textPrimaryInverse = const Color(0xFFFFFFFF),
         textSecondaryInverse = const Color(0xFF9C9DA4),
         borderPrimary = const Color(0xFFE4E5E5),
@@ -64,7 +65,7 @@ class RlTheme {
         iconAccent = const Color(0xff50B5FF),
         iconDanger = const Color(0xFFFF6643),
         iconSuccess = const Color(0xFF8FC754),
-        iconPrimaryOnColor = const Color(0xFFFFFFFF),
+        iconPrimaryOnColor = const Color(0xFF1E1E1E),
         dividerPrimary = const Color(0xFFE4E5E5),
         shadowBlack = const Color.fromRGBO(0, 0, 0, 0.25),
         shadowGray = const Color(0x336A6D83),
@@ -73,6 +74,7 @@ class RlTheme {
   final TextStyle title80Semi;
   final TextStyle title68Semi;
   final TextStyle title32Semi;
+  final TextStyle title26;
   final TextStyle title20;
   final TextStyle title20Semi;
   final TextStyle title16;
@@ -184,18 +186,18 @@ class RlTheme {
       labelTextStyle: WidgetStatePropertyAll(TextStyle(color: Colors.white)),
     ),
     textTheme: TextTheme(
-      headlineLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
-      headlineMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
-      headlineSmall: GoogleFonts.poppins().copyWith(color: Colors.white),
-      bodyLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
-      bodyMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
-      bodySmall: GoogleFonts.poppins().copyWith(color: Colors.white),
-      titleLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
-      titleMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
-      titleSmall: GoogleFonts.poppins().copyWith(color: Colors.white),
-      labelLarge: GoogleFonts.poppins().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-      labelMedium: GoogleFonts.poppins().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-      labelSmall: GoogleFonts.poppins().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+      headlineLarge: _title32Semi.copyWith(color: const Color(0xFFFFFFFF)),
+      headlineMedium: _title20Semi.copyWith(color: const Color(0xFFFFFFFF)),
+      headlineSmall: _title16Semi.copyWith(color: const Color(0xFFFFFFFF)),
+      bodyLarge: _body16.copyWith(color: const Color(0xFFFFFFFF)),
+      bodyMedium: _body14.copyWith(color: const Color(0xFFFFFFFF)),
+      bodySmall: _body12.copyWith(color: const Color(0xFFFFFFFF)),
+      titleLarge: _title16.copyWith(color: const Color(0xFFFFFFFF)),
+      titleMedium: _title16.copyWith(color: const Color(0xFFFFFFFF)),
+      titleSmall: _title16.copyWith(color: const Color(0xFFFFFFFF)),
+      labelLarge: _button16Semi.copyWith(color: const Color(0xFFFFFFFF)),
+      labelMedium: _button16Semi.copyWith(color: const Color(0xFFFFFFFF)),
+      labelSmall: _button16Semi.copyWith(color: const Color(0xFFFFFFFF)),
     ),
     iconTheme: const IconThemeData(color: Colors.white),
     buttonTheme: const ButtonThemeData(
@@ -222,7 +224,7 @@ class RlTheme {
 ThemeData lightTheme = ThemeData(
   disabledColor: Colors.grey[200],
   colorScheme: ColorScheme.light(
-    primary: const Color(0xff50B5FF),
+    primary: Colors.white,
     secondary: Colors.black.withValues(alpha: 0.87),
     surface: Colors.white,
     onSurface: Colors.grey,
@@ -242,18 +244,21 @@ ThemeData lightTheme = ThemeData(
     foregroundColor: Colors.black,
     elevation: 0,
   ),
-  cupertinoOverrideTheme: const CupertinoThemeData(
+  cupertinoOverrideTheme: CupertinoThemeData(
     scaffoldBackgroundColor: Colors.white,
     barBackgroundColor: Colors.black,
+    brightness: Brightness.dark,
     textTheme: CupertinoTextThemeData(
-      primaryColor: Colors.black,
-      navLargeTitleTextStyle: TextStyle(
+      textStyle: _body16.copyWith(color: Colors.white),
+      actionTextStyle: _body16.copyWith(color: Colors.white),
+      primaryColor: Colors.white,
+      navLargeTitleTextStyle: const TextStyle(
         color: Colors.white,
         fontSize: 32,
         fontWeight: FontWeight.bold,
       ),
-      navTitleTextStyle: TextStyle(color: Colors.white),
-      navActionTextStyle: TextStyle(color: Colors.white),
+      navTitleTextStyle: const TextStyle(color: Colors.white),
+      navActionTextStyle: const TextStyle(color: Colors.white),
     ),
   ),
   navigationBarTheme: const NavigationBarThemeData(
@@ -346,5 +351,4 @@ void setSystemOverlayStyle() {
   }
 }
 
-SystemUiOverlayStyle get getSystemOverlayStyle =>
-    PlatformDispatcher.instance.platformBrightness == Brightness.dark ? kDarkOverlayStyle : kBrightOverlayStyle;
+SystemUiOverlayStyle get getSystemOverlayStyle => PlatformDispatcher.instance.platformBrightness == Brightness.dark ? kDarkOverlayStyle : kBrightOverlayStyle;

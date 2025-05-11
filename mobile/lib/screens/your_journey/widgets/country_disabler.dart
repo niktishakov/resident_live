@@ -1,4 +1,5 @@
-import "package:domain/domain.dart";
+import "package:country_code_picker/country_code_picker.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
@@ -7,22 +8,25 @@ import "package:resident_live/shared/shared.dart";
 
 class CountryDisabler extends StatefulWidget {
   const CountryDisabler({
-    required this.countries,
-    required this.onCountrySelected,
+    required this.countryCodes,
+    required this.toggleCountry,
     required this.currentMonth,
     required this.countryPeriods,
     super.key,
     this.disabledCountries = const [],
     this.colors,
-    this.focusedCountry,
+    this.focusedCountryCode,
   });
 
-  final List<String> countries;
-  final Function({required String country, required bool isDisabled}) onCountrySelected;
-  final List<String> disabledCountries;
   final Map<String, Color>? colors;
-  final CountryEntity? focusedCountry;
+  final List<String> countryCodes;
+
+  final Function({required String countryCode, required bool isDisabled}) toggleCountry;
+  final List<String> disabledCountries;
+
+  final String? focusedCountryCode;
   final DateTime currentMonth;
+
   final Map<String, List<DateTimeRange>> countryPeriods;
 
   @override
@@ -31,29 +35,18 @@ class CountryDisabler extends StatefulWidget {
 
 class CountryDisablerState extends State<CountryDisabler> with WidgetsBindingObserver {
   late Map<String, Color> countryColors;
-  List<String> _visibleCountries = [];
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _updateCountryColors();
-    _updateVisibleCountries();
   }
 
   @override
   void didUpdateWidget(CountryDisabler oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.currentMonth != widget.currentMonth) {
-      setState(_updateVisibleCountries);
-    }
-  }
-
-  void _updateVisibleCountries() {
-    _visibleCountries = widget.countries.where((country) {
-      final periods = widget.countryPeriods[country] ?? [];
-      return periods.any((period) => _isDateRangeVisible(period, widget.currentMonth));
-    }).toList();
+    if (oldWidget.currentMonth != widget.currentMonth) {}
   }
 
   bool _isDateRangeVisible(DateTimeRange period, DateTime currentMonth) {
@@ -64,7 +57,7 @@ class CountryDisablerState extends State<CountryDisabler> with WidgetsBindingObs
   }
 
   void _updateCountryColors() {
-    countryColors = widget.colors ?? getCountryColors(widget.countries);
+    countryColors = widget.colors ?? getCountryColors(widget.countryCodes);
   }
 
   @override
@@ -80,30 +73,37 @@ class CountryDisablerState extends State<CountryDisabler> with WidgetsBindingObs
 
   @override
   Widget build(BuildContext context) {
-    // Filter countries first
-    final visibleItems = widget.countries.where((country) => _visibleCountries.contains(country)).toList();
+    final visibleItems = widget.countryCodes.where((countryCode) {
+      final periods = widget.countryPeriods[countryCode] ?? [];
+      return periods.any((period) => _isDateRangeVisible(period, widget.currentMonth));
+    }).toList();
 
     return Wrap(
       spacing: 8.0,
       runSpacing: 8.0,
-      children: visibleItems.map((country) {
-        final isDisabled = widget.disabledCountries.contains(country);
+      children: visibleItems.map((countryCode) {
+        final country = CountryCode.fromCountryCode(countryCode);
+        final isDisabled = widget.disabledCountries.contains(countryCode);
 
-        return GestureDetector(
+        return CupertinoButton(
           key: ValueKey(country),
-          onTap: () {
-            widget.onCountrySelected(country: country, isDisabled: isDisabled);
+          padding: EdgeInsets.zero,
+          onPressed: () {
+            widget.toggleCountry(
+              countryCode: countryCode,
+              isDisabled: isDisabled,
+            );
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: countryColors[country]?.withValues(alpha: isDisabled ? 0.5 : 1.0),
+              color: countryColors[countryCode]?.withValues(alpha: isDisabled ? 0.5 : 1.0),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (widget.focusedCountry?.name == country) ...[
+                if (widget.focusedCountryCode == countryCode) ...[
                   AppAssetImage(
                     AppAssets.target,
                     color: context.theme.colorScheme.surface,
@@ -112,7 +112,7 @@ class CountryDisablerState extends State<CountryDisabler> with WidgetsBindingObs
                   const Gap(4),
                 ],
                 Text(
-                  country,
+                  country.name ?? "",
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: "Poppins",

@@ -1,6 +1,7 @@
 part of "rl.theme.dart";
 
 const String _fontFamily = "Poppins";
+const String kFontFamilySecondary = "SFPro";
 
 // Title styles
 TextStyle _title80Semi = const TextStyle(
@@ -16,6 +17,20 @@ TextStyle _title68Semi = const TextStyle(
   fontWeight: FontWeight.w600,
   height: 76 / 68,
   letterSpacing: -0.4,
+);
+
+TextStyle _title48 = const TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 48,
+  fontWeight: FontWeight.w400,
+  height: 56 / 48,
+);
+
+TextStyle _title36Semi = const TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 36,
+  fontWeight: FontWeight.w600,
+  height: 44 / 36,
 );
 
 TextStyle _title32Semi = const TextStyle(

@@ -10,6 +10,8 @@ class RlTheme {
   RlTheme()
       : title80Semi = _title80Semi,
         title68Semi = _title68Semi,
+        title48 = _title48,
+        title36Semi = _title36Semi,
         title32Semi = _title32Semi,
         title26 = _title26,
         title20 = _title20,
@@ -58,6 +60,7 @@ class RlTheme {
         borderAccent = const Color(0xff50B5FF),
         borderWhite = const Color(0xFFFFFFFF),
         borderPrimaryInverse = const Color(0xFF08091C),
+        borderWarning = const Color(0xFFFFB625),
         borderDanger = const Color(0xffFF6643),
         iconPrimary = const Color(0xFF1E1E1E),
         iconSecondary = const Color(0xFF878999),
@@ -73,6 +76,8 @@ class RlTheme {
 
   final TextStyle title80Semi;
   final TextStyle title68Semi;
+  final TextStyle title48;
+  final TextStyle title36Semi;
   final TextStyle title32Semi;
   final TextStyle title26;
   final TextStyle title20;
@@ -124,8 +129,8 @@ class RlTheme {
   final Color borderAccent;
   final Color borderWhite;
   final Color borderPrimaryInverse;
+  final Color borderWarning;
   final Color borderDanger;
-
   final Color iconPrimary;
   final Color iconSecondary;
   final Color iconTertiary;

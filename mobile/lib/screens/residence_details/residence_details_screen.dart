@@ -12,6 +12,7 @@ import "package:resident_live/app/injection.config.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/residence_details/cubit/clear_focus_cubit.dart";
 import "package:resident_live/screens/residence_details/cubit/focus_country_cubit.dart";
+import "package:resident_live/screens/residence_details/widgets/calendar_circle_bar.dart/calendar_circle_bar.dart";
 import "package:resident_live/screens/residence_details/widgets/header.dart";
 import "package:resident_live/screens/residence_details/widgets/residency_rules_modal.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
@@ -20,7 +21,11 @@ import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
 import "package:resident_live/shared/lib/utils/hero_utils.dart";
 import "package:resident_live/shared/shared.dart";
+import "package:resident_live/shared/widget/today_button.dart";
 import "package:resident_live/shared/widget/transparent_button.dart";
+
+part "widgets/today_button.dart";
+part "widgets/update_button.dart";
 
 class ResidenceDetailsScreen extends StatefulWidget {
   const ResidenceDetailsScreen({
@@ -103,8 +108,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
         final statusUpdateIn = (183 - daysSpent).abs();
         final statusUpdateAt = DateTime.now().add(Duration(days: statusUpdateIn));
         final progress = isResident ? 1.0 : daysSpent / 183;
+        final progressInPercentage = (progress * 100).toInt();
 
-        const statusText = "";
+        final statusText = "Status update in $statusUpdateIn days";
         const suggestionText = "";
 
         final country = CountryCode.fromCountryCode(widget.countryCode);
@@ -177,127 +183,120 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                             isHere: isHere,
                                             screenKey: screenKey,
                                           ),
-                                          const Gap(48),
-                                          Center(
-                                            child: Material(
-                                              color: Colors.transparent,
-                                              child: RepaintBoundary(
-                                                key: progressKey,
-                                                child: ProgressBar(
-                                                  completionPercentage: progress,
-                                                  direction: isHere ? ProgressDirection.up : ProgressDirection.down,
-                                                  radius: 200,
-                                                  strokeWidth: 20,
-                                                  duration: 300.ms,
-                                                  doneLabel: S.of(context).detailsYouAreAResident,
-                                                  label: S.of(context).detailsResidencyProgress,
-                                                  backgroundColor: const Color(0xff3C3C3C),
-                                                  valueColor: isResident && isHere ? Colors.greenAccent : context.theme.primaryColor,
-                                                ),
+                                          const Gap(16),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 4.0),
+                                            child: Text(
+                                              "$progressInPercentage%",
+                                              style: theme.title36Semi.copyWith(
+                                                height: 1.5,
+                                                fontFamily: kFontFamilySecondary,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ),
-                                          const Gap(32),
-                                          Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: statusText,
-                                                  style: theme.body14,
+                                          LayoutBuilder(
+                                            builder: (context, constraints) {
+                                              return Container(
+                                                width: constraints.maxWidth,
+                                                height: 38,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(24.0),
                                                 ),
-                                                TextSpan(
-                                                  text: "\n$statusUpdateIn days",
-                                                  style: theme.body18M.copyWith(
-                                                    fontWeight: FontWeight.w700,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(24.0),
+                                                  child: DiagonalProgressBar(
+                                                    progress: progress.toDouble(),
+                                                    isAnimationEnabled: isHere,
                                                   ),
                                                 ),
-                                              ],
+                                              );
+                                            },
+                                          ),
+                                          Text(
+                                            statusText,
+                                            style: theme.body14.copyWith(
+                                              fontFamily: kFontFamilySecondary,
+                                              letterSpacing: 0.5,
+                                              color: theme.textAccent,
+                                              height: 1.75,
+                                              fontWeight: FontWeight.w300,
                                             ),
-                                          ).animate(delay: 300.ms).slideX(
-                                                begin: -2,
-                                                curve: Curves.fastEaseInToSlowEaseOut,
-                                                duration: 500.ms,
-                                              ),
+                                          ),
+                                          const Gap(32),
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text.rich(
-                                                TextSpan(
-                                                  children: [
-                                                    TextSpan(
-                                                      text: suggestionText,
-                                                      style: theme.body14,
-                                                    ),
-                                                    TextSpan(
-                                                      text: "\n${statusUpdateAt.toMMMMDDYYYY()}",
-                                                      style: theme.body18M.copyWith(
-                                                        fontWeight: FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                                  .animate(delay: 300.ms)
-                                                  .slideX(
-                                                    begin: -2,
-                                                    curve: Curves.fastEaseInToSlowEaseOut,
-                                                    duration: 500.ms,
-                                                  )
-                                                  .fade(),
-                                              BouncingButton(
-                                                onPressed: (_) async {
-                                                  await CupertinoScaffold.showCupertinoModalBottomSheet(
+                                              _TodayButton(
+                                                onTap: () {
+                                                  CupertinoScaffold.showCupertinoModalBottomSheet(
                                                     useRootNavigator: true,
                                                     context: context,
                                                     duration: 300.ms,
                                                     animationCurve: Curves.fastEaseInToSlowEaseOut,
-                                                    builder: (context) => const ResidencyJourneyScreen(),
+                                                    builder: (context) => ResidencyJourneyScreen(
+                                                      initialDate: DateTime.now(),
+                                                    ),
                                                   );
                                                 },
-                                                child: DecoratedBox(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(24),
-                                                    border: Border.all(
-                                                      width: 1,
-                                                      color: Colors.white,
+                                              ),
+                                              const Spacer(),
+                                              _UpdateButton(
+                                                onTap: () {
+                                                  CupertinoScaffold.showCupertinoModalBottomSheet(
+                                                    useRootNavigator: true,
+                                                    context: context,
+                                                    duration: 300.ms,
+                                                    animationCurve: Curves.fastEaseInToSlowEaseOut,
+                                                    builder: (context) => ResidencyJourneyScreen(
+                                                      initialDate: statusUpdateAt,
                                                     ),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.symmetric(
-                                                      horizontal: 16.0,
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        const Icon(
-                                                          CupertinoIcons.calendar,
-                                                          size: 18,
-                                                          color: Colors.white,
-                                                        ),
-                                                        const Gap(4),
-                                                        Text(
-                                                          S.of(context).detailsCalendar,
-                                                          style: GoogleFonts.poppins(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.bold,
-                                                            color: Colors.white,
-                                                            height: 32 / 14,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                                  .animate(delay: 500.ms)
-                                                  .slideX(
-                                                    begin: 1.5,
-                                                    curve: Curves.fastEaseInToSlowEaseOut,
-                                                    duration: 500.ms,
-                                                  )
-                                                  .fade(),
+                                                  );
+                                                },
+                                                date: statusUpdateAt,
+                                              ),
                                             ],
-                                          ),
-                                          const Gap(8),
+                                          ).animate(delay: 500.ms).fadeIn(delay: 400.ms),
+                                          const Gap(48),
+                                          FractionallySizedBox(
+                                            widthFactor: 0.85,
+                                            child: CalendarCircleBar(
+                                              dividerColor: context.theme.scaffoldBackgroundColor,
+                                              stayPeriods: countryStayPeriods,
+                                              progress: "$daysSpent/183",
+                                              backgroundColor: const Color.fromARGB(255, 54, 95, 137).withValues(alpha: 0.2),
+                                              activeColor: Colors.green,
+                                              statusUpdateDate: statusUpdateAt,
+                                              centerTextStyle: theme.title32Semi.copyWith(
+                                                fontWeight: FontWeight.w200,
+                                                fontSize: 30,
+                                              ),
+                                              centerSubtitleStyle: theme.body16.copyWith(
+                                                fontWeight: FontWeight.w200,
+                                              ),
+                                              monthTextStyle: theme.body12.copyWith(
+                                                fontWeight: FontWeight.w100,
+                                                fontFamily: kFontFamilySecondary,
+                                                fontSize: 10,
+                                                letterSpacing: 0.5,
+                                              ),
+                                              onMonthTap: (index) {
+                                                CupertinoScaffold.showCupertinoModalBottomSheet(
+                                                  useRootNavigator: true,
+                                                  context: context,
+                                                  duration: 300.ms,
+                                                  animationCurve: Curves.fastEaseInToSlowEaseOut,
+                                                  builder: (context) {
+                                                    final now = DateTime.now();
+                                                    final date = DateTime(now.year, (index + 1) % 12, now.day);
+                                                    return ResidencyJourneyScreen(
+                                                      initialDate: date,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ).animate(),
+                                          Gap(32),
                                           Row(
                                             children: [
                                               Expanded(
@@ -305,19 +304,36 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                                   S.of(context).detailsNotifyMe,
                                                 ),
                                               ),
-                                              Switch(
-                                                value: true,
-                                                onChanged: (value) {
-                                                  // TODO: schedule notification for this country
-                                                },
+
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Every 30 days",
+                                                    style: theme.body14.copyWith(
+                                                      fontWeight: FontWeight.w300,
+                                                      color: theme.textSecondary,
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    CupertinoIcons.chevron_right,
+                                                    size: 24,
+                                                    color: theme.iconSecondary,
+                                                  ),
+                                                ],
                                               ),
+                                              // Switch(
+                                              //   value: true,
+                                              //   onChanged: (value) {
+                                              //     // TODO: schedule notification for this country
+                                              //   },
+                                              // ),
                                             ],
                                           ).animate().fadeIn(delay: 600.ms),
                                           const Gap(24),
                                           const Divider(
                                             color: Color(0x88888888),
                                           ).animate().fadeIn(delay: 700.ms),
-                                          const Gap(24),
+                                          const Gap(8),
                                           TweenAnimationBuilder(
                                             duration: const Duration(milliseconds: 250),
                                             curve: Curves.easeInOut,
@@ -350,10 +366,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                                 },
                                                 child: Text(
                                                   S.of(context).detailsFocusOnThisCountry,
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: context.theme.colorScheme.secondary,
+                                                  style: theme.body14.copyWith(
+                                                    fontWeight: FontWeight.w300,
+                                                    color: theme.textPrimary,
                                                   ),
                                                 ),
                                               ),
@@ -392,10 +407,9 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                               },
                                               child: Text(
                                                 S.of(context).detailsReadRules,
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: context.theme.colorScheme.secondary,
+                                                style: theme.body14.copyWith(
+                                                  fontWeight: FontWeight.w300,
+                                                  color: theme.textPrimary,
                                                 ),
                                               ),
                                             ),
@@ -444,9 +458,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                               ),
                                               child: Text(
                                                 S.of(context).detailsRemoveCountry,
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
+                                                style: theme.body14.copyWith(
+                                                  fontWeight: FontWeight.w300,
                                                   color: Colors.redAccent,
                                                 ),
                                               ),

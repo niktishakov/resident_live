@@ -2,10 +2,12 @@ import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/features/features.dart";
+import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/screens/your_journey/widgets/country_disabler.dart";
 import "package:resident_live/screens/your_journey/widgets/header.dart";
 import "package:resident_live/screens/your_journey/widgets/journey_calendar.dart";
+import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/lib/utils/colors_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -18,7 +20,7 @@ class ResidencyJourneyScreen extends StatefulWidget {
 
 class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
   late DateTime _currentMonth;
-  Set<String> _visibleCountries = {};
+  final List<String> _disabledCountries = [];
 
   @override
   void initState() {
@@ -28,16 +30,19 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CountriesCubit, CountriesState>(
+    return BlocBuilder<GetUserCubit, ResourceState<UserEntity>>(
+      bloc: getIt<GetUserCubit>(),
       builder: (context, state) {
-        final countryPeriods = _convertToCalendarPeriods(state.countries);
-        final countryNames = state.countries.values.map((e) => e.name).toList();
+        final countryPeriods = mapStayPeriodsToDateTimeRanges(state.data?.countries ?? {});
+        final countryCodes = state.data?.countryCodes ?? [];
+        final focusedCountryCode = state.data?.focusedCountryCode;
+        final countryColors = getCountryColors(countryCodes);
 
-        if (_visibleCountries.isEmpty) {
-          _visibleCountries = countryNames.toSet();
-        }
-
-        final countryColors = getCountryColors(countryNames);
+        final visibleCountries = countryCodes
+            .where(
+              (countryCode) => !_disabledCountries.contains(countryCode),
+            )
+            .toSet();
 
         return Scaffold(
           body: Column(
@@ -59,7 +64,7 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
                         child: JourneyCalendar(
                           currentMonth: _currentMonth,
                           countryPeriods: countryPeriods,
-                          visibleCountries: _visibleCountries,
+                          visibleCountries: visibleCountries,
                           countryColors: countryColors,
                           onMonthChanged: (newMonth) {
                             setState(() {
@@ -72,18 +77,21 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 32.0),
                         child: CountryDisabler(
-                          countries: countryNames,
+                          countryCodes: countryCodes,
                           colors: countryColors,
-                          focusedCountry: state.focusedCountry,
+                          focusedCountryCode: focusedCountryCode,
                           currentMonth: _currentMonth,
                           countryPeriods: countryPeriods,
-                          disabledCountries: countryNames.where((c) => !_visibleCountries.contains(c)).toList(),
-                          onCountrySelected: ({required country, required isDisabled}) {
+                          disabledCountries: _disabledCountries,
+                          toggleCountry: ({
+                            required countryCode,
+                            required isDisabled,
+                          }) {
                             setState(() {
                               if (!isDisabled) {
-                                _visibleCountries.add(country);
+                                _disabledCountries.add(countryCode);
                               } else {
-                                _visibleCountries.remove(country);
+                                _disabledCountries.remove(countryCode);
                               }
                             });
                           },
@@ -100,22 +108,23 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
     );
   }
 
-  Map<String, List<DateTimeRange>> _convertToCalendarPeriods(
-    Map<String, CountryEntity> countries,
+  Map<String, List<DateTimeRange>> mapStayPeriodsToDateTimeRanges(
+    Map<String, List<StayPeriodValueObject>> countries,
   ) {
     return Map.fromEntries(
-      countries.values.map((country) {
-        final periods = country.periods
-            .map(
-              (period) => DateTimeRange(
-                start: period.startDate,
-                end: period.endDate,
-              ),
-            )
-            .toList();
-
-        return MapEntry(country.name, periods);
-      }),
+      countries.entries.map(
+        (entry) {
+          final periods = entry.value
+              .map(
+                (period) => DateTimeRange(
+                  start: period.startDate,
+                  end: period.endDate,
+                ),
+              )
+              .toList();
+          return MapEntry(entry.key, periods);
+        },
+      ),
     );
   }
 }

@@ -186,6 +186,7 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
   }
 
   void _showDatePicker(BuildContext context, bool isStart) {
+    final theme = context.rlTheme;
     final title = isStart ? S.of(context).addStayPeriodPeriodFrom : S.of(context).addStayPeriodPeriodTo;
     showModalBottomSheet(
       context: context,
@@ -194,7 +195,7 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
 
         return Container(
           height: 300,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
               Row(
@@ -206,9 +207,8 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
                   ),
                   Text(
                     title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: context.theme.colorScheme.onSurface,
+                    style: theme.title16Semi.copyWith(
+                      color: theme.textPrimary,
                     ),
                   ),
                   TextButton(
@@ -494,8 +494,9 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
   }
 
   DateTime _getDateFromValue(double value) {
-    // Assuming `min` and `max` represent a range of days
-    return DateTime.now().subtract(Duration(days: (widget.max - value).toInt()));
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    return today.subtract(Duration(days: (widget.max - value).toInt()));
   }
 }
 
@@ -652,7 +653,16 @@ class _SliderPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _SliderPainter oldDelegate) {
-    return oldDelegate.min != min || oldDelegate.max != max || oldDelegate.start != start || oldDelegate.end != end || oldDelegate.color != color || oldDelegate.shimmerValue != shimmerValue || oldDelegate.isDragging != isDragging || oldDelegate.leftHandleScale != leftHandleScale || oldDelegate.rightHandleScale != rightHandleScale || !const ListEquality().equals(oldDelegate.periods, periods);
+    return oldDelegate.min != min ||
+        oldDelegate.max != max ||
+        oldDelegate.start != start ||
+        oldDelegate.end != end ||
+        oldDelegate.color != color ||
+        oldDelegate.shimmerValue != shimmerValue ||
+        oldDelegate.isDragging != isDragging ||
+        oldDelegate.leftHandleScale != leftHandleScale ||
+        oldDelegate.rightHandleScale != rightHandleScale ||
+        !const ListEquality().equals(oldDelegate.periods, periods);
   }
 }
 

@@ -27,7 +27,11 @@ class ToastService {
   String? _lastMessage;
   DateTime? _lastDateTime;
 
-  void showToast(BuildContext context, {required String message, ToastStatus status = ToastStatus.success}) {
+  void showToast(
+    BuildContext context, {
+    required String message,
+    ToastStatus status = ToastStatus.success,
+  }) {
     final fToast = FToast();
     fToast.init(context);
 

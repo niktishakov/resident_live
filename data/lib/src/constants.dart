@@ -1,22 +1,21 @@
-import "package:domain/domain.dart";
 import "package:intl/intl.dart";
 
-String getShareResidence(CountryEntity residence) {
+String getShareResidence(String countryName, DateTime statusToggleAt, int statusToggleIn) {
   return """
-${residence.name}'s Summary:
+$countryName's Summary:
 Has A Residency 🚀
-- ${residence.extraDays} Extra Days Available For Travelling
-- Your Resident Status will be save until ${DateFormat("MMM dd, yyyy").format(residence.statusToggleAt)}
+- $statusToggleIn days left
+- Your Resident Status will be save until ${DateFormat("MMM dd, yyyy").format(statusToggleAt)}
 Resident Live: App Link
 """;
 }
 
-String getShareNonResidence(CountryEntity residence) {
+String getShareNonResidence(String countryName, DateTime statusToggleAt, int statusToggleIn) {
   return """
-${residence.name}'s Summary:
+$countryName's Summary:
 Non-Resident
-- You’ll reach a resident status at ${DateFormat("MMM dd, yyyy").format(residence.statusToggleAt)}
-- ${residence.statusToggleIn} days left
+- You’ll reach a resident status at ${DateFormat("MMM dd, yyyy").format(statusToggleAt)}
+- $statusToggleIn days left
 Resident Live: App Link
 """;
 }

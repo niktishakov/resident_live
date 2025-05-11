@@ -1,5 +1,8 @@
+import "package:country_code_picker/country_code_picker.dart";
 import "package:flutter/material.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
+
+List<CountryCode> get kCountries => codes.map(CountryCode.fromJson).toList();
 
 const kDefaultScreenDelay = Duration(seconds: 2);
 const kDefaultDuration = Duration(milliseconds: 300);

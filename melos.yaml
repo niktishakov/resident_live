@@ -30,7 +30,7 @@ scripts:
   gen:mobile:
     run: |
       cd mobile
-      dart run build_runner build -d
+      dart run build_runner build
     description: "Generate mobile."
 
   gen:all:

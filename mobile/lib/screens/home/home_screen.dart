@@ -1,20 +1,22 @@
+import "package:domain/domain.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
-import "package:go_router/go_router.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
-import "package:resident_live/app/app.dart";
-import "package:resident_live/features/features.dart";
-import "package:resident_live/screens/all_countries/ui/all_countries_screen.dart";
+import "package:resident_live/app/init_app.dart";
+import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/screens/all_countries/all_countries_screen.dart";
+import "package:resident_live/screens/home/cubit/focus_on_country_cubit.dart";
 import "package:resident_live/screens/home/cubit/home_cubit.dart";
-import "package:resident_live/screens/home/widgets/focused_country_view.dart";
+import "package:resident_live/screens/home/widgets/focused_country/focused_country_page_view.dart";
 import "package:resident_live/screens/home/widgets/greeting_view.dart";
-import "package:resident_live/screens/home/widgets/tracking_residences.dart";
+import "package:resident_live/screens/home/widgets/tracking_residences/tracking_residences.dart";
 import "package:resident_live/screens/home/widgets/week_line_view.dart";
 import "package:resident_live/screens/residence_details/residence_details_screen.dart";
+import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
+import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/lib/utils/debug_actions_sheet.dart";
-import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
 import "package:resident_live/shared/lib/utils/route_utils.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/today_button.dart";
@@ -30,23 +32,29 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    find<HomeCubit>(context).requestPushPermissions();
+    getIt<HomeCubit>().requestPushPermissions();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CountriesCubit, CountriesState>(
+    return BlocBuilder<GetUserCubit, ResourceState<UserEntity>>(
+      bloc: getIt<GetUserCubit>(),
       builder: (context, state) {
-        final focusedCountry = context.watch<CountriesCubit>().state.focusedCountry;
+        final focusedCountryCode = state.data?.focusedCountryCode;
+        final otherResidences = state.data?.countries;
+        otherResidences?.removeWhere((key, value) => key == focusedCountryCode);
 
-        final otherResidences = state.countries.values.where((e) => e.isoCode != focusedCountry?.isoCode).toList();
-
-        return BlocListener<CountriesCubit, CountriesState>(
-          listener: (context, state) {
-            if (state.countries.isEmpty) {
-              context.goNamed(ScreenNames.onboarding);
-            }
-          },
+        return MultiBlocListener(
+          listeners: [
+            BlocListener<FocusOnCountryCubit, ResourceState<UserEntity>>(
+              bloc: getIt<FocusOnCountryCubit>(),
+              listener: _onFocusOnCountryListen,
+            ),
+            BlocListener<GetUserCubit, ResourceState<UserEntity>>(
+              bloc: getIt<GetUserCubit>(),
+              listener: _onGetUserListen,
+            ),
+          ],
           child: GestureDetector(
             onLongPress: () {
               if (kDebugMode) {
@@ -71,18 +79,15 @@ class HomeScreenState extends State<HomeScreen> {
                         child: WeekLineView(),
                       ),
                     ),
-                    if (focusedCountry != null) ...[
+                    if (focusedCountryCode != null) ...[
                       SliverToBoxAdapter(
                         child: RepaintBoundary(
                           child: SizedBox(
                             height: 320,
                             child: FocusedCountryView(
-                              focusedCountry: focusedCountry,
-                              onTap: (country) => navigatorKey.currentContext?.navigator.push(
+                              onTap: (countryCode) => navigatorKey.currentContext?.navigator.push(
                                 kDefaultFadeRouteBuilder(
-                                  page: ResidenceDetailsScreen(
-                                    name: country.name,
-                                  ),
+                                  page: ResidenceDetailsScreen(countryCode: countryCode),
                                 ),
                               ),
                             ),
@@ -90,7 +95,7 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ],
-                    if (otherResidences.isNotEmpty) ...[
+                    if (otherResidences != null && otherResidences.isNotEmpty) ...[
                       SliverToBoxAdapter(
                         child: OtherResidencesView(
                           residences: otherResidences,
@@ -114,6 +119,9 @@ class HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+  void _onFocusOnCountryListen(BuildContext context, ResourceState<UserEntity> state) {}
+  void _onGetUserListen(BuildContext context, ResourceState<UserEntity> state) {}
 }
 
 class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {

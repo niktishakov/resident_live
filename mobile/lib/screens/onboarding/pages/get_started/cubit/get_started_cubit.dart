@@ -1,46 +1,49 @@
-import "package:equatable/equatable.dart";
+import "package:domain/domain.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:freezed_annotation/freezed_annotation.dart";
+import "package:injectable/injectable.dart";
 
-// Define the state
-class GetStartedState extends Equatable {
-  const GetStartedState({
-    this.focusedCountryIndex = -1,
-    this.isGeoPermissionAllowed = false,
-    this.isGetStartedTriggered = false,
-  });
-  final int focusedCountryIndex;
-  final bool isGeoPermissionAllowed;
-  final bool isGetStartedTriggered;
+part "get_started_cubit.freezed.dart";
+part "get_started_cubit.g.dart";
 
-  GetStartedState copyWith({
-    int? focusedCountryIndex,
-    bool? isGeoPermissionAllowed,
-    bool? isGetStartedTriggered,
-  }) {
-    return GetStartedState(
-      focusedCountryIndex: focusedCountryIndex ?? this.focusedCountryIndex,
-      isGeoPermissionAllowed:
-          isGeoPermissionAllowed ?? this.isGeoPermissionAllowed,
-      isGetStartedTriggered:
-          isGetStartedTriggered ?? this.isGetStartedTriggered,
-    );
-  }
+@freezed
+class GetStartedState with _$GetStartedState {
+  const factory GetStartedState({
+    @Default(-1) int focusedCountryIndex,
+    @Default(false) bool isGeoPermissionAllowed,
+    @Default(false) bool isGetStartedTriggered,
+    @Default("") String focusedCountryError,
+    @Default("") String getPlacemarkError,
+  }) = _GetStartedState;
 
-  @override
-  List<Object?> get props =>
-      [focusedCountryIndex, isGeoPermissionAllowed, isGetStartedTriggered];
+  factory GetStartedState.fromJson(dynamic json) => _$GetStartedStateFromJson(json);
 }
 
-// Define the cubit
+@lazySingleton
 class GetStartedCubit extends Cubit<GetStartedState> {
-  GetStartedCubit() : super(const GetStartedState());
+  GetStartedCubit(
+    this._getCoordinatesUsecase,
+    this._getPlacemarkUsecase,
+    this._syncCountriesFromGeoUsecase,
+  ) : super(const GetStartedState());
+
+  final GetCoordinatesUsecase _getCoordinatesUsecase;
+  final GetPlacemarkUsecase _getPlacemarkUsecase;
+  final SyncCountriesFromGeoUseCase _syncCountriesFromGeoUsecase;
 
   void setFocusedCountry(int index) {
     emit(state.copyWith(focusedCountryIndex: index));
   }
 
-  void triggerGeoPermission() {
-    emit(state.copyWith(isGeoPermissionAllowed: true));
+  Future<void> triggerGeoPermission() async {
+    try {
+      final coordinates = await _getCoordinatesUsecase.call();
+      final placemark = await _getPlacemarkUsecase.call(coordinates);
+      await _syncCountriesFromGeoUsecase.call(placemark: placemark);
+      emit(state.copyWith(isGeoPermissionAllowed: true));
+    } catch (e) {
+      emit(state.copyWith(focusedCountryError: e.toString()));
+    }
   }
 
   void triggerGetStarted() {

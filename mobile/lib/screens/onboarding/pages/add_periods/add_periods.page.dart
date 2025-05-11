@@ -37,8 +37,8 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
   @override
   void initState() {
     segments = widget.segments;
-    focusedCountry = widget.countries.first;
-    sliderColor = getCountryColors(widget.countries).entries.first.value;
+    focusedCountry = widget.countries.firstOrNull ?? "";
+    sliderColor = getCountryColors(widget.countries).entries.firstOrNull?.value ?? Colors.grey;
 
     initialSegments = List<StayPeriodValueObject>.from(widget.segments);
     endDate = DateTime.now();
@@ -83,7 +83,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
           StayPeriodValueObject(
             startDate: segmentStart,
             endDate: segmentEnd,
-            country: focusedCountry!,
+            countryCode: focusedCountry!,
           ),
         );
         segments.sort((a, b) => a.startDate.compareTo(b.startDate));
@@ -110,9 +110,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
     }
 
     for (var i = 0; i < initialSegments.length; i++) {
-      if (initialSegments[i].country != segments[i].country ||
-          initialSegments[i].startDate != segments[i].startDate ||
-          initialSegments[i].endDate != segments[i].endDate) {
+      if (initialSegments[i].countryCode != segments[i].countryCode || initialSegments[i].startDate != segments[i].startDate || initialSegments[i].endDate != segments[i].endDate) {
         return true;
       }
     }
@@ -122,7 +120,8 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
 
   @override
   Widget build(BuildContext context) {
-    final endDate = DateTime.now();
+    final now = DateTime.now();
+    final endDate = DateTime(now.year, now.month, now.day);
     final startDate = endDate.subtract(const Duration(days: 365));
 
     return Scaffold(
@@ -194,7 +193,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
           // mainAxisSize: MainAxisSize.min,
           children: [
             CountrySelector(
-              countries: widget.countries,
+              countryCodes: widget.countries,
               focusedCountry: focusedCountry,
               onCountrySelected: _onCountrySelected,
             ).animate().fade(delay: 200.ms),
@@ -281,7 +280,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  segments[index].country,
+                                  segments[index].countryCode,
                                   style: context.theme.textTheme.bodyLarge?.copyWith(
                                     color: context.theme.colorScheme.secondary,
                                   ),

@@ -5,12 +5,14 @@ part "stay_period.freezed.dart";
 
 @freezed
 class StayPeriodValueObject with _$StayPeriodValueObject {
-  const factory StayPeriodValueObject({required DateTime startDate, required DateTime endDate, required String country}) = _StayPeriodValueObject;
+  const factory StayPeriodValueObject({
+    required DateTime startDate,
+    required DateTime endDate,
+    required String countryCode,
+  }) = _StayPeriodValueObject;
   const StayPeriodValueObject._();
 
   factory StayPeriodValueObject.fromJson(Map<String, dynamic> json) => _$StayPeriodValueObjectFromJson(json);
 
-  int getDays() {
-    return endDate.difference(startDate).inDays + 1;
-  }
+  int get days => endDate.difference(startDate).inDays;
 }

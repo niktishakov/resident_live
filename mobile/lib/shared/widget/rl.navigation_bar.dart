@@ -16,11 +16,14 @@ class RlNavBar extends StatelessWidget {
       largeTitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Resident Live",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -1.0,
-                  color: context.theme.colorScheme.secondary,),),
+          Text(
+            "Resident Live",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              letterSpacing: -1.0,
+              color: context.theme.colorScheme.secondary,
+            ),
+          ),
         ],
       ),
     );
@@ -46,20 +49,19 @@ class RlCupertinoNavBar extends StatelessWidget {
       leading: canPop
           ? leading ??
               CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: context.pop,
-                  child: Icon(
-                    CupertinoIcons.back,
-                    size: 28,
-                    color: context.theme.colorScheme.secondary,
-                  ),)
+                padding: EdgeInsets.zero,
+                onPressed: context.pop,
+                child: Icon(
+                  CupertinoIcons.back,
+                  size: 28,
+                  color: context.theme.colorScheme.secondary,
+                ),
+              )
           : null,
       backgroundColor: context.theme.scaffoldBackgroundColor,
       middle: Text(title, style: context.theme.textTheme.titleMedium),
       border: null,
-      trailing: actions != null
-          ? Row(mainAxisSize: MainAxisSize.min, children: actions!)
-          : null,
+      trailing: actions != null ? Row(mainAxisSize: MainAxisSize.min, children: actions!) : null,
     );
   }
 }

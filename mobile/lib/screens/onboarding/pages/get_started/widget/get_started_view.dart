@@ -3,7 +3,6 @@ import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/features/countries/model/countries_cubit.dart";
 import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart";
 import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
@@ -14,6 +13,7 @@ class GetStartedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.rlTheme;
     return BlocBuilder<GetStartedCubit, GetStartedState>(
       builder: (context, state) {
         return AnimatedSwitcher(
@@ -74,18 +74,9 @@ class GetStartedView extends StatelessWidget {
                               const Color(0xff306D99),
                             ],
                           ),
-                          textStyle: GoogleFonts.poppins(
-                            fontSize: 18,
-                            height: 30 / 18,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          textStyle: theme.body18M,
                           onPressed: () {
-                            final countries = find<CountriesCubit>(context).state.countries.values.toList();
-                            final index = find<GetStartedCubit>(context).state.focusedCountryIndex;
-
-                            find<CountriesCubit>(context).setFocusedCountry(countries[index]);
                             find<OnboardingCubit>(context).reset();
-
                             context.goNamed(ScreenNames.home);
                           },
                         ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 1.seconds, delay: 1.seconds),

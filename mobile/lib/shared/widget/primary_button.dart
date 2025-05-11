@@ -38,6 +38,7 @@ class PrimaryButton extends StatelessWidget {
   final HitTestBehavior behavior;
   @override
   Widget build(BuildContext context) {
+    final theme = context.rlTheme;
     return BouncingButton(
       borderRadius: BorderRadius.circular(kBorderRadius),
       vibrate: vibrate,
@@ -69,9 +70,10 @@ class PrimaryButton extends StatelessWidget {
                 Text(
                   label,
                   style: textStyle ??
-                      context.theme.textTheme.labelLarge?.copyWith(
+                      theme.body16M.copyWith(
                         fontSize: fontSize,
-                        color: textColor ?? context.theme.scaffoldBackgroundColor,
+                        fontWeight: FontWeight.w600,
+                        color: textColor ?? theme.textPrimaryOnColor,
                       ),
                 ),
                 if (trailing != null) ...[

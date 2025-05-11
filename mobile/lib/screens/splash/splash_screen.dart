@@ -1,15 +1,19 @@
-import "dart:async";
 import "dart:ui";
 
+import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:get_it/get_it.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/features/features.dart";
+import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/screens/settings/cubit/auth_by_biometrics_cubit.dart";
+import "package:resident_live/screens/splash/cubit/create_user_cubit.dart";
+import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
+import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/lib/service/toast.service.dart";
-import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
 import "package:resident_live/shared/shared.dart";
 
 part "record.animation.dart";
@@ -21,99 +25,30 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-final _logger = AiLogger("SplashScreen");
-
 class _SplashScreenState extends State<SplashScreen> {
-  late AuthCubit _authCubit;
-  bool _isAuthenticating = false;
-
   @override
   void initState() {
     super.initState();
-    _authCubit = context.read<AuthCubit>();
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _initializeApp();
+      getIt<GetUserCubit>().loadResource(""); // TODO: add user id
     });
-  }
-
-  Future<void> _initializeApp() async {
-    final state = find<CountriesCubit>(context).state;
-
-    /// The main reason to go to Home is not empty countries list
-    if (state.countries.isNotEmpty) {
-      await find<LocationCubit>(context).initialize(context);
-    } else {
-      context.goNamed(ScreenNames.onboarding);
-    }
-  }
-
-  Future<void> _checkAndAuthenticate() async {
-    _logger.debug("Check and authenticate");
-
-    setState(() => _isAuthenticating = true);
-    final authResult = await _authCubit.authenticateOnStartup();
-    if (!mounted) return;
-    setState(() => _isAuthenticating = false);
-
-    if (authResult) {
-      _navigateToHome();
-    } else {
-      await _showPasscodeAuthentication();
-    }
-  }
-
-  void _navigateToHome() {
-    _logger.debug("Navigate to home");
-    context.goNamed(ScreenNames.home);
-  }
-
-  Future<void> _showPasscodeAuthentication() async {
-    _logger.debug("Show passcode authentication");
-    setState(() => _isAuthenticating = true);
-    final passcodeResult = await _authCubit.authenticateWithPasscode();
-    if (!mounted) return;
-    setState(() => _isAuthenticating = false);
-
-    if (passcodeResult) {
-      _navigateToHome();
-    } else {
-      await AppDialogs.showError(
-        context: context,
-        title: "Authentication failed",
-        message: "Please try again.",
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state.error != null) {
-              ToastService.instance.showToast(
-                context,
-                message: state.error!,
-                status: ToastStatus.failure,
-              );
-            }
-          },
+        BlocListener<GetUserCubit, ResourceState<UserEntity>>(
+          bloc: getIt<GetUserCubit>(),
+          listener: _onGetUserListen,
         ),
-        BlocListener<LocationCubit, LocationState>(
-          listener: (context, state) {
-            if (state.placemark != null && state.placemark?.country != null) {
-              find<CountriesCubit>(context).syncCountriesByGeo(state.placemark);
-              _checkAndAuthenticate();
-            } else if (state.error.isNotEmpty) {
-              ToastService.instance.showToast(
-                context,
-                message: state.error,
-                status: ToastStatus.failure,
-              );
-            }
-          },
+        BlocListener<CreateUserCubit, ResourceState<UserEntity>>(
+          bloc: getIt<CreateUserCubit>(),
+          listener: _onCreateUserListen,
+        ),
+        BlocListener<AuthByBiometricsCubit, ResourceState<bool>>(
+          bloc: getIt<AuthByBiometricsCubit>(),
+          listener: _onAuthByBiometricsListen,
         ),
       ],
       child: Scaffold(
@@ -143,19 +78,86 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ).animate().fade(delay: 300.ms, duration: 600.ms),
             ),
-            AnimatedOpacity(
-              opacity: _isAuthenticating ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: Container(
-                  color: Colors.transparent,
-                ),
-              ),
+            BlocBuilder<AuthByBiometricsCubit, ResourceState<bool>>(
+              bloc: GetIt.I<AuthByBiometricsCubit>(),
+              builder: (context, state) {
+                return AnimatedOpacity(
+                  opacity: state.maybeMap(loading: (_) => 1.0, orElse: () => 0.0),
+                  duration: const Duration(milliseconds: 300),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Container(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _onCreateUserListen(BuildContext context, ResourceState<UserEntity> state) {
+    state.maybeWhen(
+      orElse: () {},
+      error: (error, stack) {
+        ToastService.instance.showToast(
+          context,
+          message: error ?? "Something went wrong",
+          status: ToastStatus.failure,
+        );
+      },
+      data: (user) {
+        GetIt.I<GetUserCubit>().loadResource(user.id);
+      },
+    );
+  }
+
+  void _onGetUserListen(BuildContext context, ResourceState<UserEntity> state) {
+    state.maybeWhen(
+      orElse: () {},
+      error: (error, stack) {
+        GetIt.I<CreateUserCubit>().loadResource();
+      },
+      data: (user) {
+        final isBiometricsEnabled = user.isBiometricsEnabled;
+        if (isBiometricsEnabled) {
+          GetIt.I<AuthByBiometricsCubit>().loadResource();
+        } else {
+          final stayPeriods = user.stayPeriods;
+          if (stayPeriods.isEmpty) {
+            context.goNamed(ScreenNames.onboarding);
+          } else {
+            context.goNamed(ScreenNames.home);
+          }
+        }
+      },
+    );
+  }
+
+  void _onAuthByBiometricsListen(BuildContext context, ResourceState<bool> state) {
+    state.maybeWhen(
+      orElse: () {},
+      error: (error, stack) {
+        ToastService.instance.showToast(
+          context,
+          message: error ?? "Cannot authenticate with biometrics",
+          status: ToastStatus.failure,
+        );
+      },
+      data: (result) {
+        if (result) {
+          context.goNamed(ScreenNames.home);
+        } else {
+          ToastService.instance.showToast(
+            context,
+            message: "Failed to authenticate with biometrics",
+            status: ToastStatus.failure,
+          );
+        }
+      },
     );
   }
 }

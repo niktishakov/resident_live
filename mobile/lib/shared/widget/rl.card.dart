@@ -9,12 +9,14 @@ class RlCard extends StatelessWidget {
     this.gradient,
     this.child,
     this.padding,
+    this.margin,
   });
   final Color? color;
   final Gradient? gradient;
   final double borderRadius;
   final Widget? child;
   final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,8 @@ class RlCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            margin: const EdgeInsets.all(0.5),
-            padding: const EdgeInsets.all(16.0),
+            margin: margin ?? const EdgeInsets.all(0.5),
+            padding: padding ?? const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(borderRadius),
               color: color ?? context.theme.cardColor,

@@ -25,6 +25,13 @@ TextStyle _title32Semi = const TextStyle(
   height: 38 / 32,
 );
 
+TextStyle _title26 = const TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 26,
+  fontWeight: FontWeight.w400,
+  height: 32 / 26,
+);
+
 TextStyle _title20 = const TextStyle(
   fontFamily: _fontFamily,
   fontSize: 20,
@@ -77,14 +84,14 @@ TextStyle _body20 = const TextStyle(
 TextStyle _body18 = const TextStyle(
   fontFamily: _fontFamily,
   fontSize: 18,
-  fontWeight: FontWeight.normal,
+  fontWeight: FontWeight.w400,
   height: 24 / 18,
 );
 
 TextStyle _body18M = const TextStyle(
   fontFamily: _fontFamily,
   fontSize: 18,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w600,
   height: 24 / 18,
 );
 

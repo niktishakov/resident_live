@@ -12,7 +12,8 @@ import "package:resident_live/shared/lib/utils/colors_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
 class ResidencyJourneyScreen extends StatefulWidget {
-  const ResidencyJourneyScreen({super.key});
+  const ResidencyJourneyScreen({super.key, this.initialDate});
+  final DateTime? initialDate;
 
   @override
   State<ResidencyJourneyScreen> createState() => _ResidencyJourneyScreenState();
@@ -25,7 +26,7 @@ class _ResidencyJourneyScreenState extends State<ResidencyJourneyScreen> {
   @override
   void initState() {
     super.initState();
-    _currentMonth = DateTime.now();
+    _currentMonth = widget.initialDate ?? DateTime.now();
   }
 
   @override

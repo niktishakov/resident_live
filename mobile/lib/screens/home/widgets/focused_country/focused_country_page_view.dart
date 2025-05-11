@@ -15,8 +15,9 @@ import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/lib/utils/hero_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
-part "country_card.dart";
+part "country_card/country_card.dart";
 part "set_focus_button.dart";
+part "country_card/country_progress_indicator.dart";
 
 class FocusedCountryView extends StatefulWidget {
   const FocusedCountryView({

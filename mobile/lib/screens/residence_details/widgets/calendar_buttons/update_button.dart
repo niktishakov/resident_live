@@ -1,16 +1,17 @@
-part of "../residence_details_screen.dart";
+part of "../../residence_details_screen.dart";
 
-class _TodayButton extends StatelessWidget {
-  const _TodayButton({
+class _UpdateButton extends StatelessWidget {
+  const _UpdateButton({
     required this.onTap,
+    required this.date,
   });
 
   final VoidCallback onTap;
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
-    final date = DateTime.now();
 
     return CupertinoButton(
       padding: EdgeInsets.zero,
@@ -20,20 +21,18 @@ class _TodayButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
           border: Border.all(
-            color: theme.borderAccent,
+            color: theme.borderWarning,
             width: 1,
           ),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-          child: Text(
-            "Today, ${date.toDDMMMYYString()}",
-            style: context.rlTheme.body14.copyWith(
-              color: theme.textAccent,
-              fontFamily: kFontFamilySecondary,
+          child: AutoSizeText(
+            "Update, ${date.toDDMMMYYString()}",
+            maxLines: 1,
+            style: context.rlTheme.body12.copyWith(
+              color: theme.borderWarning,
               fontWeight: FontWeight.w500,
-              height: 1,
-              letterSpacing: 0.5,
             ),
           ),
         ),

@@ -3,9 +3,9 @@ import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/app/injection.config.dart";
 import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart";
-import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
 import "package:resident_live/shared/shared.dart";
 
 class GetStartedView extends StatelessWidget {
@@ -15,6 +15,7 @@ class GetStartedView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
     return BlocBuilder<GetStartedCubit, GetStartedState>(
+      bloc: getIt<GetStartedCubit>(),
       builder: (context, state) {
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
@@ -76,7 +77,7 @@ class GetStartedView extends StatelessWidget {
                           ),
                           textStyle: theme.body18M,
                           onPressed: () {
-                            find<OnboardingCubit>(context).reset();
+                            getIt<OnboardingCubit>().reset();
                             context.goNamed(ScreenNames.home);
                           },
                         ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 1.seconds, delay: 1.seconds),

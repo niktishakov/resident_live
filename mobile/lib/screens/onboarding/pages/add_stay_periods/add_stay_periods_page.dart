@@ -8,6 +8,7 @@ import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/add_periods/add_periods.page.dart";
 import "package:resident_live/screens/onboarding/pages/add_stay_periods/cubit/update_countries_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/add_stay_periods/widgets/activity_timeline.dart";
+import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/shared/shared.dart";
 
 class AddStayPeriodsPage extends StatefulWidget {
@@ -96,8 +97,9 @@ class AddStayPeriodsPageState extends State<AddStayPeriodsPage> {
     );
   }
 
-  void _onContinue() {
-    getIt<UpdateCountriesCubit>().loadResource(_stayPeriods);
+  Future<void> _onContinue() async {
+    await getIt<UpdateCountriesCubit>().loadResource(_stayPeriods);
+    await getIt<GetUserCubit>().loadResource();
     widget.onNextPage();
   }
 }

@@ -14,6 +14,7 @@ import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/lib/utils/hero_utils.dart";
 import "package:resident_live/shared/shared.dart";
+import "package:resident_live/shared/widget/rl.outlined_button.dart";
 
 part "country_card/country_card.dart";
 part "set_focus_button.dart";
@@ -93,7 +94,6 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                           itemBuilder: (context, index) {
                             final countryCode = _countries[index];
                             final isHere = state.data?.isHere(countryCode) ?? false;
-                            final isFocused = countryCode == state.data?.focusedCountryCode;
 
                             return Hero(
                               tag: "residence_$countryCode",
@@ -118,7 +118,6 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                                 child: CountryCard(
                                   countryCode: countryCode,
                                   isHere: isHere,
-                                  isFocused: isFocused,
                                   onTap: widget.onTap,
                                 ),
                               ),

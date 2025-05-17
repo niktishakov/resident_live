@@ -124,7 +124,6 @@ class _CalendarCircleBarState extends State<CalendarCircleBar> with TickerProvid
   @override
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
-    print("widget.statusUpdateDate: ${widget.statusUpdateDate}");
     return GestureDetector(
       onTapDown: _handleTapDown,
       child: SizedBox(
@@ -603,7 +602,7 @@ class _CalendarCirclePainter extends CustomPainter {
     final textPainter = TextPainter(
       text: TextSpan(
         text: progress,
-        style: centerTextStyle.copyWith(fontSize: innerRadius * 0.42, color: Colors.white),
+        style: centerTextStyle.copyWith(fontSize: innerRadius * 0.42),
       ),
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,

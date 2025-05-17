@@ -4,14 +4,12 @@ class CountryCard extends StatelessWidget {
   const CountryCard({
     required this.countryCode,
     required this.isHere,
-    required this.isFocused,
     required this.onTap,
     super.key,
   });
 
   final String countryCode;
   final bool isHere;
-  final bool isFocused;
   final Function(String) onTap;
 
   @override
@@ -37,10 +35,7 @@ class CountryCard extends StatelessWidget {
                       children: [
                         SizedBox(
                           width: constraints.maxWidth * 0.5,
-                          child: SetFocusButton(
-                            countryCode: countryCode,
-                            isFocused: isFocused,
-                          ),
+                          child: SetFocusButton(countryCode: countryCode),
                         ),
                         const Spacer(),
                         if (isHere) const Here(),

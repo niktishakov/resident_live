@@ -23,6 +23,8 @@ import 'package:resident_live/screens/onboarding/pages/add_stay_periods/cubit/up
     as _i444;
 import 'package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart'
     as _i74;
+import 'package:resident_live/screens/residence_details/cubit/clear_focus_cubit.dart'
+    as _i29;
 import 'package:resident_live/screens/settings/cubit/auth_by_biometrics_cubit.dart'
     as _i913;
 import 'package:resident_live/screens/settings/cubit/is_biometrics_supported_cubit.dart'
@@ -74,6 +76,8 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i494.SyncCountriesFromGeoUseCase>()));
     gh.lazySingleton<_i339.FocusOnCountryCubit>(
         () => _i339.FocusOnCountryCubit(gh<_i494.IUserRepository>()));
+    gh.lazySingleton<_i29.ClearFocusCubit>(
+        () => _i29.ClearFocusCubit(gh<_i494.IUserRepository>()));
     gh.singleton<_i295.CreateUserCubit>(
         () => _i295.CreateUserCubit(gh<_i494.IUserRepository>()));
     gh.singleton<_i628.GetUserCubit>(

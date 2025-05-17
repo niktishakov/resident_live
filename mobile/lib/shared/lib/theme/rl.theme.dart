@@ -32,7 +32,7 @@ class RlTheme {
         body12Up = _body12Up,
         button16Semi = _button16Semi,
         button10M = _button10M,
-        bgPrimary = const Color(0xFFF9F9F9),
+        bgPrimary = const Color(0xFF000000),
         bgSecondary = const Color(0xFFF2F3F3),
         bgCard = const Color(0xFFFFFFFF),
         bgCardClick = const Color(0xFFF9F9F9),

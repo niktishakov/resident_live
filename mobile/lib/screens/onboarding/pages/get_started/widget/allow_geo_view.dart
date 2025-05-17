@@ -1,9 +1,9 @@
-import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:resident_live/app/injection.config.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -15,6 +15,7 @@ class AllowGeoView extends StatelessWidget {
     final primaryGradient = [context.theme.primaryColor, const Color(0xff306D99)];
     final successGradient = kSuccessGradient.colors;
     return BlocBuilder<GetStartedCubit, GetStartedState>(
+      bloc: getIt<GetStartedCubit>(),
       builder: (context, state) {
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
@@ -81,7 +82,7 @@ class AllowGeoView extends StatelessWidget {
                       children: [
                         PrimaryButton(
                           animationDuration: 500.ms,
-                          onPressed: () => context.read<RequestGeoPermissionUsecase>().call(),
+                          onPressed: () => getIt<GetStartedCubit>().triggerGeoPermission(),
                           gradient: LinearGradient(
                             colors: state.isGeoPermissionAllowed ? successGradient : primaryGradient,
                           ),

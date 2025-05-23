@@ -373,25 +373,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
                                     width: 24,
                                     color: context.theme.colorScheme.secondary,
                                   ),
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      useRootNavigator: true,
-                                      useSafeArea: false,
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      transitionAnimationController: AnimationController(
-                                        vsync: Navigator.of(context),
-                                        duration: const Duration(milliseconds: 300),
-                                      ),
-                                      builder: (_) => const ResidencyRulesModal(),
-                                    ).then((_) {
-                                      // Fade out the blur effect when the modal is dismissed
-                                      Future.delayed(const Duration(milliseconds: 300), () {
-                                        // Optionally, you can add any additional logic here
-                                      });
-                                    });
-                                  },
+                                  onPressed: () => showResidencyRulesModal(context),
                                   child: Text(
                                     "Read a residency rules",
                                     style: GoogleFonts.poppins(

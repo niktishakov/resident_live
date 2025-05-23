@@ -1,118 +1,94 @@
 import "dart:ui";
 
 import "package:domain/domain.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:gap/gap.dart";
+import "package:go_router/go_router.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/screens/residence_details/widgets/read_rules_button/widgets/preview.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/shared/widget/transparent_button.dart";
 
-class ResidencyRulesModal extends StatelessWidget {
-  const ResidencyRulesModal({super.key});
+part "widgets/preview_card.dart";
+
+Future<void> showResidencyRulesModal(BuildContext context) {
+  return showModalBottomSheet(
+    context: context,
+    useRootNavigator: true,
+    useSafeArea: false,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    transitionAnimationController: AnimationController(
+      vsync: Navigator.of(context),
+      duration: const Duration(milliseconds: 300),
+    ),
+    builder: (_) => const _ResidencyRulesModal(),
+  );
+}
+
+class _ResidencyRulesModal extends StatelessWidget {
+  const _ResidencyRulesModal();
 
   @override
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
-    final textStyle = theme.body16M.copyWith(
-      color: theme.textPrimaryOnColor,
-    );
-
     return TweenAnimationBuilder<double>(
       duration: const Duration(milliseconds: 300),
       tween: Tween<double>(begin: 0.0, end: 1.0),
       builder: (context, value, child) {
         return BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 5.0 * value,
-            sigmaY: 5.0 * value,
-          ),
-          child: IntrinsicHeight(
-            child: RlCard(
-              gradient: kMainGradient,
-              padding: EdgeInsets.only(
-                left: 24,
-                right: 24,
-                bottom: context.mediaQuery.padding.bottom + 32,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Grabber(),
-                  const Gap(12),
-                  Text(
-                    S.of(context).detailsResidencyRulesResources,
-                    style: theme.body18.copyWith(
-                      fontWeight: FontWeight.w300,
-                      color: theme.textPrimaryOnColor,
+          filter: ImageFilter.blur(sigmaX: 5.0 * value, sigmaY: 5.0 * value),
+          child: RlCard(
+            gradient: kMainGradient,
+            padding: EdgeInsets.only(
+              left: 24,
+              right: 24,
+              bottom: context.mediaQuery.viewInsets.bottom + 8,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Grabber(),
+                const Gap(12),
+                Row(
+                  children: [
+                    Text(
+                      S.of(context).detailsResidencyRulesResources,
+                      style: theme.body18M.copyWith(color: theme.textPrimary),
                     ),
-                  ),
-                  const Gap(48),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TransparentButton(
-                            width: double.infinity,
-                            onPressed: () {
-                              showWebViewModal(
-                                context: context,
-                                url: kpmgUrl,
-                                title: "KPMG",
-                              );
-                            },
-                            leading: const AppAssetImage(
-                              AppAssets.redirect,
-                              width: 22,
-                            ),
-                            child: Text(
-                              "${S.of(context).detailsReadOn} KPMG",
-                              style: textStyle,
-                            ),
-                          ),
-                          TransparentButton(
-                            onPressed: () {
-                              showWebViewModal(
-                                context: context,
-                                url: deloitteUrl,
-                                title: "Deloitte",
-                              );
-                            },
-                            leading: const AppAssetImage(
-                              AppAssets.redirect,
-                              width: 22,
-                            ),
-                            child: Text(
-                              "${S.of(context).detailsReadOn} Deloitte",
-                              style: textStyle,
-                            ),
-                          ),
-                          TransparentButton(
-                            onPressed: () {
-                              showWebViewModal(
-                                context: context,
-                                url: pwcUrl,
-                                title: "PWC",
-                              );
-                            },
-                            leading: const AppAssetImage(
-                              AppAssets.redirect,
-                              width: 22,
-                            ),
-                            child: Text(
-                              "${S.of(context).detailsReadOn} PWC",
-                              style: textStyle,
-                            ),
-                          ),
-                        ],
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () => context.pop(),
+                      child: Icon(
+                        CupertinoIcons.xmark_circle_fill,
+                        size: 26,
+                        color: theme.textPrimary,
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+                const Gap(48),
+                GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 8,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: const [
+                    _PreviewCard(
+                      title: "Deloitte",
+                      url: deloitteUrl,
+                      image: "assets/imgs/pwc_preview.png",
+                    ),
+                    _PreviewCard(title: "PWC", url: pwcUrl, image: "assets/imgs/pwc_preview2.png"),
+                    _PreviewCard(
+                      title: "KPMG",
+                      url: kpmgUrl,
+                      image: "assets/imgs/kpmg_preview.png",
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         );

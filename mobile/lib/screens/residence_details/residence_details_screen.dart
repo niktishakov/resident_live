@@ -9,7 +9,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/residence_details/widgets/calendar_circle_bar.dart/calendar_circle_bar.dart";
 import "package:resident_live/screens/residence_details/widgets/focus_on_button/focus_on_button.dart";
 import "package:resident_live/screens/residence_details/widgets/header/header.dart";

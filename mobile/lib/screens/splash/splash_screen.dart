@@ -8,7 +8,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:get_it/get_it.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/settings/cubit/auth_by_biometrics_cubit.dart";
 import "package:resident_live/screens/splash/cubit/create_user_cubit.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";

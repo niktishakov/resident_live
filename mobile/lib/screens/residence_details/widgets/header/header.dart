@@ -7,7 +7,6 @@ import "package:flutter/rendering.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
-import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:share_plus/share_plus.dart";
@@ -55,6 +54,8 @@ class _HeaderContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = context.theme.colorScheme.secondary;
+    final theme = context.rlTheme;
+
     return Row(
       children: [
         const SizedBox().animate(delay: 100.ms).swap(
@@ -100,9 +101,8 @@ class _HeaderContent extends StatelessWidget {
               Text(
                 countryName,
                 maxLines: 1,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 26,
+                style: theme.title36Semi.copyWith(
+                  fontFamily: kFontFamilySecondary,
                 ),
               ),
               if (isHere) ...[

@@ -10,7 +10,7 @@ import "package:hydrated_bloc/hydrated_bloc.dart";
 import "package:path_provider/path_provider.dart";
 import "package:provider/provider.dart";
 import "package:provider/single_child_widget.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/app/routes.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/language/language_cubit.dart";

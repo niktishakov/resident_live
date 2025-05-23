@@ -38,6 +38,10 @@ extension Formatting on DateTime {
     return DateFormat("dd.MM.yy").format(toLocal());
   }
 
+  String toDDMMMYYString() {
+    return DateFormat("dd MMM. yyyy").format(toLocal());
+  }
+
   String toTimeString() {
     return DateFormat("h:mm a").format(toLocal());
   }

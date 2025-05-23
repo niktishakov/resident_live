@@ -5,7 +5,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:resident_live/app/init_app.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/all_countries/all_countries_screen.dart";
 import "package:resident_live/screens/home/cubit/focus_on_country_cubit.dart";
 import "package:resident_live/screens/home/cubit/home_cubit.dart";

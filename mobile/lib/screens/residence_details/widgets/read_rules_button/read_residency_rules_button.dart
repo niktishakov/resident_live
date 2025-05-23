@@ -17,30 +17,7 @@ class ReadResidencyRulesButton extends StatelessWidget {
           AppAssets.bookPages,
           width: 24,
         ),
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            useRootNavigator: true,
-            useSafeArea: false,
-            isScrollControlled: true,
-            backgroundColor: Colors.transparent,
-            transitionAnimationController: AnimationController(
-              vsync: Navigator.of(context),
-              duration: const Duration(
-                milliseconds: 300,
-              ),
-            ),
-            builder: (_) => const ResidencyRulesModal(),
-          ).then((_) {
-            // Fade out the blur effect when the modal is dismissed
-            Future.delayed(
-                const Duration(
-                  milliseconds: 300,
-                ), () {
-              // Optionally, you can add any additional logic here
-            });
-          });
-        },
+        onPressed: () => showResidencyRulesModal(context),
         child: Text(
           S.of(context).detailsReadRules,
           style: theme.body14.copyWith(

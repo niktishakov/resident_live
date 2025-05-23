@@ -5,7 +5,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.3.2 <4.0.0"
+  sdk: ">=3.7.0 <4.0.0"
 
 scripts: 
   gen: dart run build_runner watch
@@ -66,6 +66,8 @@ dependencies:
   injectable: ^2.5.0
   country_code_picker: ^3.3.0
   auto_size_text: ^3.0.0
+  shimmer: ^3.0.0
+  skeletonizer: ^1.4.3
 
 dev_dependencies:
   flutter_test:

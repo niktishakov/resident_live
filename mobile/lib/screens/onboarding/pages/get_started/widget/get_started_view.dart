@@ -3,7 +3,7 @@ import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart";
 import "package:resident_live/shared/shared.dart";

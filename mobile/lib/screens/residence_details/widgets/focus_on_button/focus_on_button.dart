@@ -1,6 +1,6 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter_animate/flutter_animate.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/home/cubit/focus_on_country_cubit.dart";
 import "package:resident_live/shared/shared.dart";

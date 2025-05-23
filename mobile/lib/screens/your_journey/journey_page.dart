@@ -2,7 +2,7 @@ import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/screens/your_journey/widgets/country_disabler.dart";
 import "package:resident_live/screens/your_journey/widgets/header.dart";

@@ -2,7 +2,7 @@ import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/add_periods/add_periods.page.dart";

@@ -2,7 +2,7 @@ import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/all_countries/all_countries_screen.dart";
 import "package:resident_live/screens/bottom_bar/bottom_bar.dart";
 import "package:resident_live/screens/home/home_screen.dart";

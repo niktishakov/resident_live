@@ -10,7 +10,7 @@ import "dart:async";
 import "package:data/data.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/shared/lib/resource_cubit/resource_action_mixin.dart";
 import "package:resident_live/shared/lib/resource_cubit/safe_bloc.dart";
 
@@ -38,8 +38,7 @@ typedef ResourceAction<ReturnType, ArgsType> = Future<ReturnType> Function([
 ///   MyResourceCubit() : super(myService.getData, defaultArgs: MyArgsType());
 /// }
 /// ```
-abstract class ResourceCubit<ResourceType, ArgsType> extends Cubit<ResourceState<ResourceType>>
-    with SafeBlocMixin<ResourceState<ResourceType>>, ResourceActionMixin {
+abstract class ResourceCubit<ResourceType, ArgsType> extends Cubit<ResourceState<ResourceType>> with SafeBlocMixin<ResourceState<ResourceType>>, ResourceActionMixin {
   /// Creates a [ResourceCubit] instance.
   ///
   /// The [action] parameter is a [ResourceAction] that defines the asynchronous

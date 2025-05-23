@@ -8,7 +8,7 @@
 import "dart:async";
 
 import "package:data/data.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 
 /// A function that is called to indicate the start of an action.
 ///

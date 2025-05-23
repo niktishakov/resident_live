@@ -1,7 +1,7 @@
 import "package:data/data.dart";
 import "package:flutter/cupertino.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/shared/lib/service/toast.service.dart";
 import "package:resident_live/shared/shared.dart";
 

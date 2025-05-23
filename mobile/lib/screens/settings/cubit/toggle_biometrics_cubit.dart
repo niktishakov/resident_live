@@ -5,13 +5,12 @@ import "package:injectable/injectable.dart";
 @lazySingleton
 class ToggleBiometricsCubit extends Cubit<bool> {
   ToggleBiometricsCubit({
-    required bool enabled,
     required this.toggleBiometrics,
     required this.authByBiometrics,
     required this.isBiometricsSupported,
     required this.stopAuthentication,
     required this.isBiometricsEnabled,
-  }) : super(enabled);
+  }) : super(false);
 
   final ToggleBiometricsUsecase toggleBiometrics;
   final AuthByBiometricsUsecase authByBiometrics;

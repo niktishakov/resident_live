@@ -7,16 +7,18 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:get_it/get_it.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/app/injection.config.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/home/cubit/focus_on_country_cubit.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/lib/utils/hero_utils.dart";
 import "package:resident_live/shared/shared.dart";
+import "package:resident_live/shared/widget/rl.outlined_button.dart";
 
-part "country_card.dart";
+part "country_card/country_card.dart";
 part "set_focus_button.dart";
+part "country_card/country_progress_indicator.dart";
 
 class FocusedCountryView extends StatefulWidget {
   const FocusedCountryView({
@@ -92,7 +94,6 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                           itemBuilder: (context, index) {
                             final countryCode = _countries[index];
                             final isHere = state.data?.isHere(countryCode) ?? false;
-                            final isFocused = countryCode == state.data?.focusedCountryCode;
 
                             return Hero(
                               tag: "residence_$countryCode",
@@ -117,7 +118,6 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
                                 child: CountryCard(
                                   countryCode: countryCode,
                                   isHere: isHere,
-                                  isFocused: isFocused,
                                   onTap: widget.onTap,
                                 ),
                               ),

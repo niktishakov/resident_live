@@ -6,7 +6,7 @@ A Flutter mobile application for [brief description of what your app does - appe
 
 - Location-based services (using geolocator and geocoding)
 - Authentication with biometrics (local_auth)
-- Multi-language support (easy_localization)
+- Multi-language support (intl, arb)
 - Data visualization with heatmaps and charts
 - Background task management
 - Secure data storage

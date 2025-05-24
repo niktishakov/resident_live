@@ -10,15 +10,15 @@
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
 // ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
-import "package:intl/intl.dart";
-import "package:intl/message_lookup_by_library.dart";
+import 'package:intl/intl.dart';
+import 'package:intl/message_lookup_by_library.dart';
 
 final messages = new MessageLookup();
 
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => "en";
+  String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addStayPeriodClickToGetStarted":
             MessageLookupByLibrary.simpleMessage("Click to get started"),
         "addStayPeriodDescription": MessageLookupByLibrary.simpleMessage(
-            "For each country you visited, let us know how many days you stayed.",),
+            "For each country you visited, let us know how many days you stayed."),
         "addStayPeriodHowToAddStayPeriods":
             MessageLookupByLibrary.simpleMessage("How To Add Stay Periods"),
         "addStayPeriodPeriodFrom":
@@ -37,12 +37,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "addStayPeriodPeriodTo":
             MessageLookupByLibrary.simpleMessage("Period to"),
         "addStayPeriodPoints": MessageLookupByLibrary.simpleMessage(
-            "1. Select a country\n2. Adjust dates on timeline\n3. Tap Add Period button",),
+            "1. Select a country\n2. Adjust dates on timeline\n3. Tap Add Period button"),
         "addStayPeriodTitle":
             MessageLookupByLibrary.simpleMessage("Add Your Stay Periods"),
         "addStayPeriodYouCanAddMorePeriods":
             MessageLookupByLibrary.simpleMessage(
-                "You can add multiple periods\nto your timeline.",),
+                "You can add multiple periods\nto your timeline."),
         "allCountriesAllTrackingResidences":
             MessageLookupByLibrary.simpleMessage("All Tracking Residences"),
         "allCountriesDays": MessageLookupByLibrary.simpleMessage("days"),
@@ -70,9 +70,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "detailsFocusOnThisCountry":
             MessageLookupByLibrary.simpleMessage("Focus on this country"),
         "detailsMoveToReachStatus": MessageLookupByLibrary.simpleMessage(
-            "Move to this country to reach status in",),
+            "Move to this country to reach status in"),
         "detailsNotifyMe": MessageLookupByLibrary.simpleMessage(
-            "Notify me for status updates",),
+            "Notify me for status updates"),
         "detailsOpen": MessageLookupByLibrary.simpleMessage("Open"),
         "detailsReadOn": MessageLookupByLibrary.simpleMessage("Read on"),
         "detailsReadRules":
@@ -81,11 +81,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Remove country"),
         "detailsRemoveCountryConfirmation":
             MessageLookupByLibrary.simpleMessage(
-                "Are you sure you want to remove this country from tracking?",),
+                "Are you sure you want to remove this country from tracking?"),
         "detailsResidencyProgress":
             MessageLookupByLibrary.simpleMessage("Residency Progress"),
         "detailsResidencyRulesResources":
-            MessageLookupByLibrary.simpleMessage("Residency Rules Resources"),
+            MessageLookupByLibrary.simpleMessage("Read a residence rules"),
         "detailsStatusMayBeUpdated":
             MessageLookupByLibrary.simpleMessage("Status may be updated at"),
         "detailsYouAreAResident":
@@ -138,10 +138,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "settingsTouchIdAccess":
             MessageLookupByLibrary.simpleMessage("Touch ID Access"),
         "statusesFreeToTravel": MessageLookupByLibrary.simpleMessage(
-            "You\'re free to travel about",),
+            "You\'re free to travel about"),
         "statusesMoveToThisCountryToReachStatusIn":
             MessageLookupByLibrary.simpleMessage(
-                "Move to this country to reach status in",),
+                "Move to this country to reach status in"),
         "statusesStatusIsSafeUntil":
             MessageLookupByLibrary.simpleMessage("Status is safe until"),
         "statusesStatusMayBeUpdatedAt":
@@ -153,7 +153,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "statusesTravelUntil":
             MessageLookupByLibrary.simpleMessage("You can travel until"),
         "statusesYouWillLoseYourStatusIn": MessageLookupByLibrary.simpleMessage(
-            "You will lose your status in",),
+            "You will lose your status in"),
         "weekdayFriday": MessageLookupByLibrary.simpleMessage("Friday"),
         "weekdayMonday": MessageLookupByLibrary.simpleMessage("Monday"),
         "weekdaySaturday": MessageLookupByLibrary.simpleMessage("Saturday"),
@@ -168,8 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "whereHaveYouBeenSearchCountries":
             MessageLookupByLibrary.simpleMessage("Search countries"),
         "whereHaveYouBeenSelectCountries": MessageLookupByLibrary.simpleMessage(
-            "Select the countries you\'ve visited in the last 12 months.",),
+            "Select the countries you\'ve visited in the last 12 months."),
         "whereHaveYouBeenTitle":
-            MessageLookupByLibrary.simpleMessage("Where have you been?"),
+            MessageLookupByLibrary.simpleMessage("Where have you been?")
       };
 }

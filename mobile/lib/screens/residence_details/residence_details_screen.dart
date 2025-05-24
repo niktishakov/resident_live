@@ -14,7 +14,7 @@ import "package:resident_live/screens/residence_details/widgets/calendar_circle_
 import "package:resident_live/screens/residence_details/widgets/focus_on_button/focus_on_button.dart";
 import "package:resident_live/screens/residence_details/widgets/header/header.dart";
 import "package:resident_live/screens/residence_details/widgets/notify_me_button/notify_me_button.dart";
-import "package:resident_live/screens/residence_details/widgets/read_rules_button/read_residency_rules_button.dart";
+import "package:resident_live/screens/residence_details/widgets/read_rules_button/read_rules_button.dart";
 import "package:resident_live/screens/residence_details/widgets/remove_residence_button/remove_residence_button.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/screens/your_journey/journey_page.dart";
@@ -26,17 +26,15 @@ part "widgets/calendar_buttons/today_button.dart";
 part "widgets/calendar_buttons/update_button.dart";
 
 class ResidenceDetailsScreen extends StatefulWidget {
-  const ResidenceDetailsScreen({
-    required this.countryCode,
-    super.key,
-  });
+  const ResidenceDetailsScreen({required this.countryCode, super.key});
   final String countryCode;
 
   @override
   State<ResidenceDetailsScreen> createState() => _ResidenceDetailsScreenState();
 }
 
-class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with SingleTickerProviderStateMixin {
+class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
@@ -142,10 +140,14 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                         }
                       } else if (notification is ScrollEndNotification) {
                         if (_isDraggingFromTop) {
-                          _finishDrag(_lastScrollVelocity * 20); // Умножаем на 20 для приближенного эквивалента velocity
+                          _finishDrag(
+                            _lastScrollVelocity * 20,
+                          ); // Умножаем на 20 для приближенного эквивалента velocity
                           return true;
                         }
-                      } else if (notification is UserScrollNotification && notification.direction == ScrollDirection.idle && _isDraggingFromTop) {
+                      } else if (notification is UserScrollNotification &&
+                          notification.direction == ScrollDirection.idle &&
+                          _isDraggingFromTop) {
                         // Дополнительная проверка для случаев, когда ScrollEndNotification может не сработать
                         _finishDrag(_lastScrollVelocity * 20);
                         return true;
@@ -157,30 +159,27 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                       builder: (context, child) {
                         return Opacity(
                           opacity: _opacityAnimation.value,
-                          child: Transform.scale(
-                            scale: _scaleAnimation.value,
-                            child: child,
-                          ),
+                          child: Transform.scale(scale: _scaleAnimation.value, child: child),
                         );
                       },
                       child: Builder(
                         builder: (context) {
                           return Hero(
                             tag: "residence_${widget.countryCode}",
-                            flightShuttleBuilder: (
-                              flightContext,
-                              animation,
-                              flightDirection,
-                              fromHeroContext,
-                              toHeroContext,
-                            ) =>
-                                toSecondHeroFlightShuttleBuilder(
-                              flightContext: flightContext,
-                              animation: animation,
-                              flightDirection: flightDirection,
-                              fromHeroContext: fromHeroContext,
-                              toHeroContext: toHeroContext,
-                            ),
+                            flightShuttleBuilder:
+                                (
+                                  flightContext,
+                                  animation,
+                                  flightDirection,
+                                  fromHeroContext,
+                                  toHeroContext,
+                                ) => toSecondHeroFlightShuttleBuilder(
+                                  flightContext: flightContext,
+                                  animation: animation,
+                                  flightDirection: flightDirection,
+                                  fromHeroContext: fromHeroContext,
+                                  toHeroContext: toHeroContext,
+                                ),
                             child: Material(
                               color: Colors.transparent,
                               child: RlCard(
@@ -254,7 +253,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                                   children: [
                                                     const Gap(24),
                                                     Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         _TodayButton(
                                                           onTap: () {
@@ -262,10 +262,13 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                                               useRootNavigator: true,
                                                               context: context,
                                                               duration: 300.ms,
-                                                              animationCurve: Curves.fastEaseInToSlowEaseOut,
-                                                              builder: (context) => ResidencyJourneyScreen(
-                                                                initialDate: DateTime.now(),
-                                                              ),
+                                                              animationCurve:
+                                                                  Curves.fastEaseInToSlowEaseOut,
+                                                              builder:
+                                                                  (context) =>
+                                                                      ResidencyJourneyScreen(
+                                                                        initialDate: DateTime.now(),
+                                                                      ),
                                                             );
                                                           },
                                                         ),
@@ -276,10 +279,13 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                                               useRootNavigator: true,
                                                               context: context,
                                                               duration: 300.ms,
-                                                              animationCurve: Curves.fastEaseInToSlowEaseOut,
-                                                              builder: (context) => ResidencyJourneyScreen(
-                                                                initialDate: statusUpdateAt,
-                                                              ),
+                                                              animationCurve:
+                                                                  Curves.fastEaseInToSlowEaseOut,
+                                                              builder:
+                                                                  (context) =>
+                                                                      ResidencyJourneyScreen(
+                                                                        initialDate: statusUpdateAt,
+                                                                      ),
                                                             );
                                                           },
                                                           date: statusUpdateAt,
@@ -290,10 +296,16 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                                     FractionallySizedBox(
                                                       widthFactor: 0.85,
                                                       child: CalendarCircleBar(
-                                                        dividerColor: context.theme.scaffoldBackgroundColor,
+                                                        dividerColor:
+                                                            context.theme.scaffoldBackgroundColor,
                                                         stayPeriods: countryStayPeriods,
                                                         progress: "$daysSpent/183",
-                                                        backgroundColor: const Color.fromARGB(255, 54, 95, 137).withValues(alpha: 0.2),
+                                                        backgroundColor: const Color.fromARGB(
+                                                          255,
+                                                          54,
+                                                          95,
+                                                          137,
+                                                        ).withValues(alpha: 0.2),
                                                         activeColor: Colors.green,
                                                         statusUpdateDate: statusUpdateAt,
                                                         centerTextStyle: theme.title32Semi.copyWith(
@@ -319,10 +331,15 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                                             useRootNavigator: true,
                                                             context: context,
                                                             duration: 300.ms,
-                                                            animationCurve: Curves.fastEaseInToSlowEaseOut,
+                                                            animationCurve:
+                                                                Curves.fastEaseInToSlowEaseOut,
                                                             builder: (context) {
                                                               final now = DateTime.now();
-                                                              final date = DateTime(now.year, (index + 1) % 12, now.day);
+                                                              final date = DateTime(
+                                                                now.year,
+                                                                (index + 1) % 12,
+                                                                now.day,
+                                                              );
                                                               return ResidencyJourneyScreen(
                                                                 initialDate: date,
                                                               );
@@ -332,15 +349,24 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen> with Si
                                                       ),
                                                     ).animate(),
                                                     const Gap(32),
-                                                    const NotifyMeButton().animate().fadeIn(delay: 600.ms),
+                                                    const NotifyMeButton().animate().fadeIn(
+                                                      delay: 600.ms,
+                                                    ),
                                                     const Gap(24),
                                                     const Divider(
                                                       color: Color(0x88888888),
                                                     ).animate().fadeIn(delay: 700.ms),
                                                     const Gap(8),
-                                                    FocusOnButton(isFocused: isFocused, countryCode: widget.countryCode),
-                                                    const ReadResidencyRulesButton().animate().fadeIn(delay: 900.ms),
-                                                    const RemoveResidenceButton().animate().fadeIn(delay: 1000.ms),
+                                                    FocusOnButton(
+                                                      isFocused: isFocused,
+                                                      countryCode: widget.countryCode,
+                                                    ),
+                                                    const ReadResidencyRulesButton()
+                                                        .animate()
+                                                        .fadeIn(delay: 900.ms),
+                                                    const RemoveResidenceButton().animate().fadeIn(
+                                                      delay: 1000.ms,
+                                                    ),
                                                     const Gap(40),
                                                   ],
                                                 ),

@@ -21,44 +21,42 @@ class _ReportBugButtonState extends State<ReportBugButton> {
 
     return CupertinoButton(
       padding: EdgeInsets.zero,
-      onPressed: _isLoading
-          ? null
-          : () async {
-              setState(() => _isLoading = true);
+      onPressed:
+          _isLoading
+              ? null
+              : () async {
+                setState(() => _isLoading = true);
 
-              final logFile = AiLogger.logFile;
-              final logger = AiLogger("SettingsScreen");
+                final logFile = getIt<LoggerService>().logFile;
+                final logger = getIt<LoggerService>();
 
-              if (await logFile.exists()) {
-                try {
-                  await getIt<ShareService>().shareFile(logFile);
-                } catch (e) {
-                  logger.error(e);
+                if (await logFile.exists()) {
+                  try {
+                    await getIt<ShareService>().shareFile(logFile);
+                  } catch (e) {
+                    logger.error(e);
+                    if (context.mounted) {
+                      ToastService.instance.showToast(
+                        context,
+                        message: "Failed to send bug report: ${e.toString()}",
+                      );
+                    }
+                  }
+                } else {
+                  logger.error("Log file not found!");
                   if (context.mounted) {
-                    ToastService.instance.showToast(
-                      context,
-                      message: "Failed to send bug report: ${e.toString()}",
-                    );
+                    ToastService.instance.showToast(context, message: "Log file not found!");
                   }
                 }
-              } else {
-                logger.error("Log file not found!");
-                if (context.mounted) {
-                  ToastService.instance.showToast(context, message: "Log file not found!");
-                }
-              }
-              setState(() => _isLoading = false);
-            },
+                setState(() => _isLoading = false);
+              },
       child: Padding(
         padding: const EdgeInsets.only(top: 12.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Report a Bug", style: theme.body18),
-            if (_isLoading) ...[
-              const Gap(8),
-              const CupertinoActivityIndicator(),
-            ],
+            if (_isLoading) ...[const Gap(8), const CupertinoActivityIndicator()],
           ],
         ),
       ),

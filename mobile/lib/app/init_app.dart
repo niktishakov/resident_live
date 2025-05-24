@@ -26,8 +26,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
 final shellKey = GlobalKey<NavigatorState>();
 
 Future<MyApp> initApp() async {
-  await AiLogger.initialize();
-
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
@@ -51,10 +49,7 @@ Future<MyApp> initApp() async {
     navigatorKey: navigatorKey,
     routes: getRoutes(shellKey),
     initialLocation: ScreenNames.splash,
-    observers: [
-      CoreRouteObserver(),
-      AiAnalyticsObserver(AiAnalytics.instance),
-    ],
+    observers: [CoreRouteObserver(), AiAnalyticsObserver(AiAnalytics.instance)],
   );
 
   final rlThemeProvider = RlThemeProvider(RlTheme());
@@ -69,10 +64,9 @@ Future<MyApp> initApp() async {
   return MyApp(
     providers: [
       BlocProvider(
-        create: (_) => LanguageCubit(
-          supportedLocales: kSupportedLocales,
-          fallbackLocale: kFallbackLocale,
-        ),
+        create:
+            (_) =>
+                LanguageCubit(supportedLocales: kSupportedLocales, fallbackLocale: kFallbackLocale),
       ),
       ChangeNotifierProvider.value(value: rlThemeProvider),
       Provider.value(value: deviceInfoService),

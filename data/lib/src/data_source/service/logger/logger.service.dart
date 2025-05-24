@@ -9,7 +9,13 @@ import "package:path_provider/path_provider.dart";
 class LoggerService {
   LoggerService() : _logger = Logger("LoggerService");
 
-  static final _levelEmoji = <Level, String>{Level.FINE: "🔎", Level.CONFIG: "💬", Level.INFO: "💡", Level.WARNING: "⚠️", Level.SEVERE: "⛔"};
+  static final _levelEmoji = <Level, String>{
+    Level.FINE: "🔎",
+    Level.CONFIG: "💬",
+    Level.INFO: "💡",
+    Level.WARNING: "⚠️",
+    Level.SEVERE: "⛔"
+  };
 
   static final _levelName = <Level, String>{
     Level.FINE: "TRACE",
@@ -36,7 +42,8 @@ class LoggerService {
 
     Logger.root.level = Level.FINE;
     Logger.root.onRecord.listen((rec) async {
-      final entry = "${rec.time.toIso8601String()} ${_levelEmoji[rec.level]} ${_levelName[rec.level]} - "
+      final entry =
+          "${rec.time.toIso8601String()} ${_levelEmoji[rec.level]} ${_levelName[rec.level]} - "
           "[${rec.loggerName}] ${_stringifyMessage(rec.message)}";
 
       // ignore: avoid_print
@@ -46,7 +53,9 @@ class LoggerService {
   }
 
   String _stringifyMessage(dynamic message) {
-    return message is Map || message is Iterable ? jsonEncoder.convert(message) : message.toString();
+    return message is Map || message is Iterable
+        ? jsonEncoder.convert(message)
+        : message.toString();
   }
 
   void trace(Object? message, [Object? error, StackTrace? stackTrace]) {

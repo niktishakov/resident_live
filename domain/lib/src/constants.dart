@@ -6,9 +6,12 @@ const String playStoreLink = "https://play.google.com/store/apps/details?id=your
 const String privacyPolicyUrl = "https://google.com";
 const String termsOfUseUrl = "https://google.com";
 
-const kpmgUrl = "https://kpmg.com/xx/en/our-insights/gms-flash-alert/taxation-international-executives.html";
+const kpmgUrl =
+    "https://kpmg.com/xx/en/our-insights/gms-flash-alert/taxation-international-executives.html";
 const deloitteUrl = "https://dits.deloitte.com/#TaxGuides";
 const pwcUrl = "https://taxsummaries.pwc.com/";
+const oecdUrl =
+    "https://web-archive.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-residency/index.htm";
 
 const Map<String, Map<String, String>> languageNames = {
   "en_US": {"native": "English", "english": "English"},

@@ -7,9 +7,13 @@ import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/residence_details/widgets/read_rules_button/widgets/preview.dart";
+import "package:resident_live/shared/lib/service/toast.service.dart";
 import "package:resident_live/shared/shared.dart";
+import "package:url_launcher/url_launcher.dart";
 
+part "widgets/preview_grid.dart";
 part "widgets/preview_card.dart";
+part "widgets/modal_header.dart";
 
 Future<void> showResidencyRulesModal(BuildContext context) {
   return showModalBottomSheet(
@@ -31,7 +35,6 @@ class _ResidencyRulesModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.rlTheme;
     return TweenAnimationBuilder<double>(
       duration: const Duration(milliseconds: 300),
       tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -49,45 +52,10 @@ class _ResidencyRulesModal extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Grabber(),
-                const Gap(12),
-                Row(
-                  children: [
-                    Text(
-                      S.of(context).detailsResidencyRulesResources,
-                      style: theme.body18M.copyWith(color: theme.textPrimary),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () => context.pop(),
-                      child: Icon(
-                        CupertinoIcons.xmark_circle_fill,
-                        size: 26,
-                        color: theme.textPrimary,
-                      ),
-                    ),
-                  ],
-                ),
-                const Gap(48),
-                GridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 8,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: const [
-                    _PreviewCard(
-                      title: "Deloitte",
-                      url: deloitteUrl,
-                      image: "assets/imgs/pwc_preview.png",
-                    ),
-                    _PreviewCard(title: "PWC", url: pwcUrl, image: "assets/imgs/pwc_preview2.png"),
-                    _PreviewCard(
-                      title: "KPMG",
-                      url: kpmgUrl,
-                      image: "assets/imgs/kpmg_preview.png",
-                    ),
-                  ],
-                ),
+                context.vBox12,
+                _ModalHeader(title: S.of(context).detailsResidencyRulesResources),
+                context.vBox40,
+                const _PreviewGrid(),
               ],
             ),
           ),

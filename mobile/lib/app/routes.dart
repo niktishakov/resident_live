@@ -16,7 +16,6 @@ import "package:resident_live/screens/residence_details/residence_details_screen
 import "package:resident_live/screens/settings/settings_screen.dart";
 import "package:resident_live/screens/splash/splash_screen.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/shared/widget/webview/webview_page.dart";
 
 List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
   return [
@@ -24,20 +23,14 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       path: ScreenNames.splash,
       name: ScreenNames.splash,
       pageBuilder: (ctx, state) {
-        return kRootCupertinoPage(
-          const SplashScreen(),
-          ScreenNames.splash,
-        );
+        return kRootCupertinoPage(const SplashScreen(), ScreenNames.splash);
       },
     ),
     ShellRoute(
       navigatorKey: shellKey,
       pageBuilder: (ctx, state, child) {
         return CupertinoPage(
-          child: AiBottomBar(
-            state: state,
-            child: child,
-          ),
+          child: AiBottomBar(state: state, child: child),
           name: state.uri.toString(),
         );
       },
@@ -46,19 +39,14 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
           parentNavigatorKey: shellKey,
           path: ScreenNames.home,
           name: ScreenNames.home,
-          pageBuilder: (context, state) => kNoTransitionPage(
-            const HomeScreen(),
-            ScreenNames.home,
-          ),
+          pageBuilder: (context, state) => kNoTransitionPage(const HomeScreen(), ScreenNames.home),
         ),
         GoRoute(
           parentNavigatorKey: shellKey,
           path: ScreenNames.settings,
           name: ScreenNames.settings,
-          pageBuilder: (context, state) => kNoTransitionPage(
-            const SettingsScreen(),
-            ScreenNames.settings,
-          ),
+          pageBuilder:
+              (context, state) => kNoTransitionPage(const SettingsScreen(), ScreenNames.settings),
         ),
       ],
     ),
@@ -66,10 +54,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       path: ScreenNames.onboarding,
       name: ScreenNames.onboarding,
       pageBuilder: (ctx, state) {
-        return kRootCupertinoPage(
-          const OnboardingScreen(),
-          ScreenNames.onboarding,
-        );
+        return kRootCupertinoPage(const OnboardingScreen(), ScreenNames.onboarding);
       },
     ),
     GoRoute(
@@ -78,11 +63,13 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(
           BlocProvider(
-            create: (context) => GetStartedCubit(
-              getIt<GetCoordinatesUsecase>(),
-              getIt<GetPlacemarkUsecase>(),
-              getIt<SyncCountriesFromGeoUseCase>(),
-            ),
+            create:
+                (context) => GetStartedCubit(
+                  getIt<RequestGeoPermissionUsecase>(),
+                  getIt<GetCoordinatesUsecase>(),
+                  getIt<GetPlacemarkUsecase>(),
+                  getIt<SyncCountriesFromGeoUseCase>(),
+                ),
             child: const GetStartedScreen(),
           ),
           ScreenNames.getStarted,
@@ -93,10 +80,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       path: ScreenNames.manageCountries,
       name: ScreenNames.manageCountries,
       pageBuilder: (ctx, state) {
-        return kRootCupertinoPage(
-          const ManageCountriesScreen(),
-          ScreenNames.manageCountries,
-        );
+        return kRootCupertinoPage(const ManageCountriesScreen(), ScreenNames.manageCountries);
       },
     ),
     GoRoute(
@@ -127,33 +111,14 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       path: ScreenNames.allTrackingCountries,
       name: ScreenNames.allTrackingCountries,
       pageBuilder: (ctx, state) {
-        return kRootCupertinoPage(
-          const AllCountriesScreen(),
-          ScreenNames.allTrackingCountries,
-        );
+        return kRootCupertinoPage(const AllCountriesScreen(), ScreenNames.allTrackingCountries);
       },
     ),
     GoRoute(
       path: ScreenNames.language,
       name: ScreenNames.language,
       pageBuilder: (ctx, state) {
-        return kRootCupertinoPage(
-          const LanguageScreen(),
-          ScreenNames.language,
-        );
-      },
-    ),
-    GoRoute(
-      path: ScreenNames.webView,
-      name: ScreenNames.webView,
-      pageBuilder: (ctx, state) {
-        return kSlideTransitionPage(
-          WebviewPage(
-            url: state.extra! as String,
-            title: state.extra! as String,
-          ),
-          ScreenNames.webView,
-        );
+        return kRootCupertinoPage(const LanguageScreen(), ScreenNames.language);
       },
     ),
   ];

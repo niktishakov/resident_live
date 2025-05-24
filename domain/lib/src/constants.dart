@@ -3,8 +3,10 @@ import "dart:ui";
 const String appName = "Resident Live";
 const String appStoreLink = "https://apps.apple.com/your-app-link";
 const String playStoreLink = "https://play.google.com/store/apps/details?id=your.app.id";
-const String privacyPolicyUrl = "https://google.com";
-const String termsOfUseUrl = "https://google.com";
+const String privacyPolicyUrl =
+    "https://oil-dance-a77.notion.site/Resident-Live-s-Privacy-policy-1f33399c8482802b9ca3f02460bcbab6";
+const String termsOfUseUrl =
+    "https://oil-dance-a77.notion.site/Resident-live-s-Terms-and-Conditions-1f33399c848280a98f86e7ce12f3b8d9";
 
 const kpmgUrl =
     "https://kpmg.com/xx/en/our-insights/gms-flash-alert/taxation-international-executives.html";

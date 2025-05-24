@@ -14,7 +14,7 @@ import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/residence_details/cubit/clear_focus_cubit.dart";
 import "package:resident_live/screens/residence_details/cubit/focus_country_cubit.dart";
-import "package:resident_live/screens/residence_details/widgets/read_rules_button/residency_rules_modal.dart";
+import "package:resident_live/screens/residence_details/widgets/read_rules_button/read_rules_modal.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/screens/your_journey/journey_page.dart";
 import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
@@ -32,13 +32,14 @@ const _statuses = {
   "a": ["Move to this country to reach status in", "Status may be updated at"],
 };
 
-List<String> getStatusMessage({required bool isHere, required bool isResident}) => _statuses[isHere && isResident
-    ? "hr"
-    : isHere
+List<String> getStatusMessage({required bool isHere, required bool isResident}) =>
+    _statuses[isHere && isResident
+        ? "hr"
+        : isHere
         ? "h"
         : isResident
-            ? "r"
-            : "a"]!;
+        ? "r"
+        : "a"]!;
 
 class ResidenceDetailsScreen2 extends StatefulWidget {
   const ResidenceDetailsScreen2({required this.countryCode, super.key});
@@ -48,7 +49,8 @@ class ResidenceDetailsScreen2 extends StatefulWidget {
   State<ResidenceDetailsScreen2> createState() => _ResidenceDetailsScreen2State();
 }
 
-class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with SingleTickerProviderStateMixin {
+class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   final screenKey = GlobalKey();
 
@@ -56,7 +58,10 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
 
   @override
   void initState() {
-    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
 
     super.initState();
   }
@@ -75,13 +80,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
 
     await SharePlus.instance.share(
       ShareParams(
-        files: [
-          XFile.fromData(
-            bytes,
-            name: "residence_status.png",
-            mimeType: "image/png",
-          ),
-        ],
+        files: [XFile.fromData(bytes, name: "residence_status.png", mimeType: "image/png")],
         text: "Track your global residency journey with Resident Live! Download now: $appStoreLink",
       ),
     );
@@ -119,27 +118,22 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
               builder: (context) {
                 return AnimatedBuilder(
                   animation: _animationController,
-                  builder: (context, child) => RlCard(
-                    borderRadius: 0.0,
-                    padding: EdgeInsets.zero,
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        context.theme.cardColor,
-                        context.theme.scaffoldBackgroundColor,
-                      ],
-                    ),
-                    child: child,
-                  ),
+                  builder:
+                      (context, child) => RlCard(
+                        borderRadius: 0.0,
+                        padding: EdgeInsets.zero,
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [context.theme.cardColor, context.theme.scaffoldBackgroundColor],
+                        ),
+                        child: child,
+                      ),
                   child: CupertinoPageScaffold(
                     backgroundColor: Colors.transparent,
                     navigationBar: CupertinoNavigationBar(
                       backgroundColor: Colors.transparent,
-                      leading: const AiBackButton(
-                        padding: EdgeInsets.zero,
-                        title: "Back",
-                      ),
+                      leading: const AiBackButton(padding: EdgeInsets.zero, title: "Back"),
                       trailing: BouncingButton(
                         onPressed: (_) {
                           VibrationService.instance.tap();
@@ -172,10 +166,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
                               fontSize: 17,
                             ),
                           ),
-                          if (isHere) ...[
-                            const Gap(4),
-                            const Here(shorter: true),
-                          ],
+                          if (isHere) ...[const Gap(4), const Here(shorter: true)],
                         ],
                       ),
                     ),
@@ -195,33 +186,36 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
                                     key: progressKey,
                                     child: ProgressBar(
                                       completionPercentage: progress,
-                                      direction: isHere ? ProgressDirection.up : ProgressDirection.down,
+                                      direction:
+                                          isHere ? ProgressDirection.up : ProgressDirection.down,
                                       radius: 200,
                                       strokeWidth: 20,
                                       duration: 300.ms,
                                       doneLabel: "You are a resident!",
                                       label: "Residency Progress",
                                       backgroundColor: const Color(0xff3C3C3C),
-                                      valueColor: isResident && isHere ? Colors.greenAccent : context.theme.primaryColor,
+                                      valueColor:
+                                          isResident && isHere
+                                              ? Colors.greenAccent
+                                              : context.theme.primaryColor,
                                     ),
                                   ),
                                 ),
                               ),
                               const Gap(32),
                               Text.rich(
-                                TextSpan(
-                                  children: [
                                     TextSpan(
-                                      text: statusText,
-                                      style: theme.body14,
+                                      children: [
+                                        TextSpan(text: statusText, style: theme.body14),
+                                        TextSpan(
+                                          text: "\n$statusUpdateIn days",
+                                          style: theme.body18M.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    TextSpan(
-                                      text: "\n$statusUpdateIn days",
-                                      style: theme.body18M.copyWith(fontWeight: FontWeight.w700),
-                                    ),
-                                  ],
-                                ),
-                              )
+                                  )
                                   .animate(delay: 500.ms)
                                   .slideX(
                                     begin: -2,
@@ -233,21 +227,18 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text.rich(
-                                    TextSpan(
-                                      children: [
                                         TextSpan(
-                                          text: suggestionText,
-                                          style: theme.body14,
+                                          children: [
+                                            TextSpan(text: suggestionText, style: theme.body14),
+                                            TextSpan(
+                                              text: "\n${statusUpdateAt.toMMMMDDYYYY()}",
+                                              style: theme.body18M.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        TextSpan(
-                                          text: "\n${statusUpdateAt.toMMMMDDYYYY()}",
-                                          style: theme.body18M.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
+                                      )
                                       .animate(delay: 500.ms)
                                       .slideX(
                                         begin: -2,
@@ -256,49 +247,44 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
                                       )
                                       .fade(),
                                   BouncingButton(
-                                    onPressed: (_) async {
-                                      await CupertinoScaffold.showCupertinoModalBottomSheet(
-                                        useRootNavigator: true,
-                                        context: context,
-                                        duration: 300.ms,
-                                        animationCurve: Curves.fastEaseInToSlowEaseOut,
-                                        builder: (context) => const ResidencyJourneyScreen(),
-                                      );
-                                    },
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(24),
-                                        border: Border.all(
-                                          width: 1,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Icon(
-                                              CupertinoIcons.calendar,
-                                              size: 18,
-                                              color: Colors.white,
+                                        onPressed: (_) async {
+                                          await CupertinoScaffold.showCupertinoModalBottomSheet(
+                                            useRootNavigator: true,
+                                            context: context,
+                                            duration: 300.ms,
+                                            animationCurve: Curves.fastEaseInToSlowEaseOut,
+                                            builder: (context) => const ResidencyJourneyScreen(),
+                                          );
+                                        },
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(24),
+                                            border: Border.all(width: 1, color: Colors.white),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                            child: Row(
+                                              children: [
+                                                const Icon(
+                                                  CupertinoIcons.calendar,
+                                                  size: 18,
+                                                  color: Colors.white,
+                                                ),
+                                                const Gap(4),
+                                                Text(
+                                                  "Open",
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                    height: 32 / 14,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            const Gap(4),
-                                            Text(
-                                              "Open",
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                height: 32 / 14,
-                                              ),
-                                            ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  )
+                                      )
                                       .animate(delay: 500.ms)
                                       .slideX(
                                         begin: 1.5,
@@ -311,9 +297,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
                               const Gap(8),
                               Row(
                                 children: [
-                                  const Expanded(
-                                    child: Text("Notify me for status updates"),
-                                  ),
+                                  const Expanded(child: Text("Notify me for status updates")),
                                   Switch(
                                     value: true,
                                     onChanged: (value) {
@@ -336,10 +320,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
                                     height: value * 40,
                                     child: Transform.translate(
                                       offset: Offset(-20 * (1 - value), 0),
-                                      child: Opacity(
-                                        opacity: value.clamp(0.0, 1.0),
-                                        child: child,
-                                      ),
+                                      child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
                                     ),
                                   );
                                 },
@@ -352,7 +333,9 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
                                       color: context.theme.colorScheme.secondary,
                                     ),
                                     onPressed: () {
-                                      find<FocusOnCountryCubit>(context).loadResource(widget.countryCode);
+                                      find<FocusOnCountryCubit>(
+                                        context,
+                                      ).loadResource(widget.countryCode);
                                     },
                                     child: Text(
                                       "Focus on this country",
@@ -390,27 +373,28 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2> with 
                                   onPressed: () {
                                     showCupertinoDialog(
                                       context: context,
-                                      builder: (context) => CupertinoAlertDialog(
-                                        title: const Text("Remove Country"),
-                                        content: const Text(
-                                          "Are you sure you want to remove this country from tracking?",
-                                        ),
-                                        actions: [
-                                          CupertinoDialogAction(
-                                            child: const Text("Cancel"),
-                                            onPressed: () => Navigator.pop(context),
+                                      builder:
+                                          (context) => CupertinoAlertDialog(
+                                            title: const Text("Remove Country"),
+                                            content: const Text(
+                                              "Are you sure you want to remove this country from tracking?",
+                                            ),
+                                            actions: [
+                                              CupertinoDialogAction(
+                                                child: const Text("Cancel"),
+                                                onPressed: () => Navigator.pop(context),
+                                              ),
+                                              CupertinoDialogAction(
+                                                isDestructiveAction: true,
+                                                child: const Text("Remove"),
+                                                onPressed: () {
+                                                  context.pop();
+                                                  context.pop();
+                                                  find<ClearFocusCubit>(context).loadResource();
+                                                },
+                                              ),
+                                            ],
                                           ),
-                                          CupertinoDialogAction(
-                                            isDestructiveAction: true,
-                                            child: const Text("Remove"),
-                                            onPressed: () {
-                                              context.pop();
-                                              context.pop();
-                                              find<ClearFocusCubit>(context).loadResource();
-                                            },
-                                          ),
-                                        ],
-                                      ),
                                     );
                                   },
                                   leading: const Icon(

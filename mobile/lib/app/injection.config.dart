@@ -57,11 +57,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i373.IsBiometricsSupportedCubit>(() =>
         _i373.IsBiometricsSupportedCubit(
             gh<_i494.IsBiometricsSupportedUsecase>()));
-    gh.lazySingleton<_i74.GetStartedCubit>(() => _i74.GetStartedCubit(
-          gh<_i494.GetCoordinatesUsecase>(),
-          gh<_i494.GetPlacemarkUsecase>(),
-          gh<_i494.SyncCountriesFromGeoUseCase>(),
-        ));
     gh.lazySingleton<_i927.ToggleBiometricsCubit>(
         () => _i927.ToggleBiometricsCubit(
               toggleBiometrics: gh<_i494.ToggleBiometricsUsecase>(),
@@ -89,6 +84,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i444.UpdateCountriesCubit(gh<_i494.UpdateStayPeriodsUsecase>()));
     gh.singleton<_i295.RemoveCountryCubit>(() => _i295.RemoveCountryCubit(
         gh<_i494.RemoveStayPeriodsByCountryUsecase>()));
+    gh.lazySingleton<_i74.GetStartedCubit>(() => _i74.GetStartedCubit(
+          gh<_i494.RequestGeoPermissionUsecase>(),
+          gh<_i494.GetCoordinatesUsecase>(),
+          gh<_i494.GetPlacemarkUsecase>(),
+          gh<_i494.SyncCountriesFromGeoUseCase>(),
+        ));
     gh.lazySingleton<_i913.AuthByBiometricsCubit>(
         () => _i913.AuthByBiometricsCubit(gh<_i494.AuthByBiometricsUsecase>()));
     return this;

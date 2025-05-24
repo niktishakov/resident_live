@@ -22,11 +22,13 @@ class GetStartedState with _$GetStartedState {
 @lazySingleton
 class GetStartedCubit extends Cubit<GetStartedState> {
   GetStartedCubit(
+    this._requestGeoPermissionUsecase,
     this._getCoordinatesUsecase,
     this._getPlacemarkUsecase,
     this._syncCountriesFromGeoUsecase,
   ) : super(const GetStartedState());
 
+  final RequestGeoPermissionUsecase _requestGeoPermissionUsecase;
   final GetCoordinatesUsecase _getCoordinatesUsecase;
   final GetPlacemarkUsecase _getPlacemarkUsecase;
   final SyncCountriesFromGeoUseCase _syncCountriesFromGeoUsecase;
@@ -37,11 +39,19 @@ class GetStartedCubit extends Cubit<GetStartedState> {
 
   Future<void> triggerGeoPermission() async {
     try {
+      print("triggerGeoPermission");
+      final isPermissionAllowed = await _requestGeoPermissionUsecase.call();
+      if (!isPermissionAllowed) {
+        emit(state.copyWith(focusedCountryError: "Permission not allowed"));
+        return;
+      }
       final coordinates = await _getCoordinatesUsecase.call();
       final placemark = await _getPlacemarkUsecase.call(coordinates);
       await _syncCountriesFromGeoUsecase.call(placemark: placemark);
+      print("triggerGeoPermission success");
       emit(state.copyWith(isGeoPermissionAllowed: true));
     } catch (e) {
+      print("triggerGeoPermission error: $e");
       emit(state.copyWith(focusedCountryError: e.toString()));
     }
   }

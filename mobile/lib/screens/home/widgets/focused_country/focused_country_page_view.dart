@@ -17,14 +17,11 @@ import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/rl.outlined_button.dart";
 
 part "country_card/country_card.dart";
-part "set_focus_button.dart";
+part "set_focus/set_focus_button.dart";
 part "country_card/country_progress_indicator.dart";
 
 class FocusedCountryView extends StatefulWidget {
-  const FocusedCountryView({
-    required this.onTap,
-    super.key,
-  });
+  const FocusedCountryView({required this.onTap, super.key});
   final Function(String) onTap;
 
   @override
@@ -45,7 +42,8 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
     final focusedCountryCode = user?.focusedCountryCode;
     _countries = countries?.keys.toList() ?? [];
 
-    _currentPageCountryCode = countries?.keys.firstWhereOrNull((c) => c == focusedCountryCode) ?? "";
+    _currentPageCountryCode =
+        countries?.keys.firstWhereOrNull((c) => c == focusedCountryCode) ?? "";
     _currentPage = countries?.keys.toList().indexOf(_currentPageCountryCode) ?? 0;
     _pageController = PageController(initialPage: _currentPage);
   }
@@ -69,9 +67,7 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
             elevation: 0,
             color: Colors.transparent,
             child: Container(
-              constraints: BoxConstraints(
-                maxWidth: context.mediaQuery.size.width,
-              ),
+              constraints: BoxConstraints(maxWidth: context.mediaQuery.size.width),
               child: RlCard(
                 gradient: kMainGradient,
                 borderRadius: beginBorderRadius.topLeft.x,
@@ -97,22 +93,22 @@ class _FocusedCountryViewState extends State<FocusedCountryView> {
 
                             return Hero(
                               tag: "residence_$countryCode",
-                              flightShuttleBuilder: (
-                                flightContext,
-                                animation,
-                                flightDirection,
-                                fromHeroContext,
-                                toHeroContext,
-                              ) =>
-                                  toFirstHeroFlightShuttleBuilder(
-                                flightContext: flightContext,
-                                animation: animation,
-                                flightDirection: flightDirection,
-                                fromHeroContext: fromHeroContext,
-                                toHeroContext: toHeroContext,
-                                beginBorderRadius: beginBorderRadius.topLeft.x,
-                                endBorderRadius: kLargeBorderRadius,
-                              ),
+                              flightShuttleBuilder:
+                                  (
+                                    flightContext,
+                                    animation,
+                                    flightDirection,
+                                    fromHeroContext,
+                                    toHeroContext,
+                                  ) => toFirstHeroFlightShuttleBuilder(
+                                    flightContext: flightContext,
+                                    animation: animation,
+                                    flightDirection: flightDirection,
+                                    fromHeroContext: fromHeroContext,
+                                    toHeroContext: toHeroContext,
+                                    beginBorderRadius: beginBorderRadius.topLeft.x,
+                                    endBorderRadius: kLargeBorderRadius,
+                                  ),
                               child: Material(
                                 color: Colors.transparent,
                                 child: CountryCard(

@@ -10,15 +10,15 @@
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
 // ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
-import "package:intl/intl.dart";
-import "package:intl/message_lookup_by_library.dart";
+import 'package:intl/intl.dart';
+import 'package:intl/message_lookup_by_library.dart';
 
 final messages = new MessageLookup();
 
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => "de";
+  String get localeName => 'de';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -27,6 +27,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sprache auswählen"),
         "languageUpdated":
             MessageLookupByLibrary.simpleMessage("Sprache aktualisiert"),
-        "settingsTitle": MessageLookupByLibrary.simpleMessage("Einstellungen"),
+        "settingsTitle": MessageLookupByLibrary.simpleMessage("Einstellungen")
       };
 }

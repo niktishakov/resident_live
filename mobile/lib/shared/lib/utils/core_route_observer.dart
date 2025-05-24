@@ -1,11 +1,11 @@
+import "package:data/data.dart";
 import "package:flutter/material.dart";
-
-import "package:resident_live/shared/lib/ai.logger.dart";
+import "package:resident_live/app/injection.dart";
 
 class CoreRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   List<Route<dynamic>> routeStack = [];
 
-  static final _logger = AiLogger("CoreRouteObserver");
+  static final _logger = getIt<LoggerService>();
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
@@ -35,8 +35,6 @@ class CoreRouteObserver extends RouteObserver<PageRoute<dynamic>> {
     routeStack.add(newRoute!);
     _logger.info(routeToString());
   }
-
-
 
   String routeToString() {
     return routeStack.map((item) => item.settings.name).toList().toString();

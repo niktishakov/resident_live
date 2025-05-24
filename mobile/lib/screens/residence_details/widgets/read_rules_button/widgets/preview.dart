@@ -29,9 +29,11 @@ class _PreviewState extends State<Preview> {
           ..setNavigationDelegate(
             NavigationDelegate(
               onPageFinished: (url) {
-                setState(() {
-                  isLoading = false;
-                });
+                if (mounted) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
               },
             ),
           )

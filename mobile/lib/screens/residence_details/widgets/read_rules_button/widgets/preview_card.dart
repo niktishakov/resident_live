@@ -1,11 +1,10 @@
-part of "../residency_rules_modal.dart";
+part of "../read_rules_modal.dart";
 
 class _PreviewCard extends StatelessWidget {
-  const _PreviewCard({required this.title, required this.url, required this.image});
+  const _PreviewCard({required this.title, required this.url});
 
   final String title;
   final String url;
-  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +15,7 @@ class _PreviewCard extends StatelessWidget {
     const internalBorderRadius = borderRadius - internalPadding;
 
     return GestureDetector(
-      onTap: () {
-        showWebViewModal(context: context, url: url, title: title);
-      },
+      onTap: () => _onCardTap(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -67,5 +64,16 @@ class _PreviewCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _onCardTap(BuildContext context) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.inAppWebView);
+    } else {
+      if (context.mounted) {
+        ToastService.instance.showToast(context, message: "Something went wrong");
+      }
+    }
   }
 }

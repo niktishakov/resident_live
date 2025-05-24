@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-import "package:flutter/material.dart";
-import "package:intl/intl.dart";
-import "package:resident_live/localization/generated/l10n/intl/messages_all.dart";
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'intl/messages_all.dart';
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -19,7 +19,7 @@ class S {
 
   static S get current {
     assert(_current != null,
-        "No instance of S was loaded. Try to initialize the S delegate before accessing S.current.",);
+        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
@@ -42,7 +42,7 @@ class S {
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
     assert(instance != null,
-        "No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?",);
+        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -53,9 +53,9 @@ class S {
   /// `Resident Live`
   String get appName {
     return Intl.message(
-      "Resident Live",
-      name: "appName",
-      desc: "",
+      'Resident Live',
+      name: 'appName',
+      desc: '',
       args: [],
     );
   }
@@ -63,9 +63,9 @@ class S {
   /// `Common`
   String get common {
     return Intl.message(
-      "Common",
-      name: "common",
-      desc: "",
+      'Common',
+      name: 'common',
+      desc: '',
       args: [],
     );
   }
@@ -73,9 +73,9 @@ class S {
   /// `On`
   String get commonOn {
     return Intl.message(
-      "On",
-      name: "commonOn",
-      desc: "",
+      'On',
+      name: 'commonOn',
+      desc: '',
       args: [],
     );
   }
@@ -83,9 +83,9 @@ class S {
   /// `Off`
   String get commonOff {
     return Intl.message(
-      "Off",
-      name: "commonOff",
-      desc: "",
+      'Off',
+      name: 'commonOff',
+      desc: '',
       args: [],
     );
   }
@@ -93,9 +93,9 @@ class S {
   /// `Cancel`
   String get commonCancel {
     return Intl.message(
-      "Cancel",
-      name: "commonCancel",
-      desc: "",
+      'Cancel',
+      name: 'commonCancel',
+      desc: '',
       args: [],
     );
   }
@@ -103,9 +103,9 @@ class S {
   /// `Remove`
   String get commonRemove {
     return Intl.message(
-      "Remove",
-      name: "commonRemove",
-      desc: "",
+      'Remove',
+      name: 'commonRemove',
+      desc: '',
       args: [],
     );
   }
@@ -113,9 +113,9 @@ class S {
   /// `Delete`
   String get commonDelete {
     return Intl.message(
-      "Delete",
-      name: "commonDelete",
-      desc: "",
+      'Delete',
+      name: 'commonDelete',
+      desc: '',
       args: [],
     );
   }
@@ -123,9 +123,9 @@ class S {
   /// `Edit`
   String get commonEdit {
     return Intl.message(
-      "Edit",
-      name: "commonEdit",
-      desc: "",
+      'Edit',
+      name: 'commonEdit',
+      desc: '',
       args: [],
     );
   }
@@ -133,9 +133,9 @@ class S {
   /// `Done`
   String get commonDone {
     return Intl.message(
-      "Done",
-      name: "commonDone",
-      desc: "",
+      'Done',
+      name: 'commonDone',
+      desc: '',
       args: [],
     );
   }
@@ -143,9 +143,9 @@ class S {
   /// `Continue`
   String get commonContinue {
     return Intl.message(
-      "Continue",
-      name: "commonContinue",
-      desc: "",
+      'Continue',
+      name: 'commonContinue',
+      desc: '',
       args: [],
     );
   }
@@ -153,9 +153,9 @@ class S {
   /// `Progress`
   String get commonProgress {
     return Intl.message(
-      "Progress",
-      name: "commonProgress",
-      desc: "",
+      'Progress',
+      name: 'commonProgress',
+      desc: '',
       args: [],
     );
   }
@@ -163,9 +163,9 @@ class S {
   /// `OK`
   String get commonOk {
     return Intl.message(
-      "OK",
-      name: "commonOk",
-      desc: "",
+      'OK',
+      name: 'commonOk',
+      desc: '',
       args: [],
     );
   }
@@ -173,9 +173,9 @@ class S {
   /// `Apply`
   String get commonApply {
     return Intl.message(
-      "Apply",
-      name: "commonApply",
-      desc: "",
+      'Apply',
+      name: 'commonApply',
+      desc: '',
       args: [],
     );
   }
@@ -183,9 +183,9 @@ class S {
   /// `Focus`
   String get commonFocusTab {
     return Intl.message(
-      "Focus",
-      name: "commonFocusTab",
-      desc: "",
+      'Focus',
+      name: 'commonFocusTab',
+      desc: '',
       args: [],
     );
   }
@@ -193,9 +193,9 @@ class S {
   /// `Settings`
   String get commonSettingsTab {
     return Intl.message(
-      "Settings",
-      name: "commonSettingsTab",
-      desc: "",
+      'Settings',
+      name: 'commonSettingsTab',
+      desc: '',
       args: [],
     );
   }
@@ -203,9 +203,9 @@ class S {
   /// `Good Night`
   String get homeGoodNight {
     return Intl.message(
-      "Good Night",
-      name: "homeGoodNight",
-      desc: "",
+      'Good Night',
+      name: 'homeGoodNight',
+      desc: '',
       args: [],
     );
   }
@@ -213,9 +213,9 @@ class S {
   /// `Good Morning`
   String get homeGoodMorning {
     return Intl.message(
-      "Good Morning",
-      name: "homeGoodMorning",
-      desc: "",
+      'Good Morning',
+      name: 'homeGoodMorning',
+      desc: '',
       args: [],
     );
   }
@@ -223,9 +223,9 @@ class S {
   /// `Good Afternoon`
   String get homeGoodAfternoon {
     return Intl.message(
-      "Good Afternoon",
-      name: "homeGoodAfternoon",
-      desc: "",
+      'Good Afternoon',
+      name: 'homeGoodAfternoon',
+      desc: '',
       args: [],
     );
   }
@@ -233,9 +233,9 @@ class S {
   /// `Good Evening`
   String get homeGoodEvening {
     return Intl.message(
-      "Good Evening",
-      name: "homeGoodEvening",
-      desc: "",
+      'Good Evening',
+      name: 'homeGoodEvening',
+      desc: '',
       args: [],
     );
   }
@@ -243,9 +243,9 @@ class S {
   /// `Your Focus`
   String get homeYourFocus {
     return Intl.message(
-      "Your Focus",
-      name: "homeYourFocus",
-      desc: "",
+      'Your Focus',
+      name: 'homeYourFocus',
+      desc: '',
       args: [],
     );
   }
@@ -253,9 +253,9 @@ class S {
   /// `Set Focus`
   String get homeSetFocus {
     return Intl.message(
-      "Set Focus",
-      name: "homeSetFocus",
-      desc: "",
+      'Set Focus',
+      name: 'homeSetFocus',
+      desc: '',
       args: [],
     );
   }
@@ -263,9 +263,9 @@ class S {
   /// `Days`
   String get homeDays {
     return Intl.message(
-      "Days",
-      name: "homeDays",
-      desc: "",
+      'Days',
+      name: 'homeDays',
+      desc: '',
       args: [],
     );
   }
@@ -273,9 +273,9 @@ class S {
   /// `Tracking Residences`
   String get homeTrackingResidences {
     return Intl.message(
-      "Tracking Residences",
-      name: "homeTrackingResidences",
-      desc: "",
+      'Tracking Residences',
+      name: 'homeTrackingResidences',
+      desc: '',
       args: [],
     );
   }
@@ -283,9 +283,9 @@ class S {
   /// `see all`
   String get homeSeeAll {
     return Intl.message(
-      "see all",
-      name: "homeSeeAll",
-      desc: "",
+      'see all',
+      name: 'homeSeeAll',
+      desc: '',
       args: [],
     );
   }
@@ -293,9 +293,9 @@ class S {
   /// `Settings`
   String get settingsTitle {
     return Intl.message(
-      "Settings",
-      name: "settingsTitle",
-      desc: "",
+      'Settings',
+      name: 'settingsTitle',
+      desc: '',
       args: [],
     );
   }
@@ -303,9 +303,9 @@ class S {
   /// `Biometric Access`
   String get settingsBiometricAuth {
     return Intl.message(
-      "Biometric Access",
-      name: "settingsBiometricAuth",
-      desc: "",
+      'Biometric Access',
+      name: 'settingsBiometricAuth',
+      desc: '',
       args: [],
     );
   }
@@ -313,9 +313,9 @@ class S {
   /// `Face ID Access`
   String get settingsFaceIdAccess {
     return Intl.message(
-      "Face ID Access",
-      name: "settingsFaceIdAccess",
-      desc: "",
+      'Face ID Access',
+      name: 'settingsFaceIdAccess',
+      desc: '',
       args: [],
     );
   }
@@ -323,9 +323,9 @@ class S {
   /// `Touch ID Access`
   String get settingsTouchIdAccess {
     return Intl.message(
-      "Touch ID Access",
-      name: "settingsTouchIdAccess",
-      desc: "",
+      'Touch ID Access',
+      name: 'settingsTouchIdAccess',
+      desc: '',
       args: [],
     );
   }
@@ -333,9 +333,9 @@ class S {
   /// `Language`
   String get settingsLanguage {
     return Intl.message(
-      "Language",
-      name: "settingsLanguage",
-      desc: "",
+      'Language',
+      name: 'settingsLanguage',
+      desc: '',
       args: [],
     );
   }
@@ -343,9 +343,9 @@ class S {
   /// `Notifications`
   String get settingsNotifications {
     return Intl.message(
-      "Notifications",
-      name: "settingsNotifications",
-      desc: "",
+      'Notifications',
+      name: 'settingsNotifications',
+      desc: '',
       args: [],
     );
   }
@@ -353,9 +353,9 @@ class S {
   /// `Share with friends`
   String get settingsShareWithFriends {
     return Intl.message(
-      "Share with friends",
-      name: "settingsShareWithFriends",
-      desc: "",
+      'Share with friends',
+      name: 'settingsShareWithFriends',
+      desc: '',
       args: [],
     );
   }
@@ -363,9 +363,9 @@ class S {
   /// `Rate Us`
   String get settingsRateUs {
     return Intl.message(
-      "Rate Us",
-      name: "settingsRateUs",
-      desc: "",
+      'Rate Us',
+      name: 'settingsRateUs',
+      desc: '',
       args: [],
     );
   }
@@ -373,9 +373,9 @@ class S {
   /// `Privacy Policy`
   String get settingsPrivacyPolicy {
     return Intl.message(
-      "Privacy Policy",
-      name: "settingsPrivacyPolicy",
-      desc: "",
+      'Privacy Policy',
+      name: 'settingsPrivacyPolicy',
+      desc: '',
       args: [],
     );
   }
@@ -383,9 +383,9 @@ class S {
   /// `Terms of Use`
   String get settingsTermsOfUse {
     return Intl.message(
-      "Terms of Use",
-      name: "settingsTermsOfUse",
-      desc: "",
+      'Terms of Use',
+      name: 'settingsTermsOfUse',
+      desc: '',
       args: [],
     );
   }
@@ -393,9 +393,9 @@ class S {
   /// `About App`
   String get settingsAboutApp {
     return Intl.message(
-      "About App",
-      name: "settingsAboutApp",
-      desc: "",
+      'About App',
+      name: 'settingsAboutApp',
+      desc: '',
       args: [],
     );
   }
@@ -403,9 +403,9 @@ class S {
   /// `Report a Bug`
   String get settingsReportBug {
     return Intl.message(
-      "Report a Bug",
-      name: "settingsReportBug",
-      desc: "",
+      'Report a Bug',
+      name: 'settingsReportBug',
+      desc: '',
       args: [],
     );
   }
@@ -413,9 +413,9 @@ class S {
   /// `Select Language`
   String get languageTitle {
     return Intl.message(
-      "Select Language",
-      name: "languageTitle",
-      desc: "",
+      'Select Language',
+      name: 'languageTitle',
+      desc: '',
       args: [],
     );
   }
@@ -423,9 +423,9 @@ class S {
   /// `Language updated`
   String get languageUpdated {
     return Intl.message(
-      "Language updated",
-      name: "languageUpdated",
-      desc: "",
+      'Language updated',
+      name: 'languageUpdated',
+      desc: '',
       args: [],
     );
   }
@@ -433,9 +433,9 @@ class S {
   /// `Residency Progress`
   String get detailsResidencyProgress {
     return Intl.message(
-      "Residency Progress",
-      name: "detailsResidencyProgress",
-      desc: "",
+      'Residency Progress',
+      name: 'detailsResidencyProgress',
+      desc: '',
       args: [],
     );
   }
@@ -443,9 +443,9 @@ class S {
   /// `You are a resident!`
   String get detailsYouAreAResident {
     return Intl.message(
-      "You are a resident!",
-      name: "detailsYouAreAResident",
-      desc: "",
+      'You are a resident!',
+      name: 'detailsYouAreAResident',
+      desc: '',
       args: [],
     );
   }
@@ -453,9 +453,9 @@ class S {
   /// `Open`
   String get detailsOpen {
     return Intl.message(
-      "Open",
-      name: "detailsOpen",
-      desc: "",
+      'Open',
+      name: 'detailsOpen',
+      desc: '',
       args: [],
     );
   }
@@ -463,9 +463,9 @@ class S {
   /// `Calendar`
   String get detailsCalendar {
     return Intl.message(
-      "Calendar",
-      name: "detailsCalendar",
-      desc: "",
+      'Calendar',
+      name: 'detailsCalendar',
+      desc: '',
       args: [],
     );
   }
@@ -473,9 +473,9 @@ class S {
   /// `Move to this country to reach status in`
   String get detailsMoveToReachStatus {
     return Intl.message(
-      "Move to this country to reach status in",
-      name: "detailsMoveToReachStatus",
-      desc: "",
+      'Move to this country to reach status in',
+      name: 'detailsMoveToReachStatus',
+      desc: '',
       args: [],
     );
   }
@@ -483,9 +483,9 @@ class S {
   /// `Status may be updated at`
   String get detailsStatusMayBeUpdated {
     return Intl.message(
-      "Status may be updated at",
-      name: "detailsStatusMayBeUpdated",
-      desc: "",
+      'Status may be updated at',
+      name: 'detailsStatusMayBeUpdated',
+      desc: '',
       args: [],
     );
   }
@@ -493,9 +493,9 @@ class S {
   /// `Notify me for status updates`
   String get detailsNotifyMe {
     return Intl.message(
-      "Notify me for status updates",
-      name: "detailsNotifyMe",
-      desc: "",
+      'Notify me for status updates',
+      name: 'detailsNotifyMe',
+      desc: '',
       args: [],
     );
   }
@@ -503,9 +503,9 @@ class S {
   /// `Focus on this country`
   String get detailsFocusOnThisCountry {
     return Intl.message(
-      "Focus on this country",
-      name: "detailsFocusOnThisCountry",
-      desc: "",
+      'Focus on this country',
+      name: 'detailsFocusOnThisCountry',
+      desc: '',
       args: [],
     );
   }
@@ -513,9 +513,9 @@ class S {
   /// `Read a residency rules`
   String get detailsReadRules {
     return Intl.message(
-      "Read a residency rules",
-      name: "detailsReadRules",
-      desc: "",
+      'Read a residency rules',
+      name: 'detailsReadRules',
+      desc: '',
       args: [],
     );
   }
@@ -523,9 +523,9 @@ class S {
   /// `Remove country`
   String get detailsRemoveCountry {
     return Intl.message(
-      "Remove country",
-      name: "detailsRemoveCountry",
-      desc: "",
+      'Remove country',
+      name: 'detailsRemoveCountry',
+      desc: '',
       args: [],
     );
   }
@@ -533,19 +533,19 @@ class S {
   /// `Are you sure you want to remove this country from tracking?`
   String get detailsRemoveCountryConfirmation {
     return Intl.message(
-      "Are you sure you want to remove this country from tracking?",
-      name: "detailsRemoveCountryConfirmation",
-      desc: "",
+      'Are you sure you want to remove this country from tracking?',
+      name: 'detailsRemoveCountryConfirmation',
+      desc: '',
       args: [],
     );
   }
 
-  /// `Residency Rules Resources`
+  /// `Read a residence rules`
   String get detailsResidencyRulesResources {
     return Intl.message(
-      "Residency Rules Resources",
-      name: "detailsResidencyRulesResources",
-      desc: "",
+      'Read a residence rules',
+      name: 'detailsResidencyRulesResources',
+      desc: '',
       args: [],
     );
   }
@@ -553,9 +553,9 @@ class S {
   /// `Read on`
   String get detailsReadOn {
     return Intl.message(
-      "Read on",
-      name: "detailsReadOn",
-      desc: "",
+      'Read on',
+      name: 'detailsReadOn',
+      desc: '',
       args: [],
     );
   }
@@ -563,9 +563,9 @@ class S {
   /// `You're free to travel about`
   String get statusesFreeToTravel {
     return Intl.message(
-      "You're free to travel about",
-      name: "statusesFreeToTravel",
-      desc: "",
+      'You\'re free to travel about',
+      name: 'statusesFreeToTravel',
+      desc: '',
       args: [],
     );
   }
@@ -573,9 +573,9 @@ class S {
   /// `You can travel until`
   String get statusesTravelUntil {
     return Intl.message(
-      "You can travel until",
-      name: "statusesTravelUntil",
-      desc: "",
+      'You can travel until',
+      name: 'statusesTravelUntil',
+      desc: '',
       args: [],
     );
   }
@@ -583,9 +583,9 @@ class S {
   /// `Status update in`
   String get statusesStatusUpdateIn {
     return Intl.message(
-      "Status update in",
-      name: "statusesStatusUpdateIn",
-      desc: "",
+      'Status update in',
+      name: 'statusesStatusUpdateIn',
+      desc: '',
       args: [],
     );
   }
@@ -593,9 +593,9 @@ class S {
   /// `Status will update at`
   String get statusesStatusWillUpdateAt {
     return Intl.message(
-      "Status will update at",
-      name: "statusesStatusWillUpdateAt",
-      desc: "",
+      'Status will update at',
+      name: 'statusesStatusWillUpdateAt',
+      desc: '',
       args: [],
     );
   }
@@ -603,9 +603,9 @@ class S {
   /// `You will lose your status in`
   String get statusesYouWillLoseYourStatusIn {
     return Intl.message(
-      "You will lose your status in",
-      name: "statusesYouWillLoseYourStatusIn",
-      desc: "",
+      'You will lose your status in',
+      name: 'statusesYouWillLoseYourStatusIn',
+      desc: '',
       args: [],
     );
   }
@@ -613,9 +613,9 @@ class S {
   /// `Status is safe until`
   String get statusesStatusIsSafeUntil {
     return Intl.message(
-      "Status is safe until",
-      name: "statusesStatusIsSafeUntil",
-      desc: "",
+      'Status is safe until',
+      name: 'statusesStatusIsSafeUntil',
+      desc: '',
       args: [],
     );
   }
@@ -623,9 +623,9 @@ class S {
   /// `Move to this country to reach status in`
   String get statusesMoveToThisCountryToReachStatusIn {
     return Intl.message(
-      "Move to this country to reach status in",
-      name: "statusesMoveToThisCountryToReachStatusIn",
-      desc: "",
+      'Move to this country to reach status in',
+      name: 'statusesMoveToThisCountryToReachStatusIn',
+      desc: '',
       args: [],
     );
   }
@@ -633,9 +633,9 @@ class S {
   /// `Status may be updated at`
   String get statusesStatusMayBeUpdatedAt {
     return Intl.message(
-      "Status may be updated at",
-      name: "statusesStatusMayBeUpdatedAt",
-      desc: "",
+      'Status may be updated at',
+      name: 'statusesStatusMayBeUpdatedAt',
+      desc: '',
       args: [],
     );
   }
@@ -643,9 +643,9 @@ class S {
   /// `Your Journey Over the`
   String get calendarYourJourney {
     return Intl.message(
-      "Your Journey Over the",
-      name: "calendarYourJourney",
-      desc: "",
+      'Your Journey Over the',
+      name: 'calendarYourJourney',
+      desc: '',
       args: [],
     );
   }
@@ -653,9 +653,9 @@ class S {
   /// `Last 12 Months`
   String get calendarLast12Months {
     return Intl.message(
-      "Last 12 Months",
-      name: "calendarLast12Months",
-      desc: "",
+      'Last 12 Months',
+      name: 'calendarLast12Months',
+      desc: '',
       args: [],
     );
   }
@@ -663,9 +663,9 @@ class S {
   /// `All Tracking Residences`
   String get allCountriesAllTrackingResidences {
     return Intl.message(
-      "All Tracking Residences",
-      name: "allCountriesAllTrackingResidences",
-      desc: "",
+      'All Tracking Residences',
+      name: 'allCountriesAllTrackingResidences',
+      desc: '',
       args: [],
     );
   }
@@ -673,9 +673,9 @@ class S {
   /// `of`
   String get allCountriesOf {
     return Intl.message(
-      "of",
-      name: "allCountriesOf",
-      desc: "",
+      'of',
+      name: 'allCountriesOf',
+      desc: '',
       args: [],
     );
   }
@@ -683,9 +683,9 @@ class S {
   /// `days`
   String get allCountriesDays {
     return Intl.message(
-      "days",
-      name: "allCountriesDays",
-      desc: "",
+      'days',
+      name: 'allCountriesDays',
+      desc: '',
       args: [],
     );
   }
@@ -693,9 +693,9 @@ class S {
   /// `Where have you been?`
   String get whereHaveYouBeenTitle {
     return Intl.message(
-      "Where have you been?",
-      name: "whereHaveYouBeenTitle",
-      desc: "",
+      'Where have you been?',
+      name: 'whereHaveYouBeenTitle',
+      desc: '',
       args: [],
     );
   }
@@ -703,9 +703,9 @@ class S {
   /// `Search countries`
   String get whereHaveYouBeenSearchCountries {
     return Intl.message(
-      "Search countries",
-      name: "whereHaveYouBeenSearchCountries",
-      desc: "",
+      'Search countries',
+      name: 'whereHaveYouBeenSearchCountries',
+      desc: '',
       args: [],
     );
   }
@@ -713,9 +713,9 @@ class S {
   /// `No results found`
   String get whereHaveYouBeenNoResultsFound {
     return Intl.message(
-      "No results found",
-      name: "whereHaveYouBeenNoResultsFound",
-      desc: "",
+      'No results found',
+      name: 'whereHaveYouBeenNoResultsFound',
+      desc: '',
       args: [],
     );
   }
@@ -723,9 +723,9 @@ class S {
   /// `Select the countries you've visited in the last 12 months.`
   String get whereHaveYouBeenSelectCountries {
     return Intl.message(
-      "Select the countries you've visited in the last 12 months.",
-      name: "whereHaveYouBeenSelectCountries",
-      desc: "",
+      'Select the countries you\'ve visited in the last 12 months.',
+      name: 'whereHaveYouBeenSelectCountries',
+      desc: '',
       args: [],
     );
   }
@@ -733,9 +733,9 @@ class S {
   /// `Manage Your Residences`
   String get whereHaveYouBeenManageYourResidences {
     return Intl.message(
-      "Manage Your Residences",
-      name: "whereHaveYouBeenManageYourResidences",
-      desc: "",
+      'Manage Your Residences',
+      name: 'whereHaveYouBeenManageYourResidences',
+      desc: '',
       args: [],
     );
   }
@@ -743,9 +743,9 @@ class S {
   /// `Add Your Stay Periods`
   String get addStayPeriodTitle {
     return Intl.message(
-      "Add Your Stay Periods",
-      name: "addStayPeriodTitle",
-      desc: "",
+      'Add Your Stay Periods',
+      name: 'addStayPeriodTitle',
+      desc: '',
       args: [],
     );
   }
@@ -753,9 +753,9 @@ class S {
   /// `For each country you visited, let us know how many days you stayed.`
   String get addStayPeriodDescription {
     return Intl.message(
-      "For each country you visited, let us know how many days you stayed.",
-      name: "addStayPeriodDescription",
-      desc: "",
+      'For each country you visited, let us know how many days you stayed.',
+      name: 'addStayPeriodDescription',
+      desc: '',
       args: [],
     );
   }
@@ -763,9 +763,9 @@ class S {
   /// `Click to get started`
   String get addStayPeriodClickToGetStarted {
     return Intl.message(
-      "Click to get started",
-      name: "addStayPeriodClickToGetStarted",
-      desc: "",
+      'Click to get started',
+      name: 'addStayPeriodClickToGetStarted',
+      desc: '',
       args: [],
     );
   }
@@ -773,9 +773,9 @@ class S {
   /// `Add Stay Period`
   String get addStayPeriodAddStayPeriod {
     return Intl.message(
-      "Add Stay Period",
-      name: "addStayPeriodAddStayPeriod",
-      desc: "",
+      'Add Stay Period',
+      name: 'addStayPeriodAddStayPeriod',
+      desc: '',
       args: [],
     );
   }
@@ -783,9 +783,9 @@ class S {
   /// `How To Add Stay Periods`
   String get addStayPeriodHowToAddStayPeriods {
     return Intl.message(
-      "How To Add Stay Periods",
-      name: "addStayPeriodHowToAddStayPeriods",
-      desc: "",
+      'How To Add Stay Periods',
+      name: 'addStayPeriodHowToAddStayPeriods',
+      desc: '',
       args: [],
     );
   }
@@ -793,9 +793,9 @@ class S {
   /// `Add Stay Periods`
   String get addStayPeriodAddStayPeriods {
     return Intl.message(
-      "Add Stay Periods",
-      name: "addStayPeriodAddStayPeriods",
-      desc: "",
+      'Add Stay Periods',
+      name: 'addStayPeriodAddStayPeriods',
+      desc: '',
       args: [],
     );
   }
@@ -803,9 +803,9 @@ class S {
   /// `1. Select a country\n2. Adjust dates on timeline\n3. Tap Add Period button`
   String get addStayPeriodPoints {
     return Intl.message(
-      "1. Select a country\n2. Adjust dates on timeline\n3. Tap Add Period button",
-      name: "addStayPeriodPoints",
-      desc: "",
+      '1. Select a country\n2. Adjust dates on timeline\n3. Tap Add Period button',
+      name: 'addStayPeriodPoints',
+      desc: '',
       args: [],
     );
   }
@@ -813,9 +813,9 @@ class S {
   /// `You can add multiple periods\nto your timeline.`
   String get addStayPeriodYouCanAddMorePeriods {
     return Intl.message(
-      "You can add multiple periods\nto your timeline.",
-      name: "addStayPeriodYouCanAddMorePeriods",
-      desc: "",
+      'You can add multiple periods\nto your timeline.',
+      name: 'addStayPeriodYouCanAddMorePeriods',
+      desc: '',
       args: [],
     );
   }
@@ -823,9 +823,9 @@ class S {
   /// `Period from`
   String get addStayPeriodPeriodFrom {
     return Intl.message(
-      "Period from",
-      name: "addStayPeriodPeriodFrom",
-      desc: "",
+      'Period from',
+      name: 'addStayPeriodPeriodFrom',
+      desc: '',
       args: [],
     );
   }
@@ -833,9 +833,9 @@ class S {
   /// `Period to`
   String get addStayPeriodPeriodTo {
     return Intl.message(
-      "Period to",
-      name: "addStayPeriodPeriodTo",
-      desc: "",
+      'Period to',
+      name: 'addStayPeriodPeriodTo',
+      desc: '',
       args: [],
     );
   }
@@ -843,9 +843,9 @@ class S {
   /// `Monday`
   String get weekdayMonday {
     return Intl.message(
-      "Monday",
-      name: "weekdayMonday",
-      desc: "",
+      'Monday',
+      name: 'weekdayMonday',
+      desc: '',
       args: [],
     );
   }
@@ -853,9 +853,9 @@ class S {
   /// `Tuesday`
   String get weekdayTuesday {
     return Intl.message(
-      "Tuesday",
-      name: "weekdayTuesday",
-      desc: "",
+      'Tuesday',
+      name: 'weekdayTuesday',
+      desc: '',
       args: [],
     );
   }
@@ -863,9 +863,9 @@ class S {
   /// `Wednesday`
   String get weekdayWednesday {
     return Intl.message(
-      "Wednesday",
-      name: "weekdayWednesday",
-      desc: "",
+      'Wednesday',
+      name: 'weekdayWednesday',
+      desc: '',
       args: [],
     );
   }
@@ -873,9 +873,9 @@ class S {
   /// `Thursday`
   String get weekdayThursday {
     return Intl.message(
-      "Thursday",
-      name: "weekdayThursday",
-      desc: "",
+      'Thursday',
+      name: 'weekdayThursday',
+      desc: '',
       args: [],
     );
   }
@@ -883,9 +883,9 @@ class S {
   /// `Friday`
   String get weekdayFriday {
     return Intl.message(
-      "Friday",
-      name: "weekdayFriday",
-      desc: "",
+      'Friday',
+      name: 'weekdayFriday',
+      desc: '',
       args: [],
     );
   }
@@ -893,9 +893,9 @@ class S {
   /// `Saturday`
   String get weekdaySaturday {
     return Intl.message(
-      "Saturday",
-      name: "weekdaySaturday",
-      desc: "",
+      'Saturday',
+      name: 'weekdaySaturday',
+      desc: '',
       args: [],
     );
   }
@@ -903,9 +903,9 @@ class S {
   /// `Sunday`
   String get weekdaySunday {
     return Intl.message(
-      "Sunday",
-      name: "weekdaySunday",
-      desc: "",
+      'Sunday',
+      name: 'weekdaySunday',
+      desc: '',
       args: [],
     );
   }
@@ -913,9 +913,9 @@ class S {
   /// `January`
   String get monthJanuary {
     return Intl.message(
-      "January",
-      name: "monthJanuary",
-      desc: "",
+      'January',
+      name: 'monthJanuary',
+      desc: '',
       args: [],
     );
   }
@@ -923,9 +923,9 @@ class S {
   /// `February`
   String get monthFebruary {
     return Intl.message(
-      "February",
-      name: "monthFebruary",
-      desc: "",
+      'February',
+      name: 'monthFebruary',
+      desc: '',
       args: [],
     );
   }
@@ -933,9 +933,9 @@ class S {
   /// `March`
   String get monthMarch {
     return Intl.message(
-      "March",
-      name: "monthMarch",
-      desc: "",
+      'March',
+      name: 'monthMarch',
+      desc: '',
       args: [],
     );
   }
@@ -943,9 +943,9 @@ class S {
   /// `April`
   String get monthApril {
     return Intl.message(
-      "April",
-      name: "monthApril",
-      desc: "",
+      'April',
+      name: 'monthApril',
+      desc: '',
       args: [],
     );
   }
@@ -953,9 +953,9 @@ class S {
   /// `May`
   String get monthMay {
     return Intl.message(
-      "May",
-      name: "monthMay",
-      desc: "",
+      'May',
+      name: 'monthMay',
+      desc: '',
       args: [],
     );
   }
@@ -963,9 +963,9 @@ class S {
   /// `June`
   String get monthJune {
     return Intl.message(
-      "June",
-      name: "monthJune",
-      desc: "",
+      'June',
+      name: 'monthJune',
+      desc: '',
       args: [],
     );
   }
@@ -973,9 +973,9 @@ class S {
   /// `July`
   String get monthJuly {
     return Intl.message(
-      "July",
-      name: "monthJuly",
-      desc: "",
+      'July',
+      name: 'monthJuly',
+      desc: '',
       args: [],
     );
   }
@@ -983,9 +983,9 @@ class S {
   /// `August`
   String get monthAugust {
     return Intl.message(
-      "August",
-      name: "monthAugust",
-      desc: "",
+      'August',
+      name: 'monthAugust',
+      desc: '',
       args: [],
     );
   }
@@ -993,9 +993,9 @@ class S {
   /// `September`
   String get monthSeptember {
     return Intl.message(
-      "September",
-      name: "monthSeptember",
-      desc: "",
+      'September',
+      name: 'monthSeptember',
+      desc: '',
       args: [],
     );
   }
@@ -1003,9 +1003,9 @@ class S {
   /// `October`
   String get monthOctober {
     return Intl.message(
-      "October",
-      name: "monthOctober",
-      desc: "",
+      'October',
+      name: 'monthOctober',
+      desc: '',
       args: [],
     );
   }
@@ -1013,9 +1013,9 @@ class S {
   /// `November`
   String get monthNovember {
     return Intl.message(
-      "November",
-      name: "monthNovember",
-      desc: "",
+      'November',
+      name: 'monthNovember',
+      desc: '',
       args: [],
     );
   }
@@ -1023,9 +1023,9 @@ class S {
   /// `December`
   String get monthDecember {
     return Intl.message(
-      "December",
-      name: "monthDecember",
-      desc: "",
+      'December',
+      name: 'monthDecember',
+      desc: '',
       args: [],
     );
   }
@@ -1036,9 +1036,9 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: "en"),
-      Locale.fromSubtags(languageCode: "de"),
-      Locale.fromSubtags(languageCode: "ru"),
+      Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'de'),
+      Locale.fromSubtags(languageCode: 'ru'),
     ];
   }
 

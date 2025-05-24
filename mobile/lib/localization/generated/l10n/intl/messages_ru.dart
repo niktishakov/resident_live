@@ -10,15 +10,15 @@
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
 // ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
-import "package:intl/intl.dart";
-import "package:intl/message_lookup_by_library.dart";
+import 'package:intl/intl.dart';
+import 'package:intl/message_lookup_by_library.dart';
 
 final messages = new MessageLookup();
 
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => "ru";
+  String get localeName => 'ru';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -29,24 +29,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "addStayPeriodClickToGetStarted":
             MessageLookupByLibrary.simpleMessage("Нажмите, чтобы начать"),
         "addStayPeriodDescription": MessageLookupByLibrary.simpleMessage(
-            "Укажите, сколько дней вы провели в каждой посещенной стране.",),
+            "Укажите, сколько дней вы провели в каждой посещенной стране."),
         "addStayPeriodHowToAddStayPeriods":
             MessageLookupByLibrary.simpleMessage(
-                "Как добавить периоды пребывания",),
+                "Как добавить периоды пребывания"),
         "addStayPeriodPeriodFrom":
             MessageLookupByLibrary.simpleMessage("Период с"),
         "addStayPeriodPeriodTo":
             MessageLookupByLibrary.simpleMessage("Период по"),
         "addStayPeriodPoints": MessageLookupByLibrary.simpleMessage(
-            "1. Выберите страну\n2. Настройте даты на временной шкале\n3. Нажмите кнопку Добавить период",),
+            "1. Выберите страну\n2. Настройте даты на временной шкале\n3. Нажмите кнопку Добавить период"),
         "addStayPeriodTitle":
             MessageLookupByLibrary.simpleMessage("Добавьте период пребывания"),
         "addStayPeriodYouCanAddMorePeriods":
             MessageLookupByLibrary.simpleMessage(
-                "Вы можете добавить несколько\nпериодов на временную шкалу.",),
+                "Вы можете добавить несколько\nпериодов на временную шкалу."),
         "allCountriesAllTrackingResidences":
             MessageLookupByLibrary.simpleMessage(
-                "Все отслеживаемые резиденции",),
+                "Все отслеживаемые резиденции"),
         "allCountriesDays": MessageLookupByLibrary.simpleMessage("дней"),
         "allCountriesOf": MessageLookupByLibrary.simpleMessage("из"),
         "appName": MessageLookupByLibrary.simpleMessage("Resident Live"),
@@ -70,20 +70,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "commonSettingsTab": MessageLookupByLibrary.simpleMessage("Настройки"),
         "detailsCalendar": MessageLookupByLibrary.simpleMessage("Календарь"),
         "detailsFocusOnThisCountry": MessageLookupByLibrary.simpleMessage(
-            "Сфокусироваться на этой стране",),
+            "Сфокусироваться на этой стране"),
         "detailsMoveToReachStatus": MessageLookupByLibrary.simpleMessage(
-            "Переезжайте в эту страну для получения статуса через",),
+            "Переезжайте в эту страну для получения статуса через"),
         "detailsNotifyMe": MessageLookupByLibrary.simpleMessage(
-            "Уведомлять об обновлениях статуса",),
+            "Уведомлять об обновлениях статуса"),
         "detailsOpen": MessageLookupByLibrary.simpleMessage("Открыть"),
         "detailsReadOn": MessageLookupByLibrary.simpleMessage("Читать далее"),
         "detailsReadRules": MessageLookupByLibrary.simpleMessage(
-            "Прочитать правила резидентства",),
+            "Прочитать правила резидентства"),
         "detailsRemoveCountry":
             MessageLookupByLibrary.simpleMessage("Удалить страну"),
         "detailsRemoveCountryConfirmation":
             MessageLookupByLibrary.simpleMessage(
-                "Вы уверены, что хотите удалить эту страну из отслеживания?",),
+                "Вы уверены, что хотите удалить эту страну из отслеживания?"),
         "detailsResidencyProgress":
             MessageLookupByLibrary.simpleMessage("Прогресс резидентства"),
         "detailsResidencyRulesResources":
@@ -142,14 +142,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "settingsTouchIdAccess":
             MessageLookupByLibrary.simpleMessage("Доступ по Touch ID"),
         "statusesFreeToTravel": MessageLookupByLibrary.simpleMessage(
-            "Вы можете свободно путешествовать",),
+            "Вы можете свободно путешествовать"),
         "statusesMoveToThisCountryToReachStatusIn":
             MessageLookupByLibrary.simpleMessage(
-                "Переезжайте в эту страну для получения статуса через",),
+                "Переезжайте в эту страну для получения статуса через"),
         "statusesStatusIsSafeUntil":
             MessageLookupByLibrary.simpleMessage("Статус безопасен до"),
         "statusesStatusMayBeUpdatedAt": MessageLookupByLibrary.simpleMessage(
-            "Статус может быть обновлен в",),
+            "Статус может быть обновлен в"),
         "statusesStatusUpdateIn":
             MessageLookupByLibrary.simpleMessage("Обновление статуса через"),
         "statusesStatusWillUpdateAt":
@@ -157,7 +157,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "statusesTravelUntil":
             MessageLookupByLibrary.simpleMessage("Вы можете путешествовать до"),
         "statusesYouWillLoseYourStatusIn": MessageLookupByLibrary.simpleMessage(
-            "Вы потеряете свой статус через",),
+            "Вы потеряете свой статус через"),
         "weekdayFriday": MessageLookupByLibrary.simpleMessage("Пятница"),
         "weekdayMonday": MessageLookupByLibrary.simpleMessage("Понедельник"),
         "weekdaySaturday": MessageLookupByLibrary.simpleMessage("Суббота"),
@@ -172,8 +172,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "whereHaveYouBeenSearchCountries":
             MessageLookupByLibrary.simpleMessage("Поиск стран"),
         "whereHaveYouBeenSelectCountries": MessageLookupByLibrary.simpleMessage(
-            "Выберите страны, которые вы посетили за последние 12 месяцев.",),
+            "Выберите страны, которые вы посетили за последние 12 месяцев."),
         "whereHaveYouBeenTitle":
-            MessageLookupByLibrary.simpleMessage("Где вы были?"),
+            MessageLookupByLibrary.simpleMessage("Где вы были?")
       };
 }

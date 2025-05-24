@@ -85,11 +85,12 @@ class HomeScreenState extends State<HomeScreen> {
                           child: SizedBox(
                             height: 320,
                             child: FocusedCountryView(
-                              onTap: (countryCode) => navigatorKey.currentContext?.navigator.push(
-                                kDefaultFadeRouteBuilder(
-                                  page: ResidenceDetailsScreen(countryCode: countryCode),
-                                ),
-                              ),
+                              onTap:
+                                  (countryCode) => navigatorKey.currentContext?.navigator.push(
+                                    kDefaultFadeRouteBuilder(
+                                      page: ResidenceDetailsScreen(countryCode: countryCode),
+                                    ),
+                                  ),
                             ),
                           ),
                         ),
@@ -99,17 +100,14 @@ class HomeScreenState extends State<HomeScreen> {
                       SliverToBoxAdapter(
                         child: OtherResidencesView(
                           residences: otherResidences,
-                          onTap: () => navigatorKey.currentContext?.navigator.push(
-                            kDefaultFadeRouteBuilder(
-                              page: const AllCountriesScreen(),
-                            ),
-                          ),
+                          onTap:
+                              () => navigatorKey.currentContext?.navigator.push(
+                                kDefaultFadeRouteBuilder(page: const AllCountriesScreen()),
+                              ),
                         ),
                       ),
                     ],
-                    SliverToBoxAdapter(
-                      child: Gap(context.mediaQuery.padding.bottom + 64),
-                    ),
+                    SliverToBoxAdapter(child: Gap(context.mediaQuery.padding.bottom + 64)),
                   ],
                 ),
               ),
@@ -135,11 +133,7 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => expandedHeight;
 
   @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final theme = context.rlTheme;
     final proportion = (expandedHeight - shrinkOffset) / expandedHeight;
 
@@ -153,11 +147,7 @@ class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
         color: theme.bgPrimary.withValues(alpha: dividerOpacity.clamp(0.0, 1.0)),
         child: Stack(
           children: [
-            const Positioned(
-              left: 24,
-              bottom: 12.0,
-              child: GreetingView(),
-            ),
+            const Positioned(left: 24, bottom: 12.0, child: GreetingView()),
             Positioned(
               bottom: 12.0,
               right: 24,

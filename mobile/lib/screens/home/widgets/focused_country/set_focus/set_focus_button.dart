@@ -1,10 +1,7 @@
-part of "focused_country_page_view.dart";
+part of "../focused_country_page_view.dart";
 
 class SetFocusButton extends StatelessWidget {
-  const SetFocusButton({
-    required this.countryCode,
-    super.key,
-  });
+  const SetFocusButton({required this.countryCode, super.key});
 
   final String countryCode;
 
@@ -18,10 +15,7 @@ class SetFocusButton extends StatelessWidget {
             onPressed: () {},
             label: S.of(context).homeYourFocus,
             fontSize: 12,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 4,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           ),
           secondChild: GestureDetector(
             onTap: () {
@@ -32,17 +26,14 @@ class SetFocusButton extends StatelessWidget {
               behavior: HitTestBehavior.opaque,
               label: S.of(context).homeSetFocus,
               fontSize: 12,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 4,
-              ),
-              leading: const AppAssetImage(
-                AppAssets.target,
-                height: 14,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              leading: const AppAssetImage(AppAssets.target, height: 14),
             ).animate().shimmer(duration: 1.seconds, delay: 1.seconds),
           ),
-          crossFadeState: state.data?.focusedCountryCode == countryCode ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          crossFadeState:
+              state.data?.focusedCountryCode == countryCode
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
           duration: const Duration(milliseconds: 300),
         );
       },

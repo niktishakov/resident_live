@@ -1,0 +1,25 @@
+import 'dart:convert';
+
+import 'package:data/src/data_source/service/workmanager/background_loggger.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import "package:data/src/data_source/service/workmanager/constants.dart";
+
+Future<void> savePositionToPrefs(Position position) async {
+  final logger = BackgroundLogger();
+  final prefs = await SharedPreferences.getInstance();
+  const key = "background_positions";
+
+  final List<String> currentList = prefs.getStringList(key) ?? [];
+
+  final newEntry = jsonEncode({
+    "latitude": position.latitude,
+    "longitude": position.longitude,
+    "timestamp": DateTime.now().toIso8601String(),
+  });
+
+  currentList.add(newEntry);
+
+  await prefs.setStringList(key, currentList);
+  await logger.debug("position updated in SharedPreferences: $newEntry");
+}

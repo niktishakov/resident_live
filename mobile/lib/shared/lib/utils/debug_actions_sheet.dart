@@ -6,6 +6,7 @@ import "package:flutter/material.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:hydrated_bloc/hydrated_bloc.dart";
+import "package:resident_live/screens/settings/widgets/report_bug_button.dart";
 import "package:resident_live/screens/splash/presplash_screen.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -69,6 +70,7 @@ void showDebugActionsSheet(BuildContext context) {
                   children: [
                     const Grabber(color: Colors.white),
                     const Gap(16),
+                    ReportBugButton(),
                     buildActionRow(
                       title: "Erase Data & Restart",
                       color: Colors.red,

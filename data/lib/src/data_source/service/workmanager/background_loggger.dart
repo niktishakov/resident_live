@@ -15,11 +15,11 @@ enum _LogLevel {
 
 @Singleton()
 class BackgroundLogger {
-  void error(String message) => _writeToLog(message, _LogLevel.error);
-  void warn(String message) => _writeToLog(message, _LogLevel.warn);
-  void info(String message) => _writeToLog(message, _LogLevel.info);
-  void debug(String message) => _writeToLog(message, _LogLevel.debug);
-  void trace(String message) => _writeToLog(message, _LogLevel.trace);
+  Future<void> error(String message) => _writeToLog(message, _LogLevel.error);
+  Future<void> warn(String message) => _writeToLog(message, _LogLevel.warn);
+  Future<void> info(String message) => _writeToLog(message, _LogLevel.info);
+  Future<void> debug(String message) => _writeToLog(message, _LogLevel.debug);
+  Future<void> trace(String message) => _writeToLog(message, _LogLevel.trace);
 
   Future<void> _writeToLog(String message, _LogLevel level) async {
     final directory = await getApplicationDocumentsDirectory();

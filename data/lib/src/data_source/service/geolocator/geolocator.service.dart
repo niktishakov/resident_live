@@ -1,4 +1,3 @@
-import 'package:domain/domain.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 

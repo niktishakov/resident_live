@@ -121,10 +121,13 @@ class HomeScreenState extends State<HomeScreen> {
                       child: PrimaryButton(
                         label: "SharedPreferences",
                         onPressed: () async {
-                          final prefs = await SharedPreferences.getInstance();
-                          final storedPositions = prefs.getStringList('background_positions') ?? [];
+                          final prefs = SharedPreferencesAsync();
 
-                          // Показать диалог с сохранёнными позициями
+                          final storedPositions =
+                              await prefs.getStringList("background_positions") ?? [];
+
+                          if (!context.mounted) return;
+
                           showDialog(
                             context: context,
                             builder:

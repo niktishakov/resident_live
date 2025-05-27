@@ -2,7 +2,7 @@ import "package:data/data.dart";
 import "package:data/src/data_source/service/workmanager/background_loggger.dart";
 import "package:data/src/data_source/service/workmanager/constants.dart";
 import "package:data/src/data_source/service/workmanager/workmanager.errors.dart";
-import "package:data/src/utils/save_to_sharedPreferences.dart";
+import "package:data/src/utils/save_to_shared_preferences.dart";
 import "package:injectable/injectable.dart";
 import "package:workmanager/workmanager.dart";
 

@@ -69,10 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Text(
                       "Resident Live",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w200,
-                        fontSize: 36,
-                      ),
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w200, fontSize: 36),
                     ),
                   ),
                 ],
@@ -86,9 +83,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   duration: const Duration(milliseconds: 300),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Container(
-                      color: Colors.transparent,
-                    ),
+                    child: Container(color: Colors.transparent),
                   ),
                 );
               },

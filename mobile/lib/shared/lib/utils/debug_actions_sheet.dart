@@ -70,7 +70,7 @@ void showDebugActionsSheet(BuildContext context) {
                   children: [
                     const Grabber(color: Colors.white),
                     const Gap(16),
-                    ReportBugButton(),
+                    const ReportBugButton(),
                     buildActionRow(
                       title: "Erase Data & Restart",
                       color: Colors.red,

@@ -56,7 +56,7 @@ class DataPackageModule extends _i526.MicroPackageModule {
     gh.factory<_i494.IPlacemarkRepository>(() => _i566.PlacemarkRepository());
     gh.factory<_i494.ICoordinatesRepository>(
         () => _i709.CoordinatesRepository());
-    gh.factory<_i143.WorkmanagerService>(
+    gh.singleton<_i143.WorkmanagerService>(
         () => _i143.WorkmanagerService(gh<_i437.LoggerService>()));
     gh.singletonAsync<_i480.LocalNotificationService>(() async =>
         _i480.LocalNotificationService(await gh.getAsync<_i2.LoggerService>()));

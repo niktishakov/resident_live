@@ -58,7 +58,7 @@ Future<MyApp> initApp() async {
   await ToastService.init();
 
   final deviceInfoService = await DeviceInfoService.create();
-  final workmanagerService = WorkmanagerService(getIt<LoggerService>());
+  final workmanagerService = getIt<WorkmanagerService>();
   workmanagerService.initialize();
 
   return MyApp(

@@ -1,3 +1,4 @@
+import "package:data/data.dart";
 import "package:domain/domain.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
@@ -38,8 +39,9 @@ class GetStartedCubit extends Cubit<GetStartedState> {
   }
 
   Future<void> triggerGeoPermission() async {
+    final logger = LoggerService();
     try {
-      print("triggerGeoPermission");
+      logger.debug("triggerGeoPermission");
       final isPermissionAllowed = await _requestGeoPermissionUsecase.call();
       if (!isPermissionAllowed) {
         emit(state.copyWith(focusedCountryError: "Permission not allowed"));
@@ -48,10 +50,10 @@ class GetStartedCubit extends Cubit<GetStartedState> {
       final coordinates = await _getCoordinatesUsecase.call();
       final placemark = await _getPlacemarkUsecase.call(coordinates);
       await _syncCountriesFromGeoUsecase.call(placemark: placemark);
-      print("triggerGeoPermission success");
+      logger.debug("triggerGeoPermission success");
       emit(state.copyWith(isGeoPermissionAllowed: true));
     } catch (e) {
-      print("triggerGeoPermission error: $e");
+      logger.error("triggerGeoPermission error: $e");
       emit(state.copyWith(focusedCountryError: e.toString()));
     }
   }

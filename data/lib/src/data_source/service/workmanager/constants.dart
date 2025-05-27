@@ -4,6 +4,7 @@ class WorkmanagerConstants {
 
   static const String uniqueTaskName = "geofencingTask";
   static const String backgroundLocationTask = "backgroundLocationTask";
+  static const oneOffTaskId = "one.off.task";
   static const String iOSBackgroundAppRefresh =
       "be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh";
 }

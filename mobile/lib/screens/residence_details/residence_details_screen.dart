@@ -99,7 +99,8 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
         final progress = isResident ? 1.0 : daysSpent / 183;
         final progressInPercentage = (progress * 100).toInt();
 
-        final statusText = "Status update in $statusUpdateIn days";
+        final statusText =
+            daysSpent >= 183 ? "You are a resident" : "Status update in $statusUpdateIn days";
         final country = CountryCode.fromCountryCode(widget.countryCode);
 
         return RepaintBoundary(
@@ -184,14 +185,6 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                               color: Colors.transparent,
                               child: RlCard(
                                 color: theme.bgPrimary,
-                                // gradient: LinearGradient(
-                                //   begin: Alignment.topCenter,
-                                //   end: Alignment.bottomCenter,
-                                //   colors: [
-                                //     context.theme.cardColor,
-                                //     context.theme.scaffoldBackgroundColor,
-                                //   ],
-                                // ),
                                 child: SafeArea(
                                   bottom: false,
                                   child: Builder(

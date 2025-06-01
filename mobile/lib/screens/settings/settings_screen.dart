@@ -1,18 +1,23 @@
+import "package:data/data.dart";
 import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+
+import "package:go_router/go_router.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:resident_live/app/injection.dart";
 import "package:resident_live/localization/generated/l10n/l10n.dart";
 import "package:resident_live/screens/settings/cubit/auth_by_biometrics_cubit.dart";
 import "package:resident_live/screens/settings/cubit/stop_auth_cubit.dart";
 import "package:resident_live/screens/settings/cubit/toggle_biometrics_cubit.dart";
+import "package:resident_live/screens/settings/widgets/settings_button.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/shared/lib/resource_cubit/bloc_consumer.dart";
 import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/rl.sliver_header.dart";
+import "package:url_launcher/url_launcher.dart";
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -92,13 +97,13 @@ class SettingsScreen extends StatelessWidget {
                             //       ),
                             //     ),
                             //     const Gap(12),
-                            //     SettingsButton(
-                            //       icon: Icons.language,
-                            //       title: S.of(context).settingsLanguage,
-                            //       onTap: () {
-                            //         context.pushNamed(ScreenNames.language);
-                            //       },
-                            //     ),
+                            SettingsButton(
+                              icon: Icons.language,
+                              title: S.of(context).settingsLanguage,
+                              onTap: () {
+                                context.pushNamed(ScreenNames.language);
+                              },
+                            ),
                             //     const Gap(12),
                             //     SettingsButton(
                             //       icon: CupertinoIcons.bell,
@@ -107,77 +112,63 @@ class SettingsScreen extends StatelessWidget {
                             //         // Handle Notifications settings
                             //       },
                             //     ),
-                            //     const Gap(32),
-                            //     SettingsButton(
-                            //       asset: AppAssets.person2Wave2,
-                            //       title: S.of(context).settingsShareWithFriends,
-                            //       trailing: const SizedBox(),
-                            //       onTap: () {
-                            //         getIt<ShareService>().shareText(appStoreLink);
-                            //       },
-                            //     ),
-                            //     const Gap(12),
-                            //     SettingsButton(
-                            //       icon: CupertinoIcons.star,
-                            //       title: S.of(context).settingsRateUs,
-                            //       onTap: () {
-                            //         launchUrl(Uri.parse(appStoreLink));
-                            //       },
-                            //     ),
-                            //     const Gap(32),
-                            //     SettingsButton(
-                            //       icon: CupertinoIcons.checkmark_shield,
-                            //       title: S.of(context).settingsPrivacyPolicy,
-                            //       onTap: () async {
-                            //         await showWebViewModal(
-                            //           context: context,
-                            //           url: privacyPolicyUrl,
-                            //           title: S.of(context).settingsPrivacyPolicy,
-                            //         );
-                            //       },
-                            //     ),
-                            //     const Gap(12),
-                            //     SettingsButton(
-                            //       asset: AppAssets.terms,
-                            //       title: S.of(context).settingsTermsOfUse,
-                            //       onTap: () async {
-                            //         await showWebViewModal(
-                            //           context: context,
-                            //           url: termsOfUseUrl,
-                            //           title: S.of(context).settingsTermsOfUse,
-                            //         );
-                            //       },
-                            //     ),
-                            //     const Gap(12),
-                            //     SettingsButton(
-                            //       asset: AppAssets.info,
-                            //       title: S.of(context).settingsAboutApp,
-                            //       trailing: const SizedBox(),
-                            //       onTap: () async {
-                            //         await showCupertinoDialog(
-                            //           context: context,
-                            //           barrierDismissible: true,
-                            //           builder: (context) => Consumer<DeviceInfoService>(
-                            //             builder: (context, deviceInfo, child) {
-                            //               return CupertinoAlertDialog(
-                            //                 title: Text(S.of(context).settingsAboutApp),
-                            //                 content: Column(
-                            //                   children: [
-                            //                     const Gap(12),
-                            //                     Text(deviceInfo.appName),
-                            //                     Text(
-                            //                       "${deviceInfo.appVersion} (${deviceInfo.buildNumber})",
-                            //                     ),
-                            //                   ],
-                            //                 ),
-                            //               );
-                            //             },
-                            //           ),
-                            //         );
-                            //       },
-                            //     ),
+                            context.vBox32,
+                            SettingsButton(
+                              asset: AppAssets.person2Wave2,
+                              title: S.of(context).settingsShareWithFriends,
+                              trailing: const SizedBox(),
+                              onTap: () {
+                                getIt<ShareService>().shareText(appStoreLink);
+                              },
+                            ),
+                            context.vBox12,
+                            SettingsButton(
+                              icon: CupertinoIcons.star,
+                              title: S.of(context).settingsRateUs,
+                              onTap: () {
+                                launchUrl(Uri.parse(appStoreLink));
+                              },
+                            ),
+                            context.vBox32,
+                            SettingsButton(
+                              icon: CupertinoIcons.checkmark_shield,
+                              title: S.of(context).settingsPrivacyPolicy,
+                              onTap: () => launchUrl(Uri.parse(privacyPolicyUrl)),
+                            ),
+                            context.vBox12,
+                            SettingsButton(
+                              asset: AppAssets.terms,
+                              title: S.of(context).settingsTermsOfUse,
+                              onTap: () => launchUrl(Uri.parse(termsOfUseUrl)),
+                            ),
+                            context.vBox12,
+                            SettingsButton(
+                              asset: AppAssets.info,
+                              title: S.of(context).settingsAboutApp,
+                              trailing: const SizedBox(),
+                              onTap: () async {
+                                final deviceInfo = getIt<DeviceInfoService>();
+                                await showCupertinoDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder:
+                                      (context) => CupertinoAlertDialog(
+                                        title: Text(S.of(context).settingsAboutApp),
+                                        content: Column(
+                                          children: [
+                                            context.vBox12,
+                                            Text(deviceInfo.appName),
+                                            Text(
+                                              "${deviceInfo.appVersion} (${deviceInfo.buildNumber})",
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                );
+                              },
+                            ),
+
                             //     const ReportBugButton(),
-                            //     const Gap(12),
                           ]),
                         ),
                       ),

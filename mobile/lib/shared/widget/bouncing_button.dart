@@ -18,7 +18,7 @@ class BouncingButton extends StatefulWidget {
   });
   final Widget child;
   final BorderRadius? borderRadius;
-  final Function(PointerEvent)? onPressed;
+  final Function()? onPressed;
   final bool vibrate;
   final bool debounce;
   final Duration debounceDuration;
@@ -63,7 +63,8 @@ class BouncingState extends State<BouncingButton> with SingleTickerProviderState
   }
 
   bool checkPosition(PointerEvent event) {
-    return (event.localPosition.dx - _initPosition.dx).abs() > 5 || (event.localPosition.dy - _initPosition.dy).abs() > 5;
+    return (event.localPosition.dx - _initPosition.dx).abs() > 5 ||
+        (event.localPosition.dy - _initPosition.dy).abs() > 5;
   }
 
   Future<void> _callPressCallback(PointerEvent event) async {
@@ -71,14 +72,14 @@ class BouncingState extends State<BouncingButton> with SingleTickerProviderState
       if (_lock!.locked) return; // prevent multiple taps
       return _lock!.synchronized(() async {
         try {
-          widget.onPressed?.call(event);
+          widget.onPressed?.call();
           await Future.delayed(widget.debounceDuration);
         } catch (e) {
           debugPrint(e.toString());
         }
       });
     } else {
-      widget.onPressed?.call(event);
+      widget.onPressed?.call();
     }
   }
 
@@ -156,10 +157,7 @@ class BouncingState extends State<BouncingButton> with SingleTickerProviderState
               child: Opacity(
                 opacity: _opacity,
                 child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: borderRadius,
-                  ),
+                  decoration: BoxDecoration(color: Colors.black, borderRadius: borderRadius),
                 ),
               ),
             ),

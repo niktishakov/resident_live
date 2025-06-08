@@ -21,20 +21,10 @@ void showDebugActionsSheet(BuildContext context) {
       child: SizedBox(
         height: 44,
         child: BouncingButton(
-          onPressed: (_) => onTap(),
+          onPressed: () => onTap(),
           child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: SizedBox.expand(
-              child: Center(
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(16)),
+            child: SizedBox.expand(child: Center(child: Text(title, textAlign: TextAlign.center))),
           ),
         ),
       ),
@@ -56,57 +46,54 @@ void showDebugActionsSheet(BuildContext context) {
           maxChildSize: 0.9,
           minChildSize: 0.5,
           shouldCloseOnMinExtent: true,
-          builder: (context, controller) => ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(32),
-            ),
-            child: ColoredBox(
-              color: Theme.of(context).colorScheme.surface,
-              child: FractionallySizedBox(
-                heightFactor: 1.0,
-                widthFactor: 1.0,
-                child: ListView(
-                  controller: controller,
-                  children: [
-                    const Grabber(color: Colors.white),
-                    const Gap(16),
-                    const ReportBugButton(),
-                    buildActionRow(
-                      title: "Erase Data & Restart",
-                      color: Colors.red,
-                      onTap: () {
-                        HydratedBloc.storage.clear();
-                      },
-                    ),
-                    buildActionRow(
-                      title: "Go to /pre-splash",
-                      color: Colors.blue,
-                      onTap: () async {
-                        context.pop();
-                        unawaited(
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (c) => const PresplashScreen(),
-                            ),
+          builder:
+              (context, controller) => ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+                child: ColoredBox(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: FractionallySizedBox(
+                    heightFactor: 1.0,
+                    widthFactor: 1.0,
+                    child: ListView(
+                      controller: controller,
+                      children: [
+                        const Grabber(color: Colors.white),
+                        const Gap(16),
+                        const ReportBugButton(),
+                        buildActionRow(
+                          title: "Erase Data & Restart",
+                          color: Colors.red,
+                          onTap: () {
+                            HydratedBloc.storage.clear();
+                          },
+                        ),
+                        buildActionRow(
+                          title: "Go to /pre-splash",
+                          color: Colors.blue,
+                          onTap: () async {
+                            context.pop();
+                            unawaited(
+                              Navigator.of(
+                                context,
+                              ).push(MaterialPageRoute(builder: (c) => const PresplashScreen())),
+                            );
+                          },
+                        ),
+                        ...ScreenNames.all.map(
+                          (e) => buildActionRow(
+                            title: "Go to $e",
+                            color: Colors.blue,
+                            onTap: () {
+                              context.pop();
+                              context.pushReplacementNamed(e);
+                            },
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
-                    ...ScreenNames.all.map(
-                      (e) => buildActionRow(
-                        title: "Go to $e",
-                        color: Colors.blue,
-                        onTap: () {
-                          context.pop();
-                          context.pushReplacementNamed(e);
-                        },
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
         ),
       );
     },

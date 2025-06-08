@@ -7,6 +7,8 @@ class ScreenNames {
   static const manageCountries = "/manage-countries-screen";
   static const residenceDetails = "/residence-details-screen";
   static const residenceDetails2 = "/residence-details-screen2";
+  static const map = "/map-screen";
+  static const trips = "/trips-screen";
 
   static const allTrackingCountries = "/all-tracking-countries-screen";
   static const settings = "/settings-screen";

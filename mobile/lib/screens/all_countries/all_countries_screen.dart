@@ -9,7 +9,7 @@ import "package:get_it/get_it.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/app/injection.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/screens/all_countries/cubit/remove_country_cubit.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
@@ -28,7 +28,8 @@ class AllCountriesScreen extends StatefulWidget {
   State<AllCountriesScreen> createState() => _AllCountriesScreenState();
 }
 
-class _AllCountriesScreenState extends State<AllCountriesScreen> with SingleTickerProviderStateMixin {
+class _AllCountriesScreenState extends State<AllCountriesScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
@@ -126,21 +127,21 @@ class _AllCountriesScreenState extends State<AllCountriesScreen> with SingleTick
                 children: [
                   Hero(
                     tag: "tracking_residences",
-                    flightShuttleBuilder: (
-                      flightContext,
-                      animation,
-                      flightDirection,
-                      fromHeroContext,
-                      toHeroContext,
-                    ) =>
-                        toSecondHeroFlightShuttleBuilder(
-                      flightContext: flightContext,
-                      animation: animation,
-                      flightDirection: flightDirection,
-                      fromHeroContext: fromHeroContext,
-                      toHeroContext: toHeroContext,
-                      beginBorderRadius: BorderRadius.circular(38).topLeft.x,
-                    ),
+                    flightShuttleBuilder:
+                        (
+                          flightContext,
+                          animation,
+                          flightDirection,
+                          fromHeroContext,
+                          toHeroContext,
+                        ) => toSecondHeroFlightShuttleBuilder(
+                          flightContext: flightContext,
+                          animation: animation,
+                          flightDirection: flightDirection,
+                          fromHeroContext: fromHeroContext,
+                          toHeroContext: toHeroContext,
+                          beginBorderRadius: BorderRadius.circular(38).topLeft.x,
+                        ),
                     child: RlCard(
                       borderRadius: _borderAnimation.value.topLeft.x,
                       gradient: vGradient,
@@ -157,15 +158,11 @@ class _AllCountriesScreenState extends State<AllCountriesScreen> with SingleTick
                         child: CupertinoPageScaffold(
                           backgroundColor: Colors.transparent,
                           navigationBar: CupertinoNavigationBar(
-                            padding: const EdgeInsetsDirectional.symmetric(
-                              horizontal: 24,
-                            ),
+                            padding: const EdgeInsetsDirectional.symmetric(horizontal: 24),
                             backgroundColor: Colors.transparent,
                             middle: Text(
-                              S.of(context).homeTrackingResidences,
-                              style: theme.title16Semi.copyWith(
-                                color: theme.textPrimary,
-                              ),
+                              context.t.homeTrackingResidences,
+                              style: theme.title16Semi.copyWith(color: theme.textPrimary),
                             ),
                             leading: TransparentButton(
                               width: 60,
@@ -176,7 +173,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen> with SingleTick
                                 });
                               },
                               child: Text(
-                                isEditing ? S.of(context).commonContinue : S.of(context).commonEdit,
+                                isEditing ? context.t.commonContinue : context.t.commonEdit,
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: isEditing ? FontWeight.w600 : FontWeight.w500,
@@ -184,7 +181,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen> with SingleTick
                               ),
                             ),
                             trailing: BouncingButton(
-                              onPressed: (_) {
+                              onPressed: () {
                                 VibrationService.instance.tap();
                                 context.pop();
                               },
@@ -210,10 +207,7 @@ class _AllCountriesScreenState extends State<AllCountriesScreen> with SingleTick
                                   TweenAnimationBuilder(
                                     duration: 500.ms,
                                     curve: Curves.fastOutSlowIn,
-                                    tween: Tween<double>(
-                                      begin: 1.0,
-                                      end: isEditing ? 0.0 : 1.0,
-                                    ),
+                                    tween: Tween<double>(begin: 1.0, end: isEditing ? 0.0 : 1.0),
                                     builder: (context, value, child) {
                                       return Transform.translate(
                                         offset: Offset(0, value * 300),
@@ -238,13 +232,13 @@ class _AllCountriesScreenState extends State<AllCountriesScreen> with SingleTick
                                               CupertinoDialogAction(
                                                 isDestructiveAction: true,
                                                 onPressed: () async {
-                                                  setState(
-                                                    () => _isPopping = true,
-                                                  );
+                                                  setState(() => _isPopping = true);
 
                                                   context.pop();
                                                   for (final isoCode in selected) {
-                                                    GetIt.I<RemoveCountryCubit>().loadResource(isoCode);
+                                                    GetIt.I<RemoveCountryCubit>().loadResource(
+                                                      isoCode,
+                                                    );
                                                   }
                                                   setState(selected.clear);
                                                   VibrationService.instance.success();

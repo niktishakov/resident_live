@@ -1,6 +1,6 @@
 import "package:flutter/cupertino.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/shared/shared.dart";
 
 class Header extends StatelessWidget {
@@ -20,11 +20,9 @@ class Header extends StatelessWidget {
               style: theme.body22M,
               TextSpan(
                 children: [
+                  TextSpan(text: "${context.t.calendarYourJourney}\n"),
                   TextSpan(
-                    text: "${S.of(context).calendarYourJourney}\n",
-                  ),
-                  TextSpan(
-                    text: S.of(context).calendarLast12Months,
+                    text: context.t.calendarLast12Months,
                     style: theme.body22M.copyWith(color: theme.textAccent),
                   ),
                 ],
@@ -32,9 +30,7 @@ class Header extends StatelessWidget {
             ),
           ),
         ),
-        RlCloseButton(
-          color: context.theme.colorScheme.secondary.withValues(alpha: 0.85),
-        ),
+        RlCloseButton(color: context.theme.colorScheme.secondary.withValues(alpha: 0.85)),
         const Gap(16),
       ],
     );

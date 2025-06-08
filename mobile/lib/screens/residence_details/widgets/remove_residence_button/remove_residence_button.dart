@@ -2,7 +2,7 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:resident_live/app/injection.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/screens/residence_details/cubit/clear_focus_cubit.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/transparent_button.dart";
@@ -21,9 +21,7 @@ class RemoveResidenceButton extends StatelessWidget {
             context: context,
             builder: (context) => CupertinoAlertDialog(
               title: const Text("Remove Country"),
-              content: const Text(
-                "Are you sure you want to remove this country from tracking?",
-              ),
+              content: const Text("Are you sure you want to remove this country from tracking?"),
               actions: [
                 CupertinoDialogAction(
                   child: const Text("Cancel"),
@@ -48,7 +46,7 @@ class RemoveResidenceButton extends StatelessWidget {
           size: 24,
         ),
         child: Text(
-          S.of(context).detailsRemoveCountry,
+          context.t.detailsRemoveCountry,
           style: theme.body14.copyWith(
             fontWeight: FontWeight.w300,
             color: theme.textDanger,

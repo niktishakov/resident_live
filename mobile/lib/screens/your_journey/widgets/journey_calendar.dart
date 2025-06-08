@@ -1,7 +1,7 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/shared/shared.dart";
 
 class JourneyCalendar extends StatefulWidget {
@@ -51,10 +51,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
-    _lineAnimation = CurvedAnimation(
-      parent: _lineAnimationController,
-      curve: Curves.fastOutSlowIn,
-    );
+    _lineAnimation = CurvedAnimation(parent: _lineAnimationController, curve: Curves.fastOutSlowIn);
 
     if (!JourneyCalendar.visitedMonths.contains(monthKey)) {
       _lineAnimationController.forward();
@@ -65,11 +62,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
   }
 
   void _navigateMonth(int monthDelta) {
-    final nextMonthDate = DateTime(
-      _displayedMonth.year,
-      _displayedMonth.month + monthDelta,
-      1,
-    );
+    final nextMonthDate = DateTime(_displayedMonth.year, _displayedMonth.month + monthDelta, 1);
     final monthKey = "${nextMonthDate.year}-${nextMonthDate.month}";
 
     setState(() {
@@ -134,11 +127,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
         CupertinoButton(
           padding: EdgeInsets.zero,
           onPressed: _isAnimating ? null : () => _navigateMonth(-1),
-          child: const Icon(
-            CupertinoIcons.chevron_left,
-            color: Colors.white,
-            size: 24,
-          ),
+          child: const Icon(CupertinoIcons.chevron_left, color: Colors.white, size: 24),
         ),
         Expanded(
           child: Stack(
@@ -158,10 +147,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
                     child: Opacity(
                       opacity: 1 - value.abs(),
                       child: Center(
-                        child: Text(
-                          _displayedMonth.toMonthYearString(),
-                          style: theme.body20,
-                        ),
+                        child: Text(_displayedMonth.toMonthYearString(), style: theme.body20),
                       ),
                     ),
                   );
@@ -171,10 +157,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
               if (_isAnimating)
                 TweenAnimationBuilder<double>(
                   key: ValueKey("in_${_nextMonth.toString()}"),
-                  tween: Tween(
-                    begin: _slideDirection > 0 ? 1.0 : -1.0,
-                    end: 0.0,
-                  ),
+                  tween: Tween(begin: _slideDirection > 0 ? 1.0 : -1.0, end: 0.0),
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.fastOutSlowIn,
                   onEnd: () {
@@ -190,10 +173,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
                       child: Opacity(
                         opacity: 1 - value.abs(),
                         child: Center(
-                          child: Text(
-                            _nextMonth.toMonthYearString(),
-                            style: theme.body20,
-                          ),
+                          child: Text(_nextMonth.toMonthYearString(), style: theme.body20),
                         ),
                       ),
                     );
@@ -205,10 +185,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
         CupertinoButton(
           padding: EdgeInsets.zero,
           onPressed: _isAnimating ? null : () => _navigateMonth(1),
-          child: const Icon(
-            CupertinoIcons.chevron_right,
-            color: Colors.white,
-          ),
+          child: const Icon(CupertinoIcons.chevron_right, color: Colors.white),
         ),
       ],
     );
@@ -220,10 +197,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
         // Current month sliding out
         TweenAnimationBuilder<double>(
           key: ValueKey("out_${_displayedMonth.toString()}"),
-          tween: Tween(
-            begin: 0.0,
-            end: _isAnimating ? (_slideDirection > 0 ? -1.0 : 1.0) : 0.0,
-          ),
+          tween: Tween(begin: 0.0, end: _isAnimating ? (_slideDirection > 0 ? -1.0 : 1.0) : 0.0),
           duration: const Duration(milliseconds: 500),
           curve: Curves.fastOutSlowIn,
           builder: (context, value, child) {
@@ -240,10 +214,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
         if (_isAnimating)
           TweenAnimationBuilder<double>(
             key: ValueKey("in_${_nextMonth.toString()}"),
-            tween: Tween(
-              begin: _slideDirection > 0 ? 1.0 : -1.0,
-              end: 0.0,
-            ),
+            tween: Tween(begin: _slideDirection > 0 ? 1.0 : -1.0, end: 0.0),
             duration: const Duration(milliseconds: 500),
             curve: Curves.fastOutSlowIn,
             onEnd: () {
@@ -256,10 +227,7 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
             builder: (context, value, child) {
               return Transform.translate(
                 offset: Offset(value * MediaQuery.of(context).size.width, 0),
-                child: Opacity(
-                  opacity: 1 - value.abs(),
-                  child: _buildCalendarContent(_nextMonth),
-                ),
+                child: Opacity(opacity: 1 - value.abs(), child: _buildCalendarContent(_nextMonth)),
               );
             },
           ),
@@ -328,12 +296,8 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
                   for (final country in widget.visibleCountries) {
                     final periods = widget.countryPeriods[country] ?? [];
                     for (final period in periods) {
-                      if (date.isAfter(
-                            period.start.subtract(const Duration(days: 1)),
-                          ) &&
-                          date.isBefore(
-                            period.end.add(const Duration(days: 1)),
-                          )) {
+                      if (date.isAfter(period.start.subtract(const Duration(days: 1))) &&
+                          date.isBefore(period.end.add(const Duration(days: 1)))) {
                         todayColor = widget.countryColors[country];
                         break;
                       }
@@ -347,7 +311,9 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
                   decoration: isToday
                       ? BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: todayColor?.withValues(alpha: 0.2) ?? context.rlTheme.bgAccent.withValues(alpha: 0.2),
+                          color:
+                              todayColor?.withValues(alpha: 0.2) ??
+                              context.rlTheme.bgAccent.withValues(alpha: 0.2),
                         )
                       : null,
                   child: Center(
@@ -360,8 +326,8 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
                         color: isToday
                             ? _getBrightColor(todayColor) ?? Colors.white
                             : _isCurrentMonth(date, month)
-                                ? Colors.white
-                                : Colors.grey,
+                            ? Colors.white
+                            : Colors.grey,
                       ),
                     ),
                   ),
@@ -390,19 +356,19 @@ class _JourneyCalendarState extends State<JourneyCalendar> with SingleTickerProv
   String _getWeekDayLabel(BuildContext context, int weekday) {
     switch (weekday) {
       case 1:
-        return S.of(context).weekdayMonday;
+        return context.t.weekdayMonday;
       case 2:
-        return S.of(context).weekdayTuesday;
+        return context.t.weekdayTuesday;
       case 3:
-        return S.of(context).weekdayWednesday;
+        return context.t.weekdayWednesday;
       case 4:
-        return S.of(context).weekdayThursday;
+        return context.t.weekdayThursday;
       case 5:
-        return S.of(context).weekdayFriday;
+        return context.t.weekdayFriday;
       case 6:
-        return S.of(context).weekdaySaturday;
+        return context.t.weekdaySaturday;
       case 7:
-        return S.of(context).weekdaySunday;
+        return context.t.weekdaySunday;
       default:
         return "";
     }
@@ -489,11 +455,7 @@ class CalendarPainter extends CustomPainter {
 
           if (rowStartX == rowEndX) {
             if (progress > 0) {
-              canvas.drawCircle(
-                Offset(rowStartX, y),
-                circleRadius,
-                circlePaint,
-              );
+              canvas.drawCircle(Offset(rowStartX, y), circleRadius, circlePaint);
             }
           } else {
             final path = Path();
@@ -503,11 +465,7 @@ class CalendarPainter extends CustomPainter {
 
             canvas.drawCircle(Offset(rowStartX, y), circleRadius, circlePaint);
             if (progress > 0) {
-              canvas.drawCircle(
-                Offset(animatedEndX, y),
-                circleRadius,
-                circlePaint,
-              );
+              canvas.drawCircle(Offset(animatedEndX, y), circleRadius, circlePaint);
             }
           }
         }
@@ -545,7 +503,11 @@ class CalendarPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CalendarPainter oldDelegate) {
-    return oldDelegate.progress != progress || oldDelegate.currentMonth != currentMonth || oldDelegate.countryPeriods != countryPeriods || oldDelegate.visibleCountries != visibleCountries || oldDelegate.countryColors != countryColors;
+    return oldDelegate.progress != progress ||
+        oldDelegate.currentMonth != currentMonth ||
+        oldDelegate.countryPeriods != countryPeriods ||
+        oldDelegate.visibleCountries != visibleCountries ||
+        oldDelegate.countryColors != countryColors;
   }
 }
 

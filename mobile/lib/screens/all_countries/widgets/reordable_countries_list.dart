@@ -41,9 +41,7 @@ class ReordableCountriesList extends StatelessWidget {
                         daysSpent: daysSpent,
                         toggleSelection: toggleSelection,
                         isEditing: isEditing,
-                        isSelected: selected.contains(
-                          country?.key ?? "",
-                        ),
+                        isSelected: selected.contains(country?.key ?? ""),
                         isLast: index == (user?.countries.length ?? 0) - 1,
                       );
                     },
@@ -76,10 +74,7 @@ class ReordableCountriesList extends StatelessWidget {
                       );
                     },
                     itemCount: user?.countries.length ?? 0,
-                    onReorder: (
-                      oldIndex,
-                      newIndex,
-                    ) {},
+                    onReorder: (oldIndex, newIndex) {},
                   ),
                 ),
               ),

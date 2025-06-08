@@ -34,13 +34,11 @@ class _AnimatedTabItemState extends State<AnimatedTabItem> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: 150.ms,
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _controller = AnimationController(duration: 150.ms, vsync: this);
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.9,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -56,7 +54,9 @@ class _AnimatedTabItemState extends State<AnimatedTabItem> with SingleTickerProv
     final item = widget.item;
     final itemFill = widget.itemFill;
     final isSelected = widget.isSelected;
-    final textColor = isSelected ? context.theme.colorScheme.secondary : context.theme.colorScheme.secondary.withValues(alpha: 0.5);
+    final textColor = isSelected
+        ? context.theme.colorScheme.secondary
+        : context.theme.colorScheme.secondary.withValues(alpha: 0.5);
 
     return GestureDetector(
       onTap: () {
@@ -100,10 +100,7 @@ class _AnimatedTabItemState extends State<AnimatedTabItem> with SingleTickerProv
     return AnimatedBuilder(
       animation: _scaleAnimation,
       builder: (context, child) {
-        return Transform.scale(
-          scale: _scaleAnimation.value,
-          child: child,
-        );
+        return Transform.scale(scale: _scaleAnimation.value, child: child);
       },
       child: SizedBox.square(
         dimension: iconSize,

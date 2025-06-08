@@ -4,18 +4,14 @@ import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/shared/lib/utils/hero_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
 part "residence_item.dart";
 
 class OtherResidencesView extends StatefulWidget {
-  const OtherResidencesView({
-    required this.residences,
-    required this.onTap,
-    super.key,
-  });
+  const OtherResidencesView({required this.residences, required this.onTap, super.key});
 
   final Map<String, List<StayPeriodValueObject>> residences;
   final Future? Function() onTap;
@@ -48,7 +44,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                 Padding(
                   padding: const EdgeInsets.only(left: 24.0, bottom: 13),
                   child: Text(
-                    S.of(context).homeTrackingResidences,
+                    context.t.homeTrackingResidences,
                     style: GoogleFonts.poppins(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
@@ -60,21 +56,21 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                   onTap: widget.onTap,
                   child: Hero(
                     tag: "tracking_residences",
-                    flightShuttleBuilder: (
-                      flightContext,
-                      animation,
-                      flightDirection,
-                      fromHeroContext,
-                      toHeroContext,
-                    ) =>
-                        toFirstHeroFlightShuttleBuilder(
-                      flightContext: flightContext,
-                      animation: animation,
-                      flightDirection: flightDirection,
-                      fromHeroContext: fromHeroContext,
-                      toHeroContext: toHeroContext,
-                      beginBorderRadius: beginBorderRadius.topLeft.x,
-                    ),
+                    flightShuttleBuilder:
+                        (
+                          flightContext,
+                          animation,
+                          flightDirection,
+                          fromHeroContext,
+                          toHeroContext,
+                        ) => toFirstHeroFlightShuttleBuilder(
+                          flightContext: flightContext,
+                          animation: animation,
+                          flightDirection: flightDirection,
+                          fromHeroContext: fromHeroContext,
+                          toHeroContext: toHeroContext,
+                          beginBorderRadius: beginBorderRadius.topLeft.x,
+                        ),
                     child: RlCard(
                       gradient: kMainGradient,
                       borderRadius: beginBorderRadius.topLeft.x,
@@ -84,10 +80,7 @@ class _OtherResidencesViewState extends State<OtherResidencesView> {
                         child: Column(
                           children: [
                             ...residences.map(
-                              (e) => _ResidenceItem(
-                                countryCode: e.key,
-                                stayPeriods: e.value,
-                              ),
+                              (e) => _ResidenceItem(countryCode: e.key, stayPeriods: e.value),
                             ),
                             const Gap(10),
                             const _SeeAll(),
@@ -112,7 +105,7 @@ class _SeeAll extends StatelessWidget {
     return Column(
       children: [
         Text(
-          S.of(context).homeSeeAll,
+          context.t.homeSeeAll,
           style: GoogleFonts.poppins(
             fontSize: 11,
             fontWeight: FontWeight.w400,

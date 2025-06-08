@@ -2,7 +2,7 @@ import "dart:async";
 
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/shared/shared.dart";
 
 class GreetingView extends StatefulWidget {
@@ -38,22 +38,22 @@ class GreetingViewState extends State<GreetingView> {
 
     if (hour >= 5 && hour < 12) {
       setState(() {
-        greeting = S.of(context).homeGoodMorning;
+        greeting = context.t.homeGoodMorning;
         icon = AppAssets.sunHorizonFill;
       });
     } else if (hour >= 12 && hour < 17) {
       setState(() {
-        greeting = S.of(context).homeGoodAfternoon;
+        greeting = context.t.homeGoodAfternoon;
         icon = AppAssets.sunMaxFill;
       });
     } else if (hour >= 17 && hour < 20) {
       setState(() {
-        greeting = S.of(context).homeGoodEvening;
+        greeting = context.t.homeGoodEvening;
         icon = AppAssets.sunHorizonFill;
       });
     } else {
       setState(() {
-        greeting = S.of(context).homeGoodNight;
+        greeting = context.t.homeGoodNight;
         icon = AppAssets.moonFill;
       });
     }
@@ -81,9 +81,7 @@ class GreetingViewState extends State<GreetingView> {
                 color: context.theme.colorScheme.secondary,
               ),
               children: [
-                TextSpan(
-                  text: greeting.split(" ")[0],
-                ),
+                TextSpan(text: greeting.split(" ")[0]),
                 WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
                   child: Padding(
@@ -95,10 +93,7 @@ class GreetingViewState extends State<GreetingView> {
                           BoxShadow(
                             color: context.theme.colorScheme.secondary.withValues(alpha: 0.05),
                             blurRadius: 13,
-                            offset: const Offset(
-                              0,
-                              1,
-                            ), // changes position of shadow
+                            offset: const Offset(0, 1), // changes position of shadow
                           ),
                         ],
                       ),

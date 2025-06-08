@@ -3,7 +3,7 @@ import "package:flutter/cupertino.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
 import "package:resident_live/app/injection.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/add_periods/add_periods.page.dart";
 import "package:resident_live/screens/onboarding/pages/add_stay_periods/cubit/update_countries_cubit.dart";
@@ -12,10 +12,7 @@ import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/shared/shared.dart";
 
 class AddStayPeriodsPage extends StatefulWidget {
-  const AddStayPeriodsPage({
-    required this.onNextPage,
-    super.key,
-  });
+  const AddStayPeriodsPage({required this.onNextPage, super.key});
   final VoidCallback onNextPage;
 
   @override
@@ -43,33 +40,22 @@ class AddStayPeriodsPageState extends State<AddStayPeriodsPage> {
             const Gap(32),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                S.of(context).addStayPeriodTitle,
-                style: theme.title26,
-              ),
-            ).animate().fade(
-                  duration: 1.seconds,
-                ),
+              child: Text(context.t.addStayPeriodTitle, style: theme.title26),
+            ).animate().fade(duration: 1.seconds),
             const Gap(16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                S.of(context).addStayPeriodDescription,
+                context.t.addStayPeriodDescription,
                 style: theme.body14,
-              ).animate().fade(
-                    duration: 1.seconds,
-                    delay: 300.ms,
-                  ),
+              ).animate().fade(duration: 1.seconds, delay: 300.ms),
             ),
             ActivityTimeline(
               countries: countryNames,
               addRanges: (p0) async {
                 final result = await Navigator.of(context).push<List<StayPeriodValueObject>>(
                   CupertinoPageRoute(
-                    builder: (_) => AddPeriodsPage(
-                      countries: countryNames,
-                      segments: p0,
-                    ),
+                    builder: (_) => AddPeriodsPage(countries: countryNames, segments: p0),
                   ),
                 );
                 return result ?? [];
@@ -87,7 +73,7 @@ class AddStayPeriodsPageState extends State<AddStayPeriodsPage> {
                     : PrimaryButton(
                         onPressed: _onContinue,
                         fontSize: 20,
-                        label: S.of(context).commonContinue,
+                        label: context.t.commonContinue,
                       ).animate().fade(delay: 500.ms),
               ),
             ).animate().fade(delay: 1300.ms),

@@ -1,10 +1,9 @@
-part of "../../residence_details_screen.dart";
+import "package:auto_size_text/auto_size_text.dart";
+import "package:flutter/cupertino.dart";
+import "package:resident_live/shared/shared.dart";
 
-class _UpdateButton extends StatelessWidget {
-  const _UpdateButton({
-    required this.onTap,
-    required this.date,
-  });
+class UpdateButton extends StatelessWidget {
+  const UpdateButton({required this.onTap, required this.date, super.key});
 
   final VoidCallback onTap;
   final DateTime date;
@@ -20,10 +19,7 @@ class _UpdateButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          border: Border.all(
-            color: theme.borderWarning,
-            width: 1,
-          ),
+          border: Border.all(color: theme.borderWarning, width: 1),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),

@@ -1,5 +1,5 @@
 import "package:flutter/cupertino.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/shared/shared.dart";
 
 class NotifyMeButton extends StatelessWidget {
@@ -15,7 +15,7 @@ class NotifyMeButton extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              S.of(context).detailsNotifyMe,
+              context.t.detailsNotifyMe,
               style: theme.body14.copyWith(
                 fontWeight: FontWeight.w300,
                 color: theme.textPrimary,
@@ -32,11 +32,7 @@ class NotifyMeButton extends StatelessWidget {
                   color: theme.textSecondary,
                 ),
               ),
-              Icon(
-                CupertinoIcons.chevron_right,
-                size: 24,
-                color: theme.iconSecondary,
-              ),
+              Icon(CupertinoIcons.chevron_right, size: 24, color: theme.iconSecondary),
             ],
           ),
         ],

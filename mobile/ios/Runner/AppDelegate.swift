@@ -26,7 +26,7 @@ import workmanager
      
       WorkmanagerPlugin.registerPeriodicTask(withIdentifier: "be.tramckrijte.workmanagerExample.iOSBackgroundAppRefresh", frequency: NSNumber(value: 15 * 60))
 
-
+      AppleMaps3DPlugin.register(with: self.registrar(forPlugin: "AppleMaps3DPlugin")!)
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

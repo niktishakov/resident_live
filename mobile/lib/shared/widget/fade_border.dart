@@ -2,13 +2,17 @@ import "package:flutter/material.dart";
 
 class FadeBorder extends StatelessWidget {
   const FadeBorder({
-    required this.child, super.key,
+    required this.child,
+    super.key,
     this.gradient,
     this.blendMode = BlendMode.dstIn,
     this.disabled = false,
     this.bidirectional = false,
     this.stops,
+    this.colors,
     this.direction = Axis.vertical,
+    this.begin,
+    this.end,
   });
 
   final Gradient? gradient;
@@ -18,6 +22,9 @@ class FadeBorder extends StatelessWidget {
   final Axis direction;
   final Widget child;
   final List<double>? stops;
+  final List<Color>? colors;
+  final Alignment? begin;
+  final Alignment? end;
 
   @override
   Widget build(BuildContext context) {
@@ -28,27 +35,20 @@ class FadeBorder extends StatelessWidget {
               return gradient != null
                   ? gradient!.createShader(rect)
                   : LinearGradient(
-                      begin: direction == Axis.vertical
-                          ? Alignment.topCenter
-                          : Alignment.centerLeft,
-                      end: direction == Axis.vertical
-                          ? Alignment.bottomCenter
-                          : Alignment.centerRight,
-                      colors: bidirectional
-                          ? [
-                              Colors.transparent,
-                              Colors.white,
-                              Colors.white,
-                              Colors.transparent,
-                            ]
-                          : [
-                              Colors.transparent,
-                              Colors.white,
-                            ],
-                      stops: stops ??
+                      begin:
+                          begin ??
+                          (direction == Axis.vertical ? Alignment.topCenter : Alignment.centerLeft),
+                      end:
+                          end ??
+                          (direction == Axis.vertical
+                              ? Alignment.bottomCenter
+                              : Alignment.centerRight),
+                      colors:
+                          colors ??
                           (bidirectional
-                              ? [0.0, 0.09, 0.91, 1.0]
-                              : [0.0, 0.09]),
+                              ? [Colors.transparent, Colors.white, Colors.white, Colors.transparent]
+                              : [Colors.transparent, Colors.white]),
+                      stops: stops ?? (bidirectional ? [0.0, 0.09, 0.91, 1.0] : [0.0, 0.09]),
                     ).createShader(rect);
             },
             blendMode: blendMode,

@@ -4,46 +4,36 @@ import "dart:ui";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:go_router/go_router.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/screens/bottom_bar/animated_tab_item.dart";
-import "package:resident_live/screens/bottom_bar/background_painter.dart";
-import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/shared.dart";
 
 class AiBottomBar extends StatelessWidget {
-  const AiBottomBar({
-    required this.state,
-    required this.child,
-    super.key,
-  });
+  const AiBottomBar({required this.state, required this.child, super.key});
 
   final GoRouterState state;
   final Widget child;
 
   List<AiBottomBarItem> getItems(BuildContext context) {
+    final t = context.t;
+
     return [
       AiBottomBarItem(
         icon: AppAssets.personCircle,
         iconFill: AppAssets.personCircleFill,
-        label: S.of(context).commonFocusTab,
+        label: t.commonFocusTab,
         path: ScreenNames.home,
       ),
       AiBottomBarItem(
-        icon: AppAssets.sliderHorizontal2Gobackward,
-        iconFill: AppAssets.sliderHorizontal2Gobackward,
-        label: "",
-        path: ScreenNames.onboarding,
-        animation: ({child, isSelected = false}) => TweenAnimationBuilder<double>(
-          tween: Tween<double>(begin: 0.0, end: isSelected ? 1.0 : 0.0),
-          duration: 200.ms,
-          builder: (_, value, c) => Transform.rotate(angle: -value * pi / 3, child: c),
-          child: child,
-        ),
+        icon: AppAssets.airplane,
+        iconFill: AppAssets.airplaneFill,
+        label: t.commonTripsTab,
+        path: ScreenNames.trips,
       ),
       AiBottomBarItem(
         icon: AppAssets.gearshape,
         iconFill: AppAssets.gearshapeFill,
-        label: S.of(context).commonSettingsTab,
+        label: t.commonSettingsTab,
         path: ScreenNames.settings,
         animation: ({child, isSelected = false}) => TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: 0.0, end: isSelected ? 1.0 : 0.0),
@@ -60,133 +50,53 @@ class AiBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = getItems(context);
+    final theme = context.rlTheme;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: child,
       extendBody: true,
-      bottomNavigationBar: Container(
-        height: 78,
-        margin: EdgeInsets.only(
-          bottom: context.mediaQuery.padding.bottom,
-        ),
-        child: Center(
-          child: Stack(
-            children: [
-              CustomPaint(
-                size: const Size(280, 78),
-                painter: CustomBottomNavBarPainter(),
+      bottomNavigationBar: Stack(
+        children: [
+          Container(
+            height: 78,
+            margin: EdgeInsets.only(bottom: context.mediaQuery.padding.bottom, left: 24, right: 24),
+            decoration: BoxDecoration(
+              gradient: kMainGradient.withOpacity(0.65),
+              borderRadius: BorderRadius.circular(100),
+              boxShadow: [
+                BoxShadow(color: theme.bgPrimary, blurRadius: 80, offset: const Offset(0, 78)),
+              ],
+            ),
+            child: Center(
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width: 280,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        for (final item in items)
+                          Expanded(
+                            flex: item.label.isEmpty ? 1 : 2,
+                            child: _buildTabItem(context, item),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 280,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    for (final item in items)
-                      Expanded(
-                        flex: item.label.isEmpty ? 1 : 2,
-                        child: ColoredBox(
-                          color: Colors.amber.withValues(alpha: 0.00001),
-                          child: _buildTabItem(context, item),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   Widget _buildTabItem(BuildContext context, AiBottomBarItem item) {
     final isSelected = currentPath == item.path;
-    final isMiddleButton = item.path == ScreenNames.onboarding;
-    final iconSize = isMiddleButton ? 66.0 : 30.0;
-
-    if (isMiddleButton) {
-      if (item.animation != null) {
-        return item.animation!(
-          child: LayoutBuilder(
-            builder: (context, ctrx) {
-              return GestureDetector(
-                onTap: () {
-                  VibrationService.instance.tap();
-                  context.push(ScreenNames.manageCountries);
-                },
-                child: ColoredBox(
-                  color: Colors.transparent,
-                  child: Transform.translate(
-                    offset: Offset(0, isMiddleButton ? -23 : 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            color: context.theme.colorScheme.primary,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: AppAssetImage(
-                              item.icon,
-                              width: 40,
-                              height: 40,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-          isSelected: isSelected,
-        );
-      }
-
-      return LayoutBuilder(
-        builder: (context, ctrx) {
-          return GestureDetector(
-            onTap: () {
-              VibrationService.instance.tap();
-              context.push(ScreenNames.manageCountries);
-            },
-            child: ColoredBox(
-              color: Colors.transparent,
-              child: Transform.translate(
-                offset: Offset(0, isMiddleButton ? -23 : 0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: context.theme.colorScheme.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: AppAssetImage(
-                          item.icon,
-                          width: 40,
-                          height: 40,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      );
-    }
+    const iconSize = 30.0;
 
     return LayoutBuilder(
       builder: (context, ctrx) {
@@ -226,43 +136,4 @@ class AiBottomBarItem {
   final AppAsset iconFill;
   final String label;
   final TweenAnimationBuilder Function({Widget? child, bool isSelected})? animation;
-}
-
-class BlurredBottomNavBar extends StatelessWidget {
-  const BlurredBottomNavBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      // Clip it so the blur is only applied within the bottom bar boundaries
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0), // Blur effect
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.5), // Semi-transparent background
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.transparent, // Background should be transparent
-            elevation: 0, // Remove the shadow
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: "Home",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: "Search",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: "Profile",
-              ),
-            ],
-            selectedItemColor: Colors.blue,
-          ),
-        ),
-      ),
-    );
-  }
 }

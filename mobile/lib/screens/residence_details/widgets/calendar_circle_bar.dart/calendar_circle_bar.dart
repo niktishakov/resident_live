@@ -234,10 +234,9 @@ class _CalendarCirclePainter extends CustomPainter {
     for (var monthIndex = 0; monthIndex < 12; monthIndex++) {
       // Теперь проверяем, есть ли в этом месяце период пребывания
       final monthStart = monthStarts[monthIndex];
-      final monthEnd =
-          monthIndex > currentMonth
-              ? DateTime(currentYear - 1, monthIndex + 1, 1)
-              : DateTime(currentYear, monthIndex + 1, 1);
+      final monthEnd = monthIndex > currentMonth
+          ? DateTime(currentYear - 1, monthIndex + 1, 1)
+          : DateTime(currentYear, monthIndex + 1, 1);
 
       for (final period in stayPeriods) {
         // Проверяем, пересекается ли месяц с периодом пребывания
@@ -253,11 +252,10 @@ class _CalendarCirclePainter extends CustomPainter {
 
   // Нарисовать базовую круговую диаграмму
   void _drawCircleBase(Canvas canvas, Offset center, double radius, double innerRadius) {
-    final paint =
-        Paint()
-          ..color = backgroundColor
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = radius - innerRadius;
+    final paint = Paint()
+      ..color = backgroundColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = radius - innerRadius;
 
     canvas.drawCircle(center, (radius + innerRadius) / 2, paint);
   }
@@ -271,11 +269,10 @@ class _CalendarCirclePainter extends CustomPainter {
     double innerRadius,
     List<bool> activeMonths,
   ) {
-    final paint =
-        Paint()
-          ..color = dividerColor
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 4;
+    final paint = Paint()
+      ..color = dividerColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4;
 
     for (var i = 0; i < 12; i++) {
       // Вычисляем прогресс анимации для этого месяца
@@ -370,18 +367,20 @@ class _CalendarCirclePainter extends CustomPainter {
 
       if (activeMonths[monthIndex]) {
         // Для активных месяцев - интерполируем цвет от фонового к активному
-        final animatedColor =
-            Color.lerp(backgroundColor.withValues(alpha: 0.5), activeColor, monthAnimProgress)!;
+        final animatedColor = Color.lerp(
+          backgroundColor.withValues(alpha: 0.5),
+          activeColor,
+          monthAnimProgress,
+        )!;
 
         // Интерполируем расширение
         final expansionFactor = 1.0 + (0.10 * monthAnimProgress);
 
         // Создаем краску с анимированным цветом
-        final animatedPaint =
-            Paint()
-              ..color = animatedColor
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = (radius * expansionFactor - innerRadius);
+        final animatedPaint = Paint()
+          ..color = animatedColor
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = (radius * expansionFactor - innerRadius);
 
         // Рисуем дугу с анимированными параметрами
         canvas.drawArc(
@@ -399,11 +398,10 @@ class _CalendarCirclePainter extends CustomPainter {
         // Используем тот же базовый цвет, но с анимированной прозрачностью
         final animatedColor = backgroundColor.withValues(alpha: opacity);
 
-        final nonActivePaint =
-            Paint()
-              ..color = animatedColor
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = (radius - innerRadius);
+        final nonActivePaint = Paint()
+          ..color = animatedColor
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = (radius - innerRadius);
 
         canvas.drawArc(
           Rect.fromCircle(center: center, radius: (radius + innerRadius) / 2),
@@ -437,11 +435,10 @@ class _CalendarCirclePainter extends CustomPainter {
       final baseRadius = (radius + innerRadius) / 2;
 
       // Анимируем радиус для всех месяцев, но для активных сильнее
-      final expansionFactor =
-          activeMonths[i]
-              ? 1.0 +
-                  (0.04 * monthAnimProgress) // Больше расширение для активных
-              : 1.0; // Меньше расширение для неактивных
+      final expansionFactor = activeMonths[i]
+          ? 1.0 +
+                (0.04 * monthAnimProgress) // Больше расширение для активных
+          : 1.0; // Меньше расширение для неактивных
 
       final labelRadius = baseRadius * expansionFactor;
 
@@ -545,10 +542,9 @@ class _CalendarCirclePainter extends CustomPainter {
 
     path.close();
 
-    final paint =
-        Paint()
-          ..color = todayIndicatorColor
-          ..style = PaintingStyle.fill;
+    final paint = Paint()
+      ..color = todayIndicatorColor
+      ..style = PaintingStyle.fill;
 
     canvas.drawPath(path, paint);
   }
@@ -603,10 +599,9 @@ class _CalendarCirclePainter extends CustomPainter {
 
     path.close();
 
-    final paint =
-        Paint()
-          ..color = updateIndicatorColor
-          ..style = PaintingStyle.fill;
+    final paint = Paint()
+      ..color = updateIndicatorColor
+      ..style = PaintingStyle.fill;
 
     canvas.drawPath(path, paint);
   }
@@ -615,7 +610,7 @@ class _CalendarCirclePainter extends CustomPainter {
   void _drawCenterText(Canvas canvas, Offset center, double innerRadius) {
     // Отрисовываем основной текст (прогресс)
     final textPainter = TextPainter(
-      text: TextSpan(text: progress, style: centerTextStyle.copyWith(fontSize: innerRadius * 0.42)),
+      text: TextSpan(text: progress, style: centerTextStyle),
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     );

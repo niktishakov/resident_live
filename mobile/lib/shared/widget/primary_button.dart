@@ -15,6 +15,7 @@ class PrimaryButton extends StatelessWidget {
     this.gradient,
     this.onPressed,
     this.enabled = true,
+    this.expanded = false,
     this.leading,
     this.trailing,
     this.animationDuration,
@@ -36,6 +37,7 @@ class PrimaryButton extends StatelessWidget {
   final Duration? animationDuration;
   final EdgeInsetsGeometry? padding;
   final HitTestBehavior behavior;
+  final bool expanded;
   @override
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
@@ -43,13 +45,15 @@ class PrimaryButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(kBorderRadius),
       vibrate: vibrate,
       behaviour: behavior,
-      onPressed: enabled ? (_) => onPressed?.call() : null,
+      onPressed: enabled ? onPressed : null,
       child: AnimatedContainer(
         duration: animationDuration ?? kDefaultDuration,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kBorderRadius),
           gradient: enabled ? gradient : null,
-          color: enabled ? backgroundColor ?? context.theme.primaryColor : context.theme.disabledColor,
+          color: enabled
+              ? backgroundColor ?? context.theme.primaryColor
+              : context.theme.disabledColor,
         ),
         child: AnimatedSize(
           duration: const Duration(milliseconds: 200),
@@ -58,18 +62,16 @@ class PrimaryButton extends StatelessWidget {
             padding: padding ?? const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: expanded ? MainAxisSize.max : MainAxisSize.min,
               children: [
                 if (leading != null) ...[
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 200),
-                    child: leading,
-                  ),
+                  AnimatedSize(duration: const Duration(milliseconds: 200), child: leading),
                   const Gap(8),
                 ],
                 Text(
                   label,
-                  style: textStyle ??
+                  style:
+                      textStyle ??
                       theme.body16M.copyWith(
                         fontSize: fontSize,
                         fontWeight: FontWeight.w600,
@@ -78,10 +80,7 @@ class PrimaryButton extends StatelessWidget {
                 ),
                 if (trailing != null) ...[
                   const Gap(8),
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 200),
-                    child: trailing,
-                  ),
+                  AnimatedSize(duration: const Duration(milliseconds: 200), child: trailing),
                 ],
               ],
             ),

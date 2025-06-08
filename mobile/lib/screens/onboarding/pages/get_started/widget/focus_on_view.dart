@@ -16,15 +16,17 @@ class FocusOnView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.rlTheme;
+
     return BlocBuilder<GetStartedCubit, GetStartedState>(
       bloc: getIt<GetStartedCubit>(),
       builder: (context, state) {
         final focusedCountryIndex = state.focusedCountryIndex;
         return BlocBuilder<OnboardingCubit, OnboardingState>(
           bloc: getIt<OnboardingCubit>(),
+          buildWhen: (previous, current) => previous.selectedCountries != current.selectedCountries,
           builder: (context, onboard) {
             return BlocBuilder<GetUserCubit, ResourceState<UserEntity>>(
-              bloc: getIt<GetUserCubit>(),
               builder: (context, user) {
                 if (!user.isSuccess) {
                   return const SizedBox();
@@ -40,28 +42,15 @@ class FocusOnView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Text.rich(
-                        style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          height: 30 / 24,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: theme.title24Semi.copyWith(color: theme.textPrimary),
                         TextSpan(
                           children: [
-                            const TextSpan(
-                              text: "Focus on one country to\n",
-                            ),
+                            const TextSpan(text: "Focus on one country to\n"),
                             TextSpan(
                               text: "effectively",
-                              style: GoogleFonts.poppins(
-                                fontSize: 24,
-                                height: 30 / 24,
-                                fontWeight: FontWeight.w600,
-                                color: context.theme.colorScheme.primary,
-                              ),
+                              style: theme.title24Semi.copyWith(color: theme.textAccent),
                             ),
-                            const TextSpan(
-                              text: " track tax\nresidency",
-                            ),
+                            const TextSpan(text: " track tax\nresidency"),
                           ],
                         ),
                       ),
@@ -77,8 +66,11 @@ class FocusOnView extends StatelessWidget {
 
                           final countryIndex = index ~/ 2;
                           final countryCode = countries[countryIndex].key;
-                          final country = CountryCode.fromCountryCode(countryCode);
-                          final daysSpent = user.data?.daysSpentIn(countries[countryIndex].key) ?? 0;
+                          final country = CountryCode.fromCountryCode(
+                            countryCode,
+                          ).localize(context);
+                          final daysSpent =
+                              user.data?.daysSpentIn(countries[countryIndex].key) ?? 0;
                           return CountryProgressBar(
                             countryName: country.name ?? countryCode,
                             daysSpent: daysSpent,

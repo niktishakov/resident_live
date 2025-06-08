@@ -1,5 +1,5 @@
 import 'package:data/src/mapper/stay_period_mapper.dart';
-import 'package:data/src/model/user/user_model.dart';
+import 'package:data/src/model/local/user/user_model.dart';
 import 'package:domain/domain.dart';
 
 extension UserEntityMapper on UserEntity {

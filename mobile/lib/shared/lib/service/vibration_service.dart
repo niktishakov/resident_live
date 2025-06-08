@@ -1,4 +1,4 @@
-import "package:flutter_vibrate/flutter_vibrate.dart";
+import "package:gaimon/gaimon.dart";
 
 class VibrationService {
   VibrationService._({required this.canVibrate});
@@ -8,7 +8,7 @@ class VibrationService {
   static Future<void> init() async {
     assert(_instance == null);
 
-    final canVibrate = await Vibrate.canVibrate;
+    final canVibrate = await Gaimon.canSupportsHaptic;
 
     _instance = VibrationService._(canVibrate: canVibrate);
   }
@@ -22,31 +22,31 @@ class VibrationService {
 
   void tap() {
     if (canVibrate) {
-      Vibrate.feedback(FeedbackType.medium);
+      Gaimon.medium();
     }
   }
 
   void light() {
     if (canVibrate) {
-      Vibrate.feedback(FeedbackType.light);
+      Gaimon.light();
     }
   }
 
   void success({bool strong = false}) {
     if (canVibrate) {
-      Vibrate.feedback(strong ? FeedbackType.success : FeedbackType.light);
+      Gaimon.success();
     }
   }
 
   void warning() {
     if (canVibrate) {
-      Vibrate.feedback(FeedbackType.warning);
+      Gaimon.warning();
     }
   }
 
   void error() {
     if (canVibrate) {
-      Vibrate.feedback(FeedbackType.error);
+      Gaimon.error();
     }
   }
 }

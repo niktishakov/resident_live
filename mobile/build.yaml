@@ -1,0 +1,9 @@
+targets:
+  $default:
+    builders:          
+      slang_build_runner:
+        options:
+          base_locale: en
+          string_interpolation: braces
+          output_file_name: translations.g.dart
+          

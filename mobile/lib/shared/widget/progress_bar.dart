@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/shared/lib/service/vibration_service.dart";
 
 import "package:resident_live/shared/shared.dart";
@@ -32,8 +32,8 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = this.label ?? S.of(context).commonProgress;
-    final doneLabel = this.doneLabel ?? S.of(context).commonDone;
+    final label = this.label ?? context.t.commonProgress;
+    final doneLabel = this.doneLabel ?? context.t.commonDone;
     final beginValue = direction == ProgressDirection.up ? 0.0 : completionPercentage + 0.1;
 
     return Column(
@@ -60,7 +60,10 @@ class ProgressBar extends StatelessWidget {
                     strokeCap: StrokeCap.round,
                     backgroundColor: backgroundColor,
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      valueColor ?? (direction == ProgressDirection.up ? Colors.greenAccent : Colors.redAccent),
+                      valueColor ??
+                          (direction == ProgressDirection.up
+                              ? Colors.greenAccent
+                              : Colors.redAccent),
                     ),
                   );
                 },
@@ -73,10 +76,7 @@ class ProgressBar extends StatelessWidget {
               builder: (context, value, child) {
                 return Text(
                   "${(value * 100).toStringAsFixed(1)}%",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 );
               },
             ),
@@ -96,10 +96,7 @@ class ProgressBar extends StatelessWidget {
                     color: context.theme.colorScheme.secondary.withValues(alpha: 0.6),
                   ),
                 ),
-                Text(
-                  doneLabel,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
+                Text(doneLabel, style: const TextStyle(fontWeight: FontWeight.w600)),
               ],
               index: value == 1.0 ? 1 : 0,
             );

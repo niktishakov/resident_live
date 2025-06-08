@@ -8,13 +8,16 @@ import "package:resident_live/screens/bottom_bar/bottom_bar.dart";
 import "package:resident_live/screens/home/home_screen.dart";
 import "package:resident_live/screens/language/language_screen.dart";
 import "package:resident_live/screens/manage_countries/manage_countries_screen.dart";
+import "package:resident_live/screens/map/map_screen.dart";
 import "package:resident_live/screens/onboarding/onboarding_screen.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/get_started_screen.dart";
 import "package:resident_live/screens/residence_details/residence_details_screen.dart";
 import "package:resident_live/screens/residence_details/residence_details_screen2.dart";
 import "package:resident_live/screens/settings/settings_screen.dart";
+import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/screens/splash/splash_screen.dart";
+import "package:resident_live/screens/trips/trips_screen.dart";
 import "package:resident_live/shared/shared.dart";
 
 List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
@@ -23,7 +26,10 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       path: ScreenNames.splash,
       name: ScreenNames.splash,
       pageBuilder: (ctx, state) {
-        return kRootCupertinoPage(const SplashScreen(), ScreenNames.splash);
+        return kRootCupertinoPage(
+          BlocProvider(create: (context) => getIt<GetUserCubit>(), child: const SplashScreen()),
+          ScreenNames.splash,
+        );
       },
     ),
     ShellRoute(
@@ -39,14 +45,26 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
           parentNavigatorKey: shellKey,
           path: ScreenNames.home,
           name: ScreenNames.home,
-          pageBuilder: (context, state) => kNoTransitionPage(const HomeScreen(), ScreenNames.home),
+          pageBuilder: (context, state) => kNoTransitionPage(
+            BlocProvider(create: (context) => getIt<GetUserCubit>(), child: const HomeScreen()),
+            ScreenNames.home,
+          ),
+        ),
+        GoRoute(
+          path: ScreenNames.trips,
+          name: ScreenNames.trips,
+          pageBuilder: (ctx, state) {
+            return kNoTransitionPage(const TripsScreen(), ScreenNames.trips);
+          },
         ),
         GoRoute(
           parentNavigatorKey: shellKey,
           path: ScreenNames.settings,
           name: ScreenNames.settings,
-          pageBuilder:
-              (context, state) => kNoTransitionPage(const SettingsScreen(), ScreenNames.settings),
+          pageBuilder: (context, state) => kNoTransitionPage(
+            BlocProvider(create: (context) => getIt<GetUserCubit>(), child: const SettingsScreen()),
+            ScreenNames.settings,
+          ),
         ),
       ],
     ),
@@ -63,13 +81,12 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(
           BlocProvider(
-            create:
-                (context) => GetStartedCubit(
-                  getIt<RequestGeoPermissionUsecase>(),
-                  getIt<GetCoordinatesUsecase>(),
-                  getIt<GetPlacemarkUsecase>(),
-                  getIt<SyncCountriesFromGeoUseCase>(),
-                ),
+            create: (context) => GetStartedCubit(
+              getIt<RequestGeoPermissionUsecase>(),
+              getIt<GetCoordinatesUsecase>(),
+              getIt<GetPlacemarkUsecase>(),
+              getIt<SyncCountriesFromGeoUseCase>(),
+            ),
             child: const GetStartedScreen(),
           ),
           ScreenNames.getStarted,
@@ -119,6 +136,17 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       name: ScreenNames.language,
       pageBuilder: (ctx, state) {
         return kRootCupertinoPage(const LanguageScreen(), ScreenNames.language);
+      },
+    ),
+
+    GoRoute(
+      path: ScreenNames.map,
+      name: ScreenNames.map,
+      pageBuilder: (ctx, state) {
+        return kRootCupertinoPage(
+          MapScreen(stayPeriods: state.extra! as List<StayPeriodValueObject>),
+          ScreenNames.map,
+        );
       },
     ),
   ];

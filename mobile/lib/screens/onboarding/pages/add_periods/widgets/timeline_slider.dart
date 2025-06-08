@@ -4,7 +4,7 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -63,10 +63,7 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
       duration: const Duration(milliseconds: 1500),
     )..repeat();
 
-    _shimmerAnimation = Tween<double>(
-      begin: -1.0,
-      end: 1.0,
-    ).animate(_shimmerController);
+    _shimmerAnimation = Tween<double>(begin: -1.0, end: 1.0).animate(_shimmerController);
 
     // Initialize handle animations
     _leftHandleController = AnimationController(
@@ -81,22 +78,12 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
     _leftHandleScale = Tween<double>(
       begin: 1.0,
       end: 1.3,
-    ).animate(
-      CurvedAnimation(
-        parent: _leftHandleController,
-        curve: Curves.easeOutCubic,
-      ),
-    );
+    ).animate(CurvedAnimation(parent: _leftHandleController, curve: Curves.easeOutCubic));
 
     _rightHandleScale = Tween<double>(
       begin: 1.0,
       end: 1.3,
-    ).animate(
-      CurvedAnimation(
-        parent: _rightHandleController,
-        curve: Curves.easeOutCubic,
-      ),
-    );
+    ).animate(CurvedAnimation(parent: _rightHandleController, curve: Curves.easeOutCubic));
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _updateDefaultRangeValues();
@@ -158,28 +145,18 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
           onPressed: () => _showDatePicker(context, true),
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: widget.color),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           ),
-          child: Text(
-            startDate.toMMMDDYYYY(),
-            style: TextStyle(color: widget.color),
-          ),
+          child: Text(startDate.toMMMDDYYYY(), style: TextStyle(color: widget.color)),
         ),
         const Gap(16),
         OutlinedButton(
           onPressed: () => _showDatePicker(context, false),
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: widget.color),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           ),
-          child: Text(
-            endDate.toMMMDDYYYY(),
-            style: TextStyle(color: widget.color),
-          ),
+          child: Text(endDate.toMMMDDYYYY(), style: TextStyle(color: widget.color)),
         ),
       ],
     );
@@ -187,7 +164,7 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
 
   void _showDatePicker(BuildContext context, bool isStart) {
     final theme = context.rlTheme;
-    final title = isStart ? S.of(context).addStayPeriodPeriodFrom : S.of(context).addStayPeriodPeriodTo;
+    final title = isStart ? context.t.addStayPeriodPeriodFrom : context.t.addStayPeriodPeriodTo;
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -203,19 +180,14 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text(S.of(context).commonCancel),
+                    child: Text(context.t.commonCancel),
                   ),
-                  Text(
-                    title,
-                    style: theme.title16Semi.copyWith(
-                      color: theme.textPrimary,
-                    ),
-                  ),
+                  Text(title, style: theme.title16Semi.copyWith(color: theme.textPrimary)),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text(S.of(context).commonDone),
+                    child: Text(context.t.commonDone),
                   ),
                 ],
               ),
@@ -234,9 +206,7 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
                         setState(() => _startValue = newValue);
                       }
                     } else {
-                      if (isRangeAvailable(
-                        RangeValues(_startValue, newValue),
-                      )) {
+                      if (isRangeAvailable(RangeValues(_startValue, newValue))) {
                         setState(() => _endValue = newValue);
                       }
                     }
@@ -275,11 +245,11 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
 
     for (var i = 0; i < periods.length - 1; i++) {
       final gapStart = periods[i].endDate.add(
-            const Duration(days: 1),
-          ); // the day after the current segment's end
+        const Duration(days: 1),
+      ); // the day after the current segment's end
       final gapEnd = periods[i + 1].startDate.subtract(
-            const Duration(days: 1),
-          ); // the day before the next segment's start
+        const Duration(days: 1),
+      ); // the day before the next segment's start
 
       if (gapEnd.isAfter(gapStart)) {
         // Set the range to fit entirely within the first gap
@@ -342,15 +312,9 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
         return Stack(
           children: [
             // The widget that's being transitioned from
-            FadeTransition(
-              opacity: fadeOutTween,
-              child: fromHeroContext.widget,
-            ),
+            FadeTransition(opacity: fadeOutTween, child: fromHeroContext.widget),
             // The widget that's being transitioned to
-            FadeTransition(
-              opacity: fadeInTween,
-              child: toHeroContext.widget,
-            ),
+            FadeTransition(opacity: fadeInTween, child: toHeroContext.widget),
           ],
         );
       },
@@ -386,9 +350,7 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
   Widget build(BuildContext context) {
     final color = widget.color;
     return AnimatedBuilder(
-      animation: Listenable.merge(
-        [_shimmerAnimation, _leftHandleScale, _rightHandleScale],
-      ),
+      animation: Listenable.merge([_shimmerAnimation, _leftHandleScale, _rightHandleScale]),
       builder: (context, child) {
         return GestureDetector(
           onPanStart: _onPanStart,
@@ -396,7 +358,8 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
           onPanUpdate: (details) {
             final renderBox = context.findRenderObject()! as RenderBox;
             final position = renderBox.globalToLocal(details.globalPosition);
-            final newValue = (position.dx / renderBox.size.width) * (widget.max - widget.min) + widget.min;
+            final newValue =
+                (position.dx / renderBox.size.width) * (widget.max - widget.min) + widget.min;
 
             if (_isDraggingLeft) {
               final newStartValue = newValue.clamp(widget.min, _endValue - 1);
@@ -459,12 +422,8 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ..._getMonthLabels().mapIndexed(
-                        (index, e) => Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(e),
-                          ],
-                        ),
+                        (index, e) =>
+                            Column(mainAxisAlignment: MainAxisAlignment.end, children: [Text(e)]),
                       ),
                     ],
                   ),
@@ -474,15 +433,13 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
                     backgroundColor: color,
                     enabled: isRangeAvailable(RangeValues(_startValue, _endValue)),
                     onPressed: () {
-                      final result = widget.onAddPeriodPressed(
-                        RangeValues(_startValue, _endValue),
-                      );
+                      final result = widget.onAddPeriodPressed(RangeValues(_startValue, _endValue));
                       if (result) {
                         _updateDefaultRangeValues();
                       }
                     },
                     fontSize: 16,
-                    label: S.of(context).addStayPeriodAddStayPeriod,
+                    label: context.t.addStayPeriodAddStayPeriod,
                   ).animate().fade(delay: 150.ms),
                 ],
               );
@@ -573,10 +530,7 @@ class _SliderPainter extends CustomPainter {
 
     // Always draw rectangular shape
     selectedPath.addRect(
-      Rect.fromPoints(
-        Offset(startX, verticalOffset),
-        Offset(endX, verticalOffset + strokeWidth),
-      ),
+      Rect.fromPoints(Offset(startX, verticalOffset), Offset(endX, verticalOffset + strokeWidth)),
     );
 
     canvas.drawPath(selectedPath, paint);
@@ -632,11 +586,7 @@ class _SliderPainter extends CustomPainter {
       );
 
       // Draw handle
-      canvas.drawCircle(
-        Offset(x, size.height / 2),
-        handleWidth,
-        handlePaint,
-      );
+      canvas.drawCircle(Offset(x, size.height / 2), handleWidth, handlePaint);
 
       canvas.restore();
     }

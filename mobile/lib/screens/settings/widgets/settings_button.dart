@@ -26,7 +26,7 @@ class SettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BouncingButton(
-      onPressed: (_) => onTap(),
+      onPressed: onTap,
       borderRadius: BorderRadius.circular(24),
       child: Container(
         decoration: BoxDecoration(
@@ -40,15 +40,16 @@ class SettingsButton extends StatelessWidget {
             children: [
               SizedBox(
                 width: 30,
-                child: asset != null
-                    ? AppAssetImage(
-                        asset!,
-                        color: Colors.white,
-                        width: 30,
-                        height: 24,
-                        fit: BoxFit.contain,
-                      )
-                    : icon != null
+                child:
+                    asset != null
+                        ? AppAssetImage(
+                          asset!,
+                          color: Colors.white,
+                          width: 30,
+                          height: 24,
+                          fit: BoxFit.contain,
+                        )
+                        : icon != null
                         ? Icon(icon, color: Colors.white, size: 24)
                         : null,
               ),

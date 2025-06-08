@@ -1,11 +1,7 @@
 part of "../find_countries_page.dart";
 
 class SearchField extends StatelessWidget {
-  const SearchField({
-    required this.onChanged,
-    required this.controller,
-    super.key,
-  });
+  const SearchField({required this.onChanged, required this.controller, super.key});
 
   final TextEditingController controller;
   final void Function(String) onChanged;
@@ -35,25 +31,24 @@ class SearchField extends StatelessWidget {
           suffixIconColor: theme.iconSecondary,
           suffixIcon: ValueListenableBuilder(
             valueListenable: controller,
-            builder: (context, value, child) => AnimatedSwitcher(
-              duration: 100.ms,
-              child: controller.text.isNotEmpty
-                  ? GestureDetector(
-                      onTap: controller.clear,
-                      child: const Padding(
-                        padding: EdgeInsets.only(right: 12.0),
-                        child: Icon(
-                          CupertinoIcons.clear_circled_solid,
-                          size: 24,
-                        ),
-                      ),
-                    )
-                  : null,
-            ),
+            builder:
+                (context, value, child) => AnimatedSwitcher(
+                  duration: 100.ms,
+                  child:
+                      controller.text.isNotEmpty
+                          ? GestureDetector(
+                            onTap: controller.clear,
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 12.0),
+                              child: Icon(CupertinoIcons.clear_circled_solid, size: 24),
+                            ),
+                          )
+                          : null,
+                ),
           ),
 
           // Hint
-          hintText: S.of(context).whereHaveYouBeenSearchCountries,
+          hintText: context.t.whereHaveYouBeenSearchCountries,
           hintStyle: theme.body16.copyWith(color: theme.textSecondary),
 
           // Borders

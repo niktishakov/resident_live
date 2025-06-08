@@ -91,7 +91,6 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
     final theme = context.rlTheme;
 
     return BlocBuilder<GetUserCubit, ResourceState<UserEntity>>(
-      bloc: getIt<GetUserCubit>(),
       builder: (context, user) {
         final countryCode = user.data?.countries[widget.countryCode] ?? [];
         final allStayPeriods = user.data?.stayPeriods;
@@ -118,24 +117,23 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
               builder: (context) {
                 return AnimatedBuilder(
                   animation: _animationController,
-                  builder:
-                      (context, child) => RlCard(
-                        borderRadius: 0.0,
-                        padding: EdgeInsets.zero,
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [context.theme.cardColor, context.theme.scaffoldBackgroundColor],
-                        ),
-                        child: child,
-                      ),
+                  builder: (context, child) => RlCard(
+                    borderRadius: 0.0,
+                    padding: EdgeInsets.zero,
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [context.theme.cardColor, context.theme.scaffoldBackgroundColor],
+                    ),
+                    child: child,
+                  ),
                   child: CupertinoPageScaffold(
                     backgroundColor: Colors.transparent,
                     navigationBar: CupertinoNavigationBar(
                       backgroundColor: Colors.transparent,
                       leading: const AiBackButton(padding: EdgeInsets.zero, title: "Back"),
                       trailing: BouncingButton(
-                        onPressed: (_) {
+                        onPressed: () {
                           VibrationService.instance.tap();
                           _captureAndShareScreenshot();
                         },
@@ -186,18 +184,18 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                     key: progressKey,
                                     child: ProgressBar(
                                       completionPercentage: progress,
-                                      direction:
-                                          isHere ? ProgressDirection.up : ProgressDirection.down,
+                                      direction: isHere
+                                          ? ProgressDirection.up
+                                          : ProgressDirection.down,
                                       radius: 200,
                                       strokeWidth: 20,
                                       duration: 300.ms,
                                       doneLabel: "You are a resident!",
                                       label: "Residency Progress",
                                       backgroundColor: const Color(0xff3C3C3C),
-                                      valueColor:
-                                          isResident && isHere
-                                              ? Colors.greenAccent
-                                              : context.theme.primaryColor,
+                                      valueColor: isResident && isHere
+                                          ? Colors.greenAccent
+                                          : context.theme.primaryColor,
                                     ),
                                   ),
                                 ),
@@ -247,7 +245,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                       )
                                       .fade(),
                                   BouncingButton(
-                                        onPressed: (_) async {
+                                        onPressed: () async {
                                           await CupertinoScaffold.showCupertinoModalBottomSheet(
                                             useRootNavigator: true,
                                             context: context,
@@ -373,28 +371,27 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
                                   onPressed: () {
                                     showCupertinoDialog(
                                       context: context,
-                                      builder:
-                                          (context) => CupertinoAlertDialog(
-                                            title: const Text("Remove Country"),
-                                            content: const Text(
-                                              "Are you sure you want to remove this country from tracking?",
-                                            ),
-                                            actions: [
-                                              CupertinoDialogAction(
-                                                child: const Text("Cancel"),
-                                                onPressed: () => Navigator.pop(context),
-                                              ),
-                                              CupertinoDialogAction(
-                                                isDestructiveAction: true,
-                                                child: const Text("Remove"),
-                                                onPressed: () {
-                                                  context.pop();
-                                                  context.pop();
-                                                  find<ClearFocusCubit>(context).loadResource();
-                                                },
-                                              ),
-                                            ],
+                                      builder: (context) => CupertinoAlertDialog(
+                                        title: const Text("Remove Country"),
+                                        content: const Text(
+                                          "Are you sure you want to remove this country from tracking?",
+                                        ),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                            child: const Text("Cancel"),
+                                            onPressed: () => Navigator.pop(context),
                                           ),
+                                          CupertinoDialogAction(
+                                            isDestructiveAction: true,
+                                            child: const Text("Remove"),
+                                            onPressed: () {
+                                              context.pop();
+                                              context.pop();
+                                              find<ClearFocusCubit>(context).loadResource();
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     );
                                   },
                                   leading: const Icon(

@@ -1,9 +1,9 @@
-part of "../../residence_details_screen.dart";
+import "package:auto_size_text/auto_size_text.dart";
+import "package:flutter/cupertino.dart";
+import "package:resident_live/shared/shared.dart";
 
-class _TodayButton extends StatelessWidget {
-  const _TodayButton({
-    required this.onTap,
-  });
+class TodayButton extends StatelessWidget {
+  const TodayButton({required this.onTap, super.key});
 
   final VoidCallback onTap;
 
@@ -19,10 +19,7 @@ class _TodayButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          border: Border.all(
-            color: theme.borderAccent,
-            width: 1,
-          ),
+          border: Border.all(color: theme.borderAccent, width: 1),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),

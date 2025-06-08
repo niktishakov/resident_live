@@ -1,4 +1,3 @@
-import "package:data/data.dart";
 import "package:domain/domain.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -7,12 +6,12 @@ import "package:gap/gap.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:resident_live/app/init_app.dart";
 import "package:resident_live/app/injection.dart";
-import "package:resident_live/screens/all_countries/all_countries_screen.dart";
 import "package:resident_live/screens/home/cubit/focus_on_country_cubit.dart";
 import "package:resident_live/screens/home/cubit/home_cubit.dart";
-import "package:resident_live/screens/home/widgets/focused_country/focused_country_page_view.dart";
-import "package:resident_live/screens/home/widgets/greeting_view.dart";
-import "package:resident_live/screens/home/widgets/tracking_residences/tracking_residences.dart";
+import "package:resident_live/screens/home/widgets/countries/countries_page_view.dart";
+import "package:resident_live/screens/home/widgets/header/sliver_header.dart";
+import "package:resident_live/screens/home/widgets/map_preview/map_preview.dart";
+import "package:resident_live/screens/home/widgets/re_enter_periods/re_enter_periods_button.dart";
 import "package:resident_live/screens/home/widgets/week_line_view.dart";
 import "package:resident_live/screens/residence_details/residence_details_screen.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
@@ -20,8 +19,6 @@ import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/lib/utils/debug_actions_sheet.dart";
 import "package:resident_live/shared/lib/utils/route_utils.dart";
 import "package:resident_live/shared/shared.dart";
-import "package:resident_live/shared/widget/today_button.dart";
-import "package:shared_preferences/shared_preferences.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,11 +37,15 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetUserCubit, ResourceState<UserEntity>>(
-      bloc: getIt<GetUserCubit>(),
+      buildWhen: (previous, current) =>
+          previous.data?.focusedCountryCode != current.data?.focusedCountryCode ||
+          previous.data?.countries != current.data?.countries ||
+          previous.data?.stayPeriods != current.data?.stayPeriods,
       builder: (context, state) {
         final focusedCountryCode = state.data?.focusedCountryCode;
         final otherResidences = state.data?.countries;
         otherResidences?.removeWhere((key, value) => key == focusedCountryCode);
+        final stayPeriods = state.data?.stayPeriods ?? [];
 
         return MultiBlocListener(
           listeners: [
@@ -52,10 +53,7 @@ class HomeScreenState extends State<HomeScreen> {
               bloc: getIt<FocusOnCountryCubit>(),
               listener: _onFocusOnCountryListen,
             ),
-            BlocListener<GetUserCubit, ResourceState<UserEntity>>(
-              bloc: getIt<GetUserCubit>(),
-              listener: _onGetUserListen,
-            ),
+            BlocListener<GetUserCubit, ResourceState<UserEntity>>(listener: _onGetUserListen),
           ],
           child: GestureDetector(
             onLongPress: () {
@@ -67,12 +65,12 @@ class HomeScreenState extends State<HomeScreen> {
               overlayStyle: getSystemOverlayStyle,
               body: Material(
                 child: CustomScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   slivers: [
                     SliverPersistentHeader(
                       pinned: true,
-                      delegate: CustomSliverHeaderDelegate(
-                        expandedHeight: 90.0 + context.mediaQuery.padding.top,
+                      delegate: HomeSliverHeader(
+                        expandedHeight: 90.0 + context.mediaQuery.viewPadding.top,
                       ),
                     ),
                     const SliverToBoxAdapter(
@@ -81,79 +79,28 @@ class HomeScreenState extends State<HomeScreen> {
                         child: WeekLineView(),
                       ),
                     ),
+                    const SliverPadding(padding: EdgeInsets.only(top: 16)),
                     if (focusedCountryCode != null) ...[
                       SliverToBoxAdapter(
                         child: RepaintBoundary(
-                          child: SizedBox(
-                            height: 320,
-                            child: FocusedCountryView(
-                              onTap:
-                                  (countryCode) => navigatorKey.currentContext?.navigator.push(
-                                    kDefaultFadeRouteBuilder(
-                                      page: ResidenceDetailsScreen(countryCode: countryCode),
-                                    ),
-                                  ),
+                          child: CountriesPageView(
+                            countries: state.data?.countries ?? {},
+                            currentCountryCode: state.data?.currentCountryCode() ?? "",
+                            focusedCountryCode: focusedCountryCode,
+                            onTap: (countryCode) => navigatorKey.currentContext?.navigator.push(
+                              kDefaultFadeRouteBuilder(
+                                page: ResidenceDetailsScreen(countryCode: countryCode),
+                              ),
                             ),
                           ),
                         ),
                       ),
+                      const SliverPadding(padding: EdgeInsets.only(top: 8)),
                     ],
-                    if (otherResidences != null && otherResidences.isNotEmpty) ...[
-                      SliverToBoxAdapter(
-                        child: OtherResidencesView(
-                          residences: otherResidences,
-                          onTap:
-                              () => navigatorKey.currentContext?.navigator.push(
-                                kDefaultFadeRouteBuilder(page: const AllCountriesScreen()),
-                              ),
-                        ),
-                      ),
-                    ],
+
+                    const SliverToBoxAdapter(child: ReEnterPeriodsButton()),
                     SliverToBoxAdapter(
-                      child: PrimaryButton(
-                        label: "Register One Off Task",
-                        onPressed: () {
-                          getIt<WorkmanagerService>().initOneOffTask();
-                        },
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: PrimaryButton(
-                        label: "SharedPreferences",
-                        onPressed: () async {
-                          final prefs = SharedPreferencesAsync();
-
-                          final storedPositions =
-                              await prefs.getStringList("background_positions") ?? [];
-
-                          if (!context.mounted) return;
-
-                          showDialog(
-                            context: context,
-                            builder:
-                                (context) => AlertDialog(
-                                  title: const Text("Сохранённые координаты"),
-                                  content: SizedBox(
-                                    width: double.maxFinite,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: storedPositions.length,
-                                      itemBuilder: (context, index) {
-                                        return Text("${index + 1}. ${storedPositions[index]}");
-                                      },
-                                    ),
-                                  ),
-
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.of(context).pop(),
-                                      child: const Text("Закрыть"),
-                                    ),
-                                  ],
-                                ),
-                          );
-                        },
-                      ),
+                      child: RepaintBoundary(child: MapPreview(stayPeriods: stayPeriods)),
                     ),
                     SliverToBoxAdapter(child: Gap(context.mediaQuery.padding.bottom + 64)),
                   ],
@@ -168,68 +115,4 @@ class HomeScreenState extends State<HomeScreen> {
 
   void _onFocusOnCountryListen(BuildContext context, ResourceState<UserEntity> state) {}
   void _onGetUserListen(BuildContext context, ResourceState<UserEntity> state) {}
-}
-
-class CustomSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
-  CustomSliverHeaderDelegate({required this.expandedHeight});
-  final double expandedHeight;
-
-  @override
-  double get minExtent => kToolbarHeight + 44;
-
-  @override
-  double get maxExtent => expandedHeight;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final theme = context.rlTheme;
-    final proportion = (expandedHeight - shrinkOffset) / expandedHeight;
-
-    // Calculate the title size based on the scroll proportion
-
-    // Divider opacity - 0.0 when fully expanded, 1.0 when fully collapsed
-    final dividerOpacity = 1 - proportion;
-
-    return ClipRect(
-      child: ColoredBox(
-        color: theme.bgPrimary.withValues(alpha: dividerOpacity.clamp(0.0, 1.0)),
-        child: Stack(
-          children: [
-            const Positioned(left: 24, bottom: 12.0, child: GreetingView()),
-            Positioned(
-              bottom: 12.0,
-              right: 24,
-              child: Opacity(
-                opacity: dividerOpacity > 0.4 ? (3.5 * dividerOpacity - 1.0).clamp(0.0, 1.0) : 0.0,
-                child: TodayButton(
-                  onTap: () {},
-                  iconSize: 20,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: context.theme.colorScheme.secondary,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: context.theme.dividerColor.withValues(alpha: dividerOpacity),
-                height: 2.0,
-                width: double.infinity,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
 }

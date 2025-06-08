@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_started_cubit.dart";
@@ -16,6 +15,8 @@ class GetStartedView extends StatelessWidget {
     final theme = context.rlTheme;
     return BlocBuilder<GetStartedCubit, GetStartedState>(
       bloc: getIt<GetStartedCubit>(),
+      buildWhen:
+          (previous, current) => previous.isGeoPermissionAllowed != current.isGeoPermissionAllowed,
       builder: (context, state) {
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
@@ -31,60 +32,51 @@ class GetStartedView extends StatelessWidget {
               ),
             );
           },
-          child: !state.isGeoPermissionAllowed
-              ? const SizedBox(key: ValueKey<bool>(false))
-              : Column(
-                  key: const ValueKey<bool>(true),
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Text.rich(
-                        style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          height: 30 / 24,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: "No server-side data\nstorage. Everything\nworks ",
-                            ),
-                            TextSpan(
-                              text: "offline",
-                              style: GoogleFonts.poppins(
-                                fontSize: 24,
-                                height: 30 / 24,
-                                fontWeight: FontWeight.w600,
-                                color: context.theme.colorScheme.primary,
+          child:
+              !state.isGeoPermissionAllowed
+                  ? const SizedBox(key: ValueKey<bool>(false))
+                  : Column(
+                    key: const ValueKey<bool>(true),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Text.rich(
+                          style: theme.title24Semi.copyWith(color: theme.textPrimary),
+                          TextSpan(
+                            children: [
+                              const TextSpan(
+                                text: "No server-side data\nstorage. Everything\nworks ",
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        PrimaryButton(
-                          label: "Get Started",
-                          gradient: LinearGradient(
-                            colors: [
-                              context.theme.primaryColor,
-                              const Color(0xff306D99),
+                              TextSpan(
+                                text: "offline",
+                                style: theme.title24Semi.copyWith(color: theme.textAccent),
+                              ),
                             ],
                           ),
-                          textStyle: theme.body18M,
-                          onPressed: () {
-                            getIt<OnboardingCubit>().reset();
-                            context.goNamed(ScreenNames.home);
-                          },
-                        ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 1.seconds, delay: 1.seconds),
-                      ],
-                    ),
-                  ],
-                ).animate().fade(duration: 500.ms),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          PrimaryButton(
+                                label: "Get Started",
+                                gradient: LinearGradient(
+                                  colors: [context.theme.primaryColor, const Color(0xff306D99)],
+                                ),
+                                textStyle: theme.body18M.copyWith(color: theme.textPrimary),
+                                onPressed: () {
+                                  getIt<OnboardingCubit>().reset();
+                                  context.goNamed(ScreenNames.home);
+                                },
+                              )
+                              .animate(onPlay: (c) => c.repeat())
+                              .shimmer(duration: 1.seconds, delay: 1.seconds),
+                        ],
+                      ),
+                    ],
+                  ).animate().fade(duration: 500.ms),
         );
       },
     );

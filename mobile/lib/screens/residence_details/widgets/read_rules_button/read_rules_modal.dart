@@ -1,11 +1,11 @@
 import "dart:ui";
 
 import "package:domain/domain.dart";
-import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
+import "package:flutter/cupertino.dart" hide Preview;
+import "package:flutter/material.dart" hide Preview;
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/screens/residence_details/widgets/read_rules_button/widgets/preview.dart";
 import "package:resident_live/shared/lib/service/toast.service.dart";
 import "package:resident_live/shared/shared.dart";
@@ -53,7 +53,7 @@ class _ResidencyRulesModal extends StatelessWidget {
               children: [
                 const Grabber(),
                 context.vBox12,
-                _ModalHeader(title: S.of(context).detailsResidencyRulesResources),
+                _ModalHeader(title: context.t.detailsResidencyRulesResources),
                 context.vBox40,
                 const _PreviewGrid(),
               ],

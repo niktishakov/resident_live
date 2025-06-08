@@ -38,10 +38,7 @@ class CountrySelectorState extends State<CountrySelector> with WidgetsBindingObs
   @override
   void didChangePlatformBrightness() {
     setState(_updateCountryColors);
-    widget.onCountrySelected(
-      widget.focusedCountry!,
-      countryColors[widget.focusedCountry]!,
-    );
+    widget.onCountrySelected(widget.focusedCountry!, countryColors[widget.focusedCountry]!);
   }
 
   @override
@@ -52,37 +49,45 @@ class CountrySelectorState extends State<CountrySelector> with WidgetsBindingObs
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.rlTheme;
+
     return Wrap(
       spacing: 8.0, // Adjusts the space between items
       runSpacing: 8.0, // Adjusts the space between lines
-      children: widget.countryCodes.map((countryCode) {
-        final isSelected = widget.focusedCountry == countryCode;
-        final country = CountryCode.fromCountryCode(countryCode);
+      children:
+          widget.countryCodes.map((countryCode) {
+            final isSelected = widget.focusedCountry == countryCode;
+            final country = CountryCode.fromCountryCode(countryCode);
 
-        return GestureDetector(
-          onTap: () {
-            widget.onCountrySelected(countryCode, countryColors[countryCode]!);
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: isSelected ? countryColors[countryCode] : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                width: 0.6,
-                color: isSelected ? countryColors[countryCode]! : context.theme.colorScheme.onSurface,
+            return GestureDetector(
+              onTap: () {
+                widget.onCountrySelected(countryCode, countryColors[countryCode]!);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: isSelected ? countryColors[countryCode] : Colors.transparent,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    width: 0.6,
+                    color:
+                        isSelected
+                            ? countryColors[countryCode]!
+                            : context.theme.colorScheme.onSurface,
+                  ),
+                ),
+                child: Text(
+                  country.name ?? "",
+                  style: theme.body14.copyWith(
+                    color:
+                        isSelected
+                            ? context.theme.scaffoldBackgroundColor
+                            : context.theme.colorScheme.onSurface,
+                  ),
+                ),
               ),
-            ),
-            child: Text(
-              country.name ?? "",
-              style: TextStyle(
-                color: isSelected ? context.theme.scaffoldBackgroundColor : context.theme.colorScheme.onSurface,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
-          ),
-        );
-      }).toList(),
+            );
+          }).toList(),
     );
   }
 }

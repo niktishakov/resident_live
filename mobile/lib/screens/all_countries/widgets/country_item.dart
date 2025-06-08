@@ -16,10 +16,7 @@ class _CountryItem extends StatelessWidget {
   final bool isEditing;
   final bool isSelected;
   final bool isLast;
-  final Function({
-    required String countryCode,
-    required bool isSelected,
-  }) toggleSelection;
+  final Function({required String countryCode, required bool isSelected}) toggleSelection;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +29,12 @@ class _CountryItem extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(24),
       child: GestureDetector(
-        onTap: isEditing
-            ? () => toggleSelection(countryCode: countryCode, isSelected: !isSelected)
-            : () {
-                context.pushNamed(
-                  ScreenNames.residenceDetails2,
-                  extra: countryCode,
-                );
-              },
+        onTap:
+            isEditing
+                ? () => toggleSelection(countryCode: countryCode, isSelected: !isSelected)
+                : () {
+                  context.pushNamed(ScreenNames.residenceDetails2, extra: countryCode);
+                },
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 1),
           color: Colors.white.withValues(alpha: 0.0001),
@@ -81,7 +76,9 @@ class _CountryItem extends StatelessWidget {
                           child: Center(
                             child: RlCheckbox(
                               value: isSelected,
-                              onToggle: (value) => toggleSelection(countryCode: countryCode, isSelected: value),
+                              onToggle:
+                                  (value) =>
+                                      toggleSelection(countryCode: countryCode, isSelected: value),
                             ),
                           ),
                         ),
@@ -90,10 +87,7 @@ class _CountryItem extends StatelessWidget {
                     TweenAnimationBuilder(
                       duration: const Duration(milliseconds: 250),
                       curve: Curves.easeInOut,
-                      tween: Tween<double>(
-                        begin: 0,
-                        end: isEditing ? 1 : 0,
-                      ),
+                      tween: Tween<double>(begin: 0, end: isEditing ? 1 : 0),
                       builder: (context, value, child) {
                         return Expanded(
                           child: Column(
@@ -103,9 +97,7 @@ class _CountryItem extends StatelessWidget {
                                 children: [
                                   Text(
                                     countryName,
-                                    style: theme.body12M.copyWith(
-                                      color: Colors.white,
-                                    ),
+                                    style: theme.body12M.copyWith(color: Colors.white),
                                   ),
                                   const Gap(4),
                                   Flexible(
@@ -114,9 +106,11 @@ class _CountryItem extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.poppins(
                                         fontSize: 12,
-                                        color: context.theme.colorScheme.tertiary.withValues(alpha: 0.5),
+                                        color: context.theme.colorScheme.tertiary.withValues(
+                                          alpha: 0.5,
+                                        ),
                                       ),
-                                      "$daysSpent / 183 ${S.of(context).homeDays}",
+                                      "$daysSpent / 183 ${context.t.homeDays}",
                                     ),
                                   ),
                                 ],
@@ -190,11 +184,7 @@ class _CountryItem extends StatelessWidget {
               ),
               const Gap(16),
               if (!isLast)
-                Divider(
-                  color: context.theme.colorScheme.surface,
-                  height: 2,
-                  thickness: 2,
-                ),
+                Divider(color: context.theme.colorScheme.surface, height: 2, thickness: 2),
             ],
           ),
         ),

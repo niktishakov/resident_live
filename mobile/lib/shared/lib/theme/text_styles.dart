@@ -47,6 +47,20 @@ TextStyle _title26 = const TextStyle(
   height: 32 / 26,
 );
 
+TextStyle _title24Semi = const TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 24,
+  fontWeight: FontWeight.w600,
+  height: 30 / 24,
+);
+
+TextStyle _title24 = const TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 24,
+  fontWeight: FontWeight.w500,
+  height: 30 / 24,
+);
+
 TextStyle _title20 = const TextStyle(
   fontFamily: _fontFamily,
   fontSize: 20,
@@ -169,7 +183,7 @@ TextStyle _button16Semi = const TextStyle(
   height: 20 / 16,
 );
 
-TextStyle _button10M = const TextStyle(
+TextStyle _body10M = const TextStyle(
   fontFamily: _fontFamily,
   fontSize: 10,
   fontWeight: FontWeight.w500,

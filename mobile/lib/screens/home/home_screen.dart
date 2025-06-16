@@ -1,4 +1,3 @@
-import "package:data/data.dart";
 import "package:domain/domain.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -21,7 +20,6 @@ import "package:resident_live/shared/lib/utils/debug_actions_sheet.dart";
 import "package:resident_live/shared/lib/utils/route_utils.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:resident_live/shared/widget/today_button.dart";
-import "package:shared_preferences/shared_preferences.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -109,52 +107,6 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ],
-                    SliverToBoxAdapter(
-                      child: PrimaryButton(
-                        label: "Register One Off Task",
-                        onPressed: () {
-                          getIt<WorkmanagerService>().initOneOffTask();
-                        },
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: PrimaryButton(
-                        label: "SharedPreferences",
-                        onPressed: () async {
-                          final prefs = SharedPreferencesAsync();
-
-                          final storedPositions =
-                              await prefs.getStringList("background_positions") ?? [];
-
-                          if (!context.mounted) return;
-
-                          showDialog(
-                            context: context,
-                            builder:
-                                (context) => AlertDialog(
-                                  title: const Text("Сохранённые координаты"),
-                                  content: SizedBox(
-                                    width: double.maxFinite,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: storedPositions.length,
-                                      itemBuilder: (context, index) {
-                                        return Text("${index + 1}. ${storedPositions[index]}");
-                                      },
-                                    ),
-                                  ),
-
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.of(context).pop(),
-                                      child: const Text("Закрыть"),
-                                    ),
-                                  ],
-                                ),
-                          );
-                        },
-                      ),
-                    ),
                     SliverToBoxAdapter(child: Gap(context.mediaQuery.padding.bottom + 64)),
                   ],
                 ),

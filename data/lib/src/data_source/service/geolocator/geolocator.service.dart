@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 class GeolocationService {
   GeolocationService();
 
-  Future getCurrentLocation() async {
+  Future<Position> getCurrentLocation() async {
     try {
       final isServiceEnabled = await Geolocator.isLocationServiceEnabled();
 

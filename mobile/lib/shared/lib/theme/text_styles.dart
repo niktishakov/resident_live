@@ -68,6 +68,13 @@ TextStyle _title16 = const TextStyle(
   height: 20 / 16,
 );
 
+TextStyle _title17Semi = const TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 17,
+  fontWeight: FontWeight.w600,
+  height: 22 / 17,
+);
+
 TextStyle _title16Semi = const TextStyle(
   fontFamily: _fontFamily,
   fontSize: 16,
@@ -159,6 +166,20 @@ TextStyle _body12Up = const TextStyle(
   height: 16 / 12,
   letterSpacing: 0.5,
   textBaseline: TextBaseline.alphabetic,
+);
+
+TextStyle _body13 = const TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 13,
+  fontWeight: FontWeight.normal,
+  letterSpacing: 0.2,
+);
+
+TextStyle _body15 = const TextStyle(
+  fontFamily: _fontFamily,
+  fontSize: 15,
+  fontWeight: FontWeight.normal,
+  height: 1.8,
 );
 
 // Button styles

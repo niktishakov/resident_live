@@ -143,7 +143,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                       (context) => CupertinoAlertDialog(
                         title: Text(
                           S.of(context).addStayPeriodHowToAddStayPeriods,
-                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                          style: context.rlTheme.title17Semi,
                         ),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -154,13 +154,13 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                               children: [
                                 Text(
                                   S.of(context).addStayPeriodPoints,
-                                  style: const TextStyle(height: 1.8, fontSize: 15),
+                                  style: context.rlTheme.body15,
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
                                   S.of(context).addStayPeriodYouCanAddMorePeriods,
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 13, letterSpacing: 0.2),
+                                  style: context.rlTheme.body13,
                                 ),
                               ],
                             ),

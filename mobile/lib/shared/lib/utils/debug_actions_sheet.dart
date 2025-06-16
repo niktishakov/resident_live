@@ -2,13 +2,16 @@
 
 import "dart:async";
 
+import "package:data/data.dart";
 import "package:flutter/material.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:hydrated_bloc/hydrated_bloc.dart";
+import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/settings/widgets/report_bug_button.dart";
 import "package:resident_live/screens/splash/presplash_screen.dart";
 import "package:resident_live/shared/shared.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 void showDebugActionsSheet(BuildContext context) {
   Widget buildActionRow({
@@ -23,18 +26,8 @@ void showDebugActionsSheet(BuildContext context) {
         child: BouncingButton(
           onPressed: (_) => onTap(),
           child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: SizedBox.expand(
-              child: Center(
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(16)),
+            child: SizedBox.expand(child: Center(child: Text(title, textAlign: TextAlign.center))),
           ),
         ),
       ),
@@ -56,57 +49,95 @@ void showDebugActionsSheet(BuildContext context) {
           maxChildSize: 0.9,
           minChildSize: 0.5,
           shouldCloseOnMinExtent: true,
-          builder: (context, controller) => ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(32),
-            ),
-            child: ColoredBox(
-              color: Theme.of(context).colorScheme.surface,
-              child: FractionallySizedBox(
-                heightFactor: 1.0,
-                widthFactor: 1.0,
-                child: ListView(
-                  controller: controller,
-                  children: [
-                    const Grabber(color: Colors.white),
-                    const Gap(16),
-                    const ReportBugButton(),
-                    buildActionRow(
-                      title: "Erase Data & Restart",
-                      color: Colors.red,
-                      onTap: () {
-                        HydratedBloc.storage.clear();
-                      },
-                    ),
-                    buildActionRow(
-                      title: "Go to /pre-splash",
-                      color: Colors.blue,
-                      onTap: () async {
-                        context.pop();
-                        unawaited(
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (c) => const PresplashScreen(),
-                            ),
+          builder:
+              (context, controller) => ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+                child: ColoredBox(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: FractionallySizedBox(
+                    heightFactor: 1.0,
+                    widthFactor: 1.0,
+                    child: ListView(
+                      controller: controller,
+                      children: [
+                        const Grabber(color: Colors.white),
+                        const Gap(16),
+                        const ReportBugButton(),
+                        buildActionRow(
+                          title: "Register One Off Task",
+                          color: Colors.orange,
+                          onTap: () {
+                            getIt<WorkmanagerService>().initOneOffTask();
+                          },
+                        ),
+                        buildActionRow(
+                          title: "Show SharedPreferences",
+                          color: Colors.orange,
+                          onTap: () async {
+                            final prefs = SharedPreferencesAsync();
+
+                            final storedPositions =
+                                await prefs.getStringList("background_positions") ?? [];
+
+                            showDialog(
+                              context: context,
+                              builder:
+                                  (context) => AlertDialog(
+                                    title: const Text("Сохранённые координаты"),
+                                    content: SizedBox(
+                                      width: double.maxFinite,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: storedPositions.length,
+                                        itemBuilder: (context, index) {
+                                          return Text("${index + 1}. ${storedPositions[index]}");
+                                        },
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(),
+                                        child: const Text("Закрыть"),
+                                      ),
+                                    ],
+                                  ),
+                            );
+                          },
+                        ),
+                        buildActionRow(
+                          title: "Erase Data & Restart",
+                          color: Colors.red,
+                          onTap: () {
+                            HydratedBloc.storage.clear();
+                          },
+                        ),
+                        buildActionRow(
+                          title: "Go to /pre-splash",
+                          color: Colors.blue,
+                          onTap: () async {
+                            context.pop();
+                            unawaited(
+                              Navigator.of(
+                                context,
+                              ).push(MaterialPageRoute(builder: (c) => const PresplashScreen())),
+                            );
+                          },
+                        ),
+                        ...ScreenNames.all.map(
+                          (e) => buildActionRow(
+                            title: "Go to $e",
+                            color: Colors.blue,
+                            onTap: () {
+                              context.pop();
+                              context.pushReplacementNamed(e);
+                            },
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
-                    ...ScreenNames.all.map(
-                      (e) => buildActionRow(
-                        title: "Go to $e",
-                        color: Colors.blue,
-                        onTap: () {
-                          context.pop();
-                          context.pushReplacementNamed(e);
-                        },
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
         ),
       );
     },

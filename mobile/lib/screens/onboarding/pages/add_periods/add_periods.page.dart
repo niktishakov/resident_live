@@ -1,3 +1,4 @@
+import "package:country_code_picker/country_code_picker.dart";
 import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -6,7 +7,7 @@ import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:intl/intl.dart";
 import "package:resident_live/gen/translations.g.dart";
-import "package:resident_live/screens/onboarding/pages/add_periods/widgets/country_selector.dart";
+import "package:resident_live/screens/onboarding/pages/add_periods/widgets/country_selector/country_selector.dart";
 import "package:resident_live/screens/onboarding/pages/add_periods/widgets/timeline_slider.dart";
 import "package:resident_live/shared/lib/utils/colors_utils.dart";
 import "package:resident_live/shared/shared.dart";
@@ -84,6 +85,11 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
         );
         segments.sort((a, b) => a.startDate.compareTo(b.startDate));
       });
+
+      final currentIndex = widget.countries.indexOf(focusedCountry!);
+      final nextIndex = (currentIndex + 1) % widget.countries.length;
+      focusedCountry = widget.countries[nextIndex];
+      sliderColor = getCountryColors(widget.countries)[focusedCountry!]!;
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _controller.animateTo(
@@ -181,11 +187,16 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           children: [
-            CountrySelector(
-              countryCodes: widget.countries,
-              focusedCountry: focusedCountry,
-              onCountrySelected: _onCountrySelected,
-            ).animate().fade(delay: 200.ms),
+            const Gap(36),
+            SizedBox(
+              height: 36,
+              child: CountrySelector.list(
+                countryCodes: widget.countries,
+                focusedCountry: focusedCountry,
+                onCountrySelected: _onCountrySelected,
+              ),
+            ),
+            context.vBox8,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
@@ -218,6 +229,14 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                   shrinkWrap: true,
                   itemCount: segments.length,
                   itemBuilder: (context, index) {
+                    final countryCode = segments[index].countryCode;
+                    CountryCode country;
+                    try {
+                      country = CountryCode.fromCountryCode(countryCode).localize(context);
+                    } catch (e) {
+                      country = CountryCode.fromCountryCode("US").localize(context);
+                    }
+
                     return Dismissible(
                       key: Key(segments[index].hashCode.toString()),
                       onDismissed: (direction) => setState(() {
@@ -264,7 +283,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  segments[index].countryCode,
+                                  country.name ?? countryCode,
                                   style: context.theme.textTheme.bodyLarge?.copyWith(
                                     color: context.theme.colorScheme.secondary,
                                   ),

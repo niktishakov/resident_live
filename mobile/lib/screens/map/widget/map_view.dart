@@ -21,6 +21,8 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
   late final List<StayPeriodValueObject> _relevantPeriods;
+  late final List<String> _uniqueCountryCodes;
+  late final CountryBackgroundCubit _countryBgCubit;
   final GlobalKey<AppleGlobeViewState> _globeKey = GlobalKey();
   final _sheetController = DraggableScrollableController();
   int? _selectedPeriodIndex;
@@ -35,6 +37,11 @@ class _MapViewState extends State<MapView> {
     _relevantPeriods =
         widget.stayPeriods.where((period) => period.endDate.isAfter(twelveMonthsAgo)).toList()
           ..sort((a, b) => b.endDate.compareTo(a.endDate));
+
+    _uniqueCountryCodes = _relevantPeriods.map((period) => period.countryCode).toSet().toList();
+
+    _countryBgCubit = getIt<CountryBackgroundCubit>()
+      ..preloadCountryBackgrounds(_uniqueCountryCodes);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _globeKey.currentState?.setOnCountrySelectedCallback(_onCountrySelectedFromMap);
@@ -77,6 +84,7 @@ class _MapViewState extends State<MapView> {
   @override
   void dispose() {
     _sheetController.dispose();
+    _countryBgCubit.close();
     super.dispose();
   }
 
@@ -91,21 +99,15 @@ class _MapViewState extends State<MapView> {
       );
     }
 
-    final uniqueCountryCodes = _relevantPeriods
-        .map((period) => period.countryCode)
-        .toSet()
-        .toList();
-
-    return BlocProvider(
-      create: (context) =>
-          getIt<CountryBackgroundCubit>()..preloadCountryBackgrounds(uniqueCountryCodes),
+    return BlocProvider.value(
+      value: _countryBgCubit,
       child: Stack(
         children: [
           Positioned.fill(
             bottom: context.mediaQuery.size.height * 0.2,
             child: AppleGlobeView(
               key: _globeKey,
-              countryCodes: uniqueCountryCodes,
+              countryCodes: _uniqueCountryCodes,
               stayPeriods: widget.stayPeriods,
             ),
           ),

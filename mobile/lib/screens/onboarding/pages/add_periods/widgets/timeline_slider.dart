@@ -85,12 +85,12 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
 
     _leftHandleScale = Tween<double>(
       begin: 1.0,
-      end: 1.3,
+      end: 3.0,
     ).animate(CurvedAnimation(parent: _leftHandleController, curve: Curves.easeOutCubic));
 
     _rightHandleScale = Tween<double>(
       begin: 1.0,
-      end: 1.3,
+      end: 3.0,
     ).animate(CurvedAnimation(parent: _rightHandleController, curve: Curves.easeOutCubic));
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -473,7 +473,7 @@ class TimelineSliderState extends State<TimelineSlider> with TickerProviderState
                     },
                     fontSize: 16,
                     label: context.t.addStayPeriodAddStayPeriod,
-                  ).animate().fade(delay: 150.ms),
+                  ),
                 ],
               );
             },
@@ -507,9 +507,8 @@ class _SliderPainter extends CustomPainter {
   });
 
   // Improved handle dimensions for capsule-shaped handles
-  static const double handleWidth = 12.0;
-  static const double handleHeight = 40.0;
-  static const double handleTouchArea = 24.0; // Expanded touch zone
+  static const double handleWidth = 28.0;
+  static const double handleHeight = 78.0;
 
   final double min;
   final double max;
@@ -541,7 +540,7 @@ class _SliderPainter extends CustomPainter {
       (size.height - strokeWidth) / 2,
       timelineStartX + timelineWidth,
       (size.height + strokeWidth) / 2,
-      const Radius.circular(40),
+      const Radius.circular(20),
     );
     canvas.drawRRect(backgroundRect, paint);
 
@@ -626,12 +625,9 @@ class _SliderPainter extends CustomPainter {
 
     void drawHandle(double x, double scale) {
       canvas.save();
-      canvas.translate(x, size.height / 2);
-      canvas.scale(scale);
-      canvas.translate(-x, -size.height / 2);
 
-      final scaledWidth = handleWidth * scale;
-      final scaledHeight = handleHeight * scale;
+      final scaledWidth = handleWidth / scale;
+      final scaledHeight = handleHeight;
 
       // Capsule-shaped handle with fully rounded corners
       final handleRect = RRect.fromLTRBR(
@@ -639,7 +635,7 @@ class _SliderPainter extends CustomPainter {
         size.height / 2 - scaledHeight / 2,
         x + scaledWidth / 2,
         size.height / 2 + scaledHeight / 2,
-        Radius.circular(scaledWidth / 2), // Full rounding for capsule shape
+        Radius.circular(scaledWidth / 4), // Full rounding for capsule shape
       );
 
       // Enhanced shadow for better depth

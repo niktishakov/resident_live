@@ -21,8 +21,9 @@ import 'package:data/src/data_source/sdk/workmanager/background_loggger.dart'
 import 'package:data/src/data_source/sdk/workmanager/workmanager.service.dart'
     as _i687;
 import 'package:data/src/data_source/storage/language_storage.dart' as _i268;
+import 'package:data/src/data_source/storage/trip_storage.dart' as _i25;
 import 'package:data/src/data_source/storage/user_storage.dart' as _i86;
-import 'package:data/src/model/local/user/user_model.dart' as _i680;
+import 'package:data/src/model/local/trip/trip_model.dart' as _i164;
 import 'package:data/src/module/hive_module.dart' as _i618;
 import 'package:data/src/module/shared_preferences_module.dart' as _i789;
 import 'package:data/src/module/unsplash_dio_module.dart' as _i228;
@@ -31,6 +32,7 @@ import 'package:data/src/repository/coordinates_repository.dart' as _i709;
 import 'package:data/src/repository/language_repository.dart' as _i787;
 import 'package:data/src/repository/photo_repository.dart' as _i763;
 import 'package:data/src/repository/placemark_repository.dart' as _i566;
+import 'package:data/src/repository/trip/trip_repository.dart' as _i698;
 import 'package:data/src/repository/user_repository.dart' as _i640;
 import 'package:domain/domain.dart' as _i494;
 import 'package:hive/hive.dart' as _i979;
@@ -58,8 +60,12 @@ class DataPackageModule extends _i526.MicroPackageModule {
     });
     gh.singletonAsync<_i457.DeviceInfoService>(
         () => _i457.DeviceInfoService.create());
-    await gh.singletonAsync<_i979.Box<_i680.UserHiveModel>>(
+    await gh.singletonAsync<_i979.Box<_i437.UserHiveModel>>(
       () => hiveModule.userBox,
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i979.Box<_i437.TripHiveModel>>(
+      () => hiveModule.tripBox,
       preResolve: true,
     );
     gh.singleton<_i152.LocalAuthentication>(
@@ -77,8 +83,12 @@ class DataPackageModule extends _i526.MicroPackageModule {
     gh.singletonAsync<_i837.LocalNotificationService>(() async =>
         _i837.LocalNotificationService(
             await gh.getAsync<_i245.LoggerService>()));
+    gh.factory<_i25.TripStorage>(
+        () => _i25.TripStorage(gh<_i979.Box<_i164.TripHiveModel>>()));
     gh.factory<_i1050.UnsplashApi>(
         () => _i1050.UnsplashApiImpl(gh<_i228.UnsplashDio>()));
+    gh.factory<_i494.TripRepository>(
+        () => _i698.TripRepositoryImpl(gh<_i25.TripStorage>()));
     gh.factory<_i268.ILanguageStorage>(
         () => _i268.LanguageStorageImpl(gh<_i460.SharedPreferences>()));
     gh.factory<_i494.IUserRepository>(() => _i640.UserRepository(

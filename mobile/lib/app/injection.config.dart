@@ -12,6 +12,8 @@ import 'package:data/data.dart' as _i437;
 import 'package:domain/domain.dart' as _i494;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:resident_live/screens/add_trip/cubit/add_trip_cubit.dart'
+    as _i187;
 import 'package:resident_live/screens/all_countries/cubit/remove_country_cubit.dart'
     as _i295;
 import 'package:resident_live/screens/home/cubit/focus_on_country_cubit.dart'
@@ -38,6 +40,7 @@ import 'package:resident_live/screens/splash/cubit/get_user_cubit.dart'
     as _i628;
 import 'package:resident_live/screens/splash/cubit/sync_countries_from_geo_cubit.dart'
     as _i311;
+import 'package:resident_live/screens/trips/cubit/trips_cubit.dart' as _i459;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -68,6 +71,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i29.ClearFocusCubit(gh<_i494.IUserRepository>()));
     gh.factory<_i628.GetUserCubit>(
         () => _i628.GetUserCubit(gh<_i494.IUserRepository>()));
+    gh.lazySingleton<_i459.TripsCubit>(
+        () => _i459.TripsCubit(gh<_i494.TripRepository>()));
     gh.factory<_i149.CountryBackgroundCubit>(
         () => _i149.CountryBackgroundCubit(gh<_i494.GetPhotoByQueryUsecase>()));
     gh.lazySingleton<_i927.ToggleBiometricsCubit>(
@@ -89,6 +94,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i494.GetPlacemarkUsecase>(),
           gh<_i494.SyncCountriesFromGeoUseCase>(),
         ));
+    gh.factory<_i187.AddTripCubit>(
+        () => _i187.AddTripCubit(gh<_i494.TripRepository>()));
     gh.lazySingleton<_i866.HomeCubit>(
         () => _i866.HomeCubit(gh<_i437.LocalNotificationService>()));
     return this;

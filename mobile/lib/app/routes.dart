@@ -3,6 +3,9 @@ import "package:flutter/cupertino.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:resident_live/app/injection.dart";
+import "package:resident_live/screens/add_trip/add_trip_screen.dart";
+import "package:resident_live/screens/add_trip/cubit/add_trip_cubit.dart";
+import "package:resident_live/screens/add_trip/validate_trip_screen.dart";
 import "package:resident_live/screens/all_countries/all_countries_screen.dart";
 import "package:resident_live/screens/bottom_bar/bottom_bar.dart";
 import "package:resident_live/screens/home/home_screen.dart";
@@ -17,6 +20,7 @@ import "package:resident_live/screens/residence_details/residence_details_screen
 import "package:resident_live/screens/settings/settings_screen.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/screens/splash/splash_screen.dart";
+import "package:resident_live/screens/trips/cubit/trips_cubit.dart";
 import "package:resident_live/screens/trips/trips_screen.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -54,7 +58,10 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
           path: ScreenNames.trips,
           name: ScreenNames.trips,
           pageBuilder: (ctx, state) {
-            return kNoTransitionPage(const TripsScreen(), ScreenNames.trips);
+            return kNoTransitionPage(
+              BlocProvider(create: (context) => getIt<TripsCubit>(), child: const TripsScreen()),
+              ScreenNames.trips,
+            );
           },
         ),
         GoRoute(
@@ -148,6 +155,36 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
           ScreenNames.map,
         );
       },
+    ),
+
+    ShellRoute(
+      pageBuilder: (ctx, state, child) {
+        return CupertinoPage(
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<AddTripCubit>()),
+              BlocProvider(create: (context) => getIt<GetUserCubit>()),
+            ],
+            child: child,
+          ),
+          name: state.uri.toString(),
+        );
+      },
+      routes: [
+        GoRoute(
+          path: ScreenNames.addTrip,
+          name: ScreenNames.addTrip,
+          pageBuilder: (context, state) =>
+              kRootCupertinoPage(const AddTripScreen(), ScreenNames.addTrip),
+        ),
+
+        GoRoute(
+          path: ScreenNames.validateTrip,
+          name: ScreenNames.validateTrip,
+          pageBuilder: (context, state) =>
+              kRootCupertinoPage(const ValidateTripScreen(), ScreenNames.validateTrip),
+        ),
+      ],
     ),
   ];
 }

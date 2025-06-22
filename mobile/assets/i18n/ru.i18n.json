@@ -107,5 +107,10 @@
     "details": {
         "resident": "You are a resident!",
         "notResident": "Status update in {days} days"
+    },
+    "trips": {
+        "noTripsYet": "No trips yet",
+        "planFutureTripToAvoidMistakes": "Plan a future trip to avoid mistakes",
+        "addYourFirstTrip": "Add Your First Trip"
     }
 }

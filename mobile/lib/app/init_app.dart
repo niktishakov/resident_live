@@ -35,7 +35,8 @@ Future<MyApp> initApp() async {
   Hive
     ..registerAdapter(UserHiveModelAdapter())
     ..registerAdapter(StayPeriodHiveValueObjectAdapter())
-    ..registerAdapter(CoordinatesHiveModelAdapter());
+    ..registerAdapter(CoordinatesHiveModelAdapter())
+    ..registerAdapter(TripHiveModelAdapter());
 
   await configureDependencies();
 

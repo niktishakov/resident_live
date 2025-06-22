@@ -1,6 +1,6 @@
-import 'package:data/data.dart';
-import 'package:hive/hive.dart';
-import 'package:injectable/injectable.dart';
+import "package:data/data.dart";
+import "package:hive/hive.dart";
+import "package:injectable/injectable.dart";
 
 @injectable
 class UserStorage {

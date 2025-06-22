@@ -75,10 +75,13 @@ class FindCountriesPageState extends State<FindCountriesPage> {
                   ).animate().fade(duration: 1.seconds, delay: 300.ms),
                 ),
                 context.vBox16,
-                SearchField(
-                  onChanged: (value) => setState(() => _searchQuery = value),
-                  controller: _textController,
-                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SearchField(
+                    onChanged: (value) => setState(() => _searchQuery = value),
+                    controller: _textController,
+                  ),
+                ).animate().fade(delay: 1000.ms),
 
                 if (filteredCountriesWithSearchQuery.isEmpty)
                   Expanded(

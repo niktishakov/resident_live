@@ -10,6 +10,9 @@ class ScreenNames {
   static const map = "/map-screen";
   static const trips = "/trips-screen";
 
+  static const addTrip = "/add-trip-screen";
+  static const validateTrip = "/validate-trip-screen";
+
   static const allTrackingCountries = "/all-tracking-countries-screen";
   static const settings = "/settings-screen";
   static const language = "/language-screen";

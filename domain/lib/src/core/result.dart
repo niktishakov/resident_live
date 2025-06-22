@@ -7,10 +7,7 @@ sealed class Result<T> {
   T get data => throw Exception("This is not Success<T>");
   String get error => throw Exception("This is not Failure<T>");
 
-  R map<R>({
-    required R Function(T) success,
-    required R Function(String) failure,
-  }) {
+  R map<R>({required R Function(T) success, required R Function(String) failure}) {
     if (this is Success<T>) {
       return success(data);
     } else {
@@ -31,10 +28,7 @@ sealed class Result<T> {
     return orElse();
   }
 
-  R when<R>({
-    required R Function(T) success,
-    required R Function(String) failure,
-  }) {
+  R when<R>({required R Function(T) success, required R Function(String) failure}) {
     return map<R>(success: success, failure: failure);
   }
 }
@@ -47,7 +41,9 @@ class Success<T> extends Result<T> {
   T get data => _data;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Success<T> && runtimeType == other.runtimeType && data == other.data;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Success<T> && runtimeType == other.runtimeType && data == other.data;
 
   @override
   int get hashCode => data.hashCode;
@@ -61,7 +57,9 @@ class Failure<T> extends Result<T> {
   String get error => _error;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Failure && runtimeType == other.runtimeType && error == other.error;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Failure && runtimeType == other.runtimeType && error == other.error;
 
   @override
   int get hashCode => error.hashCode;

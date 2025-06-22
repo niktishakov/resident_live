@@ -192,7 +192,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                 children: [
                   const Gap(6),
                   SizedBox(
-                    width: context.mediaQuery.size.width,
+                    width: context.mediaQuery.size.width * 0.9,
                     child: TimelineSlider(
                       min: 0,
                       max: 365,

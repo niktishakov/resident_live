@@ -1,4 +1,4 @@
-import "package:data/src/model/local/user/user_model.dart";
+import "package:data/data.dart";
 
 import "package:hive/hive.dart";
 import "package:injectable/injectable.dart";
@@ -9,6 +9,10 @@ abstract class HiveModule {
   @preResolve
   @singleton
   Future<Box<UserHiveModel>> get userBox => Hive.openBox<UserHiveModel>("user_box");
+
+  @preResolve
+  @singleton
+  Future<Box<TripHiveModel>> get tripBox => Hive.openBox<TripHiveModel>("trip_box");
 
   @singleton
   LocalAuthentication get localAuthentication => LocalAuthentication();

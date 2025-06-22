@@ -11,5 +11,6 @@ export "src/data_source/sdk/share/share.service.dart";
 export "src/data_source/sdk/workmanager/workmanager.service.dart";
 export "src/model/local/coordinates/coordinates_model.dart";
 export "src/model/local/stay_period/stay_period_model.dart";
+export "src/model/local/trip/trip_model.dart";
 // Models
 export "src/model/local/user/user_model.dart";

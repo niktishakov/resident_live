@@ -22,8 +22,6 @@ void callbackDispatcher() {
 
         await logger.debug("position: $position");
         await savePositionToPrefs(position);
-        // 1. положить новые координаты в shared_preferences в конце списка
-        // 2. при запуске приложения вызывать юзкейс sync_countries_from_background_process_usecase
 
         await logger.debug("Background location task completed successfully");
       } catch (e, stack) {

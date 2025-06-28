@@ -26,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResourceBlocBuilder<GetUserCubit, UserEntity>(
       bloc: getIt<GetUserCubit>(),
-      orElse: () => CupertinoActivityIndicator(),
+      orElse: CupertinoActivityIndicator.new,
       data: (data) {
         return MultiBlocListener(
           listeners: [

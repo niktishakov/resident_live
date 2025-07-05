@@ -237,6 +237,8 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                       country = CountryCode.fromCountryCode("US").localize(context);
                     }
 
+                    final countryName = country.toCountryStringOnly();
+
                     return Dismissible(
                       key: Key(segments[index].hashCode.toString()),
                       onDismissed: (direction) => setState(() {
@@ -283,7 +285,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  country.name ?? countryCode,
+                                  countryName,
                                   style: context.theme.textTheme.bodyLarge?.copyWith(
                                     color: context.theme.colorScheme.secondary,
                                   ),

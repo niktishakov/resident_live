@@ -1,6 +1,5 @@
 import "package:country_code_picker/country_code_picker.dart";
 import "package:domain/domain.dart";
-import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:injectable/injectable.dart";
@@ -17,9 +16,9 @@ class CountryBackgroundState with _$CountryBackgroundState {
 
 @injectable
 class CountryBackgroundCubit extends Cubit<CountryBackgroundState> {
-  CountryBackgroundCubit(this._getPhotoByQuery) : super(const CountryBackgroundState.initial());
+  CountryBackgroundCubit(this._getRandomPhoto) : super(const CountryBackgroundState.initial());
 
-  final GetPhotoByQueryUsecase _getPhotoByQuery;
+  final GetRandomPhotoUsecase _getRandomPhoto;
   final Map<String, String> _cache = {};
 
   Future<void> loadCountryBackground(String countryCode) async {
@@ -29,7 +28,20 @@ class CountryBackgroundCubit extends Cubit<CountryBackgroundState> {
     }
 
     try {
-      final photo = await _getPhotoByQuery(countryCode);
+      final photo = await _getRandomPhoto.call();
+      _cache[countryCode] = photo.regular;
+      emit(CountryBackgroundState.loaded(_cache));
+    } catch (e) {
+      emit(CountryBackgroundState.error(e.toString()));
+    }
+  }
+
+  Future<void> refreshCountryBackground(String countryCode) async {
+    emit(const CountryBackgroundState.loading());
+
+    try {
+      final countryName = CountryCode.fromCountryCode(countryCode).name ?? countryCode;
+      final photo = await _getRandomPhoto(query: countryName);
       _cache[countryCode] = photo.regular;
       emit(CountryBackgroundState.loaded(_cache));
     } catch (e) {
@@ -44,7 +56,7 @@ class CountryBackgroundCubit extends Cubit<CountryBackgroundState> {
       if (!_cache.containsKey(code)) {
         try {
           final countryName = CountryCode.fromCountryCode(code).name ?? code;
-          final photo = await _getPhotoByQuery(countryName);
+          final photo = await _getRandomPhoto(query: countryName);
           _cache[code] = photo.regular;
         } catch (e) {
           // Игнорируем ошибки при предзагрузке

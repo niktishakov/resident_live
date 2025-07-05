@@ -1,7 +1,7 @@
-import 'package:data/src/mapper/placemark_mapper.dart';
-import 'package:domain/domain.dart';
-import 'package:injectable/injectable.dart';
+import "package:data/src/mapper/placemark_mapper.dart";
+import "package:domain/domain.dart";
 import "package:geocoding/geocoding.dart";
+import "package:injectable/injectable.dart";
 
 @Injectable(as: IPlacemarkRepository)
 class PlacemarkRepository implements IPlacemarkRepository {

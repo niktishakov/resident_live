@@ -4,6 +4,7 @@ import "package:shared_preferences/shared_preferences.dart";
 abstract interface class ILanguageStorage {
   Future<void> saveLocale(String locale);
   String? getLocale();
+  Future<void> clearAll();
 }
 
 @Injectable(as: ILanguageStorage)
@@ -18,4 +19,9 @@ class LanguageStorageImpl implements ILanguageStorage {
 
   @override
   String? getLocale() => _storage.getString(_key);
+
+  @override
+  Future<void> clearAll() async {
+    await _storage.clear();
+  }
 }

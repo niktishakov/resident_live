@@ -10,6 +10,7 @@ class TripEntity with _$TripEntity {
     required String countryCode,
     required DateTime fromDate,
     required DateTime toDate,
+    String? backgroundUrl,
   }) = _TripEntity;
 
   const TripEntity._();

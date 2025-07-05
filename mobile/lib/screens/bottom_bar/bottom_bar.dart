@@ -95,7 +95,8 @@ class AiBottomBar extends StatelessWidget {
   }
 
   Widget _buildTabItem(BuildContext context, AiBottomBarItem item) {
-    final isSelected = currentPath == item.path;
+    // Подсвечиваем таб, если путь начинается с item.path
+    final isSelected = currentPath == item.path || currentPath.startsWith('${item.path}/');
     const iconSize = 30.0;
 
     return LayoutBuilder(
@@ -113,8 +114,6 @@ class AiBottomBar extends StatelessWidget {
               context.pop();
               return;
             }
-
-            // AiAnalytics.instance.setCurrentScreen(item.path);
             context.go(item.path);
           },
         );

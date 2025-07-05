@@ -14,11 +14,8 @@ class CoordinatesRepository implements ICoordinatesRepository {
   @override
   Future<CoordinatesValueObject> getCoordinates() async {
     final position = await Geolocator.getCurrentPosition(
-      locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
     );
-    return CoordinatesValueObject(
-      latitude: position.latitude,
-      longitude: position.longitude,
-    );
+    return CoordinatesValueObject(latitude: position.latitude, longitude: position.longitude);
   }
 }

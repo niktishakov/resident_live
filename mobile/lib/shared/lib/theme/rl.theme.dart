@@ -185,8 +185,8 @@ class RlTheme {
           fontSize: 32,
           fontWeight: FontWeight.bold,
         ),
-        navTitleTextStyle: TextStyle(color: Colors.black),
-        navActionTextStyle: TextStyle(color: Colors.black),
+        navTitleTextStyle: TextStyle(color: Colors.black, fontSize: 16),
+        navActionTextStyle: TextStyle(color: Colors.black, fontSize: 16),
       ),
     ),
     navigationBarTheme: const NavigationBarThemeData(

@@ -72,7 +72,7 @@ class FocusOnView extends StatelessWidget {
                           final daysSpent =
                               user.data?.daysSpentIn(countries[countryIndex].key) ?? 0;
                           return CountryProgressBar(
-                            countryName: country.name ?? countryCode,
+                            countryName: country.toCountryStringOnly(),
                             daysSpent: daysSpent,
                             isSelected: countryIndex == focusedCountryIndex,
                             onTap: () => getIt<GetStartedCubit>().setFocusedCountry(countryIndex),

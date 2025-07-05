@@ -23,4 +23,9 @@ class UserStorage {
   Future<void> deleteUser(String id) {
     return _storage.delete(id);
   }
+
+  // Clear all user data
+  Future<void> clearAll() async {
+    await _storage.clear();
+  }
 }

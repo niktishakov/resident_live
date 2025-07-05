@@ -15,6 +15,7 @@ class RlOutlinedButton extends StatelessWidget {
     this.gradient,
     this.onPressed,
     this.enabled = true,
+    this.expanded = false,
     this.leading,
     this.trailing,
     this.animationDuration,
@@ -32,6 +33,8 @@ class RlOutlinedButton extends StatelessWidget {
   final double? fontSize;
   final VoidCallback? onPressed;
   final bool enabled;
+  final bool expanded;
+
   final Widget? trailing;
   final Duration? animationDuration;
   final EdgeInsetsGeometry? padding;
@@ -57,7 +60,7 @@ class RlOutlinedButton extends StatelessWidget {
             padding: padding ?? const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: expanded ? MainAxisSize.max : MainAxisSize.min,
               children: [
                 if (leading != null) ...[
                   AnimatedSize(duration: const Duration(milliseconds: 200), child: leading),

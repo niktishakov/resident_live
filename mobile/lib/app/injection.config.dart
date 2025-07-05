@@ -40,7 +40,12 @@ import 'package:resident_live/screens/splash/cubit/get_user_cubit.dart'
     as _i628;
 import 'package:resident_live/screens/splash/cubit/sync_countries_from_geo_cubit.dart'
     as _i311;
-import 'package:resident_live/screens/trips/cubit/trips_cubit.dart' as _i459;
+import 'package:resident_live/screens/trips/cubit/delete_trip_cubit.dart'
+    as _i834;
+import 'package:resident_live/screens/trips/cubit/trips_stream_cubit.dart'
+    as _i398;
+import 'package:resident_live/screens/validate_trip/cubit/save_trip_cubit.dart'
+    as _i1008;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -58,6 +63,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i820.OnboardingCubit>(() => _i820.OnboardingCubit());
     gh.lazySingleton<_i444.UpdateCountriesCubit>(
         () => _i444.UpdateCountriesCubit(gh<_i494.UpdateStayPeriodsUsecase>()));
+    gh.factory<_i149.CountryBackgroundCubit>(
+        () => _i149.CountryBackgroundCubit(gh<_i494.GetRandomPhotoUsecase>()));
+    gh.factory<_i1008.SaveTripCubit>(
+        () => _i1008.SaveTripCubit(gh<_i494.TripRepository>()));
     gh.lazySingleton<_i656.StopAuthCubit>(
         () => _i656.StopAuthCubit(gh<_i494.StopAuthenticationUsecase>()));
     gh.lazySingleton<_i913.AuthByBiometricsCubit>(
@@ -71,10 +80,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i29.ClearFocusCubit(gh<_i494.IUserRepository>()));
     gh.factory<_i628.GetUserCubit>(
         () => _i628.GetUserCubit(gh<_i494.IUserRepository>()));
-    gh.lazySingleton<_i459.TripsCubit>(
-        () => _i459.TripsCubit(gh<_i494.TripRepository>()));
-    gh.factory<_i149.CountryBackgroundCubit>(
-        () => _i149.CountryBackgroundCubit(gh<_i494.GetPhotoByQueryUsecase>()));
+    gh.factory<_i834.DeleteTripCubit>(
+        () => _i834.DeleteTripCubit(gh<_i494.TripRepository>()));
     gh.lazySingleton<_i927.ToggleBiometricsCubit>(
         () => _i927.ToggleBiometricsCubit(
               toggleBiometrics: gh<_i494.ToggleBiometricsUsecase>(),
@@ -96,6 +103,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i187.AddTripCubit>(
         () => _i187.AddTripCubit(gh<_i494.TripRepository>()));
+    gh.factory<_i398.TripsStreamCubit>(
+        () => _i398.TripsStreamCubit(gh<_i494.TripRepository>()));
     gh.lazySingleton<_i866.HomeCubit>(
         () => _i866.HomeCubit(gh<_i437.LocalNotificationService>()));
     return this;

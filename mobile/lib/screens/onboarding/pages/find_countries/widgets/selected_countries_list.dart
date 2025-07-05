@@ -74,26 +74,25 @@ class _SelectedCountriesListState extends State<SelectedCountriesList> {
                   onTap: () {
                     getIt<OnboardingCubit>().removeCountry(country.code);
                   },
-                  child:
-                      Container(
-                        margin: const EdgeInsets.only(right: 8),
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: theme.bgSecondary,
-                          borderRadius: BorderRadius.circular(20.0),
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: theme.bgSecondary,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          country.toCountryStringOnly(),
+                          style: theme.body12.copyWith(color: theme.textPrimaryOnColor),
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              country.name ?? "Unknown",
-                              style: theme.body12.copyWith(color: theme.textPrimaryOnColor),
-                            ),
-                            const Gap(4),
-                            Icon(Icons.close, size: 18, color: theme.iconPrimaryOnColor),
-                          ],
-                        ),
-                      ).animate().fade(duration: 250.ms, delay: 100.ms).scaleY(),
+                        const Gap(4),
+                        Icon(Icons.close, size: 18, color: theme.iconPrimaryOnColor),
+                      ],
+                    ),
+                  ).animate().fade(duration: 250.ms, delay: 100.ms).scaleY(),
                 ),
               ),
             );

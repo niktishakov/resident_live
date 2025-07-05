@@ -19,9 +19,9 @@ class CountryCard extends StatelessWidget {
       builder: (context, state) {
         final isResident = state.data?.isResidentIn(countryCode) ?? false;
         final daysSpent = state.data?.daysSpentIn(countryCode) ?? 0;
-        final country = CountryCode.fromCountryCode(countryCode).localize(context);
-
-        final countryName = country.name ?? "";
+        final country = CountryCode.fromCountryCode(
+          countryCode,
+        ).localize(context).toCountryStringOnly();
 
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -46,7 +46,7 @@ class CountryCard extends StatelessWidget {
                   },
                 ),
                 AutoSizeText(
-                  countryName,
+                  country,
                   style: theme.title32Semi.copyWith(color: theme.textPrimary),
                   maxLines: 2,
                   minFontSize: 18,

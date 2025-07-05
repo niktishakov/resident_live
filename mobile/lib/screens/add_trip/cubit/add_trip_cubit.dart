@@ -13,6 +13,7 @@ class AddTripState with _$AddTripState {
     @Default(false) bool isLoading,
     @Default(false) bool isSuccess,
     @Default("") String error,
+    @Default("") String validationError,
   }) = _AddTripState;
 }
 
@@ -21,21 +22,44 @@ class AddTripCubit extends Cubit<AddTripState> {
   AddTripCubit(this._tripRepository)
     : super(
         AddTripState(
-          trip: TripModel(countryCode: "", fromDate: DateTime.now(), toDate: DateTime.now()),
+          trip: TripModel(
+            countryCode: "",
+            fromDate: DateTime.now(),
+            toDate: DateTime.now().add(const Duration(days: 7)),
+            backgroundUrl: null,
+          ),
         ),
       );
   final TripRepository _tripRepository;
 
   Future<void> updateTripModel(TripModel trip) async {
-    emit(state.copyWith(trip: trip));
+    emit(state.copyWith(trip: trip, validationError: trip.validationError ?? ""));
+  }
+
+  bool canProceedToValidation() {
+    final isValid = state.trip.isValid;
+    if (!isValid) {
+      emit(state.copyWith(validationError: state.trip.validationError ?? ""));
+    }
+    return isValid;
   }
 
   Future<void> addTrip(TripModel trip) async {
-    emit(state.copyWith(isLoading: true));
+    if (!trip.isValid) {
+      emit(state.copyWith(validationError: trip.validationError ?? "Invalid trip data"));
+      return;
+    }
+
+    emit(state.copyWith(isLoading: true, validationError: "", error: ""));
+
     final result = await _tripRepository.addTrip(trip.toEntity());
     result.when(
-      success: (trip) => emit(state.copyWith(isLoading: false, isSuccess: true)),
-      failure: (error) => emit(state.copyWith(isLoading: false, error: error)),
+      success: (trip) => emit(state.copyWith(isLoading: false, isSuccess: true, error: "")),
+      failure: (error) => emit(state.copyWith(isLoading: false, error: error, isSuccess: false)),
     );
+  }
+
+  void clearErrors() {
+    emit(state.copyWith(validationError: "", error: ""));
   }
 }

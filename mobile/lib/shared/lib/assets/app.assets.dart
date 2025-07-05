@@ -31,6 +31,7 @@ class AppAssets {
     "assets/svgs/square_and_arrow_up_circle.svg",
   );
 
+  static const cloud = AppAsset.bitmap("assets/imgs/cloud.png");
   static const earthBg = AppAsset.bitmap("assets/imgs/earth_bg.jpg");
   static const circularLoader = AppAsset.bitmap("assets/imgs/circular_loader.png");
 

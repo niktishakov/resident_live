@@ -1,4 +1,3 @@
-import "package:auto_size_text/auto_size_text.dart";
 import "package:country_code_picker/country_code_picker.dart";
 import "package:data/data.dart";
 import "package:domain/domain.dart";
@@ -158,7 +157,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                       Grabber(),
                                       context.vBox16,
                                       DetailsHeader(
-                                        countryName: country.name ?? "",
+                                        countryName: country.toCountryStringOnly(),
                                         isFocused: isFocused,
                                         isHere: isHere,
                                         screenKey: screenKey,

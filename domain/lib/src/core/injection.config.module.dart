@@ -22,10 +22,12 @@ import 'package:domain/src/usecase/coordinates/request_permission_usecase.dart'
     as _i1045;
 import 'package:domain/src/usecase/language/change_language_usecase.dart'
     as _i663;
-import 'package:domain/src/usecase/photo/get_photo_by_query_usecase.dart'
-    as _i458;
+import 'package:domain/src/usecase/photo/get_random_photo_usecase.dart'
+    as _i600;
 import 'package:domain/src/usecase/placemark/get_placemark_usecase.dart'
     as _i825;
+import 'package:domain/src/usecase/storage/clear_all_data_usecase.dart'
+    as _i550;
 import 'package:domain/src/usecase/user/create_user.dart' as _i936;
 import 'package:domain/src/usecase/user/get_focused_country_code.dart' as _i563;
 import 'package:domain/src/usecase/user/get_is_biometrics_enabled.dart'
@@ -68,8 +70,13 @@ class DomainPackageModule extends _i526.MicroPackageModule {
         () => _i563.GetFocusedCountryCodeUsecase(gh<_i494.IUserRepository>()));
     gh.factory<_i687.SyncCountriesFromGeoUseCase>(
         () => _i687.SyncCountriesFromGeoUseCase(gh<_i494.IUserRepository>()));
-    gh.factory<_i458.GetPhotoByQueryUsecase>(
-        () => _i458.GetPhotoByQueryUsecase(gh<_i494.PhotoRepository>()));
+    gh.factory<_i600.GetRandomPhotoUsecase>(
+        () => _i600.GetRandomPhotoUsecase(gh<_i494.PhotoRepository>()));
+    gh.factory<_i550.ClearAllDataUsecase>(() => _i550.ClearAllDataUsecase(
+          gh<_i494.IUserRepository>(),
+          gh<_i494.TripRepository>(),
+          gh<_i494.ILanguageRepository>(),
+        ));
     gh.factory<_i825.GetPlacemarkUsecase>(
         () => _i825.GetPlacemarkUsecase(gh<_i494.IPlacemarkRepository>()));
   }

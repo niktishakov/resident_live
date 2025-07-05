@@ -12,6 +12,10 @@ class ScreenNames {
 
   static const addTrip = "/add-trip-screen";
   static const validateTrip = "/validate-trip-screen";
+  static const tripDetails = "/trip-details-screen";
+
+  static const tripsFlowAdd = "/trips-flow/add";
+  static const tripsFlowValidate = "/trips-flow/add/validate";
 
   static const allTrackingCountries = "/all-tracking-countries-screen";
   static const settings = "/settings-screen";

@@ -20,4 +20,17 @@ class PhotoRepositoryImpl implements PhotoRepository {
       thumb: photoResult.urls.thumb,
     );
   }
+
+  @override
+  Future<PhotoUrlsEntity> getRandomPhoto({String? query}) async {
+    final photoResult = await _unsplashApi.getRandomPhoto(query: query);
+
+    return PhotoUrlsEntity(
+      raw: photoResult.urls.raw,
+      full: photoResult.urls.full,
+      regular: photoResult.urls.regular,
+      small: photoResult.urls.small,
+      thumb: photoResult.urls.thumb,
+    );
+  }
 }

@@ -41,7 +41,8 @@ class AiSliverAppBar extends StatelessWidget {
       stretch: false,
       previousPageTitle: previousPageTitle,
       automaticallyImplyTitle: !showLargeTitle,
-      leading: leading ??
+      leading:
+          leading ??
           CupertinoNavigationBarBackButton(
             color: Colors.black, // your desired color
             previousPageTitle: previousPageTitle,
@@ -60,16 +61,20 @@ class AiSliverHeader extends StatelessWidget {
     this.child,
     this.titleText = "",
     this.actions = const [],
+    this.showBackButton,
   });
   final double height;
   final Widget? child;
   final String titleText;
   final List<Widget> actions;
+  final bool? showBackButton;
 
   @override
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
     final totalHeight = height + topPadding;
+
+    final shouldShowBack = showBackButton ?? _shouldShowBackButton(context);
 
     return SliverPersistentHeader(
       pinned: true,
@@ -77,38 +82,25 @@ class AiSliverHeader extends StatelessWidget {
         minHeight: totalHeight,
         maxHeight: totalHeight,
         child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
           child: SafeArea(
             bottom: false,
             child: Stack(
               children: [
-                if (context.canPop())
-                  const Positioned(
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: AiBackButton(),
-                  ),
+                if (shouldShowBack)
+                  const Positioned(left: 0, top: 0, bottom: 0, child: AiBackButton()),
                 Center(
                   child: Text(
                     titleText,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
                 ),
                 Positioned(
                   right: 16,
                   top: 0,
                   bottom: 0,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: actions,
-                  ),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: actions),
                 ),
               ],
             ),
@@ -117,14 +109,18 @@ class AiSliverHeader extends StatelessWidget {
       ),
     );
   }
+
+  bool _shouldShowBackButton(BuildContext context) {
+    final currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
+
+    const mainScreens = ['/home-screen', '/trips-screen', '/settings-screen', '/splash-screen'];
+
+    return !mainScreens.contains(currentRoute) && GoRouter.of(context).canPop();
+  }
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate({
-    required this.minHeight,
-    required this.maxHeight,
-    required this.child,
-  });
+  _SliverAppBarDelegate({required this.minHeight, required this.maxHeight, required this.child});
   final double minHeight;
   final double maxHeight;
   final Widget child;
@@ -137,11 +133,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   double get maxExtent => maxHeight;
   @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final borderOpacity = (shrinkOffset / feedMaxOffset).clamp(0.0, 1.0);
 
     return Stack(
@@ -149,10 +141,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       children: [
         ClipRect(
           child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: 30 * borderOpacity,
-              sigmaY: 30 * borderOpacity,
-            ),
+            filter: ImageFilter.blur(sigmaX: 30 * borderOpacity, sigmaY: 30 * borderOpacity),
             child: Container(
               height: maxExtent,
               decoration: BoxDecoration(
@@ -174,17 +163,14 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }
 
 class AiBackButton extends StatelessWidget {
-  const AiBackButton({
-    super.key,
-    this.onPressed,
-    this.padding,
-    this.title,
-  });
+  const AiBackButton({super.key, this.onPressed, this.padding, this.title});
 
   final VoidCallback? onPressed;
   final EdgeInsetsGeometry? padding;

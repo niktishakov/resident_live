@@ -87,7 +87,7 @@ class DataPackageModule extends _i526.MicroPackageModule {
         () => _i25.TripStorage(gh<_i979.Box<_i164.TripHiveModel>>()));
     gh.factory<_i1050.UnsplashApi>(
         () => _i1050.UnsplashApiImpl(gh<_i228.UnsplashDio>()));
-    gh.factory<_i494.TripRepository>(
+    gh.lazySingleton<_i494.TripRepository>(
         () => _i698.TripRepositoryImpl(gh<_i25.TripStorage>()));
     gh.factory<_i268.ILanguageStorage>(
         () => _i268.LanguageStorageImpl(gh<_i460.SharedPreferences>()));

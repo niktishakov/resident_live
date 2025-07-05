@@ -16,6 +16,9 @@ class TravelGraphRenderer: NSObject {
     private var selectedAnnotation: MKAnnotation?
     private var countryAnnotations: [String: MKAnnotation] = [:]
     
+    // Dictionary to store route metadata (including isFuture flag)
+    private var routeMetadata: [MKPolyline: Bool] = [:]
+    
     weak var delegate: TravelGraphRendererDelegate?
     
     init(mapView: MKMapView, travelGraph: [String: Any]?) {
@@ -25,17 +28,34 @@ class TravelGraphRenderer: NSObject {
         if let travelGraph = travelGraph,
            let routes = travelGraph["routes"] as? [[String: Any]] {
             self.travelRoutes = routes
+            print("[TravelGraph] Loaded \(routes.count) routes")
+            
+            // Debug: print route details
+            for (index, route) in routes.enumerated() {
+                let isFuture = route["isFuture"] as? Bool ?? false
+                print("[TravelGraph] Route \(index): \(route["fromCountryCode"] ?? "") -> \(route["toCountryCode"] ?? ""), isFuture: \(isFuture)")
+            }
+        } else {
+            print("[TravelGraph] No travel graph data found")
         }
         
         super.init()
     }
     
     func setupTravelRoutes() {
-        for route in travelRoutes {
+        print("[TravelGraph] Setting up \(travelRoutes.count) travel routes")
+        
+        for (index, route) in travelRoutes.enumerated() {
             guard let fromCountry = route["fromCountryCode"] as? String,
-                  let toCountry = route["toCountryCode"] as? String else { continue }
+                  let toCountry = route["toCountryCode"] as? String,
+                  let isFuture = route["isFuture"] as? Bool else {
+                print("[TravelGraph] Route \(index) missing required fields")
+                continue
+            }
             
-            addRoutePolyline(from: fromCountry, to: toCountry)
+            print("[TravelGraph] Processing route \(index): \(fromCountry) -> \(toCountry), isFuture: \(isFuture)")
+            
+            addRoutePolyline(from: fromCountry, to: toCountry, isFuture: isFuture)
             addRouteAnnotations(from: fromCountry, to: toCountry)
         }
     }
@@ -75,8 +95,25 @@ class TravelGraphRenderer: NSObject {
         guard let polyline = overlay as? MKPolyline else { return nil }
         
         let renderer = MKPolylineRenderer(polyline: polyline)
-        renderer.strokeColor = UIColor(red: 0.2, green: 0.6, blue: 1.0, alpha: 0.8)
-        renderer.lineWidth = 1.5
+        
+        // Check if this is a future route
+        let isFuture = routeMetadata[polyline] ?? false
+        
+        print("[TravelGraph] Creating renderer for route, isFuture: \(isFuture)")
+        
+        if isFuture {
+            // Green dashed line for future routes
+            renderer.strokeColor = UIColor(red: 0.13, green: 0.70, blue: 0.13, alpha: 0.8) // Green color
+            renderer.lineWidth = 2.0
+            renderer.lineDashPattern = [8, 4] // Dashed pattern
+            print("[TravelGraph] Applied green dashed style for future route")
+        } else {
+            // Blue solid line for past routes
+            renderer.strokeColor = UIColor(red: 0.2, green: 0.6, blue: 1.0, alpha: 0.8)
+            renderer.lineWidth = 1.5
+            print("[TravelGraph] Applied blue solid style for past route")
+        }
+        
         renderer.lineCap = .round
         renderer.lineJoin = .round
         return renderer
@@ -142,7 +179,7 @@ class TravelGraphRenderer: NSObject {
     
     // MARK: - Private Methods
     
-    private func addRoutePolyline(from fromCountry: String, to toCountry: String) {
+    private func addRoutePolyline(from fromCountry: String, to toCountry: String, isFuture: Bool) {
         delegate?.getCountryBoundariesRenderer().getCountryCoordinate(countryCode: fromCountry) { [weak self] fromCoord in
             guard let self = self, let fromCoord = fromCoord else { return }
             
@@ -157,6 +194,9 @@ class TravelGraphRenderer: NSObject {
                 DispatchQueue.main.async {
                     self.mapView.addOverlay(polyline)
                     self.routePolylines.append(polyline)
+                    // Store metadata for this route
+                    self.routeMetadata[polyline] = isFuture
+                    print("[TravelGraph] Added polyline for \(fromCountry) -> \(toCountry), isFuture: \(isFuture)")
                 }
             }
         }

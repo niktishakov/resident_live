@@ -11,4 +11,9 @@ class LanguageRepository implements ILanguageRepository {
   Future<void> changeLanguage(String locale) {
     return _languageStorage.saveLocale(locale);
   }
+
+  @override
+  Future<void> clearAllData() {
+    return _languageStorage.clearAll();
+  }
 }

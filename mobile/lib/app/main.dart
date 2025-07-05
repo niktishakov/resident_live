@@ -16,7 +16,7 @@ void main() {
   };
   SentryFlutter.init(
     (options) {
-      options.debug = kDebugMode;
+      options.debug = false;
       options.dsn = EnvHandler.sentryDSN;
       options.sendDefaultPii = true;
       options.experimental.replay.sessionSampleRate = 1.0;

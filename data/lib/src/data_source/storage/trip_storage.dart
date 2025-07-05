@@ -27,4 +27,9 @@ class TripStorage {
   Future<void> deleteTrip(String id) {
     return _storage.delete(id);
   }
+
+  // Clear all trip data
+  Future<void> clearAll() async {
+    await _storage.clear();
+  }
 }

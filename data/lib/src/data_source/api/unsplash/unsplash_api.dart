@@ -4,6 +4,7 @@ import "package:injectable/injectable.dart";
 
 abstract class UnsplashApi {
   Future<PhotoResponse> getPhotoByQuery(String query);
+  Future<PhotoResult> getRandomPhoto({String? query});
 }
 
 @Injectable(as: UnsplashApi)
@@ -15,5 +16,16 @@ class UnsplashApiImpl implements UnsplashApi {
   Future<PhotoResponse> getPhotoByQuery(String query) async {
     final response = await dio.get("/search/photos", queryParameters: {"query": query});
     return PhotoResponse.fromJson(response.data);
+  }
+
+  @override
+  Future<PhotoResult> getRandomPhoto({String? query}) async {
+    final queryParams = <String, dynamic>{};
+    if (query != null) {
+      queryParams["query"] = query;
+    }
+
+    final response = await dio.get("/photos/random", queryParameters: queryParams);
+    return PhotoResult.fromJson(response.data);
   }
 }

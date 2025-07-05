@@ -6,11 +6,13 @@ class TravelRoute {
     required this.toCountryCode,
     required this.travelDate,
     required this.duration,
+    required this.isFuture,
   });
   final String fromCountryCode;
   final String toCountryCode;
   final DateTime travelDate;
   final int duration;
+  final bool isFuture;
 
   Map<String, dynamic> toMap() {
     return {
@@ -18,6 +20,7 @@ class TravelRoute {
       "toCountryCode": toCountryCode,
       "travelDate": travelDate.millisecondsSinceEpoch,
       "duration": duration,
+      "isFuture": isFuture,
     };
   }
 }
@@ -34,6 +37,7 @@ class TravelGraph {
 
     final routes = <TravelRoute>[];
     final countries = <String>{};
+    final now = DateTime.now();
 
     // Сортируем периоды по дате начала
     final sortedPeriods = [...stayPeriods]..sort((a, b) => a.startDate.compareTo(b.startDate));
@@ -53,6 +57,7 @@ class TravelGraph {
             toCountryCode: next.countryCode,
             travelDate: next.startDate,
             duration: next.days,
+            isFuture: next.startDate.isAfter(now),
           ),
         );
       }

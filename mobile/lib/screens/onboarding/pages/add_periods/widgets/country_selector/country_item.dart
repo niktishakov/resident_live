@@ -36,7 +36,7 @@ class CountryItem extends StatelessWidget {
           ),
         ),
         child: Text(
-          country.name ?? "",
+          country.toCountryStringOnly(),
           style: theme.body14.copyWith(
             color: isSelected
                 ? context.theme.scaffoldBackgroundColor

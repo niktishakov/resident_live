@@ -6,19 +6,13 @@ import "package:injectable/injectable.dart";
 
 @Injectable(as: IUserRepository)
 class UserRepository implements IUserRepository {
-  UserRepository(
-    this._storage,
-    this._deviceInfoService,
-  );
+  UserRepository(this._storage, this._deviceInfoService);
   final UserStorage _storage;
   final DeviceInfoService _deviceInfoService;
 
   @override
   Future<UserEntity> createUser() async {
-    final user = UserHiveModel(
-      id: _deviceInfoService.deviceId,
-      createdAt: DateTime.now(),
-    );
+    final user = UserHiveModel(id: _deviceInfoService.deviceId, createdAt: DateTime.now());
 
     final result = await _storage.createUser(user);
     return result.toEntity();
@@ -62,9 +56,7 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<UserEntity> updateStayPeriods(
-    List<StayPeriodValueObject> stayPeriods,
-  ) async {
+  Future<UserEntity> updateStayPeriods(List<StayPeriodValueObject> stayPeriods) async {
     final user = _storage.getUser(_deviceInfoService.deviceId)?.toEntity();
     if (user == null) {
       throw Exception("User not found");
@@ -74,5 +66,10 @@ class UserRepository implements IUserRepository {
     await _storage.updateUser(updatedUser.toModel());
 
     return updatedUser;
+  }
+
+  @override
+  Future<void> clearAllData() {
+    return _storage.clearAll();
   }
 }

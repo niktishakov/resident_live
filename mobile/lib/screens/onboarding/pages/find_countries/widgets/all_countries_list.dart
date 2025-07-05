@@ -17,7 +17,7 @@ class AllCountriesList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           itemBuilder: (context, index) {
             final country = countries[index].localize(context);
-            final countryName = country.name ?? "Unknown";
+            final countryName = country.toCountryStringOnly();
 
             return SizedBox(
               height: 44,

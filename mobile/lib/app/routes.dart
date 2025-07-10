@@ -187,7 +187,10 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       pageBuilder: (context, state) => kRootCupertinoPage(
         MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => getIt<AddTripCubit>()),
+            BlocProvider(
+              create: (context) =>
+                  getIt<AddTripCubit>()..initializeWithTrip(state.extra as TripEntity?),
+            ),
             BlocProvider(create: (context) => getIt<TripsStreamCubit>()),
           ],
           child: const AddTripScreen(),
@@ -205,6 +208,7 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
             providers: [
               BlocProvider(create: (context) => getIt<SaveTripCubit>()),
               BlocProvider(create: (context) => getIt<GetUserCubit>()),
+              BlocProvider(create: (context) => getIt<TripsStreamCubit>()),
             ],
             child: ValidateTripScreen(trip: trip),
           ),
@@ -218,8 +222,12 @@ List<RouteBase> getRoutes(GlobalKey<NavigatorState> shellKey) {
       pageBuilder: (context, state) {
         final trip = state.extra! as TripEntity;
         return kRootCupertinoPage(
-          BlocProvider(
-            create: (context) => getIt<DeleteTripCubit>(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<DeleteTripCubit>()),
+              BlocProvider(create: (context) => getIt<TripsStreamCubit>()),
+              BlocProvider(create: (context) => getIt<GetUserCubit>()),
+            ],
             child: TripDetailsScreen(trip: trip),
           ),
           ScreenNames.tripDetails,

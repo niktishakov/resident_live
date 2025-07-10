@@ -26,9 +26,9 @@ class StayPeriodItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
 
-    final countryName =
-        CountryCode.fromCountryCode(stayPeriod.countryCode).localize(context).name ??
-        stayPeriod.countryCode;
+    final countryName = CountryCode.fromCountryCode(
+      stayPeriod.countryCode,
+    ).localize(context).toCountryStringOnly();
 
     return BlocBuilder<CountryBackgroundCubit, CountryBackgroundState>(
       builder: (context, state) {

@@ -24,17 +24,16 @@ class _CountryItem extends StatelessWidget {
     const valueColor = Color(0xff8E8E8E);
     final theme = context.rlTheme;
     final country = CountryCode.fromCountryCode(countryCode);
-    final countryName = country.name ?? "";
+    final countryName = country.localize(context).toCountryStringOnly();
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(24),
       child: GestureDetector(
-        onTap:
-            isEditing
-                ? () => toggleSelection(countryCode: countryCode, isSelected: !isSelected)
-                : () {
-                  context.pushNamed(ScreenNames.residenceDetails2, extra: countryCode);
-                },
+        onTap: isEditing
+            ? () => toggleSelection(countryCode: countryCode, isSelected: !isSelected)
+            : () {
+                context.pushNamed(ScreenNames.residenceDetails2, extra: countryCode);
+              },
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 1),
           color: Colors.white.withValues(alpha: 0.0001),
@@ -76,9 +75,8 @@ class _CountryItem extends StatelessWidget {
                           child: Center(
                             child: RlCheckbox(
                               value: isSelected,
-                              onToggle:
-                                  (value) =>
-                                      toggleSelection(countryCode: countryCode, isSelected: value),
+                              onToggle: (value) =>
+                                  toggleSelection(countryCode: countryCode, isSelected: value),
                             ),
                           ),
                         ),

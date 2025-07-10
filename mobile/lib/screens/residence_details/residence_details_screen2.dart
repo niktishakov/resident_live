@@ -108,7 +108,7 @@ class _ResidenceDetailsScreen2State extends State<ResidenceDetailsScreen2>
         final suggestionText = statuses.last;
 
         final country = CountryCode.fromCountryCode(widget.countryCode);
-        final countryName = country.name ?? "";
+        final countryName = country.localize(context).toCountryStringOnly();
 
         return RepaintBoundary(
           key: screenKey,

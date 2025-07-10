@@ -86,26 +86,13 @@ class _ProgressBarState extends State<ProgressBar> with SingleTickerProviderStat
                   widthFactor: _animation.value.clamp(0.0, 1.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: (widget.limit.isWarning ? theme.bgWarning : theme.bgAccent),
+                      color: theme.bgAccent,
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
                 );
               },
             ),
-
-            // Warning icon
-            if (widget.limit.isWarning)
-              Positioned(
-                left: 16,
-                top: 0,
-                bottom: 0,
-                child: Icon(
-                  CupertinoIcons.exclamationmark_triangle_fill,
-                  size: 22,
-                  color: theme.iconPrimaryOnColor,
-                ),
-              ),
           ],
         ),
       ),

@@ -94,7 +94,11 @@ class TripStayPeriod extends StatelessWidget {
                     const Spacer(),
                     BouncingButton(
                       onPressed: () async {
-                        final date = await showCupertinoDatePicker(context, fromDate);
+                        final date = await showCupertinoDatePicker(
+                          context,
+                          fromDate,
+                          minimumDate: DateTime.now().subtract(const Duration(days: 1)),
+                        );
                         if (date != null && context.mounted) {
                           final cubit = find<AddTripCubit>(context);
                           var newToDate = toDate;
@@ -121,6 +125,7 @@ class TripStayPeriod extends StatelessWidget {
                     ),
                   ],
                 ),
+
                 context.vBox16,
                 Row(
                   children: [

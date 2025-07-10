@@ -59,8 +59,8 @@ class _TripCardBackgroundState extends State<TripCardBackground> {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Colors.black.withValues(alpha: 0.3),
-                              Colors.black.withValues(alpha: 0.6),
+                              Colors.black.withValues(alpha: 0.2),
+                              Colors.black.withValues(alpha: 0.4),
                             ],
                           ),
                         ),

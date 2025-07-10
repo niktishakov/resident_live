@@ -86,44 +86,44 @@ class CountryDisablerState extends State<CountryDisabler> with WidgetsBindingObs
         final isDisabled = widget.disabledCountries.contains(countryCode);
 
         return CupertinoButton(
-          key: ValueKey(country),
-          padding: EdgeInsets.zero,
-          onPressed: () {
-            widget.toggleCountry(
-              countryCode: countryCode,
-              isDisabled: isDisabled,
-            );
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: countryColors[countryCode]?.withValues(alpha: isDisabled ? 0.5 : 1.0),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (widget.focusedCountryCode == countryCode) ...[
-                  AppAssetImage(
-                    AppAssets.target,
-                    color: context.theme.colorScheme.surface,
-                    height: 20,
-                  ),
-                  const Gap(4),
-                ],
-                Text(
-                  country.name ?? "",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: "Poppins",
-                    color: context.theme.colorScheme.surface,
-                    fontWeight: FontWeight.w500,
-                  ),
+              key: ValueKey(country),
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                widget.toggleCountry(countryCode: countryCode, isDisabled: isDisabled);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: countryColors[countryCode]?.withValues(alpha: isDisabled ? 0.5 : 1.0),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-              ],
-            ),
-          ),
-        ).animate().fadeIn(duration: 300.ms, curve: Curves.easeInOut).scale(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (widget.focusedCountryCode == countryCode) ...[
+                      AppAssetImage(
+                        AppAssets.target,
+                        color: context.theme.colorScheme.surface,
+                        height: 20,
+                      ),
+                      const Gap(4),
+                    ],
+                    Text(
+                      country.localize(context).toCountryStringOnly(),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: "Poppins",
+                        color: context.theme.colorScheme.surface,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+            .animate()
+            .fadeIn(duration: 300.ms, curve: Curves.easeInOut)
+            .scale(
               begin: const Offset(0.8, 0.8),
               end: const Offset(1.0, 1.0),
               duration: 300.ms,

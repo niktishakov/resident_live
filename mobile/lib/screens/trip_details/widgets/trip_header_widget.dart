@@ -15,8 +15,9 @@ class TripHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
-    final countryName =
-        CountryCode.fromCountryCode(trip.countryCode).localize(context).name ?? "Unknown";
+    final countryName = CountryCode.fromCountryCode(
+      trip.countryCode,
+    ).localize(context).toCountryStringOnly();
 
     return Hero(
       tag: "trip-image-${trip.id}",

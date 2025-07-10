@@ -20,7 +20,7 @@ class _ResidenceItem extends StatelessWidget {
           Row(
             children: [
               Text(
-                country.name ?? "",
+                country.localize(context).toCountryStringOnly(),
                 style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500),
               ),
               const Spacer(),

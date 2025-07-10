@@ -25,8 +25,9 @@ class CountryDropdown extends StatelessWidget {
         builder: (context, state) {
           final countryName = state.trip.countryCode.isEmpty
               ? "[Select]"
-              : CountryCode.fromCountryCode(state.trip.countryCode).localize(context).name ??
-                    "[Select]";
+              : CountryCode.fromCountryCode(
+                  state.trip.countryCode,
+                ).localize(context).toCountryStringOnly();
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),

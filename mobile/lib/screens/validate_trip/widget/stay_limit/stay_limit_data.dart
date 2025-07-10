@@ -7,19 +7,21 @@ class StayLimitData {
     required this.maxDays,
     required this.color,
     this.tripDays = 0,
+    this.destinationCountryCode,
   });
-
-  static const int _maxDays = 183; //
 
   final String countryCode;
   final int usedDays;
   final int maxDays;
   final Color color;
   final int tripDays;
+  final String? destinationCountryCode;
 
-  int get futureDays => (usedDays - tripDays).clamp(0, _maxDays);
-  double get currentProgress => maxDays > 0 ? usedDays / _maxDays : 0.0;
-  double get futureProgress => maxDays > 0 ? futureDays / _maxDays : 0.0;
-  bool get isWarning => futureProgress > 0.8;
-  bool get hasTrip => tripDays > 0;
+  int get futureDays => destinationCountryCode != countryCode
+      ? (usedDays - tripDays).clamp(0, usedDays)
+      : usedDays + tripDays;
+  double get currentProgress => maxDays > 0 ? usedDays / maxDays : 0.0;
+  double get futureProgress => maxDays > 0 ? futureDays / maxDays : 0.0;
+  bool get isWarning => usedDays > 183 && futureDays <= 183;
+  bool get hasTrip => tripDays > 0 && destinationCountryCode == countryCode;
 }

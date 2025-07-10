@@ -3,18 +3,16 @@ import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 
 class TripBackgroundImageWidget extends StatelessWidget {
-  const TripBackgroundImageWidget({required this.trip, super.key});
+  const TripBackgroundImageWidget({required this.trip, super.key, this.borderRadius = 24});
 
   final TripEntity trip;
+  final double borderRadius;
 
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
       child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(24),
-          bottomRight: Radius.circular(24),
-        ),
+        borderRadius: BorderRadius.circular(borderRadius),
         child: CachedNetworkImage(
           imageUrl: trip.backgroundUrl ?? "",
           width: double.infinity,

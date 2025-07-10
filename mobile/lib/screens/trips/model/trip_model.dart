@@ -10,7 +10,18 @@ class TripModel with _$TripModel {
     required DateTime fromDate,
     required DateTime toDate,
     String? backgroundUrl,
+    String? id,
   }) = _TripModel;
+
+  factory TripModel.fromEntity(TripEntity entity) {
+    return TripModel(
+      countryCode: entity.countryCode,
+      fromDate: entity.fromDate,
+      toDate: entity.toDate,
+      backgroundUrl: entity.backgroundUrl,
+      id: entity.id,
+    );
+  }
 }
 
 extension TripModelMapper on TripModel {
@@ -19,7 +30,7 @@ extension TripModelMapper on TripModel {
     fromDate: fromDate,
     toDate: toDate,
     backgroundUrl: backgroundUrl,
-    id: countryCode + DateTime.now().millisecondsSinceEpoch.toString(),
+    id: id ?? (countryCode + DateTime.now().millisecondsSinceEpoch.toString()),
   );
 
   int get days {

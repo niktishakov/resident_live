@@ -63,7 +63,7 @@ class __ContentState extends State<_Content> {
         ? allCountries
         : allCountries.where((country) {
             final countryCode = CountryCode.fromCountryCode(country["code"] ?? "");
-            final name = countryCode.localize(context).name ?? "";
+            final name = countryCode.localize(context).toCountryStringOnly();
             return name.toLowerCase().contains(searchQuery.toLowerCase());
           }).toList();
 
@@ -124,7 +124,7 @@ class __ContentState extends State<_Content> {
                             final country = CountryCode.fromCountryCode(
                               filteredCountries[index]["code"] ?? "",
                             );
-                            final name = country.localize(context).name ?? "";
+                            final name = country.localize(context).toCountryStringOnly();
                             return BouncingButton(
                               onPressed: () {
                                 // Convert Map to CountryCode and close modal

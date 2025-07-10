@@ -11,8 +11,9 @@ class StayLimitHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
-    final countryName =
-        CountryCode.fromCountryCode(limit.countryCode).localize(context).name ?? limit.countryCode;
+    final countryName = CountryCode.fromCountryCode(
+      limit.countryCode,
+    ).localize(context).toCountryStringOnly();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

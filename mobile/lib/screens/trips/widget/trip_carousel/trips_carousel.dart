@@ -23,6 +23,68 @@ class TripsCarousel extends StatefulWidget {
 
 class _TripsCarouselState extends State<TripsCarousel> {
   TripFilter selectedFilter = TripFilter.all;
+  final ScrollController _scrollController = ScrollController();
+  String? _lastScrollToTripId;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _checkScrollParameter();
+  }
+
+  void _checkScrollParameter() {
+    final uri = GoRouterState.of(context).uri;
+    final scrollToTripId = uri.queryParameters['scrollTo'];
+
+    // Only process if it's a new scroll target
+    if (scrollToTripId != null && scrollToTripId != _lastScrollToTripId) {
+      _lastScrollToTripId = scrollToTripId;
+
+      // Switch to ALL tab to make sure we can find the trip
+      setState(() {
+        selectedFilter = TripFilter.all;
+      });
+
+      // Scroll to the trip after a short delay
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _scrollToTripById(scrollToTripId);
+      });
+    }
+  }
+
+  void _scrollToTripById(String tripId) {
+    final tripsState = context.read<TripsStreamCubit>().state;
+    final allTrips = _filterTrips(tripsState); // Get filtered trips for ALL tab
+    final tripIndex = allTrips.indexWhere((trip) => trip.id == tripId);
+
+    print("🎯 Looking for trip ID: $tripId");
+    print("🎯 Found at index: $tripIndex");
+    print("🎯 Total trips: ${allTrips.length}");
+
+    if (tripIndex != -1) {
+      // Calculate card width and spacing
+      final cardWidth = context.mediaQuery.size.width * 0.9;
+      final spacing = 12.0;
+
+      // Calculate target offset
+      final targetOffset = (cardWidth + spacing) * tripIndex;
+
+      print("🎯 Scrolling to offset: $targetOffset");
+
+      // Animate to target position
+      _scrollController.animateTo(
+        targetOffset,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +119,7 @@ class _TripsCarouselState extends State<TripsCarousel> {
                             ),
                           )
                         : ListView.separated(
+                            controller: _scrollController,
                             scrollDirection: Axis.horizontal,
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             itemCount: filteredTrips.length,
@@ -106,7 +169,48 @@ class _TripsCarouselState extends State<TripsCarousel> {
 
     switch (selectedFilter) {
       case TripFilter.all:
-        return trips;
+        // Sort trips by time: closest first, furthest last
+        return trips.toList()..sort((a, b) {
+          final aFromDate = DateTime(a.fromDate.year, a.fromDate.month, a.fromDate.day);
+          final aToDate = DateTime(a.toDate.year, a.toDate.month, a.toDate.day);
+          final bFromDate = DateTime(b.fromDate.year, b.fromDate.month, b.fromDate.day);
+          final bToDate = DateTime(b.toDate.year, b.toDate.month, b.toDate.day);
+
+          // Check if trips are current
+          final aIsCurrent =
+              today.isAtSameMomentAs(aFromDate) ||
+              today.isAtSameMomentAs(aToDate) ||
+              (today.isAfter(aFromDate) && today.isBefore(aToDate));
+          final bIsCurrent =
+              today.isAtSameMomentAs(bFromDate) ||
+              today.isAtSameMomentAs(bToDate) ||
+              (today.isAfter(bFromDate) && today.isBefore(bToDate));
+
+          // Current trips go first
+          if (aIsCurrent && !bIsCurrent) return -1;
+          if (!aIsCurrent && bIsCurrent) return 1;
+
+          // If both are current, sort by start date (earliest first)
+          if (aIsCurrent && bIsCurrent) {
+            return aFromDate.compareTo(bFromDate);
+          }
+
+          // Check if trips are upcoming
+          final aIsUpcoming = today.isBefore(aFromDate);
+          final bIsUpcoming = today.isBefore(bFromDate);
+
+          // Upcoming trips go after current but before completed
+          if (aIsUpcoming && !bIsUpcoming) return -1;
+          if (!aIsUpcoming && bIsUpcoming) return 1;
+
+          // If both are upcoming, sort by start date (earliest first)
+          if (aIsUpcoming && bIsUpcoming) {
+            return aFromDate.compareTo(bFromDate);
+          }
+
+          // Both are completed - sort by end date (most recent first)
+          return bToDate.compareTo(aToDate);
+        });
       case TripFilter.current:
         return trips.where((trip) {
           final fromDate = DateTime(trip.fromDate.year, trip.fromDate.month, trip.fromDate.day);
@@ -119,12 +223,20 @@ class _TripsCarouselState extends State<TripsCarousel> {
         return trips.where((trip) {
           final fromDate = DateTime(trip.fromDate.year, trip.fromDate.month, trip.fromDate.day);
           return today.isBefore(fromDate);
-        }).toList();
+        }).toList()..sort((a, b) {
+          final aFromDate = DateTime(a.fromDate.year, a.fromDate.month, a.fromDate.day);
+          final bFromDate = DateTime(b.fromDate.year, b.fromDate.month, b.fromDate.day);
+          return aFromDate.compareTo(bFromDate);
+        });
       case TripFilter.completed:
         return trips.where((trip) {
           final toDate = DateTime(trip.toDate.year, trip.toDate.month, trip.toDate.day);
           return today.isAfter(toDate);
-        }).toList();
+        }).toList()..sort((a, b) {
+          final aToDate = DateTime(a.toDate.year, a.toDate.month, a.toDate.day);
+          final bToDate = DateTime(b.toDate.year, b.toDate.month, b.toDate.day);
+          return bToDate.compareTo(aToDate);
+        });
     }
   }
 

@@ -34,7 +34,7 @@ class TripContent extends StatelessWidget {
                     style: theme.body18.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
-                const Gap(60),
+                const Gap(90),
               ],
             ),
             Row(

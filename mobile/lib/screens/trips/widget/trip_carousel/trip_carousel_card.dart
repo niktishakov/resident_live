@@ -87,9 +87,9 @@ class TripCarouselCard extends StatelessWidget {
                   TripBackgroundImage(trip: trip),
                   const TripDarkOverlay(),
                   TripContent(countryName: countryName, trip: trip),
-                  const TripLocationPin(),
+                  // const Positioned(right: 20, top: 20, child: TripLocationPin()),
                   // Status badge
-                  Positioned(top: 16, right: 16, child: TripStatusBadge(trip: trip)),
+                  Positioned(bottom: 16, right: 16, child: TripStatusBadge(trip: trip)),
                 ],
               ),
             ),

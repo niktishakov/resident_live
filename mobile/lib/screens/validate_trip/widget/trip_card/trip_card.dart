@@ -16,7 +16,7 @@ class TripCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
     final countryName = trip.countryCode.isNotEmpty
-        ? (CountryCode.fromCountryCode(trip.countryCode).localize(context).name ?? "Unknown")
+        ? (CountryCode.fromCountryCode(trip.countryCode).localize(context).toCountryStringOnly())
         : "Unknown Country";
 
     return Container(

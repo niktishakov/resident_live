@@ -19,20 +19,34 @@ class AddTripScreen extends StatelessWidget {
     final theme = context.rlTheme;
 
     final trips = context.watch<TripsStreamCubit>().state.length;
-    final title = trips > 0 ? "Add a New Trip" : "Add Your First Trip";
+    final isEditMode = context.watch<AddTripCubit>().state.isEditMode;
+
+    final previousPageTitle = isEditMode ? "Back" : "Trips";
+    final title = isEditMode
+        ? "Edit Trip"
+        : trips > 0
+        ? "Add a New Trip"
+        : "Add Your First Trip";
 
     return Material(
       child: Scaffold(
         backgroundColor: theme.bgPrimary,
         body: BlocListener<AddTripCubit, AddTripState>(
           listener: (context, state) {
-            // Показываем ошибки валидации
-            if (state.validationError.isNotEmpty) {
+            // Show only success messages in toast, errors will be shown in UI
+            if (state.isSuccess) {
               ToastService.instance.showToast(
                 context,
-                message: state.validationError,
-                status: ToastStatus.failure,
+                message: isEditMode ? "Trip updated successfully" : "Trip saved successfully",
+                status: ToastStatus.success,
               );
+
+              // Handle navigation after successful save
+              if (state.isEditMode) {
+                // For edit mode, replace current route with trip details with updated data
+                context.pop(); // Pop edit screen
+                context.pushReplacementNamed(ScreenNames.tripDetails, extra: state.trip.toEntity());
+              }
             }
           },
           child: Stack(
@@ -43,7 +57,7 @@ class AddTripScreen extends StatelessWidget {
                     backgroundColor: theme.bgPrimary,
                     padding: EdgeInsetsDirectional.zero,
                     leading: CupertinoNavigationBarBackButton(
-                      previousPageTitle: "Trips",
+                      previousPageTitle: previousPageTitle,
                       color: theme.textAccent,
                       onPressed: () {
                         context.pop();
@@ -71,7 +85,7 @@ class AddTripScreen extends StatelessWidget {
                   SliverToBoxAdapter(child: context.vBox32),
                   const SliverToBoxAdapter(child: Column(children: [TripStayPeriod()])),
                   SliverToBoxAdapter(child: context.vBox32),
-                  // Показываем ошибку валидации под кнопкой
+                  // Show validation error in UI
                   SliverToBoxAdapter(
                     child: BlocBuilder<AddTripCubit, AddTripState>(
                       builder: (context, state) {
@@ -93,6 +107,8 @@ class AddTripScreen extends StatelessWidget {
               BlocBuilder<AddTripCubit, AddTripState>(
                 builder: (context, state) {
                   final isValid = state.trip.isValid;
+                  final isLoading = state.isLoading;
+
                   return SafeArea(
                     child: Align(
                       alignment: Alignment.bottomCenter,
@@ -100,21 +116,25 @@ class AddTripScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
                         child: PrimaryButton(
                           padding: const EdgeInsets.symmetric(vertical: 12),
-                          label: "Evaluate Risks",
+                          label: isEditMode ? "Save Changes" : "Evaluate Risks",
                           fontSize: 16,
-                          enabled: isValid,
+                          enabled: isValid && !isLoading,
                           expanded: true,
-                          onPressed: isValid
+                          onPressed: isValid && !isLoading
                               ? () {
                                   final cubit = find<AddTripCubit>(context);
-                                  if (cubit.canProceedToValidation()) {
-                                    context.pushNamed(
-                                      ScreenNames.validateTrip,
-                                      extra: cubit.state.trip,
-                                    );
+                                  if (isEditMode) {
+                                    cubit.saveTrip(cubit.state.trip);
+                                  } else {
+                                    if (cubit.canProceedToValidation()) {
+                                      context.pushNamed(
+                                        ScreenNames.validateTrip,
+                                        extra: cubit.state.trip,
+                                      );
+                                    }
                                   }
                                 }
-                              : null, // Блокируем кнопку если данные невалидны
+                              : null,
                         ),
                       ),
                     ),

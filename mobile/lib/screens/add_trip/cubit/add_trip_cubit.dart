@@ -14,6 +14,7 @@ class AddTripState with _$AddTripState {
     @Default(false) bool isSuccess,
     @Default("") String error,
     @Default("") String validationError,
+    @Default(false) bool isEditMode, // Add edit mode flag
   }) = _AddTripState;
 }
 
@@ -32,6 +33,12 @@ class AddTripCubit extends Cubit<AddTripState> {
       );
   final TripRepository _tripRepository;
 
+  void initializeWithTrip(TripEntity? existingTrip) {
+    if (existingTrip != null) {
+      emit(state.copyWith(trip: TripModel.fromEntity(existingTrip), isEditMode: true));
+    }
+  }
+
   Future<void> updateTripModel(TripModel trip) async {
     emit(state.copyWith(trip: trip, validationError: trip.validationError ?? ""));
   }
@@ -44,7 +51,7 @@ class AddTripCubit extends Cubit<AddTripState> {
     return isValid;
   }
 
-  Future<void> addTrip(TripModel trip) async {
+  Future<void> saveTrip(TripModel trip) async {
     if (!trip.isValid) {
       emit(state.copyWith(validationError: trip.validationError ?? "Invalid trip data"));
       return;
@@ -52,12 +59,18 @@ class AddTripCubit extends Cubit<AddTripState> {
 
     emit(state.copyWith(isLoading: true, validationError: "", error: ""));
 
-    final result = await _tripRepository.addTrip(trip.toEntity());
+    final result = state.isEditMode
+        ? await _tripRepository.updateTrip(trip.toEntity())
+        : await _tripRepository.addTrip(trip.toEntity());
+
     result.when(
-      success: (trip) => emit(state.copyWith(isLoading: false, isSuccess: true, error: "")),
-      failure: (error) => emit(state.copyWith(isLoading: false, error: error, isSuccess: false)),
+      success: (trip) => emit(state.copyWith(isSuccess: true, isLoading: false)),
+      failure: (error) => emit(state.copyWith(error: error, isSuccess: false, isLoading: false)),
     );
   }
+
+  // Keep the old method for backward compatibility
+  Future<void> addTrip(TripModel trip) async => saveTrip(trip);
 
   void clearErrors() {
     emit(state.copyWith(validationError: "", error: ""));

@@ -1,6 +1,5 @@
 import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:resident_live/screens/trip_details/widgets/action_button_widget.dart";
@@ -15,8 +14,6 @@ class TripActionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.rlTheme;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,10 +45,6 @@ class TripActionsWidget extends StatelessWidget {
 
   void _editTrip(BuildContext context) {
     context.pushNamed(ScreenNames.addTrip, extra: trip);
-  }
-
-  void _showOnMap(BuildContext context) {
-    context.pushNamed(ScreenNames.map, extra: trip);
   }
 
   void _deleteTrip(BuildContext context) {

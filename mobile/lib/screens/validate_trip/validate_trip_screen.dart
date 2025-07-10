@@ -2,6 +2,7 @@ import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/map/cubit/country_bg_cubit.dart";
@@ -63,7 +64,7 @@ class ValidateTripScreen extends StatelessWidget {
                             TripCard(trip: trip),
                             context.vBox24,
                             StayLimitsAnalysis(trip: trip),
-                            context.vBox32,
+                            Gap(150),
                           ],
                         ),
                       ),
@@ -97,7 +98,7 @@ class ValidateTripScreen extends StatelessWidget {
     );
     Future.delayed(const Duration(milliseconds: 500), () {
       if (context.mounted) {
-        context.go(ScreenNames.trips);
+        context.go("${ScreenNames.trips}?scrollTo=${trip.toEntity().id}");
       }
     });
   }

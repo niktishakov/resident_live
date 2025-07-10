@@ -239,7 +239,7 @@ class ActivityTimelineState extends State<ActivityTimeline> {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  country.name ?? "",
+                  country.localize(context).toCountryStringOnly(),
                   maxLines: 1,
                   style: TextStyle(color: context.theme.scaffoldBackgroundColor),
                 ),

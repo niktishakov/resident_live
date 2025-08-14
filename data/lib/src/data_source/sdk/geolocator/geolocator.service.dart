@@ -1,5 +1,5 @@
-import 'package:geolocator/geolocator.dart';
-import 'package:injectable/injectable.dart';
+import "package:geolocator/geolocator.dart";
+import "package:injectable/injectable.dart";
 
 @injectable
 class GeolocationService {
@@ -21,9 +21,7 @@ class GeolocationService {
       }
 
       final position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.high,
-        ),
+        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
       );
 
       return position;

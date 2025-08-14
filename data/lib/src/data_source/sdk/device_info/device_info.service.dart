@@ -2,16 +2,13 @@ import "dart:async";
 import "dart:io" show Platform;
 
 import "package:device_info_plus/device_info_plus.dart";
-import "package:package_info_plus/package_info_plus.dart";
 import "package:injectable/injectable.dart";
+import "package:package_info_plus/package_info_plus.dart";
 
 @singleton
 class DeviceInfoService {
-  DeviceInfoService._(
-    this.iosInfo,
-    this.androidInfo,
-    this.packageInfo,
-  ) : assert((iosInfo != null && androidInfo == null) || (iosInfo == null && androidInfo != null));
+  DeviceInfoService._(this.iosInfo, this.androidInfo, this.packageInfo)
+    : assert((iosInfo != null && androidInfo == null) || (iosInfo == null && androidInfo != null));
 
   final IosDeviceInfo? iosInfo;
   final AndroidDeviceInfo? androidInfo;
@@ -45,11 +42,11 @@ class DeviceInfoService {
   }
 
   String get deviceId {
-    String? id = Platform.isIOS
+    final id = Platform.isIOS
         ? iosInfo?.identifierForVendor
         : Platform.isAndroid
-            ? androidInfo?.id
-            : null;
+        ? androidInfo?.id
+        : null;
 
     return id ?? "user_${DateTime.now().toString()}";
   }

@@ -1,9 +1,9 @@
-import "package:flutter/cupertino.dart";
+import "dart:math" as math;
+
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:resident_live/screens/validate_trip/widget/stay_limit/stay_limit_data.dart";
 import "package:resident_live/shared/shared.dart";
-import "dart:math" as math;
 
 class ProgressBar extends StatefulWidget {
   const ProgressBar({required this.limit, super.key});

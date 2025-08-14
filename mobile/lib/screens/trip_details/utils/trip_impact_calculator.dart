@@ -112,10 +112,10 @@ class TripImpactCalculator {
     String countryCode,
   ) {
     // Start with current user days in country
-    int totalDays = user.daysSpentIn(countryCode);
+    var totalDays = user.daysSpentIn(countryCode);
 
     // Add days from all trips BEFORE target trip
-    for (int i = 0; i < targetTripIndex; i++) {
+    for (var i = 0; i < targetTripIndex; i++) {
       final trip = sortedTrips[i];
       if (trip.countryCode == countryCode) {
         totalDays += trip.days;
@@ -132,7 +132,7 @@ class TripImpactCalculator {
     String countryCode,
   ) {
     // Start with days up to target trip
-    int totalDays = _calculateDaysUpToTrip(user, sortedTrips, targetTripIndex, countryCode);
+    var totalDays = _calculateDaysUpToTrip(user, sortedTrips, targetTripIndex, countryCode);
 
     // Add days from target trip
     final targetTrip = sortedTrips[targetTripIndex];

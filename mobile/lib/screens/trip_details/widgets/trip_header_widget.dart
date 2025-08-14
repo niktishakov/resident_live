@@ -56,7 +56,7 @@ class TripHeaderWidget extends StatelessWidget {
               Positioned(
                 top: MediaQuery.of(context).padding.top + 8,
                 left: 16,
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.5),
                     shape: BoxShape.circle,

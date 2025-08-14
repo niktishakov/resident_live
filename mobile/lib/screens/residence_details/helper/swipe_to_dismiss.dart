@@ -1,6 +1,6 @@
 part of "../residence_details_screen.dart";
 
-final double _dragThreshold = 200.0;
+const double _dragThreshold = 200.0;
 
 class _SwipeToDismiss extends StatefulWidget {
   const _SwipeToDismiss({

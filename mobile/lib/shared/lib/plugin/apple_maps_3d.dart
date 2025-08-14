@@ -53,7 +53,6 @@ class AppleGlobeViewState extends State<AppleGlobeView> {
           debugPrint("[TouchDebug] Country selected: ${call.arguments}");
           onCountrySelected!(call.arguments as String);
         }
-        break;
     }
   }
 

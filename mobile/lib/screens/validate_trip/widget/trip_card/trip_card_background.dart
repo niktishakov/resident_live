@@ -32,6 +32,7 @@ class _TripCardBackgroundState extends State<TripCardBackground> {
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
+      // ignore: sized_box_shrink_expand
       child: SizedBox(
         width: double.infinity,
         height: double.infinity,

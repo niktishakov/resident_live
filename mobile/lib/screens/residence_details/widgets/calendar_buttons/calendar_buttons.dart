@@ -1,5 +1,6 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter_animate/flutter_animate.dart";
+// ignore: library_prefixes
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart" as CupertinoScaffold;
 import "package:resident_live/screens/residence_details/widgets/calendar_buttons/today_button.dart";
 import "package:resident_live/screens/residence_details/widgets/calendar_buttons/update_button.dart";

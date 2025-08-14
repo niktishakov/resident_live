@@ -113,7 +113,7 @@ class AiSliverHeader extends StatelessWidget {
   bool _shouldShowBackButton(BuildContext context) {
     final currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
 
-    const mainScreens = ['/home-screen', '/trips-screen', '/settings-screen', '/splash-screen'];
+    const mainScreens = ["/home-screen", "/trips-screen", "/settings-screen", "/splash-screen"];
 
     return !mainScreens.contains(currentRoute) && GoRouter.of(context).canPop();
   }

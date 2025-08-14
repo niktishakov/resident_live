@@ -531,7 +531,7 @@ class _SliderPainter extends CustomPainter {
 
     // Теперь временная шкала занимает всю ширину виджета
     final timelineWidth = size.width;
-    final timelineStartX = 0.0;
+    const timelineStartX = 0.0;
 
     // Draw background track на всю ширину
     paint.color = const Color(0xff50B5FF);
@@ -627,7 +627,7 @@ class _SliderPainter extends CustomPainter {
       canvas.save();
 
       final scaledWidth = handleWidth / scale;
-      final scaledHeight = handleHeight;
+      const scaledHeight = handleHeight;
 
       // Capsule-shaped handle with fully rounded corners
       final handleRect = RRect.fromLTRBR(

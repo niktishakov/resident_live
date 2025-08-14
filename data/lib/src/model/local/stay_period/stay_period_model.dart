@@ -1,9 +1,14 @@
-import 'package:hive/hive.dart';
+import "package:hive/hive.dart";
 
-part 'stay_period_model.g.dart';
+part "stay_period_model.g.dart";
 
 @HiveType(typeId: 2)
 class StayPeriodHiveValueObject extends HiveObject {
+  StayPeriodHiveValueObject({
+    required this.startDate,
+    required this.endDate,
+    required this.countryCode,
+  });
   @HiveField(0)
   DateTime startDate;
 
@@ -12,10 +17,4 @@ class StayPeriodHiveValueObject extends HiveObject {
 
   @HiveField(2)
   String countryCode;
-
-  StayPeriodHiveValueObject({
-    required this.startDate,
-    required this.endDate,
-    required this.countryCode,
-  });
 }

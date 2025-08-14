@@ -7,9 +7,9 @@ class PhotoEntity with _$PhotoEntity {
   const factory PhotoEntity({
     required String id,
     required String description,
-    String? altDescription,
     required PhotoUrlsEntity urls,
     required PhotoUserEntity user,
+    String? altDescription,
   }) = _PhotoEntity;
 }
 

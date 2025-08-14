@@ -82,7 +82,7 @@ class TripHeaderSliverDelegate extends SliverPersistentHeaderDelegate {
               Positioned(
                 top: statusBarHeight + 8,
                 left: 16,
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.5),
                     shape: BoxShape.circle,

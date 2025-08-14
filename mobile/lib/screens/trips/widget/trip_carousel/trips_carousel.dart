@@ -64,7 +64,7 @@ class _TripsCarouselState extends State<TripsCarousel> {
     if (tripIndex != -1) {
       // Calculate card width and spacing
       final cardWidth = context.mediaQuery.size.width * 0.9;
-      final spacing = 12.0;
+      const spacing = 12.0;
 
       // Calculate target offset
       final targetOffset = (cardWidth + spacing) * tripIndex;

@@ -1,7 +1,7 @@
-import 'package:domain/domain.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:injectable/injectable.dart';
-import 'package:permission_handler/permission_handler.dart';
+import "package:domain/domain.dart";
+import "package:geolocator/geolocator.dart";
+import "package:injectable/injectable.dart";
+import "package:permission_handler/permission_handler.dart";
 
 @Injectable(as: ICoordinatesRepository)
 class CoordinatesRepository implements ICoordinatesRepository {

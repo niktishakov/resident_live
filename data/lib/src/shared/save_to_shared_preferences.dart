@@ -9,7 +9,7 @@ Future<void> savePositionToPrefs(Position position) async {
   final prefs = SharedPreferencesAsync();
   const key = "background_positions";
 
-  final List<String> currentList = await prefs.getStringList(key) ?? [];
+  final currentList = await prefs.getStringList(key) ?? [];
 
   final newEntry = jsonEncode({
     "latitude": position.latitude,

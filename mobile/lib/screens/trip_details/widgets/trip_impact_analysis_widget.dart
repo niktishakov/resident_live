@@ -103,8 +103,6 @@ class TripImpactAnalysisWidget extends StatelessWidget {
     // Convert to impact data
     final impactData = _createImpactData(currentLimits, futureLimits, trip.countryCode);
 
-    print("Impact data: ${impactData.length}");
-
     if (impactData.isEmpty) {
       // Show debug info if no data
       return Column(
@@ -141,7 +139,7 @@ class TripImpactAnalysisWidget extends StatelessWidget {
               context,
               data,
               theme,
-            ).animate().fadeIn(duration: 300.ms, delay: (100.ms * index)),
+            ).animate().fadeIn(duration: 300.ms, delay: 100.ms * index),
           )
           .toList(),
     );
@@ -272,7 +270,7 @@ class TripImpactAnalysisWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Spacer(),
+              const Spacer(),
               if (data.statusWillChange)
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),

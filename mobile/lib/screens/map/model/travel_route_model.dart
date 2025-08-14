@@ -42,7 +42,7 @@ class TravelGraph {
     // Сортируем периоды по дате начала
     final sortedPeriods = [...stayPeriods]..sort((a, b) => a.startDate.compareTo(b.startDate));
 
-    for (int i = 0; i < sortedPeriods.length - 1; i++) {
+    for (var i = 0; i < sortedPeriods.length - 1; i++) {
       final current = sortedPeriods[i];
       final next = sortedPeriods[i + 1];
 

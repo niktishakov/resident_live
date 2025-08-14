@@ -1,7 +1,7 @@
+import "package:country_code_picker/country_code_picker.dart";
 import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:country_code_picker/country_code_picker.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/screens/trips/cubit/trips_stream_cubit.dart";
 import "package:resident_live/screens/trips/model/trip_model.dart";

@@ -64,7 +64,7 @@ class ValidateTripScreen extends StatelessWidget {
                             TripCard(trip: trip),
                             context.vBox24,
                             StayLimitsAnalysis(trip: trip),
-                            Gap(150),
+                            const Gap(150),
                           ],
                         ),
                       ),

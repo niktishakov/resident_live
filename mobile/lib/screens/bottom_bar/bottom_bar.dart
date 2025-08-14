@@ -1,5 +1,4 @@
 import "dart:math";
-import "dart:ui";
 
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
@@ -96,7 +95,7 @@ class AiBottomBar extends StatelessWidget {
 
   Widget _buildTabItem(BuildContext context, AiBottomBarItem item) {
     // Подсвечиваем таб, если путь начинается с item.path
-    final isSelected = currentPath == item.path || currentPath.startsWith('${item.path}/');
+    final isSelected = currentPath == item.path || currentPath.startsWith("${item.path}/");
     const iconSize = 30.0;
 
     return LayoutBuilder(

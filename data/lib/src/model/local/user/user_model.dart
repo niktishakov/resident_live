@@ -5,6 +5,13 @@ part "user_model.g.dart";
 
 @HiveType(typeId: 0)
 class UserHiveModel extends HiveObject {
+  UserHiveModel({
+    required this.id,
+    required this.createdAt,
+    this.stayPeriods = const [],
+    this.isBiometricsEnabled = false,
+    this.focusedCountryCode = "",
+  });
   @HiveField(0)
   String id;
 
@@ -19,12 +26,4 @@ class UserHiveModel extends HiveObject {
 
   @HiveField(4)
   String focusedCountryCode;
-
-  UserHiveModel({
-    required this.id,
-    required this.createdAt,
-    this.stayPeriods = const [],
-    this.isBiometricsEnabled = false,
-    this.focusedCountryCode = "",
-  });
 }

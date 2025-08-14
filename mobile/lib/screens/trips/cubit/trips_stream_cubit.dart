@@ -7,11 +7,7 @@ import "package:injectable/injectable.dart";
 @injectable
 class TripsStreamCubit extends Cubit<List<TripEntity>> {
   TripsStreamCubit(this._tripRepository) : super([]) {
-    print("🎯 TripsStreamCubit init");
-    _subscription = _tripRepository.getTripsStream().listen((trips) {
-      print("📡 TripsStreamCubit received ${trips.length} trips");
-      emit(trips);
-    });
+    _subscription = _tripRepository.getTripsStream().listen(emit);
   }
 
   final TripRepository _tripRepository;
@@ -19,7 +15,6 @@ class TripsStreamCubit extends Cubit<List<TripEntity>> {
 
   @override
   Future<void> close() {
-    print("🔚 TripsStreamCubit closing");
     _subscription?.cancel();
     return super.close();
   }

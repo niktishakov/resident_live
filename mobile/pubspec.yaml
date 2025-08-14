@@ -9,7 +9,7 @@ environment:
 
 scripts: 
   gen: dart run build_runner watch
-  run: flutter run -t lib/app/main.dart
+  run: flutter run -t lib/app/main.dart --dart-define-from-file=.env
   run-release: flutter run -t lib/app/main.dart --release
   deploy: cd ios && fastlane beta
   clean: |

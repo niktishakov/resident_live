@@ -11,7 +11,6 @@ import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
-import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/residence_details/cubit/clear_focus_cubit.dart";
 import "package:resident_live/screens/residence_details/cubit/focus_country_cubit.dart";
 import "package:resident_live/screens/residence_details/widgets/read_rules_button/read_rules_modal.dart";

@@ -7,7 +7,6 @@ import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 
-import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/app/injection.dart";
 import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/screens/home/cubit/focus_on_country_cubit.dart";

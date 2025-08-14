@@ -18,16 +18,13 @@ class _SwipeToDismiss extends StatefulWidget {
 }
 
 class _SwipeToDismissState extends State<_SwipeToDismiss> {
-  bool _isDragging = false;
   bool _isDraggingFromTop = false;
   double _initialDragY = 0.0;
-  double _lastScrollVelocity = 0.0;
 
   @override
   Widget build(BuildContext context) {
     final animationController = widget.animationController;
     final child = widget.child;
-    final onDismiss = widget.onDismiss;
 
     return GestureDetector(
       onPanCancel: () {
@@ -58,8 +55,6 @@ class _SwipeToDismissState extends State<_SwipeToDismiss> {
               notification.metrics.pixels <= 0 &&
               notification.dragDetails != null &&
               notification.dragDetails!.delta.dy > 0) {
-            _isDragging = true;
-
             if (!_isDraggingFromTop) {
               _isDraggingFromTop = true;
               _initialDragY = notification.dragDetails!.globalPosition.dy;
@@ -69,10 +64,6 @@ class _SwipeToDismissState extends State<_SwipeToDismiss> {
             if (_isDraggingFromTop) {
               final currentDrag = notification.dragDetails!.globalPosition.dy;
               final dragDelta = currentDrag - _initialDragY;
-
-              if (notification.dragDetails!.primaryDelta != null) {
-                _lastScrollVelocity = notification.dragDetails!.primaryDelta!;
-              }
 
               animationController.value = (dragDelta / _dragThreshold).clamp(0.0, 1.0);
 
@@ -86,9 +77,7 @@ class _SwipeToDismissState extends State<_SwipeToDismiss> {
               return true;
             }
           } else if (notification is ScrollEndNotification) {
-            setState(() {
-              _isDragging = false;
-            });
+            setState(() {});
 
             if (_isDraggingFromTop) {
               if (animationController.value <= 0.8) {

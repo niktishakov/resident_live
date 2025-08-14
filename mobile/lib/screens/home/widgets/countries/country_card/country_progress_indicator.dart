@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import "package:gap/gap.dart";
-import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -21,7 +20,6 @@ class CountryProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.rlTheme;
-    final t = context.t;
 
     final value = isResident ? 183 : daysSpent;
     final progress = (value / 183).clamp(0, 1.0);

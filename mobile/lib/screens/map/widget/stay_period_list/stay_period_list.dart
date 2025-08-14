@@ -5,7 +5,6 @@ import "package:flutter/material.dart";
 import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/map/widget/stay_period_list/stay_period_item.dart";
 import "package:resident_live/screens/map/widget/timeline/timeline.dart";
-import "package:resident_live/shared/shared.dart";
 
 class StayPeriodList extends StatelessWidget {
   const StayPeriodList({

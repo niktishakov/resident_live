@@ -7,7 +7,6 @@ import "package:resident_live/screens/map/cubit/country_bg_cubit.dart";
 import "package:resident_live/screens/trips/widget/trip_carousel/widgets/trip_background_image.dart";
 import "package:resident_live/screens/trips/widget/trip_carousel/widgets/trip_content.dart";
 import "package:resident_live/screens/trips/widget/trip_carousel/widgets/trip_dark_overlay.dart";
-import "package:resident_live/screens/trips/widget/trip_carousel/widgets/trip_location_pin.dart";
 import "package:resident_live/screens/trips/widget/trip_carousel/widgets/trip_status_badge.dart";
 import "package:resident_live/shared/shared.dart";
 

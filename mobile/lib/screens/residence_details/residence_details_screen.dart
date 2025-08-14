@@ -1,7 +1,6 @@
 import "package:country_code_picker/country_code_picker.dart";
 import "package:data/data.dart";
 import "package:domain/domain.dart";
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
 import "package:flutter_animate/flutter_animate.dart";
@@ -49,9 +48,6 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
   final _scrollController = ScrollController();
 
   final progressKey = GlobalKey();
-  bool _isDraggingFromTop = false;
-  bool _isDragging = false;
-  double _lastScrollVelocity = 0.0;
 
   @override
   void initState() {
@@ -145,7 +141,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                         child: Material(
                           color: Colors.transparent,
                           child: RlCard(
-                            margin: EdgeInsets.only(top: 10),
+                            margin: const EdgeInsets.only(top: 10),
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             color: const Color(0xff090909),
                             child: Builder(
@@ -154,7 +150,7 @@ class _ResidenceDetailsScreenState extends State<ResidenceDetailsScreen>
                                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                   child: ListView(
                                     children: [
-                                      Grabber(),
+                                      const Grabber(),
                                       context.vBox16,
                                       DetailsHeader(
                                         countryName: country.toCountryStringOnly(),

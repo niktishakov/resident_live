@@ -2,10 +2,12 @@
 
 import "dart:async";
 
+import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
-import "package:hydrated_bloc/hydrated_bloc.dart";
+import "package:resident_live/app/injection.dart";
+import "package:resident_live/screens/settings/widgets/report_bug_button.dart";
 import "package:resident_live/screens/splash/presplash_screen.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -20,19 +22,11 @@ void showDebugActionsSheet(BuildContext context) {
       child: SizedBox(
         height: 44,
         child: BouncingButton(
-          onPressed: (_) => onTap(),
+          onPressed: () => onTap(),
           child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(16),
-            ),
+            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(16)),
             child: SizedBox.expand(
-              child: Center(
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              child: Center(child: Text(title, textAlign: TextAlign.center)),
             ),
           ),
         ),
@@ -56,9 +50,7 @@ void showDebugActionsSheet(BuildContext context) {
           minChildSize: 0.5,
           shouldCloseOnMinExtent: true,
           builder: (context, controller) => ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(32),
-            ),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
             child: ColoredBox(
               color: Theme.of(context).colorScheme.surface,
               child: FractionallySizedBox(
@@ -69,11 +61,19 @@ void showDebugActionsSheet(BuildContext context) {
                   children: [
                     const Grabber(color: Colors.white),
                     const Gap(16),
+                    const ReportBugButton(),
                     buildActionRow(
                       title: "Erase Data & Restart",
                       color: Colors.red,
-                      onTap: () {
-                        HydratedBloc.storage.clear();
+                      onTap: () async {
+                        final deleteallData = ClearAllDataUsecase(
+                          getIt<IUserRepository>(),
+                          getIt<TripRepository>(),
+                          getIt<ILanguageRepository>(),
+                        );
+                        await deleteallData.call();
+
+                        context.pop();
                       },
                     ),
                     buildActionRow(
@@ -82,11 +82,9 @@ void showDebugActionsSheet(BuildContext context) {
                       onTap: () async {
                         context.pop();
                         unawaited(
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (c) => const PresplashScreen(),
-                            ),
-                          ),
+                          Navigator.of(
+                            context,
+                          ).push(MaterialPageRoute(builder: (c) => const PresplashScreen())),
                         );
                       },
                     ),

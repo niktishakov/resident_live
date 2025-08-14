@@ -1,5 +1,4 @@
 import "package:flutter/cupertino.dart";
-import "package:flutter/material.dart";
 import "package:fluttertoast/fluttertoast.dart";
 import "package:gap/gap.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -34,36 +33,39 @@ class ToastService {
   }) {
     final fToast = FToast();
     fToast.init(context);
+    final theme = RlTheme();
 
     final now = DateTime.now();
-    if (_lastMessage == message && _lastDateTime != null && now.difference(_lastDateTime!).inSeconds < 3) {
+    if (_lastMessage == message &&
+        _lastDateTime != null &&
+        now.difference(_lastDateTime!).inSeconds < 3) {
       return;
     }
 
     _lastMessage = message;
     _lastDateTime = now;
 
-    final icon = status == ToastStatus.success
-        ? const Icon(CupertinoIcons.check_mark, color: Color(0xff9AD55B))
-        : status == ToastStatus.failure
-            ? const Icon(CupertinoIcons.xmark, color: Color(0xffFF6643))
-            : const Icon(CupertinoIcons.exclamationmark_triangle, color: Colors.amber);
+    final (iconData, iconColor) = switch (status) {
+      ToastStatus.success => (CupertinoIcons.check_mark, theme.iconSuccess),
+      ToastStatus.failure => (CupertinoIcons.xmark, theme.iconDanger),
+      ToastStatus.warning => (CupertinoIcons.exclamationmark_triangle, theme.bgWarning),
+    };
 
     final Widget toast = Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        color: Colors.white,
-        border: Border.all(width: 1, color: const Color(0x336A6D83)),
-        boxShadow: const [BoxShadow(offset: Offset(0, 4), blurRadius: 20, color: Color(0xffE4E5E5))],
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(32.0), color: theme.bgModal),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          icon,
+          Icon(iconData, color: iconColor),
           const Gap(10),
-          Flexible(child: Text(message, style: GoogleFonts.workSans(fontSize: 18.0, color: const Color(0xff6A6D83)))),
+          Flexible(
+            child: Text(
+              message,
+              style: GoogleFonts.workSans(fontSize: 18.0, color: theme.textPrimary),
+            ),
+          ),
         ],
       ),
     );
@@ -72,13 +74,9 @@ class ToastService {
 
     fToast.showToast(
       child: toast,
-      positionedToastBuilder: (context, child, gravity) => Positioned(
-        top: context.mediaQuery.padding.top,
-        left: 0,
-        right: 0,
-        child: child,
-      ),
-      toastDuration: const Duration(seconds: 2),
+      positionedToastBuilder: (context, child, gravity) =>
+          Positioned(top: context.mediaQuery.viewPadding.top, left: 0, right: 0, child: child),
+      toastDuration: const Duration(seconds: 3),
       fadeDuration: const Duration(milliseconds: 200),
     );
   }

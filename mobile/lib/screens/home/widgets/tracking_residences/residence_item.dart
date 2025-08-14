@@ -1,10 +1,7 @@
 part of "tracking_residences.dart";
 
 class _ResidenceItem extends StatelessWidget {
-  const _ResidenceItem({
-    required this.countryCode,
-    required this.stayPeriods,
-  });
+  const _ResidenceItem({required this.countryCode, required this.stayPeriods});
 
   final String countryCode;
   final List<StayPeriodValueObject> stayPeriods;
@@ -23,11 +20,8 @@ class _ResidenceItem extends StatelessWidget {
           Row(
             children: [
               Text(
-                country.name ?? "",
-                style: GoogleFonts.poppins(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
+                country.localize(context).toCountryStringOnly(),
+                style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500),
               ),
               const Spacer(),
               Column(
@@ -38,7 +32,7 @@ class _ResidenceItem extends StatelessWidget {
                       fontSize: 12,
                       color: context.theme.colorScheme.tertiary.withValues(alpha: 0.5),
                     ),
-                    "$daysSpent / 183 ${S.of(context).homeDays}",
+                    "$daysSpent / 183 ${context.t.homeDays}",
                   ),
                 ],
               ),
@@ -47,10 +41,7 @@ class _ResidenceItem extends StatelessWidget {
           const Gap(6),
           TweenAnimationBuilder(
             duration: 2.seconds,
-            tween: Tween<double>(
-              begin: 1.0,
-              end: (daysSpent / 183).clamp(0.0, 1.0),
-            ),
+            tween: Tween<double>(begin: 1.0, end: (daysSpent / 183).clamp(0.0, 1.0)),
             curve: Curves.fastEaseInToSlowEaseOut,
             builder: (context, v, child) {
               return LinearProgressIndicator(
@@ -59,11 +50,7 @@ class _ResidenceItem extends StatelessWidget {
                 value: v,
                 backgroundColor: backgroundColor,
                 valueColor: const AlwaysStoppedAnimation(valueColor),
-              ).animate().shimmer(
-                duration: 1.seconds,
-                delay: 1.seconds,
-                stops: [1.0, 0.5, 0.0],
-              );
+              ).animate().shimmer(duration: 1.seconds, delay: 1.seconds, stops: [1.0, 0.5, 0.0]);
             },
           ),
         ],

@@ -10,7 +10,6 @@ import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:resident_live/app/injection.dart";
 import "package:resident_live/screens/settings/cubit/auth_by_biometrics_cubit.dart";
-import "package:resident_live/screens/splash/cubit/create_user_cubit.dart";
 import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/shared/lib/resource_cubit/resource_cubit.dart";
 import "package:resident_live/shared/lib/service/toast.service.dart";
@@ -29,23 +28,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      getIt<GetUserCubit>().loadResource(""); // TODO: add user id
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<GetUserCubit, ResourceState<UserEntity>>(
-          bloc: getIt<GetUserCubit>(),
-          listener: _onGetUserListen,
-        ),
-        BlocListener<CreateUserCubit, ResourceState<UserEntity>>(
-          bloc: getIt<CreateUserCubit>(),
-          listener: _onCreateUserListen,
-        ),
+        BlocListener<GetUserCubit, ResourceState<UserEntity>>(listener: _onGetUserListen),
         BlocListener<AuthByBiometricsCubit, ResourceState<bool>>(
           bloc: getIt<AuthByBiometricsCubit>(),
           listener: _onAuthByBiometricsListen,
@@ -69,10 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Text(
                       "Resident Live",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w200,
-                        fontSize: 36,
-                      ),
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w200, fontSize: 36),
                     ),
                   ),
                 ],
@@ -86,9 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   duration: const Duration(milliseconds: 300),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Container(
-                      color: Colors.transparent,
-                    ),
+                    child: Container(color: Colors.transparent),
                   ),
                 );
               },
@@ -99,27 +83,15 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void _onCreateUserListen(BuildContext context, ResourceState<UserEntity> state) {
+  void _onGetUserListen(BuildContext context, ResourceState<UserEntity> state) {
     state.maybeWhen(
       orElse: () {},
       error: (error, stack) {
         ToastService.instance.showToast(
           context,
-          message: error ?? "Something went wrong",
+          message: error ?? "Cannot get user",
           status: ToastStatus.failure,
         );
-      },
-      data: (user) {
-        GetIt.I<GetUserCubit>().loadResource(user.id);
-      },
-    );
-  }
-
-  void _onGetUserListen(BuildContext context, ResourceState<UserEntity> state) {
-    state.maybeWhen(
-      orElse: () {},
-      error: (error, stack) {
-        GetIt.I<CreateUserCubit>().loadResource();
       },
       data: (user) {
         final isBiometricsEnabled = user.isBiometricsEnabled;

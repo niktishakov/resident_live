@@ -15,6 +15,7 @@ class RlOutlinedButton extends StatelessWidget {
     this.gradient,
     this.onPressed,
     this.enabled = true,
+    this.expanded = false,
     this.leading,
     this.trailing,
     this.animationDuration,
@@ -32,6 +33,8 @@ class RlOutlinedButton extends StatelessWidget {
   final double? fontSize;
   final VoidCallback? onPressed;
   final bool enabled;
+  final bool expanded;
+
   final Widget? trailing;
   final Duration? animationDuration;
   final EdgeInsetsGeometry? padding;
@@ -43,7 +46,7 @@ class RlOutlinedButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(kBorderRadius),
       vibrate: vibrate,
       behaviour: behavior,
-      onPressed: enabled ? (_) => onPressed?.call() : null,
+      onPressed: enabled ? () => onPressed?.call() : null,
       child: AnimatedContainer(
         duration: animationDuration ?? kDefaultDuration,
         decoration: BoxDecoration(
@@ -57,18 +60,16 @@ class RlOutlinedButton extends StatelessWidget {
             padding: padding ?? const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: expanded ? MainAxisSize.max : MainAxisSize.min,
               children: [
                 if (leading != null) ...[
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 200),
-                    child: leading,
-                  ),
+                  AnimatedSize(duration: const Duration(milliseconds: 200), child: leading),
                   const Gap(8),
                 ],
                 Text(
                   label,
-                  style: textStyle ??
+                  style:
+                      textStyle ??
                       theme.body16M.copyWith(
                         fontSize: fontSize,
                         fontWeight: FontWeight.w600,
@@ -77,10 +78,7 @@ class RlOutlinedButton extends StatelessWidget {
                 ),
                 if (trailing != null) ...[
                   const Gap(8),
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 200),
-                    child: trailing,
-                  ),
+                  AnimatedSize(duration: const Duration(milliseconds: 200), child: trailing),
                 ],
               ],
             ),

@@ -12,7 +12,8 @@ class StayPeriodValueObject with _$StayPeriodValueObject {
   }) = _StayPeriodValueObject;
   const StayPeriodValueObject._();
 
-  factory StayPeriodValueObject.fromJson(Map<String, dynamic> json) => _$StayPeriodValueObjectFromJson(json);
+  factory StayPeriodValueObject.fromJson(Map<String, dynamic> json) =>
+      _$StayPeriodValueObjectFromJson(json);
 
   int get days => endDate.difference(startDate).inDays;
 }

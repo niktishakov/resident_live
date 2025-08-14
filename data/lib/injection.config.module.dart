@@ -7,66 +7,103 @@
 import 'dart:async' as _i687;
 
 import 'package:data/data.dart' as _i437;
-import 'package:data/src/data_source/service/device_info/device_info.service.dart'
-    as _i271;
-import 'package:data/src/data_source/service/geolocator/geolocator.service.dart'
-    as _i268;
-import 'package:data/src/data_source/service/local_notification/local_notification.service.dart'
-    as _i480;
-import 'package:data/src/data_source/service/logger/logger.service.dart' as _i2;
-import 'package:data/src/data_source/service/share/share.service.dart' as _i586;
-import 'package:data/src/data_source/service/workmanager/background_loggger.dart'
-    as _i202;
-import 'package:data/src/data_source/service/workmanager/workmanager.service.dart'
-    as _i143;
+import 'package:data/src/data_source/api/unsplash/unsplash_api.dart' as _i1050;
+import 'package:data/src/data_source/sdk/device_info/device_info.service.dart'
+    as _i457;
+import 'package:data/src/data_source/sdk/geolocator/geolocator.service.dart'
+    as _i754;
+import 'package:data/src/data_source/sdk/local_notification/local_notification.service.dart'
+    as _i837;
+import 'package:data/src/data_source/sdk/logger/logger.service.dart' as _i245;
+import 'package:data/src/data_source/sdk/share/share.service.dart' as _i221;
+import 'package:data/src/data_source/sdk/workmanager/background_loggger.dart'
+    as _i806;
+import 'package:data/src/data_source/sdk/workmanager/workmanager.service.dart'
+    as _i687;
+import 'package:data/src/data_source/storage/language_storage.dart' as _i268;
+import 'package:data/src/data_source/storage/trip_storage.dart' as _i25;
 import 'package:data/src/data_source/storage/user_storage.dart' as _i86;
-import 'package:data/src/model/user/user_model.dart' as _i32;
-import 'package:data/src/modules/data_module.dart' as _i989;
+import 'package:data/src/model/local/trip/trip_model.dart' as _i164;
+import 'package:data/src/module/hive_module.dart' as _i618;
+import 'package:data/src/module/shared_preferences_module.dart' as _i789;
+import 'package:data/src/module/unsplash_dio_module.dart' as _i228;
 import 'package:data/src/repository/auth_repository.dart' as _i687;
 import 'package:data/src/repository/coordinates_repository.dart' as _i709;
+import 'package:data/src/repository/language_repository.dart' as _i787;
+import 'package:data/src/repository/photo_repository.dart' as _i763;
 import 'package:data/src/repository/placemark_repository.dart' as _i566;
+import 'package:data/src/repository/trip/trip_repository.dart' as _i698;
 import 'package:data/src/repository/user_repository.dart' as _i640;
 import 'package:domain/domain.dart' as _i494;
 import 'package:hive/hive.dart' as _i979;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:local_auth/local_auth.dart' as _i152;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 class DataPackageModule extends _i526.MicroPackageModule {
 // initializes the registration of main-scope dependencies inside of GetIt
   @override
   _i687.FutureOr<void> init(_i526.GetItHelper gh) async {
-    final dataModule = _$DataModule();
-    gh.factory<_i268.GeolocationService>(() => _i268.GeolocationService());
-    gh.factory<_i586.ShareService>(() => _i586.ShareService());
-    gh.singleton<_i202.BackgroundLogger>(() => _i202.BackgroundLogger());
-    gh.singletonAsync<_i2.LoggerService>(() {
-      final i = _i2.LoggerService();
+    final sharedPrefsModule = _$SharedPrefsModule();
+    final hiveModule = _$HiveModule();
+    final unsplashDioModule = _$UnsplashDioModule();
+    gh.factory<_i754.GeolocationService>(() => _i754.GeolocationService());
+    gh.factory<_i221.ShareService>(() => _i221.ShareService());
+    await gh.factoryAsync<_i460.SharedPreferences>(
+      () => sharedPrefsModule.prefs,
+      preResolve: true,
+    );
+    gh.singleton<_i806.BackgroundLogger>(() => _i806.BackgroundLogger());
+    gh.singletonAsync<_i245.LoggerService>(() {
+      final i = _i245.LoggerService();
       return i.init().then((_) => i);
     });
-    gh.singletonAsync<_i271.DeviceInfoService>(
-        () => _i271.DeviceInfoService.create());
-    await gh.singletonAsync<_i979.Box<_i32.UserHiveModel>>(
-      () => dataModule.userBox,
+    gh.singletonAsync<_i457.DeviceInfoService>(
+        () => _i457.DeviceInfoService.create());
+    await gh.singletonAsync<_i979.Box<_i437.UserHiveModel>>(
+      () => hiveModule.userBox,
+      preResolve: true,
+    );
+    await gh.singletonAsync<_i979.Box<_i437.TripHiveModel>>(
+      () => hiveModule.tripBox,
       preResolve: true,
     );
     gh.singleton<_i152.LocalAuthentication>(
-        () => dataModule.localAuthentication);
+        () => hiveModule.localAuthentication);
+    gh.lazySingleton<_i228.UnsplashDio>(() => unsplashDioModule.dio());
+    gh.singleton<_i687.WorkmanagerService>(
+        () => _i687.WorkmanagerService(gh<_i437.LoggerService>()));
+    gh.factory<_i86.UserStorage>(
+        () => _i86.UserStorage(gh<_i979.Box<_i437.UserHiveModel>>()));
     gh.factory<_i494.IAuthRepostory>(
         () => _i687.AuthRepository(gh<_i152.LocalAuthentication>()));
     gh.factory<_i494.IPlacemarkRepository>(() => _i566.PlacemarkRepository());
     gh.factory<_i494.ICoordinatesRepository>(
         () => _i709.CoordinatesRepository());
-    gh.factory<_i143.WorkmanagerService>(
-        () => _i143.WorkmanagerService(gh<_i437.LoggerService>()));
-    gh.singletonAsync<_i480.LocalNotificationService>(() async =>
-        _i480.LocalNotificationService(await gh.getAsync<_i2.LoggerService>()));
-    gh.factory<_i86.UserStorage>(
-        () => _i86.UserStorage(gh<_i979.Box<_i437.UserHiveModel>>()));
+    gh.singletonAsync<_i837.LocalNotificationService>(() async =>
+        _i837.LocalNotificationService(
+            await gh.getAsync<_i245.LoggerService>()));
+    gh.factory<_i25.TripStorage>(
+        () => _i25.TripStorage(gh<_i979.Box<_i164.TripHiveModel>>()));
+    gh.factory<_i1050.UnsplashApi>(
+        () => _i1050.UnsplashApiImpl(gh<_i228.UnsplashDio>()));
+    gh.lazySingleton<_i494.TripRepository>(
+        () => _i698.TripRepositoryImpl(gh<_i25.TripStorage>()));
+    gh.factory<_i268.ILanguageStorage>(
+        () => _i268.LanguageStorageImpl(gh<_i460.SharedPreferences>()));
     gh.factory<_i494.IUserRepository>(() => _i640.UserRepository(
           gh<_i86.UserStorage>(),
           gh<_i437.DeviceInfoService>(),
         ));
+    gh.factory<_i494.ILanguageRepository>(
+        () => _i787.LanguageRepository(gh<_i268.ILanguageStorage>()));
+    gh.factory<_i494.PhotoRepository>(
+        () => _i763.PhotoRepositoryImpl(gh<_i1050.UnsplashApi>()));
   }
 }
 
-class _$DataModule extends _i989.DataModule {}
+class _$SharedPrefsModule extends _i789.SharedPrefsModule {}
+
+class _$HiveModule extends _i618.HiveModule {}
+
+class _$UnsplashDioModule extends _i228.UnsplashDioModule {}

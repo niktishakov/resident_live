@@ -1,5 +1,6 @@
 import "dart:ui";
 
+import "package:auto_size_text/auto_size_text.dart";
 import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -11,8 +12,8 @@ import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/shared.dart";
 import "package:share_plus/share_plus.dart";
 
-class Header extends StatelessWidget {
-  const Header({
+class DetailsHeader extends StatelessWidget {
+  const DetailsHeader({
     required this.countryName,
     required this.isFocused,
     required this.isHere,
@@ -58,7 +59,9 @@ class _HeaderContent extends StatelessWidget {
 
     return Row(
       children: [
-        const SizedBox().animate(delay: 100.ms).swap(
+        const SizedBox()
+            .animate(delay: 100.ms)
+            .swap(
               builder: (context, _) => TweenAnimationBuilder(
                 duration: const Duration(milliseconds: 250),
                 curve: Curves.easeInOut,
@@ -84,12 +87,7 @@ class _HeaderContent extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    AppAssetImage(
-                      AppAssets.target,
-                      width: 20,
-                      height: 20,
-                      color: color,
-                    ),
+                    AppAssetImage(AppAssets.target, width: 20, height: 20, color: color),
                     const Gap(8),
                   ],
                 ),
@@ -98,22 +96,17 @@ class _HeaderContent extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Text(
+              AutoSizeText(
                 countryName,
                 maxLines: 1,
-                style: theme.title36Semi.copyWith(
-                  fontFamily: kFontFamilySecondary,
-                ),
+                style: theme.title36Semi.copyWith(fontFamily: kFontFamilySecondary),
               ),
-              if (isHere) ...[
-                const Gap(4),
-                const Here(shorter: true),
-              ],
+              if (isHere) ...[const Gap(4), const Here(shorter: true)],
             ],
           ),
         ),
         BouncingButton(
-          onPressed: (_) {
+          onPressed: () {
             VibrationService.instance.tap();
             _captureAndShareScreenshot();
           },
@@ -125,7 +118,7 @@ class _HeaderContent extends StatelessWidget {
         ),
         const Gap(16),
         BouncingButton(
-          onPressed: (_) {
+          onPressed: () {
             VibrationService.instance.tap();
             context.pop();
           },
@@ -147,13 +140,7 @@ class _HeaderContent extends StatelessWidget {
 
     await SharePlus.instance.share(
       ShareParams(
-        files: [
-          XFile.fromData(
-            bytes,
-            name: "residence_status.png",
-            mimeType: "image/png",
-          ),
-        ],
+        files: [XFile.fromData(bytes, name: "residence_status.png", mimeType: "image/png")],
         text: "Track your global residency journey with Resident Live! Download now: $appStoreLink",
       ),
     );

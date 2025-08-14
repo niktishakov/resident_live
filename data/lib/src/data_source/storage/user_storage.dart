@@ -1,6 +1,6 @@
-import 'package:data/data.dart';
-import 'package:hive/hive.dart';
-import 'package:injectable/injectable.dart';
+import "package:data/data.dart";
+import "package:hive/hive.dart";
+import "package:injectable/injectable.dart";
 
 @injectable
 class UserStorage {
@@ -22,5 +22,10 @@ class UserStorage {
 
   Future<void> deleteUser(String id) {
     return _storage.delete(id);
+  }
+
+  // Clear all user data
+  Future<void> clearAll() async {
+    await _storage.clear();
   }
 }

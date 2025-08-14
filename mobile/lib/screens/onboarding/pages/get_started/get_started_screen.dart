@@ -6,6 +6,7 @@ import "package:resident_live/screens/onboarding/pages/get_started/cubit/get_sta
 import "package:resident_live/screens/onboarding/pages/get_started/widget/allow_geo_view.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/widget/focus_on_view.dart";
 import "package:resident_live/screens/onboarding/pages/get_started/widget/get_started_view.dart";
+import "package:resident_live/screens/splash/cubit/get_user_cubit.dart";
 import "package:resident_live/shared/lib/service/toast.service.dart";
 import "package:resident_live/shared/shared.dart";
 
@@ -18,6 +19,12 @@ class GetStartedScreen extends StatefulWidget {
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
   final ScrollController _controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<GetUserCubit>().loadResource();
+  }
 
   @override
   void dispose() {

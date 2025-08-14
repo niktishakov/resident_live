@@ -1,3 +1,5 @@
+import "dart:async";
+
 import "package:country_code_picker/country_code_picker.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -5,13 +7,14 @@ import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:gap/gap.dart";
 import "package:resident_live/app/injection.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/screens/onboarding/cubit/onboarding_cubit.dart";
 import "package:resident_live/shared/shared.dart";
 
 part "widgets/search_field.dart";
 part "widgets/all_countries_list.dart";
 part "widgets/selected_countries_list.dart";
+part "widgets/continue_button.dart";
 
 class FindCountriesPage extends StatefulWidget {
   const FindCountriesPage(this.onNextPage, {super.key});
@@ -39,15 +42,17 @@ class FindCountriesPageState extends State<FindCountriesPage> {
       bloc: getIt<OnboardingCubit>(),
       builder: (context, state) {
         final selectedCountries = state.selectedCountries;
-        final filteredCountries = kCountries.where((e) => !selectedCountries.contains(e.code)).toList();
+        final filteredCountries = kCountries
+            .where((e) => !selectedCountries.contains(e.code))
+            .map((e) => e.localize(context))
+            .toList();
 
         final filteredCountriesWithSearchQuery = filteredCountries
-            .where(
-              (e) => e.name?.toLowerCase().contains(_searchQuery.toLowerCase()) ?? false,
-            )
+            .where((e) => e.name?.toLowerCase().contains(_searchQuery.toLowerCase()) ?? false)
             .toList();
 
         return SafeArea(
+          bottom: false,
           child: Padding(
             padding: const EdgeInsets.only(top: 32),
             child: Column(
@@ -57,33 +62,34 @@ class FindCountriesPageState extends State<FindCountriesPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    S.of(context).whereHaveYouBeenTitle,
+                    context.t.whereHaveYouBeenTitle,
                     style: theme.title26,
                   ).animate().fade(duration: 1.seconds),
                 ),
-                const Gap(24),
+                context.vBox16,
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    S.of(context).whereHaveYouBeenSelectCountries,
-                    style: theme.body16,
-                  ).animate().fade(
-                        duration: 1.seconds,
-                        delay: 300.ms,
-                      ),
+                    context.t.whereHaveYouBeenSelectCountries,
+                    style: theme.body14.copyWith(color: theme.textSecondary),
+                  ).animate().fade(duration: 1.seconds, delay: 300.ms),
                 ),
-                const Gap(16),
-                SearchField(
-                  onChanged: (value) => setState(() => _searchQuery = value),
-                  controller: _textController,
-                ),
+                context.vBox16,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SearchField(
+                    onChanged: (value) => setState(() => _searchQuery = value),
+                    controller: _textController,
+                  ),
+                ).animate().fade(delay: 1000.ms),
+
                 if (filteredCountriesWithSearchQuery.isEmpty)
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                       child: Text(
-                        S.of(context).whereHaveYouBeenNoResultsFound,
-                        style: context.theme.textTheme.bodyLarge,
+                        context.t.whereHaveYouBeenNoResultsFound,
+                        style: theme.body14.copyWith(color: theme.textSecondary),
                       ),
                     ),
                   )
@@ -102,21 +108,10 @@ class FindCountriesPageState extends State<FindCountriesPage> {
                   height: selectedCountries.isNotEmpty ? 50 : 0,
                   child: const Center(child: SelectedCountriesList()),
                 ),
-                if (selectedCountries.isNotEmpty) ...[
-                  const Gap(8),
-                  Center(
-                    child: PrimaryButton(
-                      onPressed: selectedCountries.isNotEmpty
-                          ? () {
-                              FocusScope.of(context).unfocus();
-                              widget.onNextPage();
-                            }
-                          : null,
-                      label: S.of(context).commonContinue,
-                    ).animate().fade(delay: 300.ms).shimmer(delay: 5.seconds),
-                  ),
-                  const Gap(8),
-                ],
+                _ContinueButton(
+                  selectedCountries: selectedCountries,
+                  onNextPage: widget.onNextPage,
+                ),
               ],
             ),
           ),

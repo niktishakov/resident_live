@@ -1,0 +1,10 @@
+Commit Naming:
+- Only on english
+- Structure: RL-XX: short description what's new
+- Less than 80 characters
+
+Chat:
+- Explain on Russian Only
+- Write Code and comments on english only 
+- If you show any kind of data flow, use clear and simple explanation like:
+Widget -> Bloc/Cubit -> Usecase -> Repo -> Api/Sdk

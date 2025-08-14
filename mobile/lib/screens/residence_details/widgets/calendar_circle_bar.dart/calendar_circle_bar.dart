@@ -73,10 +73,7 @@ class _CalendarCircleBarState extends State<CalendarCircleBar> with TickerProvid
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    );
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.delayed(const Duration(milliseconds: 100), () {
         if (mounted) {
@@ -93,7 +90,7 @@ class _CalendarCircleBarState extends State<CalendarCircleBar> with TickerProvid
   }
 
   void _handleTapDown(TapDownDetails details) {
-    final box = context.findRenderObject() as RenderBox;
+    final box = context.findRenderObject()! as RenderBox;
     final localPosition = box.globalToLocal(details.globalPosition);
     final centerX = box.size.width / 2;
     final centerY = box.size.height / 2;
@@ -237,7 +234,9 @@ class _CalendarCirclePainter extends CustomPainter {
     for (var monthIndex = 0; monthIndex < 12; monthIndex++) {
       // Теперь проверяем, есть ли в этом месяце период пребывания
       final monthStart = monthStarts[monthIndex];
-      final monthEnd = monthIndex > currentMonth ? DateTime(currentYear - 1, monthIndex + 1, 1) : DateTime(currentYear, monthIndex + 1, 1);
+      final monthEnd = monthIndex > currentMonth
+          ? DateTime(currentYear - 1, monthIndex + 1, 1)
+          : DateTime(currentYear, monthIndex + 1, 1);
 
       for (final period in stayPeriods) {
         // Проверяем, пересекается ли месяц с периодом пребывания
@@ -292,7 +291,7 @@ class _CalendarCirclePainter extends CustomPainter {
 
       // Применяем opacity анимацию
       final opacity = 0.5 + (0.5 * monthAnimProgress);
-      paint.color = dividerColor.withOpacity(opacity);
+      paint.color = dividerColor.withValues(alpha: opacity);
 
       // Рисуем линию от внутреннего радиуса к внешнему
       final startX = center.dx + math.cos(angle) * innerRadius;
@@ -300,11 +299,7 @@ class _CalendarCirclePainter extends CustomPainter {
       final endX = center.dx + math.cos(angle) * expandedRadius;
       final endY = center.dy + math.sin(angle) * expandedRadius;
 
-      canvas.drawLine(
-        Offset(startX, startY),
-        Offset(endX, endY),
-        paint,
-      );
+      canvas.drawLine(Offset(startX, startY), Offset(endX, endY), paint);
     }
   }
 
@@ -325,7 +320,7 @@ class _CalendarCirclePainter extends CustomPainter {
 
     // Вычисляем позицию monthIndex в нашем 12-месячном цикле
     // Нормализуем индекс так, чтобы 0 соответствовал начальному месяцу
-    int normalizedIndex = (monthIndex - startMonthIndex + totalMonths) % totalMonths;
+    final normalizedIndex = (monthIndex - startMonthIndex + totalMonths) % totalMonths;
 
     // Общий прогресс анимации (0.0 - 1.0)
     final totalProgress = animationValue;
@@ -334,7 +329,7 @@ class _CalendarCirclePainter extends CustomPainter {
     final monthStartAnimationPoint = normalizedIndex / totalMonths;
 
     // Длительность анимации для каждого месяца
-    final monthAnimationDuration = 1.0 / totalMonths;
+    const monthAnimationDuration = 1.0 / totalMonths;
 
     // Если анимация еще не дошла до этого месяца, возвращаем 0
     if (totalProgress < monthStartAnimationPoint) {
@@ -351,7 +346,13 @@ class _CalendarCirclePainter extends CustomPainter {
   }
 
   // Нарисовать активные сегменты для периодов пребывания с выделением и анимацией
-  void _drawStayPeriodSegments(Canvas canvas, Offset center, double radius, double innerRadius, List<bool> activeMonths) {
+  void _drawStayPeriodSegments(
+    Canvas canvas,
+    Offset center,
+    double radius,
+    double innerRadius,
+    List<bool> activeMonths,
+  ) {
     final currentMonth = DateTime.now().month;
     // Проходим по каждому месяцу
     for (var i = 0; i < 12; i++) {
@@ -359,14 +360,18 @@ class _CalendarCirclePainter extends CustomPainter {
 
       // Рассчитываем начальный и конечный углы для месяца
       final startAngle = 2 * math.pi * (monthIndex + 0.5) / 12 - math.pi / 2 - math.pi / 6;
-      final sweepAngle = 2 * math.pi / 12;
+      const sweepAngle = 2 * math.pi / 12;
 
       // Вычисляем прогресс анимации для этого месяца
       final monthAnimProgress = _calculateMonthAnimationProgress(monthIndex);
 
       if (activeMonths[monthIndex]) {
         // Для активных месяцев - интерполируем цвет от фонового к активному
-        final animatedColor = Color.lerp(backgroundColor.withValues(alpha: 0.5), activeColor, monthAnimProgress)!;
+        final animatedColor = Color.lerp(
+          backgroundColor.withValues(alpha: 0.5),
+          activeColor,
+          monthAnimProgress,
+        )!;
 
         // Интерполируем расширение
         final expansionFactor = 1.0 + (0.10 * monthAnimProgress);
@@ -410,10 +415,14 @@ class _CalendarCirclePainter extends CustomPainter {
   }
 
   // Нарисовать названия месяцев по окружности
-  void _drawMonthLabels(Canvas canvas, Offset center, double radius, double innerRadius, List<bool> activeMonths) {
-    final textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-    );
+  void _drawMonthLabels(
+    Canvas canvas,
+    Offset center,
+    double radius,
+    double innerRadius,
+    List<bool> activeMonths,
+  ) {
+    final textPainter = TextPainter(textDirection: TextDirection.ltr);
 
     for (var i = 0; i < 12; i++) {
       final angle = 2 * math.pi * i / 12 - math.pi / 2;
@@ -427,7 +436,8 @@ class _CalendarCirclePainter extends CustomPainter {
 
       // Анимируем радиус для всех месяцев, но для активных сильнее
       final expansionFactor = activeMonths[i]
-          ? 1.0 + (0.04 * monthAnimProgress) // Больше расширение для активных
+          ? 1.0 +
+                (0.04 * monthAnimProgress) // Больше расширение для активных
           : 1.0; // Меньше расширение для неактивных
 
       final labelRadius = baseRadius * expansionFactor;
@@ -443,13 +453,16 @@ class _CalendarCirclePainter extends CustomPainter {
       final targetWeight = activeMonths[i] ? FontWeight.w700 : FontWeight.w500;
 
       // Начальный вес для всех - normal (w400)
-      final initialWeight = FontWeight.w400;
+      const initialWeight = FontWeight.w400;
 
       // Вычисляем промежуточный вес в зависимости от прогресса анимации
-      final weightValue = initialWeight.index + ((targetWeight.index - initialWeight.index) * monthAnimProgress).round();
+      final weightValue =
+          initialWeight.index +
+          ((targetWeight.index - initialWeight.index) * monthAnimProgress).round();
 
       // Получаем соответствующий FontWeight
-      final interpolatedWeight = FontWeight.values[weightValue.clamp(0, FontWeight.values.length - 1)];
+      final interpolatedWeight =
+          FontWeight.values[weightValue.clamp(0, FontWeight.values.length - 1)];
 
       // Увеличиваем размер шрифта для всех месяцев, но больше для активных
       final fontSizeIncrease = activeMonths[i] ? 2.0 * monthAnimProgress : 1.0 * monthAnimProgress;
@@ -473,10 +486,7 @@ class _CalendarCirclePainter extends CustomPainter {
       textPainter.layout();
 
       // Рисуем текст с учетом смещения для центрирования
-      textPainter.paint(
-        canvas,
-        Offset(x - textPainter.width / 2, y - textPainter.height / 2),
-      );
+      textPainter.paint(canvas, Offset(x - textPainter.width / 2, y - textPainter.height / 2));
     }
   }
 
@@ -600,10 +610,7 @@ class _CalendarCirclePainter extends CustomPainter {
   void _drawCenterText(Canvas canvas, Offset center, double innerRadius) {
     // Отрисовываем основной текст (прогресс)
     final textPainter = TextPainter(
-      text: TextSpan(
-        text: progress,
-        style: centerTextStyle.copyWith(fontSize: innerRadius * 0.42),
-      ),
+      text: TextSpan(text: progress, style: centerTextStyle),
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     );
@@ -616,10 +623,7 @@ class _CalendarCirclePainter extends CustomPainter {
 
     // Отрисовываем подпись (progress)
     final subtitlePainter = TextPainter(
-      text: TextSpan(
-        text: "progress",
-        style: centerSubtitleStyle,
-      ),
+      text: TextSpan(text: "progress", style: centerSubtitleStyle),
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     );

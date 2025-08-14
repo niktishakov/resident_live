@@ -1,6 +1,6 @@
-import 'package:domain/domain.dart';
-import 'package:injectable/injectable.dart';
-import 'package:local_auth/local_auth.dart';
+import "package:domain/domain.dart";
+import "package:injectable/injectable.dart";
+import "package:local_auth/local_auth.dart";
 
 @Injectable(as: IAuthRepostory)
 class AuthRepository implements IAuthRepostory {

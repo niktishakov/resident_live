@@ -6,7 +6,7 @@ import "package:domain/domain.dart";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/shared/shared.dart";
 
 class ActivityTimeline extends StatefulWidget {
@@ -101,11 +101,7 @@ class ActivityTimelineState extends State<ActivityTimeline> {
                         child: Stack(
                           children: [
                             _buildTimeline(context, timelineWidth),
-                            ..._buildSegments(
-                              context,
-                              timelineWidth,
-                              totalDays,
-                            ),
+                            ..._buildSegments(context, timelineWidth, totalDays),
                           ],
                         ),
                       ),
@@ -173,15 +169,9 @@ class ActivityTimelineState extends State<ActivityTimeline> {
         return Stack(
           children: [
             // The widget that's being transitioned from
-            FadeTransition(
-              opacity: fadeOutTween,
-              child: toHeroContext.widget,
-            ),
+            FadeTransition(opacity: fadeOutTween, child: toHeroContext.widget),
             // The widget that's being transitioned to
-            FadeTransition(
-              opacity: fadeInTween,
-              child: fromHeroContext.widget,
-            ),
+            FadeTransition(opacity: fadeInTween, child: fromHeroContext.widget),
           ],
         );
       },
@@ -191,25 +181,21 @@ class ActivityTimelineState extends State<ActivityTimeline> {
   Widget _buildTimeline(BuildContext context, double timelineWidth) {
     final theme = context.rlTheme;
     return Container(
-      height: 80,
-      width: timelineWidth,
-      decoration: BoxDecoration(
-        color: context.theme.colorScheme.primary,
-        borderRadius: BorderRadius.circular(40),
-      ),
-      alignment: Alignment.center,
-      child: segments.isEmpty
-          ? Text(
-              S.of(context).addStayPeriodClickToGetStarted,
-              style: theme.title26.copyWith(
-                color: theme.textPrimaryOnColor,
-              ),
-            )
-          : null,
-    )
-        .animate(
-          onPlay: (controller) => controller.repeat(),
+          height: 80,
+          width: timelineWidth,
+          decoration: BoxDecoration(
+            color: context.theme.colorScheme.primary,
+            borderRadius: BorderRadius.circular(40),
+          ),
+          alignment: Alignment.center,
+          child: segments.isEmpty
+              ? Text(
+                  context.t.addStayPeriodClickToGetStarted,
+                  style: theme.title26.copyWith(color: theme.textPrimaryOnColor),
+                )
+              : null,
         )
+        .animate(onPlay: (controller) => controller.repeat())
         .shimmer(duration: 1.seconds, delay: 1.seconds);
   }
 
@@ -220,27 +206,20 @@ class ActivityTimelineState extends State<ActivityTimeline> {
           (index, e) => Container(
             padding: const EdgeInsets.symmetric(horizontal: 2.0),
             width: 40,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(e),
-              ],
-            ),
+            child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [Text(e)]),
           ),
         ),
       ],
     );
   }
 
-  List<Widget> _buildSegments(
-    BuildContext context,
-    double timelineWidth,
-    int totalDays,
-  ) {
+  List<Widget> _buildSegments(BuildContext context, double timelineWidth, int totalDays) {
     return segments.isNotEmpty
         ? segments.map((e) {
-            final leftPosition = e.startDate.difference(startDate).inDays.toDouble() / totalDays * timelineWidth;
-            final segmentWidth = e.endDate.difference(e.startDate).inDays.toDouble() / totalDays * timelineWidth;
+            final leftPosition =
+                e.startDate.difference(startDate).inDays.toDouble() / totalDays * timelineWidth;
+            final segmentWidth =
+                e.endDate.difference(e.startDate).inDays.toDouble() / totalDays * timelineWidth;
             final country = CountryCode.fromCountryCode(e.countryCode);
 
             return Positioned(
@@ -253,16 +232,16 @@ class ActivityTimelineState extends State<ActivityTimeline> {
                   color: Colors.greenAccent,
                   borderRadius: BorderRadius.horizontal(
                     left: leftPosition == 0 ? const Radius.circular(40) : Radius.zero,
-                    right: leftPosition + segmentWidth == timelineWidth ? const Radius.circular(40) : Radius.zero,
+                    right: leftPosition + segmentWidth == timelineWidth
+                        ? const Radius.circular(40)
+                        : Radius.zero,
                   ),
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  country.name ?? "",
+                  country.localize(context).toCountryStringOnly(),
                   maxLines: 1,
-                  style: TextStyle(
-                    color: context.theme.scaffoldBackgroundColor,
-                  ),
+                  style: TextStyle(color: context.theme.scaffoldBackgroundColor),
                 ),
               ),
             );
@@ -272,11 +251,7 @@ class ActivityTimelineState extends State<ActivityTimeline> {
 }
 
 class CountrySelectionDialog extends StatelessWidget {
-  const CountrySelectionDialog({
-    required this.countries,
-    required this.onSelect,
-    super.key,
-  });
+  const CountrySelectionDialog({required this.countries, required this.onSelect, super.key});
   final List<String> countries;
   final Function(String) onSelect;
 
@@ -296,10 +271,12 @@ class CountrySelectionDialog extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   countries[index],
-                  style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.primaryColor),
+                  style: context.theme.textTheme.bodyLarge?.copyWith(
+                    color: context.theme.primaryColor,
+                  ),
                 ),
               ),
-              onPressed: (_) {
+              onPressed: () {
                 onSelect(countries[index]);
                 Navigator.of(context).pop(countries[index]);
               },

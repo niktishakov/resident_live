@@ -8,71 +8,73 @@ part "text_styles.dart";
 
 class RlTheme {
   RlTheme()
-      : title80Semi = _title80Semi,
-        title68Semi = _title68Semi,
-        title48 = _title48,
-        title36Semi = _title36Semi,
-        title32Semi = _title32Semi,
-        title26 = _title26,
-        title20 = _title20,
-        title20Semi = _title20Semi,
-        title16 = _title16,
-        title16Semi = _title16Semi,
-        body22M = _body22M,
-        body22 = _body22,
-        body20 = _body20,
-        body18 = _body18,
-        body18M = _body18M,
-        body16 = _body16,
-        body16M = _body16M,
-        body14 = _body14,
-        body12 = _body12,
-        body12M = _body12M,
-        body12Semi = _body12Semi,
-        body12Up = _body12Up,
-        button16Semi = _button16Semi,
-        button10M = _button10M,
-        bgPrimary = const Color(0xFF000000),
-        bgSecondary = const Color(0xFFF2F3F3),
-        bgCard = const Color(0xFFFFFFFF),
-        bgCardClick = const Color(0xFFF9F9F9),
-        bgWhite = const Color(0xFFFFFFFF),
-        bgAccent = const Color(0xff50B5FF),
-        bgAccentClick = const Color(0xff50B5FF),
-        bgAccentOpacity = const Color.fromRGBO(109, 123, 250, 0.12),
-        bgDanger = const Color(0xFFFF6643),
-        bgDangerOpacity = const Color.fromRGBO(255, 102, 67, 0.12),
-        bgSuccess = const Color(0xFF8FC754),
-        bgSuccessOpacity = const Color.fromRGBO(143, 199, 84, 0.12),
-        bgWarning = const Color(0xFFFFB625),
-        bgModal = const Color(0xff1f1f1f),
-        bgPrimaryInverse = const Color(0xFF08091C),
-        textPrimary = const Color(0xFFFFFFFF),
-        textSecondary = const Color(0xFF878999),
-        textTertiary = const Color(0xFFBBBCC6),
-        textAccent = const Color(0xff50B5FF),
-        textDanger = const Color(0xFFFF6643),
-        textSuccess = const Color(0xFF8FC754),
-        textPrimaryOnColor = const Color(0xFF1E1E1E),
-        textPrimaryInverse = const Color(0xFFFFFFFF),
-        textSecondaryInverse = const Color(0xFF9C9DA4),
-        borderPrimary = const Color(0xFFE4E5E5),
-        borderAccent = const Color(0xff50B5FF),
-        borderWhite = const Color(0xFFFFFFFF),
-        borderPrimaryInverse = const Color(0xFF08091C),
-        borderWarning = const Color(0xFFFFB625),
-        borderDanger = const Color(0xffFF6643),
-        iconPrimary = const Color(0xFF1E1E1E),
-        iconSecondary = const Color(0xFF878999),
-        iconTertiary = const Color(0xFFBBBCC6),
-        iconAccent = const Color(0xff50B5FF),
-        iconDanger = const Color(0xFFFF6643),
-        iconSuccess = const Color(0xFF8FC754),
-        iconPrimaryOnColor = const Color(0xFF1E1E1E),
-        dividerPrimary = const Color(0xFFE4E5E5),
-        shadowBlack = const Color.fromRGBO(0, 0, 0, 0.25),
-        shadowGray = const Color(0x336A6D83),
-        shadowAccent = const Color.fromRGBO(149, 163, 235, 0.70);
+    : title80Semi = _title80Semi,
+      title68Semi = _title68Semi,
+      title48 = _title48,
+      title36Semi = _title36Semi,
+      title32Semi = _title32Semi,
+      title26 = _title26,
+      title24 = _title24,
+      title24Semi = _title24Semi,
+      title20 = _title20,
+      title20Semi = _title20Semi,
+      title16 = _title16,
+      title16Semi = _title16Semi,
+      body22M = _body22M,
+      body22 = _body22,
+      body20 = _body20,
+      body18 = _body18,
+      body18M = _body18M,
+      body16 = _body16,
+      body16M = _body16M,
+      body14 = _body14,
+      body12 = _body12,
+      body12M = _body12M,
+      body12Semi = _body12Semi,
+      body12Up = _body12Up,
+      button16Semi = _button16Semi,
+      body10M = _body10M,
+      bgPrimary = const Color(0xFF000000),
+      bgSecondary = const Color(0xFFF2F3F3),
+      bgCard = const Color(0xFFFFFFFF),
+      bgCardClick = const Color(0xFFF9F9F9),
+      bgWhite = const Color(0xFFFFFFFF),
+      bgAccent = const Color(0xff50B5FF),
+      bgAccentClick = const Color(0xff50B5FF),
+      bgAccentOpacity = const Color.fromRGBO(109, 123, 250, 0.12),
+      bgDanger = const Color(0xFFFF6643),
+      bgDangerOpacity = const Color.fromRGBO(255, 102, 67, 0.12),
+      bgSuccess = const Color(0xFF8FC754),
+      bgSuccessOpacity = const Color.fromRGBO(143, 199, 84, 0.12),
+      bgWarning = const Color(0xFFFFB625),
+      bgModal = const Color(0xff1f1f1f),
+      bgPrimaryInverse = const Color(0xFF08091C),
+      textPrimary = const Color(0xFFFFFFFF),
+      textSecondary = const Color(0xFF878999),
+      textTertiary = const Color(0xFFBBBCC6),
+      textAccent = const Color(0xff50B5FF),
+      textDanger = const Color(0xFFFF6643),
+      textSuccess = const Color(0xFF8FC754),
+      textPrimaryOnColor = const Color(0xFF1E1E1E),
+      textPrimaryInverse = const Color(0xFFFFFFFF),
+      textSecondaryInverse = const Color(0xFF9C9DA4),
+      borderPrimary = const Color(0xFFE4E5E5),
+      borderAccent = const Color(0xff50B5FF),
+      borderWhite = const Color(0xFFFFFFFF),
+      borderPrimaryInverse = const Color(0xFF08091C),
+      borderWarning = const Color(0xFFFFB625),
+      borderDanger = const Color(0xffFF6643),
+      iconPrimary = const Color(0xFFFFFFFF),
+      iconSecondary = const Color(0xFF878999),
+      iconTertiary = const Color(0xFFBBBCC6),
+      iconAccent = const Color(0xff50B5FF),
+      iconDanger = const Color(0xFFFF6643),
+      iconSuccess = const Color(0xFF8FC754),
+      iconPrimaryOnColor = const Color(0xFF1E1E1E),
+      dividerPrimary = const Color(0xFF1E1E1E),
+      shadowBlack = const Color.fromRGBO(0, 0, 0, 0.25),
+      shadowGray = const Color(0x336A6D83),
+      shadowAccent = const Color.fromRGBO(149, 163, 235, 0.70);
 
   final TextStyle title80Semi;
   final TextStyle title68Semi;
@@ -80,6 +82,8 @@ class RlTheme {
   final TextStyle title36Semi;
   final TextStyle title32Semi;
   final TextStyle title26;
+  final TextStyle title24Semi;
+  final TextStyle title24;
   final TextStyle title20;
   final TextStyle title20Semi;
   final TextStyle title16;
@@ -97,7 +101,7 @@ class RlTheme {
   final TextStyle body12Semi;
   final TextStyle body12Up;
   final TextStyle button16Semi;
-  final TextStyle button10M;
+  final TextStyle body10M;
 
   final Color bgPrimary;
   final Color bgSecondary;
@@ -163,9 +167,7 @@ class RlTheme {
     cardColor: const Color(0xff2b2b2b),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       circularTrackColor: Color(0xffD9D9D9),
-      color: Color(
-        0xff8E8E8E,
-      ),
+      color: Color(0xff8E8E8E),
     ),
     scaffoldBackgroundColor: const Color(0xff121212),
     appBarTheme: const AppBarTheme(
@@ -183,8 +185,8 @@ class RlTheme {
           fontSize: 32,
           fontWeight: FontWeight.bold,
         ),
-        navTitleTextStyle: TextStyle(color: Colors.black),
-        navActionTextStyle: TextStyle(color: Colors.black),
+        navTitleTextStyle: TextStyle(color: Colors.black, fontSize: 16),
+        navActionTextStyle: TextStyle(color: Colors.black, fontSize: 16),
       ),
     ),
     navigationBarTheme: const NavigationBarThemeData(
@@ -210,17 +212,10 @@ class RlTheme {
       textTheme: ButtonTextTheme.primary,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.blue,
-      ),
+      style: ElevatedButton.styleFrom(foregroundColor: Colors.black, backgroundColor: Colors.blue),
     ),
-    cardTheme: CardTheme(
-      color: Colors.grey[850],
-    ),
-    dialogTheme: DialogTheme(
-      backgroundColor: Colors.grey[850],
-    ),
+    cardTheme: CardThemeData(color: Colors.grey[850]),
+    dialogTheme: DialogThemeData(backgroundColor: Colors.grey[850]),
     dividerColor: const Color(0xff343434),
     useMaterial3: true,
   );
@@ -240,9 +235,7 @@ ThemeData lightTheme = ThemeData(
   cardColor: Colors.grey[100],
   progressIndicatorTheme: const ProgressIndicatorThemeData(
     circularTrackColor: Color(0xffD9D9D9),
-    color: Color(
-      0xff8E8E8E,
-    ),
+    color: Color(0xff8E8E8E),
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.white,
@@ -297,29 +290,15 @@ ThemeData lightTheme = ThemeData(
     headerHelpStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
     dayStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
     weekdayStyle: GoogleFonts.poppins().copyWith(color: Colors.black),
-    yearStyle: const TextStyle(
-      fontWeight: FontWeight.bold,
-      color: Colors.black,
-    ),
+    yearStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
   ),
   iconTheme: const IconThemeData(color: Colors.black),
-  buttonTheme: const ButtonThemeData(
-    buttonColor: Colors.blue,
-    textTheme: ButtonTextTheme.primary,
-  ),
+  buttonTheme: const ButtonThemeData(buttonColor: Colors.blue, textTheme: ButtonTextTheme.primary),
   elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.blue,
-    ),
+    style: ElevatedButton.styleFrom(foregroundColor: Colors.white, backgroundColor: Colors.blue),
   ),
-  cardTheme: const CardTheme(
-    color: Color(0xFFE5E5E5),
-  ),
-  dialogTheme: const DialogTheme(
-    backgroundColor: Color(0xFFE5E5E5),
-    elevation: 0,
-  ),
+  cardTheme: const CardThemeData(color: Color(0xFFE5E5E5)),
+  dialogTheme: const DialogThemeData(backgroundColor: Color(0xFFE5E5E5), elevation: 0),
   dividerColor: Colors.grey[200],
   useMaterial3: true,
 );
@@ -356,4 +335,7 @@ void setSystemOverlayStyle() {
   }
 }
 
-SystemUiOverlayStyle get getSystemOverlayStyle => PlatformDispatcher.instance.platformBrightness == Brightness.dark ? kDarkOverlayStyle : kBrightOverlayStyle;
+SystemUiOverlayStyle get getSystemOverlayStyle =>
+    PlatformDispatcher.instance.platformBrightness == Brightness.dark
+    ? kDarkOverlayStyle
+    : kBrightOverlayStyle;

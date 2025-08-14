@@ -27,7 +27,7 @@ platform :ios do
     )
 
     # Build the Flutter app
-    sh("cd .. && bundle exec pod install && flutter build ios --release --no-codesign -t lib/app/main.dart")
+    sh("cd .. && bundle exec pod install && flutter build ios --release --no-codesign -t lib/app/main.dart --dart-define-from-file=../.env")
     
     # Build and upload to TestFlight
     build_ios_app(
@@ -61,7 +61,7 @@ platform :ios do
     )
 
     # Build the Flutter app
-    sh("cd .. && bundle exec pod install && flutter build ios --release --no-codesign -t lib/app/main.dart")
+    sh("cd .. && bundle exec pod install && flutter build ios --release --no-codesign -t lib/app/main.dart --dart-define-from-file=../.env")
     
     # Build ad hoc IPA
     build_ios_app(

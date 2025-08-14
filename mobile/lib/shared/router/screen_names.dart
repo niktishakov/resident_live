@@ -7,6 +7,15 @@ class ScreenNames {
   static const manageCountries = "/manage-countries-screen";
   static const residenceDetails = "/residence-details-screen";
   static const residenceDetails2 = "/residence-details-screen2";
+  static const map = "/map-screen";
+  static const trips = "/trips-screen";
+
+  static const addTrip = "/add-trip-screen";
+  static const validateTrip = "/validate-trip-screen";
+  static const tripDetails = "/trip-details-screen";
+
+  static const tripsFlowAdd = "/trips-flow/add";
+  static const tripsFlowValidate = "/trips-flow/add/validate";
 
   static const allTrackingCountries = "/all-tracking-countries-screen";
   static const settings = "/settings-screen";

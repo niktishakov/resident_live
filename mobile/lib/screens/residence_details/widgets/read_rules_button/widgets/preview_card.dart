@@ -48,7 +48,7 @@ class _PreviewCard extends StatelessWidget {
                         AppAssetImage(AppAssets.redirect, width: 16, color: theme.iconPrimary),
                         const Gap(4),
                         Text(
-                          "${S.of(context).detailsReadOn} $title",
+                          "${context.t.detailsReadOn} $title",
                           style: context.rlTheme.body14.copyWith(
                             color: context.rlTheme.textPrimaryOnColor,
                           ),

@@ -4,11 +4,7 @@ import "package:gap/gap.dart";
 import "package:resident_live/shared/shared.dart";
 
 class TodayButton extends StatelessWidget {
-  const TodayButton({
-    required this.onTap, super.key,
-    this.style,
-    this.iconSize = 22,
-  });
+  const TodayButton({required this.onTap, super.key, this.style, this.iconSize = 22});
   final TextStyle? style;
   final double iconSize;
   final VoidCallback onTap;
@@ -17,15 +13,14 @@ class TodayButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(8);
     return BouncingButton(
-      onPressed: (_) => onTap(),
+      onPressed: onTap,
       vibrate: false,
       borderRadius: borderRadius,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         decoration: BoxDecoration(
           borderRadius: borderRadius,
-          border:
-              Border.all(color: context.theme.colorScheme.secondary, width: 1),
+          border: Border.all(color: context.theme.colorScheme.secondary, width: 1),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -34,7 +29,8 @@ class TodayButton extends StatelessWidget {
             const Gap(6),
             Text(
               DateTime.now().toMMMDDYYYY(),
-              style: style ??
+              style:
+                  style ??
                   context.theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 16.0,

@@ -1,3 +1,4 @@
+import "package:country_code_picker/country_code_picker.dart";
 import "package:domain/domain.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -5,18 +6,14 @@ import "package:flutter_animate/flutter_animate.dart";
 import "package:gap/gap.dart";
 import "package:go_router/go_router.dart";
 import "package:intl/intl.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
-import "package:resident_live/screens/onboarding/pages/add_periods/widgets/country_selector.dart";
+import "package:resident_live/gen/translations.g.dart";
+import "package:resident_live/screens/onboarding/pages/add_periods/widgets/country_selector/country_selector.dart";
 import "package:resident_live/screens/onboarding/pages/add_periods/widgets/timeline_slider.dart";
 import "package:resident_live/shared/lib/utils/colors_utils.dart";
 import "package:resident_live/shared/shared.dart";
 
 class AddPeriodsPage extends StatefulWidget {
-  const AddPeriodsPage({
-    required this.countries,
-    required this.segments,
-    super.key,
-  });
+  const AddPeriodsPage({required this.countries, required this.segments, super.key});
 
   final List<String> countries;
   final List<StayPeriodValueObject> segments;
@@ -89,6 +86,11 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
         segments.sort((a, b) => a.startDate.compareTo(b.startDate));
       });
 
+      final currentIndex = widget.countries.indexOf(focusedCountry!);
+      final nextIndex = (currentIndex + 1) % widget.countries.length;
+      focusedCountry = widget.countries[nextIndex];
+      sliderColor = getCountryColors(widget.countries)[focusedCountry!]!;
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _controller.animateTo(
           _controller.position.maxScrollExtent,
@@ -110,7 +112,9 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
     }
 
     for (var i = 0; i < initialSegments.length; i++) {
-      if (initialSegments[i].countryCode != segments[i].countryCode || initialSegments[i].startDate != segments[i].startDate || initialSegments[i].endDate != segments[i].endDate) {
+      if (initialSegments[i].countryCode != segments[i].countryCode ||
+          initialSegments[i].startDate != segments[i].startDate ||
+          initialSegments[i].endDate != segments[i].endDate) {
         return true;
       }
     }
@@ -128,7 +132,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: RlCupertinoNavBar(
-          title: S.of(context).addStayPeriodAddStayPeriods,
+          title: context.t.addStayPeriodAddStayPeriods,
           actions: [
             CupertinoButton(
               padding: const EdgeInsets.only(right: 16),
@@ -137,11 +141,8 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                   context: context,
                   builder: (context) => CupertinoAlertDialog(
                     title: Text(
-                      S.of(context).addStayPeriodHowToAddStayPeriods,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      context.t.addStayPeriodHowToAddStayPeriods,
+                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                     ),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -151,20 +152,14 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              S.of(context).addStayPeriodPoints,
-                              style: const TextStyle(
-                                height: 1.8,
-                                fontSize: 15,
-                              ),
+                              context.t.addStayPeriodPoints,
+                              style: const TextStyle(height: 1.8, fontSize: 15),
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              S.of(context).addStayPeriodYouCanAddMorePeriods,
+                              context.t.addStayPeriodYouCanAddMorePeriods,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                letterSpacing: 0.2,
-                              ),
+                              style: const TextStyle(fontSize: 13, letterSpacing: 0.2),
                             ),
                           ],
                         ),
@@ -172,7 +167,7 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                     ),
                     actions: [
                       CupertinoDialogAction(
-                        child: Text(S.of(context).commonOk),
+                        child: Text(context.t.commonOk),
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
@@ -192,18 +187,23 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           children: [
-            CountrySelector(
-              countryCodes: widget.countries,
-              focusedCountry: focusedCountry,
-              onCountrySelected: _onCountrySelected,
-            ).animate().fade(delay: 200.ms),
+            const Gap(36),
+            SizedBox(
+              height: 36,
+              child: CountrySelector.list(
+                countryCodes: widget.countries,
+                focusedCountry: focusedCountry,
+                onCountrySelected: _onCountrySelected,
+              ),
+            ),
+            context.vBox8,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
                   const Gap(6),
                   SizedBox(
-                    width: context.mediaQuery.size.width,
+                    width: context.mediaQuery.size.width * 0.9,
                     child: TimelineSlider(
                       min: 0,
                       max: 365,
@@ -229,6 +229,16 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                   shrinkWrap: true,
                   itemCount: segments.length,
                   itemBuilder: (context, index) {
+                    final countryCode = segments[index].countryCode;
+                    CountryCode country;
+                    try {
+                      country = CountryCode.fromCountryCode(countryCode).localize(context);
+                    } catch (e) {
+                      country = CountryCode.fromCountryCode("US").localize(context);
+                    }
+
+                    final countryName = country.toCountryStringOnly();
+
                     return Dismissible(
                       key: Key(segments[index].hashCode.toString()),
                       onDismissed: (direction) => setState(() {
@@ -243,14 +253,13 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              S.of(context).commonDelete,
-                              style: context.theme.textTheme.bodyMedium?.copyWith(color: Colors.white),
+                              context.t.commonDelete,
+                              style: context.theme.textTheme.bodyMedium?.copyWith(
+                                color: Colors.white,
+                              ),
                             ),
                             const Gap(8),
-                            const Icon(
-                              CupertinoIcons.delete,
-                              color: Colors.white,
-                            ),
+                            const Icon(CupertinoIcons.delete, color: Colors.white),
                           ],
                         ),
                       ),
@@ -263,24 +272,20 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                               setState(() => segments.removeAt(index));
                               context.pop();
                             },
-                            child: Text(S.of(context).commonDelete),
+                            child: Text(context.t.commonDelete),
                           ),
                         ],
                         child: Material(
                           child: Container(
-                            constraints: BoxConstraints(
-                              maxWidth: context.mediaQuery.size.width,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
+                            constraints: BoxConstraints(maxWidth: context.mediaQuery.size.width),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
                             margin: const EdgeInsets.all(8),
                             padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  segments[index].countryCode,
+                                  countryName,
                                   style: context.theme.textTheme.bodyLarge?.copyWith(
                                     color: context.theme.colorScheme.secondary,
                                   ),
@@ -297,10 +302,10 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
                         ),
                       ),
                     ).animate().moveX(
-                          begin: -200,
-                          duration: 400.ms,
-                          curve: Curves.fastEaseInToSlowEaseOut,
-                        );
+                      begin: -200,
+                      duration: 400.ms,
+                      curve: Curves.fastEaseInToSlowEaseOut,
+                    );
                   },
                 ),
               ),
@@ -310,17 +315,16 @@ class AddPeriodsPageState extends State<AddPeriodsPage> with WidgetsBindingObser
               curve: Curves.fastOutSlowIn,
               tween: Tween<double>(begin: 0, end: segments.isNotEmpty ? 1 : 0),
               builder: (context, value, child) => Opacity(opacity: value, child: child),
-              child: PrimaryButton(
-                enabled: _canApply,
-                onPressed: () {
-                  Navigator.pop(context, segments);
-                },
-                label: S.of(context).commonApply,
-              )
-                  .animate(
-                    onPlay: (controller) => _canApply ? controller.repeat() : null,
-                  )
-                  .shimmer(duration: 1.seconds, delay: 3.seconds),
+              child:
+                  PrimaryButton(
+                        enabled: _canApply,
+                        onPressed: () {
+                          Navigator.pop(context, segments);
+                        },
+                        label: context.t.commonApply,
+                      )
+                      .animate(onPlay: (controller) => _canApply ? controller.repeat() : null)
+                      .shimmer(duration: 1.seconds, delay: 3.seconds),
             ),
             const Gap(8),
           ],

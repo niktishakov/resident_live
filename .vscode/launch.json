@@ -9,21 +9,24 @@
             "request": "launch",
             "type": "dart",
             "program": "mobile/lib/app/main.dart",
-            "flutterMode": "debug"
+            "flutterMode": "debug",
+            "args": ["--dart-define-from-file=mobile/.env"]
         },
         {
             "name": "Mobile (Profile)",
             "request": "launch",
             "type": "dart",
             "program": "mobile/lib/app/main.dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": ["--dart-define-from-file=mobile/.env"]
         },
         {
             "name": "Mobile (Release)",
             "request": "launch",
             "type": "dart",
             "program": "mobile/lib/app/main.dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": ["--dart-define-from-file=mobile/.env"]
         }
     ]
 }

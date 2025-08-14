@@ -7,8 +7,9 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:modal_bottom_sheet/modal_bottom_sheet.dart";
 import "package:resident_live/app/injection.dart";
-import "package:resident_live/localization/generated/l10n/l10n.dart";
+import "package:resident_live/gen/translations.g.dart";
 import "package:resident_live/screens/settings/cubit/auth_by_biometrics_cubit.dart";
+import "package:resident_live/screens/settings/cubit/is_biometrics_supported_cubit.dart";
 import "package:resident_live/screens/settings/cubit/stop_auth_cubit.dart";
 import "package:resident_live/screens/settings/cubit/toggle_biometrics_cubit.dart";
 import "package:resident_live/screens/settings/widgets/settings_button.dart";
@@ -25,8 +26,8 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResourceBlocBuilder<GetUserCubit, UserEntity>(
-      bloc: getIt<GetUserCubit>(),
-      orElse: () => CupertinoActivityIndicator(),
+      bloc: context.watch<GetUserCubit>(),
+      orElse: CupertinoActivityIndicator.new,
       data: (data) {
         return MultiBlocListener(
           listeners: [
@@ -47,75 +48,64 @@ class SettingsScreen extends StatelessWidget {
                 return Material(
                   child: CustomScrollView(
                     slivers: [
-                      AiSliverHeader(titleText: S.of(context).settingsTitle),
+                      AiSliverHeader(titleText: context.t.settingsTitle),
                       SliverPadding(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 24),
                         sliver: SliverList(
                           delegate: SliverChildListDelegate(addRepaintBoundaries: false, [
-                            //             Builder(
-                            //               builder: (context) {
-                            //                 final isEnabled = getIt<ToggleBiometricsCubit>().state;
-                            //                 final isSupported = getIt<IsBiometricsSupportedCubit>().state.maybeMap(
-                            //                       orElse: () => false,
-                            //                       data: (state) => state.data,
-                            //                     );
+                            Builder(
+                              builder: (context) {
+                                final isEnabled = getIt<ToggleBiometricsCubit>().state;
+                                final isSupported = getIt<IsBiometricsSupportedCubit>().state
+                                    .maybeMap(orElse: () => false, data: (state) => state.data);
 
-                            //                 return AbsorbPointer(
-                            //                   absorbing: !isSupported,
-                            //                   child: AnimatedOpacity(
-                            //                     opacity: isSupported ? 1 : 0,
-                            //                     duration: const Duration(milliseconds: 200),
-                            //                     child: SettingsButton(
-                            //                       asset: isSupported ? AppAssets.faceid : AppAssets.touchid,
-                            //                       title: "Biometric Access",
-                            //                       subtitle: isEnabled ? S.of(context).commonOn : S.of(context).commonOff,
-                            //                       onTap: () async {
-                            //                         final userId = getIt<CreateUserCubit>().state.maybeMap(
-                            //                               orElse: () => "",
-                            //                               data: (state) => state.data.id,
-                            //                             );
+                                return AbsorbPointer(
+                                  absorbing: !isSupported,
+                                  child: AnimatedOpacity(
+                                    opacity: isSupported ? 1 : 0,
+                                    duration: const Duration(milliseconds: 200),
+                                    child: SettingsButton(
+                                      asset: isSupported ? AppAssets.faceid : AppAssets.touchid,
+                                      title: "Biometric Access",
+                                      subtitle: isEnabled
+                                          ? context.t.commonOn
+                                          : context.t.commonOff,
+                                      onTap: () async {
+                                        final userId = getIt<GetUserCubit>().state.maybeMap(
+                                          orElse: () => "",
+                                          data: (state) => state.data.id,
+                                        );
 
-                            //                         if (userId.isEmpty) {
-                            //                           context.goNamed(ScreenNames.splash);
-                            //                           return;
-                            //                         }
+                                        if (userId.isEmpty) {
+                                          context.goNamed(ScreenNames.splash);
+                                          return;
+                                        }
 
-                            //                         getIt<ToggleBiometricsCubit>().action(userId);
-                            //                       },
-                            //                       trailing: CupertinoSwitch(
-                            //                         value: isEnabled,
-                            //                         activeTrackColor: context.theme.colorScheme.primary,
-                            //                         onChanged: (value) {}, // TODO: the same as above
-                            //                       ),
-                            //                     ),
-                            //                   ),
-                            //                 );
-                            //               },
-                            //             ),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     const Gap(12),
+                                        getIt<ToggleBiometricsCubit>().action(userId);
+                                      },
+                                      trailing: CupertinoSwitch(
+                                        value: isEnabled,
+                                        activeTrackColor: context.theme.colorScheme.primary,
+                                        onChanged: (value) {}, // TODO: the same as above
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            context.vBox12,
                             SettingsButton(
                               icon: Icons.language,
-                              title: S.of(context).settingsLanguage,
+                              title: context.t.settingsLanguage,
                               onTap: () {
                                 context.pushNamed(ScreenNames.language);
                               },
                             ),
-                            //     const Gap(12),
-                            //     SettingsButton(
-                            //       icon: CupertinoIcons.bell,
-                            //       title: S.of(context).settingsNotifications,
-                            //       onTap: () {
-                            //         // Handle Notifications settings
-                            //       },
-                            //     ),
+
                             context.vBox32,
                             SettingsButton(
                               asset: AppAssets.person2Wave2,
-                              title: S.of(context).settingsShareWithFriends,
+                              title: context.t.settingsShareWithFriends,
                               trailing: const SizedBox(),
                               onTap: () {
                                 getIt<ShareService>().shareText(appStoreLink);
@@ -124,51 +114,28 @@ class SettingsScreen extends StatelessWidget {
                             context.vBox12,
                             SettingsButton(
                               icon: CupertinoIcons.star,
-                              title: S.of(context).settingsRateUs,
+                              title: context.t.settingsRateUs,
                               onTap: () {
                                 launchUrl(Uri.parse(appStoreLink));
                               },
                             ),
+
                             context.vBox32,
                             SettingsButton(
                               icon: CupertinoIcons.checkmark_shield,
-                              title: S.of(context).settingsPrivacyPolicy,
-                              onTap: () => launchUrl(Uri.parse(privacyPolicyUrl)),
+                              title: context.t.settingsPrivacyPolicy,
+                              onTap: () async {
+                                await launchUrl(Uri.parse(privacyPolicyUrl));
+                              },
                             ),
                             context.vBox12,
                             SettingsButton(
                               asset: AppAssets.terms,
-                              title: S.of(context).settingsTermsOfUse,
-                              onTap: () => launchUrl(Uri.parse(termsOfUseUrl)),
-                            ),
-                            context.vBox12,
-                            SettingsButton(
-                              asset: AppAssets.info,
-                              title: S.of(context).settingsAboutApp,
-                              trailing: const SizedBox(),
+                              title: context.t.settingsTermsOfUse,
                               onTap: () async {
-                                final deviceInfo = getIt<DeviceInfoService>();
-                                await showCupertinoDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  builder:
-                                      (context) => CupertinoAlertDialog(
-                                        title: Text(S.of(context).settingsAboutApp),
-                                        content: Column(
-                                          children: [
-                                            context.vBox12,
-                                            Text(deviceInfo.appName),
-                                            Text(
-                                              "${deviceInfo.appVersion} (${deviceInfo.buildNumber})",
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                );
+                                await launchUrl(Uri.parse(termsOfUseUrl));
                               },
                             ),
-
-                            //     const ReportBugButton(),
                           ]),
                         ),
                       ),
@@ -182,6 +149,59 @@ class SettingsScreen extends StatelessWidget {
       },
     );
   }
+
+  //     const Gap(12),
+  //     SettingsButton(
+  //       icon: CupertinoIcons.bell,
+  //       title: context.t.settingsNotifications,
+  //       onTap: () {
+  //         // Handle Notifications settings
+  //       },
+  //     ),
+
+  //     const Gap(12),
+  //     SettingsButton(
+  //       asset: AppAssets.info,
+  //       title: context.t.settingsAboutApp,
+  //       trailing: const SizedBox(),
+  //       onTap: () async {
+  //         await showCupertinoDialog(
+  //           context: context,
+  //           barrierDismissible: true,
+  //           builder: (context) => Consumer<DeviceInfoService>(
+  //             builder: (context, deviceInfo, child) {
+  //               return CupertinoAlertDialog(
+  //                 title: Text(context.t.settingsAboutApp),
+  //                 content: Column(
+  //                   children: [
+  //                     const Gap(12),
+  //                     Text(deviceInfo.appName),
+  //                     Text(
+  //                       "${deviceInfo.appVersion} (${deviceInfo.buildNumber})",
+  // ),
+  // ],
+  // ),
+  // );
+  // },
+  // ),
+  // );
+  // },
+  // ),
+  // const ReportBugButton(),
+  // const Gap(12),
+  //           ]),
+  //         ),
+  //       ),
+  //     ],
+  //   ),
+  // );
+  // },
+  // ),
+  // ),
+  // );
+  // },
+  // );
+  // }
 
   void _onToggleBiometricsListen(BuildContext context, bool enabled) {
     if (enabled) {

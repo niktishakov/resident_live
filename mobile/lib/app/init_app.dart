@@ -19,7 +19,6 @@ import "package:resident_live/shared/lib/service/toast.service.dart";
 import "package:resident_live/shared/lib/service/vibration_service.dart";
 import "package:resident_live/shared/lib/utils/core_route_observer.dart";
 import "package:resident_live/shared/lib/utils/dependency_squirrel.dart";
-import "package:resident_live/shared/lib/utils/environment/env_handler.dart";
 import "package:resident_live/shared/shared.dart";
 
 final navigatorKey = GlobalKey<NavigatorState>();

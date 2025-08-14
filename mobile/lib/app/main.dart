@@ -1,8 +1,8 @@
+import "package:data/data.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:resident_live/app/init_app.dart";
 import "package:resident_live/shared/lib/utils/app_error/app_error_widget.dart";
-import "package:resident_live/shared/lib/utils/environment/env_handler.dart";
 import "package:sentry_flutter/sentry_flutter.dart";
 
 void main() {
